@@ -1,0 +1,35 @@
+{
+    "language":"EN",
+    "categories": [
+    {
+        "code": "17",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    },
+    {
+        "code": "15",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    },
+    {
+        "code": "16",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    },
+    {
+        "code": "14",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    }
+], "creationDate": "2013-09-18T22:00:00.000Z",  "coverageSectors": [
+    {
+        "code": "2",
+        "systemKey": "FAOSTAT_CoverageSectors",
+        "systemVersion": "1.0"
+    },
+    {
+        "code": "10",
+        "systemKey": "FAOSTAT_CoverageSectors",
+        "systemVersion": "1.0"
+    }
+], "uid": "FAOSTAT_QC3"}

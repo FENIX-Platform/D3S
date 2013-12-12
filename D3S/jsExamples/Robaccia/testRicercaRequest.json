@@ -1,0 +1,33 @@
+{
+    "fields" : {
+        "uid" : [{"enumeration":"233CPD010_test_4"}],
+        "title": [{"language":"FR", "text":"production and trade"}]
+    },
+    "dimensions" : {
+        "GEO" : [
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"29"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"42"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"66"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"105"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"155"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"181"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"217"}},
+                    {"code":{"systemKey":"GAUL", "systemVersion":"1.0", "code":"243"}}
+                ],
+        "ELEMENT" : [{"code":{"systemKey":"Elements", "systemVersion":"1.0", "code":"1"}}],
+        "ITEM_TYPE" : [{"enumeration":"Commodity"}] ,
+        "TIME" : [{"fromYear":2010,"toYear":2013}]
+    },
+    "parameters" : {
+        "output":   {
+                        "ITEM_TYPE":{"out":false},
+                        "GEO":{"out":false},
+                        "FLAG":{"out":false},
+                        "ITEM":{"out":true, "key":true}
+                    },
+        "aggregation" : {
+            "implementation" : "CSTATAdd",
+            "columnIdParameters" : {"flag":"FLAG"}
+        }
+    }
+}

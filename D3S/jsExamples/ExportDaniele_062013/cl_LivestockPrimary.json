@@ -1,0 +1,1241 @@
+
+{
+    "provider": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "description": {
+        "EN": "LivestockPrimary code list"
+    },
+    "source": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "version": "1.0",
+    "category": null,
+    "rootCodes": [
+        {
+            "description": {},
+            "level": 1,
+            "code": "1195",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux à fourrure",
+                "EN": "Skin Furs",
+                "ES": "Pieles Finas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1195"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "987",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Laine en suint",
+                "EN": "Wool, greasy",
+                "ES": "Lana Grasien"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|987"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1091",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Œufs d'autres volatiles",
+                "EN": "Other bird eggs,in shell",
+                "ES": "Huev. otras aves, cásc."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1091"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1108",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'âne",
+                "EN": "Meat of Asses",
+                "ES": "Carne de asno"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1108"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1144",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de léporidés indigène",
+                "EN": "Indigenous Rabbit Meat",
+                "ES": "Carne de Conejo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1144"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "982",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lait de brebis entier frais",
+                "EN": "Sheep milk, whole, fresh",
+                "ES": "Leche entera oveja (fresca)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|982"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1092",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Œufs d'autres volatiles (Number)",
+                "EN": "Other bird eggs,in shell (Number)",
+                "ES": "Huev. otras aves, cásc. (Number)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1092"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "944",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de bovins indigène",
+                "EN": "Indigenous Cattle Meat",
+                "ES": "Carne Vacuna Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|944"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1094",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de poulet indigène",
+                "EN": "Indigenous Chicken Meat",
+                "ES": "Carne de Pollo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1094"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1097",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de cheval",
+                "EN": "Horse meat",
+                "ES": "Carne de caballo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1097"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1100",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Crins de cheval",
+                "EN": "Hair of Horses",
+                "ES": "Crines"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1100"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "947",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de buffle",
+                "EN": "Buffalo meat",
+                "ES": "Carne de búfalo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|947"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1089",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viandes de volatiles nda",
+                "EN": "Bird meat, nes",
+                "ES": "Carne de aves NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1089"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1055",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de suidés indigène",
+                "EN": "Indigenous Pigmeat",
+                "ES": "Carne de Cerdo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1055"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1154",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Vian Ind Ron",
+                "EN": "Indigenous Rodents",
+                "ES": "Car Indig Ro"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1154"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1151",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'autres rongeurs",
+                "EN": "Meat of Other Rod",
+                "ES": "Car Otro Roedores"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1151"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "882",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lait de vache entier frais",
+                "EN": "Cow milk, whole, fresh",
+                "ES": "Leche entera vaca (fresca)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|882"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "977",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'ovins",
+                "EN": "Sheep meat",
+                "ES": "Carne de ovino"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|977"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1137",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de camélidés indigène",
+                "EN": "Indigenous Camel Meat",
+                "ES": "Carne de Camello Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1137"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1185",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Cocons de vers à soie à dévider",
+                "EN": "Silk-worm cocoons, reelable",
+                "ES": "Capullos dev"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1185"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1183",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Cire d'abeille",
+                "EN": "Beeswax",
+                "ES": "Cera de Abejas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1183"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1080",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de dinde",
+                "EN": "Turkey meat",
+                "ES": "Carne de pavo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1080"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1182",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Miel naturel",
+                "EN": "Honey, natural",
+                "ES": "Miel natural"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1182"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1084",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande indigène, autres types de volaille",
+                "EN": "Indigenous bird meat, nes",
+                "ES": "Indi Otr Ave"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1084"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1035",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de suidés",
+                "EN": "Pig meat",
+                "ES": "Carne de cerdo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1035"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1083",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pigeons, Autres Oiseaux",
+                "EN": "Pigeons, Other Birds",
+                "ES": "Pich y Otr A"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1083"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "972",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de buffle indigène",
+                "EN": "Indigenous Buffalo Meat",
+                "ES": "Carne de Búfalo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|972"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1087",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de dinde indigène",
+                "EN": "Indigenous Turkey Meat",
+                "ES": "Carne de Pavo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1087"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1141",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de leporidés",
+                "EN": "Rabbit meat",
+                "ES": "Carne de conejo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1141"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1167",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Abats nda",
+                "EN": "Offals Nes",
+                "ES": "Despojos Com"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1167"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1166",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande nda",
+                "EN": "Meat nes",
+                "ES": "Carne Nep"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1166"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1124",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de mulet Indigène",
+                "EN": "Indigenous Mule Meat",
+                "ES": "Carne Mul In"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1124"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1077",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'oie indigène",
+                "EN": "Indigenous Geese Meat",
+                "ES": "Carne de Ganso Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1077"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "867",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande bovine",
+                "EN": "Cattle meat",
+                "ES": "Carne de vacuno"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|867"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1122",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'âne indigène",
+                "EN": "Indigenous Ass Meat",
+                "ES": "Carne Asn In"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1122"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1025",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux fraiches de caprins",
+                "EN": "Goatskins",
+                "ES": "Pieles Fr Ca"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1025"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1070",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de Canard Indigène",
+                "EN": "Indigenous Duck Meat",
+                "ES": "Carne de Pato Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1070"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1073",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'oie",
+                "EN": "Goose and guinea fowl meat",
+                "ES": "Carne ganso, gallina pintada"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1073"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1127",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de camélidés",
+                "EN": "Camel meat",
+                "ES": "Carne de camello"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1127"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1032",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de caprins indigènes",
+                "EN": "Indigenous Goat Meat",
+                "ES": "Carne Caprina Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1032"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1067",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Œufs de poule en coquille (Number)",
+                "EN": "Hen eggs, in shell (Number)",
+                "ES": "Huevos gallina cásc. (Number)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1067"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "919",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux de bovins fraiches",
+                "EN": "Cattle Hides",
+                "ES": "Cueros Fr Va"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|919"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1130",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lait de chamelle entier frais",
+                "EN": "Camel milk, whole, fresh",
+                "ES": "Leche entera camella (fresca)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1130"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1069",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de canard",
+                "EN": "Duck meat",
+                "ES": "Carne de pato"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1069"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1176",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Escargots, non marins",
+                "EN": "Snails, Not Sea",
+                "ES": "Caracol Exma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1176"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1158",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'Autres Camélidés",
+                "EN": "Meat Oth Camelids",
+                "ES": "Carne otro Camélidos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1158"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "957",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux Fr Buf",
+                "EN": "Buffalo Hide",
+                "ES": "Cueros Fr Bú"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|957"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "951",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lait de bufflonne entier frais",
+                "EN": "Buffalo milk, whole, fresh",
+                "ES": "Leche entera búfala (fresca)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|951"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1017",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de caprins",
+                "EN": "Goat meat",
+                "ES": "Carne de caprino"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1017"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1111",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de mulet",
+                "EN": "Meat of Mules",
+                "ES": "Carne Mulas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1111"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1062",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Œufs de poule en coquille",
+                "EN": "Hen eggs, in shell",
+                "ES": "Huevos gallina cásc."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1062"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1012",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande d'ovins indigènes",
+                "EN": "Indigenous Sheep Meat",
+                "ES": "Carne Ovina Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1012"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1020",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lait de chèvre entier frais",
+                "EN": "Goat milk, whole, fresh",
+                "ES": "Leche entera cabra (fresca)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1020"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "995",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux Fr Ov",
+                "EN": "Sheepskins",
+                "ES": "Pieles Fr Ov"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|995"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1058",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de volaille",
+                "EN": "Chicken meat",
+                "ES": "Carne de pollo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1058"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1120",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de cheval indigène",
+                "EN": "Indigenous Horse Meat",
+                "ES": "Carne de Caballo Indígena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1120"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1161",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "VianInd Came",
+                "EN": "Indigenous Other Camel",
+                "ES": "CarInd Camel"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1161"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1163",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Viande de gibier",
+                "EN": "Game meat",
+                "ES": "Carne de caza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|1163"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "999",
+            "childs": [],
+            "systemKey": "LivestockPrimary",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Peaux d'ovins non délainées",
+                "EN": "Skins With Wool Sheep",
+                "ES": "Pieles Ov La"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LivestockPrimary|1.0|999"
+        }
+    ],
+    "system": "LivestockPrimary",
+    "levelsNumber": 1,
+    "title": {
+        "EN": "LivestockPrimary"
+    },
+    "startDate": -61891088400000,
+    "endDate": null,
+    "virtualDate": null,
+    "sharingPolicy": "publicPolicy",
+    "keyWords": ["LivestockPrimary", "code list", "faostat"],
+    "region": null
+}

@@ -1,0 +1,130 @@
+{"uid": "PP",
+    "title": {
+    "EN": "Production dataset",
+    "FR": "",
+    "ES": ""
+}, "summary": {
+    "EN": "Production dataset summary",
+    "FR": "",
+    "ES": ""
+}, "description": {
+    "EN": "Production dataset description",
+    "FR": "",
+    "ES": ""
+}, "supplemental": {
+    "EN": "Production dataset supplemental",
+    "FR": "",
+    "ES": ""
+}, "comparability": {
+    "EN": "Production dataset comparability",
+    "FR": "",
+    "ES": ""
+}, "statisticalUnit": {
+    "EN": "Production dataset statistical unit",
+    "FR": "",
+    "ES": ""
+}, "statisticalPopulation": {
+    "EN": "Production Statistical Population",
+    "FR": "",
+    "ES": ""
+}, "compilationProcessing": {
+    "EN": "Production Compilation Processing",
+    "FR": "",
+    "ES": ""
+}, "collectionProcessing": {
+    "EN": "Production Collection Processing",
+    "FR": "",
+    "ES": ""
+}, "indexType": {
+    "EN": "Production Index Type",
+    "FR": "",
+    "ES": ""
+}, "accuracy": {
+    "EN": "Production Accuracy",
+    "FR": "",
+    "ES": ""
+}, "accuracyAssessment": {
+    "EN": "Production Accuracy Assessment",
+    "FR": "",
+    "ES": ""
+}, "completeness": {
+    "EN": "Production Completeness",
+    "FR": "",
+    "ES": ""
+}, "userAccess": {
+    "EN": "Production User Access",
+    "FR": "",
+    "ES": ""
+}, "disseminationFormat": {
+    "EN": "Production Dissemination Fromat",
+    "FR": "",
+    "ES": ""
+}, "revisionPolicy": {
+    "EN": "Production Revision Policy",
+    "FR": "",
+    "ES": ""
+}, "coverageTime": {
+    "EN": "Production Coverage Time",
+    "FR": "",
+    "ES": ""
+}, "accessibility": {
+    "EN": "Production Accessibility",
+    "FR": "",
+    "ES": ""
+}, "completenessPercentage": {
+    "EN": "",
+    "FR": "",
+    "ES": ""
+}, "language": "EN", "categories": [
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "19"
+    },
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "17"
+    },
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "7"
+    },
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "6"
+    }
+], "creationDate": 1362610800000,
+    "geographicExtent": {
+        "systemKey": "GAUL",
+        "systemVersion": "1.0",
+        "code": "10"
+    },
+    "coverageSectors": [
+    {
+        "systemKey": "FAOSTAT_CoverageSectors",
+        "systemVersion": "1.0",
+        "code": "3"
+    },
+    {
+        "systemKey": "FAOSTAT_CoverageSectors",
+        "systemVersion": "1.0",
+        "code": "2"
+    }
+], "classificationSystems": [
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "18"
+    },
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "15"
+    }
+], "collectionPeriodicity": "40", "disseminationPeriodicity": "30", "updateDate": 1362610800000, "referenceUpdateDate": 1373234400000, "nextUpdateDate": 1373234400000, "basePeriod": {
+    "from": 1362610800000,
+    "to": 1362610800000
+}}

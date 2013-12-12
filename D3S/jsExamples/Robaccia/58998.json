@@ -1,0 +1,185 @@
+{
+    "language": "EN",
+    "owner": {"id": "10_0"},
+    "provider": {"id": "10_0"},
+    "description": {
+        "EN": "Production dataset description"
+    },
+    "categories": [
+        {
+            "code": "6",
+            "systemKey": "Elements",
+            "systemVersion": "1.0"
+        },
+        {
+            "code": "7",
+            "systemKey": "Elements",
+            "systemVersion": "1.0"
+        }
+    ],
+    "sources": [ {"id": "10_0"} ],
+    "creationDate": 1362610800000,
+    "summary": {
+    "EN": "Production dataset summary"
+}, "title": {
+    "EN": "Production dataset"
+}, "indexType": {
+    "EN": "Production Index Type"
+}, "accessibility": {
+    "EN": "Production Accessibility"
+},
+    "supplemental": {
+    "EN": "Production dataset supplemental"
+},
+    "geographicExtent": {
+    "code": "5100",
+    "systemKey": "FAOSTAT_Regions",
+    "systemVersion": "1.0"
+},
+    "coverageSectors": [
+    {
+        "code": "6",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    },
+    {
+        "code": "7",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    }
+],
+    "classificationSystems": [
+    {
+        "version": "1.0",
+        "system": "Elements"
+    },
+    {
+        "version": "1.0",
+        "system": "Crops"
+    },
+    {
+        "version": "1.0",
+        "system": "GAUL"
+    } ],
+    "statisticalUnit": {
+    "EN": "Production dataset statistical unit"
+}, "referencePeriod": {
+    "from": 1362610800000,
+    "to": 1362610800000
+}, "basePeriod": {
+    "from": 1362610800000,
+    "to": 1362610800000
+}, "comparability": {
+    "EN": "Production dataset comparability"
+}, "compilationProcessing": {
+    "EN": "Production Compilation Processing"
+}, "collectionProcessing": {
+    "EN": "Production Collection Processing"
+},
+    "collectionPeriodicity": {
+        "code": "8",
+        "systemKey": "Elements",
+        "systemVersion": "1.0"
+    },
+    "processMethodologyDocuments": [
+    { "id": "48_15" },
+    { "id": "48_16" }
+],
+    "accuracy": {
+    "EN": "Production Accuracy"
+}, "accuracyAssessment": {
+    "EN": "Production Accuracy Assessment"
+}, "completeness": {
+    "EN": "Production Completeness"
+},
+    "disseminationPeriodicity": {
+    "code": "8",
+    "systemKey": "Elements",
+    "systemVersion": "1.0"
+},
+    "userAccess": {
+    "EN": "Production User Access"
+}, "disseminationFormat": {
+    "EN": "Production Dissemination Fromat"
+}, "revisionPolicy": {
+    "EN": "Production Revision Policy"
+},
+    "contacts": [ { "id": "10_0" } ],
+    "coverageTime": {
+    "EN": "Production Coverage Time"
+},
+    "updateDate": 1362610800000, "referenceUpdateDate": 1362610800000, "nextUpdateDate": 1362610800000, "completenessPercentage": 78.3,
+    "transferOptions": [
+    {
+        "description": {
+            "EN": "Link 1 description"
+        },
+        "link": "http://links.fenixapps.com/link1.pdf",
+        "title": {
+            "EN": "Link 1"
+        }
+    }
+], "statisticalPopulation": {
+    "EN": "Production Statistical Population"
+},
+
+    "dsd": {
+        "supplemental": {
+            "EN": "dataset structure note 1"
+        },
+        "contextSystem": {
+            "name": "CountryStat"
+        },
+        "datasource": {
+            "reference": {
+                "url": "http://vedemo.it",
+                "psw": "password1",
+                "usr": "user1"
+            },
+            "dao": "cstat"
+        },
+        "columns": [
+            {
+                "columnId": "column 1",
+                "dataType": "text",
+                "codesLevel": 2,
+                "virtualColumn": "virtual column ID 1",
+                "values": [
+                    "value 1",
+                    "value 2"
+                ],
+                "title": {
+                    "EN": "column title 1",
+                    "IT": "titolo colonna 1"
+                },
+                "supplemental": {
+                    "EN": "column notes 1",
+                    "IT": "note colonna 1"
+                },
+                "dimension": {
+                    "name": "ITEM"
+                }
+            },
+            {
+                "columnId": "column 2",
+                "dataType": "code",
+                "codesLevel": 2,
+                "values": [
+                    "657",
+                    "659"
+                ],
+                "title": {
+                    "EN": "column title 2",
+                    "IT": "titolo colonna 2"
+                },
+                "supplemental": {
+                    "EN": "column notes 2",
+                    "IT": "note colonna 2"
+                },
+                "codeSystem": {"system":"GAUL3_Test1", "version":"1.0"},
+                "dimension": { "name": "GEO" }
+            }
+        ]
+    }
+
+}

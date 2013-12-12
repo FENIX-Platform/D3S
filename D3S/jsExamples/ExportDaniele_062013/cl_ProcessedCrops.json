@@ -1,0 +1,481 @@
+
+{
+    "provider": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "description": {
+        "EN": "Processed Crops code list"
+    },
+    "source": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "version": "1.0",
+    "category": null,
+    "rootCodes": [
+        {
+            "description": {},
+            "level": 1,
+            "code": "261",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile d'olives, vierge",
+                "EN": "Olive oil, virgin",
+                "ES": "Aceite de Oliva, virgen"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|261"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "252",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de coco",
+                "EN": "Coconut (copra) oil",
+                "ES": "Aceite de Copra"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|252"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "329",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de coton",
+                "EN": "Cottonseed",
+                "ES": "Semilla de algodón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|329"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "281",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de carthame",
+                "EN": "Safflower oil",
+                "ES": "Aceite de Cártamo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|281"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "331",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de coton",
+                "EN": "Cottonseed oil",
+                "ES": "Aceite de Algodón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|331"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "290",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de sésame",
+                "EN": "Sesame oil",
+                "ES": "Aceite de Sésamo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|290"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "767",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibre de coton",
+                "EN": "Cotton lint",
+                "ES": "Algodón Fib"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|767"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "165",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Mélasse",
+                "EN": "Molasses",
+                "ES": "Melazas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|165"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "271",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de colza",
+                "EN": "Rapeseed oil",
+                "ES": "Aceite de Colza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|271"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1242",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Margarine et graisses alimentaire compactes",
+                "EN": "Margrine Short",
+                "ES": "Margarina"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|1242"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "334",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de lin",
+                "EN": "Linseed oil",
+                "ES": "Aceite de Linaza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|334"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "162",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Sucre Brut Centrifugé",
+                "EN": "Sugar Raw Centrifugal",
+                "ES": "Azuc Cent Nr"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|162"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "51",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Bière d'orge",
+                "EN": "Beer of Barley",
+                "ES": "Cerveza de Cebada"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|51"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "258",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de palmiste",
+                "EN": "Palm kernel oil",
+                "ES": "Aceite de Almendras de Palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|258"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "244",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile d'arachide",
+                "EN": "Groundnut oil",
+                "ES": "Aceite de Maní"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|244"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "257",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de palme",
+                "EN": "Palm oil",
+                "ES": "Aceite de Palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|257"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "268",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de tournesol",
+                "EN": "Sunflower oil",
+                "ES": "Aceite de Girasol"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|268"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "60",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de maïs",
+                "EN": "Maize oil",
+                "ES": "Aceite de Maíz"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|60"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "256",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Palmistes",
+                "EN": "Palm kernels",
+                "ES": "Almendra de palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|256"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "564",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Vin",
+                "EN": "Wine",
+                "ES": "Vino"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|564"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "237",
+            "childs": [],
+            "systemKey": "ProcessedCrops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de soja",
+                "EN": "Soybean oil",
+                "ES": "Aceite de Soja"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "ProcessedCrops|1.0|237"
+        }
+    ],
+    "system": "ProcessedCrops",
+    "levelsNumber": 1,
+    "title": {
+        "EN": "Processed Crops"
+    },
+    "startDate": -61891088400000,
+    "endDate": null,
+    "virtualDate": null,
+    "sharingPolicy": "publicPolicy",
+    "keyWords": ["processed crops code list", "processed crops", "faostat"],
+    "region": null
+}

@@ -1,0 +1,3460 @@
+
+{
+    "provider": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "description": {
+        "EN": "Crops code list"
+    },
+    "source": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "version": "1.0",
+    "category": null,
+    "rootCodes": [
+        {
+            "description": {},
+            "level": 1,
+            "code": "687",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Poivre (sous-espèces Piper)",
+                "EN": "Pepper (Piper spp.)",
+                "ES": "Pimienta (Piper spp.)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|687"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "689",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Piments doux et épicé",
+                "EN": "Chillies and peppers, dry",
+                "ES": "Chiles y pimientos, secos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|689"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "339",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines oléagineuses, nda",
+                "EN": "Oilseeds, Nes",
+                "ES": "Semileagin"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|339"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "800",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibres d'Agave, nda",
+                "EN": "Agave Fibres Nes",
+                "ES": "Agaves Otras"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|800"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "280",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Carthame",
+                "EN": "Safflower seed",
+                "ES": "Semilla de cártamo, alazor"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|280"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "486",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Bananes",
+                "EN": "Bananas",
+                "ES": "Bananos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|486"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "333",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de lin",
+                "EN": "Linseed",
+                "ES": "Linaza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|333"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "336",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Chanvre",
+                "EN": "Hempseed",
+                "ES": "Cañamón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|336"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "157",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Betterave à sucre",
+                "EN": "Sugar beet",
+                "ES": "Remolacha azucarera"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|157"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "156",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Canne à sucre",
+                "EN": "Sugar cane",
+                "ES": "Caña de azúcar"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|156"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "489",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Bananes plantains",
+                "EN": "Plantains",
+                "ES": "Plátanos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|489"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "748",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Menthe poivrée, menthe verte",
+                "EN": "Peppermint",
+                "ES": "Menta"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|748"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "531",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Cerises",
+                "EN": "Cherries",
+                "ES": "Cerezas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|531"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "289",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Sésame",
+                "EN": "Sesame seed",
+                "ES": "Semilla de sésamo, ajonjolí"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|289"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "600",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Papayes",
+                "EN": "Papayas",
+                "ES": "Papayas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|600"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "530",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Grillottes",
+                "EN": "Sour cherries",
+                "ES": "Guindas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|530"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "534",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pêches et nectarines",
+                "EN": "Peaches and nectarines",
+                "ES": "Melocot. (duraznos), nectar."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|534"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "536",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Prunes et prunelles",
+                "EN": "Plums and sloes",
+                "ES": "Ciruelas y endrinas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|536"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "603",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruits Tropicaux Frais, nda",
+                "EN": "Fruit, tropical fresh nes",
+                "ES": "Frutas Trop"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|603"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "203",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois bambara",
+                "EN": "Bambara beans",
+                "ES": "Bambara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|203"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "677",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Houblon",
+                "EN": "Hops",
+                "ES": "Lúpulo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|677"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "205",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Vesces",
+                "EN": "Vetches",
+                "ES": "Veza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|205"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "201",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lentilles",
+                "EN": "Lentils",
+                "ES": "Lentejas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|201"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "671",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Mate",
+                "EN": "Maté",
+                "ES": "Mate"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|671"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "270",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Colza",
+                "EN": "Rapeseed",
+                "ES": "Colza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|270"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "27",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Riz, Paddy",
+                "EN": "Rice, paddy",
+                "ES": "Arroz cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|27"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "161",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Plantes sucrières, nda",
+                "EN": "Sugar crops, nes",
+                "ES": "Cultivos azucareros NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|161"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "275",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix d'Abrasin",
+                "EN": "Tung Nuts",
+                "ES": "Nueces de Tung"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|275"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "277",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de Jojoba",
+                "EN": "Jojoba Seeds",
+                "ES": "Semilla de Jojoba"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|277"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "542",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruit à pépins, nda",
+                "EN": "Pome fruit, nes",
+                "ES": "Frutas pomáceas NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|542"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "541",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruit à noyau, nda",
+                "EN": "Stone fruit, nes",
+                "ES": "Drupas NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|541"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "544",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fraises",
+                "EN": "Strawberries",
+                "ES": "Fresas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|544"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "407",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Poireaux et autres légumes alliacés",
+                "EN": "Leeks, other alliaceous veg",
+                "ES": "Puerros y otras aliáceas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|407"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "406",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ail",
+                "EN": "Garlic",
+                "ES": "Ajo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|406"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "401",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Piments forts, piment doux frais",
+                "EN": "Chillies and peppers, green",
+                "ES": "Chiles, pim. pic., pim. (verde)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|401"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "547",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Framboises",
+                "EN": "Raspberries",
+                "ES": "Frambuesas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|547"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "403",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Oignons secs",
+                "EN": "Onions, dry",
+                "ES": "Cebollas secas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|403"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "402",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Oignons (et échalotes) frais",
+                "EN": "Onions (inc. shallots), green",
+                "ES": "Cebollas (incl. chalotes) verdes"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|402"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "549",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Groseilles à maquereaux",
+                "EN": "Gooseberries",
+                "ES": "Uva espina"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|549"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "211",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Légumineuses, nda",
+                "EN": "Pulses, nes",
+                "ES": "Legumbres NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|211"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "210",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Lupins",
+                "EN": "Lupins",
+                "ES": "Altramuz"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|210"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "216",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix du Brésil non décortiquées",
+                "EN": "Brazil nuts, with shell",
+                "ES": "Nueces del Brasil con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|216"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "826",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Feuilles de tabac",
+                "EN": "Tobacco, unmanufactured",
+                "ES": "Tabaco Bruto"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|826"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "217",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix d'Acajou",
+                "EN": "Cashew nuts, with shell",
+                "ES": "Anacardos con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|217"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "15",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Blé",
+                "EN": "Wheat",
+                "ES": "Trigo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|15"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "176",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Haricots secs",
+                "EN": "Beans, dry",
+                "ES": "Frijoles secos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|176"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "310",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruit du Kapokier",
+                "EN": "Kapok Fruit",
+                "ES": "Kapok"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|310"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "821",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibres Végetales nda",
+                "EN": "Fibre Crops Nes",
+                "ES": "Otras Fibras Veget nep"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|821"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "311",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de Kapokier non décortiquées",
+                "EN": "Kapokseed in Shell",
+                "ES": "Semilla de Kapok con Cás"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|311"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "417",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois frais",
+                "EN": "Peas, green",
+                "ES": "Guisantes verdes"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|417"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "512",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Agrumes nda",
+                "EN": "Citrus fruit, nes",
+                "ES": "Frutos cítricos NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|512"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "108",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ceréales, nda",
+                "EN": "Cereals, nes",
+                "ES": "Cereales NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|108"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "723",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Epices, nda",
+                "EN": "Spices, nes",
+                "ES": "Especias NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|723"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "720",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Gingembre",
+                "EN": "Ginger",
+                "ES": "Jengibre"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|720"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "103",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Céréales mélangées",
+                "EN": "Mixed grain",
+                "ES": "Mezcla de cereales"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|103"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "414",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Haricots frais",
+                "EN": "Beans, green",
+                "ES": "Judías verdes"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|414"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "101",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Alpiste",
+                "EN": "Canary seed",
+                "ES": "Alpiste"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|101"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "515",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pommes",
+                "EN": "Apples",
+                "ES": "Manzanas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|515"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "220",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Châtaignes",
+                "EN": "Chestnuts",
+                "ES": "Castañas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|220"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "97",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Triticale",
+                "EN": "Triticale",
+                "ES": "Triticale"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|97"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "221",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Amandes non décortiquées",
+                "EN": "Almonds, with shell",
+                "ES": "Almendras con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|221"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "222",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix non décortiquées",
+                "EN": "Walnuts, with shell",
+                "ES": "Nueces con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|222"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "813",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibre de Coco",
+                "EN": "Coir",
+                "ES": "Bonote"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|813"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "223",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pistaches",
+                "EN": "Pistachios",
+                "ES": "Pistachos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|223"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "693",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Cannelle",
+                "EN": "Cinnamon (canella)",
+                "ES": "Canela"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|693"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "224",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix de Kola",
+                "EN": "Kolanuts",
+                "ES": "Nueces de cola"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|224"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "393",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Choux-fleurs et brocolis",
+                "EN": "Cauliflowers and broccoli",
+                "ES": "Coliflor y brécol"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|393"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "94",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fonio",
+                "EN": "Fonio",
+                "ES": "Digitaria"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|94"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "225",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noisettes non décortiquées",
+                "EN": "Hazelnuts, with shell",
+                "ES": "Avellanas con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|225"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "328",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de cotton",
+                "EN": "Seed cotton",
+                "ES": "Algodón con semilla"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|328"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "329",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de coton",
+                "EN": "Cottonseed",
+                "ES": "Semilla de algodón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|329"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "92",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Quinoa",
+                "EN": "Quinoa",
+                "ES": "Quinua"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|92"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "226",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix d'Arec",
+                "EN": "Arecanuts",
+                "ES": "Nueces de areca"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|226"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "698",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Girofles",
+                "EN": "Cloves",
+                "ES": "Clavo de olor"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|698"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "394",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Citrouilles, courges et potirons",
+                "EN": "Pumpkins, squash and gourds",
+                "ES": "Calabazas, zapayos y calab. confit."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|394"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "187",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois secs",
+                "EN": "Peas, dry",
+                "ES": "Guisantes secos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|187"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "296",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Oeillette",
+                "EN": "Poppy seed",
+                "ES": "Semilla de adormidera"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|296"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "495",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Tangerines, mandarines et clémentines",
+                "EN": "Tangerines, mandarins, clem.",
+                "ES": "Tangerinas, mandarinas y clem."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|495"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "292",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Moutarde",
+                "EN": "Mustard seed",
+                "ES": "Semilla de mostaza"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|292"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "497",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Citrons et limes",
+                "EN": "Lemons and limes",
+                "ES": "Limones y limas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|497"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "521",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Poires",
+                "EN": "Pears",
+                "ES": "Peras"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|521"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "426",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Carottes et navets",
+                "EN": "Carrots and turnips",
+                "ES": "Zanahorias y nabos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|426"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "181",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fèves sèches",
+                "EN": "Broad beans, horse beans, dry",
+                "ES": "Haba com. y haba caballar secas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|181"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "523",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Coings",
+                "EN": "Quinces",
+                "ES": "Membrillos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|523"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "299",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de melon",
+                "EN": "Melonseed",
+                "ES": "Semilla de melón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|299"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "490",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Oranges",
+                "EN": "Oranges",
+                "ES": "Naranjas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|490"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "809",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Abaca, chanvre de manille",
+                "EN": "Manila Fibre (Abaca)",
+                "ES": "Abaca"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|809"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "397",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Concombres et cornichons",
+                "EN": "Cucumbers and gherkins",
+                "ES": "Pepinos y pepinillos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|397"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "711",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Anis, badiane, fenouil, coriandre, grain",
+                "EN": "Anise, badian, fennel, corian.",
+                "ES": "Anís, badián, hinojo, cilantro"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|711"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "399",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Aubergines",
+                "EN": "Eggplants (aubergines)",
+                "ES": "Berenjenas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|399"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "420",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Légumineuses nda (dont fèves, caroubes)",
+                "EN": "Leguminous vegetables, nes",
+                "ES": "Hortalizas leguminosas NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|420"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "526",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Abricots",
+                "EN": "Apricots",
+                "ES": "Albaricoques"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|526"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "423",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Haricots verts",
+                "EN": "String beans",
+                "ES": "Judías verdes con hilo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|423"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "692",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Vanille",
+                "EN": "Vanilla",
+                "ES": "Vainilla"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|692"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "591",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pomme d'acajou",
+                "EN": "Cashewapple",
+                "ES": "Manzana de acajú"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|591"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "592",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Kiwis",
+                "EN": "Kiwi fruit",
+                "ES": "Kiwis"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|592"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "89",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Sarrasin, blé noir",
+                "EN": "Buckwheat",
+                "ES": "Trigo sarraceno, alforfón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|89"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "619",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruits Frais, nda",
+                "EN": "Fruit Fresh Nes",
+                "ES": "Otras Frutas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|619"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "116",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pommes de terre",
+                "EN": "Potatoes",
+                "ES": "Papas, patatas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|116"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "79",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Mils",
+                "EN": "Millet",
+                "ES": "Mijo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|79"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "782",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibres analogues au jute",
+                "EN": "Other Bastfibres",
+                "ES": "Fibras Semejantes a Yute"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|782"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "571",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Mangues, mangoustans et goyaves",
+                "EN": "Mangoes, mangosteens, guavas",
+                "ES": "Mangos, mangostanes y guayabas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|571"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "788",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ramie",
+                "EN": "Ramie",
+                "ES": "Ramio"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|788"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "789",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Sisal",
+                "EN": "Sisal",
+                "ES": "Sisal"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|789"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "195",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois à vache secs",
+                "EN": "Cow peas, dry",
+                "ES": "Caupíes secos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|195"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "197",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois cajan",
+                "EN": "Pigeon peas",
+                "ES": "Guandú"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|197"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "191",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pois chiches",
+                "EN": "Chick peas",
+                "ES": "Garbanzos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|191"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "388",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Tomates",
+                "EN": "Tomatoes",
+                "ES": "Tomates"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|388"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "430",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Gombo",
+                "EN": "Okra",
+                "ES": "Gombo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|430"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "574",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ananas",
+                "EN": "Pineapples",
+                "ES": "Piña tropical"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|574"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "83",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Sorgho",
+                "EN": "Sorghum",
+                "ES": "Sorgo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|83"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "572",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Avocats",
+                "EN": "Avocados",
+                "ES": "Aguacates"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|572"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "702",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Muscade, macis et cardamome",
+                "EN": "Nutmeg, mace and cardamoms",
+                "ES": "Nuez moscada, macis y cardam."
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|702"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "242",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Arachides non décortiquées",
+                "EN": "Groundnuts, with shell",
+                "ES": "Maní (cacahuete) con cáscara"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|242"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "249",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix de coco",
+                "EN": "Coconuts",
+                "ES": "Nuez de coco"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|249"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "780",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Jute et fibres apparentées",
+                "EN": "Jute",
+                "ES": "Yute y otras fibras afines"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|780"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "577",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Dattes",
+                "EN": "Dates",
+                "ES": "Dátiles"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|577"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "125",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Manioc",
+                "EN": "Cassava",
+                "ES": "Yuca"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|125"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "773",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibre et étoupe de lin",
+                "EN": "Flax fibre and tow",
+                "ES": "Lino, fibra y estopa"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|773"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "68",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Maïs Éclate",
+                "EN": "Popcorn",
+                "ES": "Maíz Reventón"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|68"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "122",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Patates douces",
+                "EN": "Sweet potatoes",
+                "ES": "Batatas, boniatos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|122"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "777",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Etoupes Déchets de Chanvre",
+                "EN": "Hemp Tow Waste",
+                "ES": "Cáñamo Fibra"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|777"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "507",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pamplemousse (incluant les pomélos)",
+                "EN": "Grapefruit (inc. pomelos)",
+                "ES": "Toronjas (incl. pomelos)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|507"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "305",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines Arbre du Suif",
+                "EN": "Tallowtree Seeds",
+                "ES": "Semillas Arbol del Sebo"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|305"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "778",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibres de Kapok",
+                "EN": "Kapok Fibre",
+                "ES": "Fibras de Kapok"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|778"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "372",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Laitue et chicorée",
+                "EN": "Lettuce and chicory",
+                "ES": "Lechuga y achicoria"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|372"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "373",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Epinards",
+                "EN": "Spinach",
+                "ES": "Espinacas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|373"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "839",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Gommes Naturelles",
+                "EN": "Gums Natural",
+                "ES": "Gomas Natur"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|839"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "836",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Caoutchouc naturel",
+                "EN": "Natural rubber",
+                "ES": "Caucho natural"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|836"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "378",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Feuilles de manioc",
+                "EN": "Cassava leaves",
+                "ES": "Hojas de yuca"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|378"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "446",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Maïs frais",
+                "EN": "Maize, green",
+                "ES": "Maíz verde"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|446"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "71",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Seigle",
+                "EN": "Rye",
+                "ES": "Centeno"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|71"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "234",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fruits à Coque nda",
+                "EN": "Nuts, nes",
+                "ES": "Nueces NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|234"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "236",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Soja",
+                "EN": "Soybeans",
+                "ES": "Soja"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|236"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "587",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Plaqueminiers",
+                "EN": "Persimmons",
+                "ES": "Caquis"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|587"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "449",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Champignons et truffes",
+                "EN": "Mushrooms and truffles",
+                "ES": "Hongos y trufas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|449"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "75",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Avoine",
+                "EN": "Oats",
+                "ES": "Avena"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|75"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "263",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix de Karité",
+                "EN": "Karite Nuts (Sheanuts)",
+                "ES": "Nueces de Karité"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|263"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "135",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Choux Caraibe",
+                "EN": "Yautia (cocoyam)",
+                "ES": "Yautía (cocoyam)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|135"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "260",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Olives",
+                "EN": "Olives",
+                "ES": "Aceitunas, olivas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|260"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "136",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Taros (colocases)",
+                "EN": "Taro (cocoyam)",
+                "ES": "Taró (cocoyam)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|136"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "56",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Maïs",
+                "EN": "Maize",
+                "ES": "Maíz"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|56"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "137",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ignames",
+                "EN": "Yams",
+                "ES": "Ñames"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|137"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "661",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fèves de cacao",
+                "EN": "Cocoa beans",
+                "ES": "Cacao en grano"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|661"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "767",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Fibre de coton",
+                "EN": "Cotton lint",
+                "ES": "Algodón Fib"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|767"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "667",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Thé",
+                "EN": "Tea",
+                "ES": "Té"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|667"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "366",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Artichauts",
+                "EN": "Artichokes",
+                "ES": "Alcachofas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|366"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "558",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Baies Nda",
+                "EN": "Berries Nes",
+                "ES": "Otras Bayas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|558"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "367",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Asperges",
+                "EN": "Asparagus",
+                "ES": "Espárragos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|367"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "459",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Racines de chicorée",
+                "EN": "Chicory roots",
+                "ES": "Raíces de achicoria"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|459"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "554",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Canneberges",
+                "EN": "Cranberries",
+                "ES": "Arandanos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|554"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "552",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Myrtilles",
+                "EN": "Blueberries",
+                "ES": "Arandano Azl"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|552"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "267",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Graines de tournesol",
+                "EN": "Sunflower seed",
+                "ES": "Semilla de girasol"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|267"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "265",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ricin",
+                "EN": "Castor oil seed",
+                "ES": "Ricino"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|265"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "550",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Cassis et groseilles",
+                "EN": "Currants",
+                "ES": "Grosellas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|550"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "754",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pyrèthre, fleurs séchées",
+                "EN": "Pyrethrum,Dried",
+                "ES": "Pel Flor Sec"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|754"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "560",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Raisins",
+                "EN": "Grapes",
+                "ES": "Uvas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|560"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "44",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Orge",
+                "EN": "Barley",
+                "ES": "Cebada"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|44"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "149",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Tubercules + racines nda",
+                "EN": "Roots and Tubers, nes",
+                "ES": "Raíces y tubérculos fecul. NCP"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|149"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "656",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Café vert",
+                "EN": "Coffee, green",
+                "ES": "Café verde"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|656"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "461",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Caroubes",
+                "EN": "Carobs",
+                "ES": "Algarrobas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|461"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "463",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Légumes Frais, nda",
+                "EN": "Vegetables fresh nes",
+                "ES": "Hortal Nep"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|463"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "569",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Figues",
+                "EN": "Figs",
+                "ES": "Higos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|569"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "358",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Choux et autres brassicacée",
+                "EN": "Cabbages and other brassicas",
+                "ES": "Coles y otras crucíferas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|358"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "257",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Huile de palme",
+                "EN": "Palm oil",
+                "ES": "Aceite de Palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|257"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "567",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pastèques",
+                "EN": "Watermelons",
+                "ES": "Sandías"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|567"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "568",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Melons, cantaloups",
+                "EN": "Other melons (inc.cantaloupes)",
+                "ES": "Otros melones (incl. cantal.)"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|568"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "254",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Noix de palme",
+                "EN": "Oil palm fruit",
+                "ES": "Nuez de palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|254"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "256",
+            "childs": [],
+            "systemKey": "Crops",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Palmistes",
+                "EN": "Palm kernels",
+                "ES": "Almendra de palma"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "Crops|1.0|256"
+        }
+    ],
+    "system": "Crops",
+    "levelsNumber": 1,
+    "title": {
+        "EN": "Crops"
+    },
+    "startDate": -61891088400000,
+    "endDate": null,
+    "virtualDate": null,
+    "sharingPolicy": "publicPolicy",
+    "keyWords": ["crops", "code list", "faostat"],
+    "region": {
+        "description": {},
+        "level": 1,
+        "code": "101",
+        "childs": [],
+        "systemKey": "Crops",
+        "systemVersion": "1.0",
+        "title": {
+            "FR": "Alpiste",
+            "EN": "Canary seed",
+            "ES": "Alpiste"
+        },
+        "supplemental": {},
+        "exclusionList": null,
+        "aggregationRules": [],
+        "relations": [],
+        "conversions": [],
+        "propaedeutics": [],
+        "globalCode": "Crops|1.0|101"
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "uid" : "233CPD010_A",
+    "language": "EN",
+    "creationDate" : 1362610800000,
+    "dataType": "dataset",
+
+    "sources": [{"id":"10_0"}],
+    "owner": {"id":"10_0"},
+    "provider": {"id":"10_0"},
+    "contacts": [{"id":"10_0"}, {"id":"10_0"}],
+
+    "title": { "EN": "Title" },
+    "summary": {  "EN": "Description" },
+    "supplemental": { "EN": "Notes" },
+
+    "geographicExtent": {
+        "systemKey": "GAUL",
+        "systemVersion": "1.0",
+        "code": "33"
+    },
+    "updateDate": 1362610800000,
+    "nextUpdateDate": 1362610800000,
+    "coverageSectors" : [
+        {
+            "systemKey": "FAOSTAT_CoveregeSectors",
+            "systemVersion": "1.0",
+            "code": "10"
+        }
+    ],
+    "updatePeriodicity": {
+        "systemKey": "FAOSTAT_Periodicity",
+        "systemVersion": "1.0",
+        "code": "40"
+    },
+    "aggregationProcessing": {"EN":"methodology text"},
+    "processMethodologyDocuments" : [
+        {
+            "title" : {"EN":"methodology.Links title"},
+            "description" : {"EN":"methodology.Links description"},
+            "link" : "http://countrystat.org/links/11025547",
+            "publicationDate" : 1362610800000
+        }
+    ],
+    "disseminationFormat" : { "EN" : "Dissemination Method" },
+    "publications" : [
+        {
+            "title" : {"EN":"Attached file title"},
+            "description" : {"EN":"Attached file description"},
+            "link" : "http://countrystat.org/links/11025547",
+            "publicationDate" : 1362610800000
+        }
+    ],
+    "collectionPeriodicity": {
+        "systemKey": "FAOSTAT_Periodicity",
+        "systemVersion": "1.0",
+        "code": "30"
+    },
+    "sourceType" : { "EN" : "survey+censun informations" },
+    "processConcepts" : { "EN" : "concept.other" },
+    "processConceptsDocuments" : [
+        {
+            "title" : {"EN":"concept.link title"},
+            "description" : {"EN":"concept.link description"},
+            "link" : "http://countrystat.org/links/11025547",
+            "publicationDate" : 1362610800000
+        }
+    ],
+    "unitOfMeasure" : null,
+    "unitOfMeasureDetails" : { "EN" : "Unit" },
+    "coverageGeographical": null,
+    "embargoTimeSpec" : { "EN" : "Timeliness.text" },
+
+
+
+    "categories" : [
+        {
+            "systemKey": "FAOSTAT_CoveregeSectors",
+            "systemVersion": "1.0",
+            "code": "11"
+        }
+    ],
+
+    "availability": { "status": "incomplete" },
+
+    "freeExtension" : {
+        "accessLevel" : "public",
+        "survey" : {},
+        "census" : {},
+        "adminRecords" : {}
+
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "dsd": {
+    "contextSystem": { "name": "CountryStat" },
+    "supplemental": { "EN": "dataset structure note 1" },
+    "datasource": {
+        "dao": "cstat",
+        "reference": {
+            "url" : "http://vedemo.it",
+            "psw": "password1",
+            "usr": "user1"
+        }
+    },
+    "columns": [
+        {
+            "columnId": "column 1",
+            "dataType": "text",
+            "dimension": { "name": "GEO" },
+            "title": {
+                "EN": "column title 1",
+                "IT": "titolo colonna 1"
+            },
+            "supplemental": {
+                "EN": "column notes 1",
+                "IT": "note colonna 1"
+            },
+
+            "codeSystem": {
+                "system": "sys1",
+                "version": "1.0"
+            },
+            "codesLevel": 2,
+
+            "values": ["value 1", "value 2"],
+            "virtualColumn": "virtual column ID 1"
+        }
+    ]
+}
+
+}

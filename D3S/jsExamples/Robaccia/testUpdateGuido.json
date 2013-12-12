@@ -1,0 +1,133 @@
+{"creationDate": 1379541600000, "parentUid": null, "uid": "FAOSTAT_QC", "title": {
+    "EN": "sdf"
+}, "summary": {
+    "EN": "<p>asdasd asdasda</p>\n"
+}, "supplemental": {
+    "EN": "<p>asd asd asd asd as</p>\n"
+}, "geographicExtent": {
+    "code": "5300",
+    "title": {
+        "EN": "Asia"
+    },
+    "supplemental": {},
+    "exclusionList": null,
+    "childs": null,
+    "relations": null,
+    "conversions": null,
+    "propaedeutics": null,
+    "globalCode": "FAOSTAT_Regions|1.0|5300",
+    "aggregationRules": null,
+    "systemKey": "FAOSTAT_Regions",
+    "systemVersion": "1.0",
+    "level": 1,
+    "description": {}
+}, "coverageSectors": [
+    {
+        "systemKey": "FAOSTAT_CoveregeSectors",
+        "systemVersion": "1.0",
+        "code": "3"
+    },
+    {
+        "systemKey": "FAOSTAT_CoveregeSectors",
+        "systemVersion": "1.0",
+        "code": "10"
+    },
+    {
+        "systemKey": "FAOSTAT_CoveregeSectors",
+        "systemVersion": "1.0",
+        "code": "7"
+    }
+], "codingSystems": [
+    {
+        "system": "Crops",
+        "version": "1.0"
+    },
+    {
+        "system": "Elements",
+        "version": "1.0"
+    },
+    {
+        "system": "GAUL",
+        "version": "1.0"
+    }
+], "statisticalUnit": {
+    "EN": "sdf"
+}, "referencePeriod": null, "basePeriod": {
+    "from": -2208992400000,
+    "to": 978217200000
+}, "comparability": {
+    "EN": "sdf"
+}, "compilationProcessing": {
+    "EN": "sdf"
+}, "collectionProcessing": {
+    "EN": "sdf"
+}, "collectionPeriodicity": {
+    "code": "120",
+    "title": {
+        "FR": "5 Années",
+        "EN": "5 Years"
+    },
+    "supplemental": null,
+    "exclusionList": null,
+    "childs": null,
+    "relations": null,
+    "conversions": null,
+    "propaedeutics": null,
+    "globalCode": "FAOSTAT_Periodicity|1.0|120",
+    "aggregationRules": null,
+    "systemKey": "FAOSTAT_Periodicity",
+    "systemVersion": "1.0",
+    "level": 1,
+    "description": null
+}, "processMethodologyDocuments": null, "indexType": {
+    "EN": "sdf"
+}, "accuracy": {
+    "EN": "sdf"
+}, "accuracyAssessment": {
+    "EN": "sdf"
+}, "completeness": {
+    "EN": "sdf"
+}, "availability": null, "disseminationPeriodicity": {
+    "code": "120",
+    "title": {
+        "FR": "5 Années",
+        "EN": "5 Years"
+    },
+    "supplemental": null,
+    "exclusionList": null,
+    "childs": null,
+    "relations": null,
+    "conversions": null,
+    "propaedeutics": null,
+    "globalCode": "FAOSTAT_Periodicity|1.0|120",
+    "aggregationRules": null,
+    "systemKey": "FAOSTAT_Periodicity",
+    "systemVersion": "1.0",
+    "level": 1,
+    "description": null
+}, "userAccess": {
+    "EN": "sdf"
+}, "disseminationFormat": {
+    "EN": "sdf"
+}, "revisionPolicy": {
+    "EN": "sdf"
+}, "sources": null, "contacts": null, "coverageTime": {
+    "EN": "sdf"
+}, "accessibility": {
+    "EN": "sdf"
+}, "updateDate": 1379541600000, "referenceUpdateDate": 1379541600000, "nextUpdateDate": 1379455200000, "completenessPercentage": null, "transferOptions": null, "categories": [
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "19"
+    },
+    {
+        "systemKey": "Elements",
+        "systemVersion": "1.0",
+        "code": "18"
+    }
+], "statisticalPopulation": {
+    "EN": "sdf"
+}, "freeExtension": null, "dataType": null, "dataKind": null, "copyright": null, "dsd": null, "unitOfMeasure": null, "coverageGeographical": null, "processConceptsDocuments": null, "processConcepts": null, "sourceType": null, "qualityMethodologyDocuments": null, "embargoTimeSpec": null, "publications": null, "updatePeriodicity": null, "unitOfMeasureDetails": null, "aggregationProcessing": null, "language": "ES", "owner": null, "description": {
+    "EN": "<p>a sd asd asd as</p>\n"
+}, "provider": null}
