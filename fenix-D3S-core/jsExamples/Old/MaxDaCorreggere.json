@@ -1,0 +1,482 @@
+{"language": "fr", "owner": null, "provider": null, "description": {}, "source": null, "dataType": null, "title": {
+    "FR": "Prix au producteur pour les produits primaires de l'agriculture et de l'élevage"
+}, "region": null, "supplemental": {}, "uid": "233CPR010", "creationDate": 1296514800000, "updateDate": 1296514800000, "dataKind": null, "periodicity": "annually", "copyright": null, "completeness": null, "accuracy": null, "processing": null, "freeExtension": {
+    "accessLevel": 0,
+    "nextUpdateDate": 1296518400000,
+    "decimalsNumber": 0,
+    "survey": {
+        "CodID": "233CPR010",
+        "Title": "Prix au producteur pour les produits primaires de l&#39;agriculture et de l&#39;&#233;levage",
+        "Contact": {
+            "Name": "Moussa",
+            "Surname": "KABORE",
+            "Country": "Burkina Faso",
+            "Address": "03 BP 7010 OUAGADOUGOU 03",
+            "Phone": "0022650306803",
+            "Fax": "0022650306802",
+            "Email": "agristat@fasonet.bf"
+        },
+        "Concept": {
+            "Link": "http://countrystat.org/resources/metadata_fr.pdf",
+            "textOther": "",
+            "KeyList": "1",
+            "TextList": "Concepts et définitions de la FAO"
+        },
+        "Geographical": [
+            {
+                "KeyList": "1",
+                "TextList": "Niveau du pays",
+                "textOther": ""
+            }
+        ],
+        "Metodology": {
+            "textMethodology": "&lt;P class=MsoNormal style=&quot;MARGIN: 0cm 0cm 0pt&quot;&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;L’EPA collecte des informations sur les prix au producteurs bord champ en plus de ce type de prix, s’ajoutent les informations sur les prix sur les march&#233;s :&lt;?xml:namespace prefix = o ns = &quot;urn:schemas-microsoft-com:office:office&quot; /&gt;&lt;o:p&gt;&lt;/o:p&gt;&lt;/SPAN&gt;&lt;/P&gt; &lt;P class=MsoNormal style=&quot;MARGIN: 0cm 0cm 0pt&quot;&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;Les prix des produits agricoles notamment les c&#233;r&#233;ales proviennent du Syst&#232;me d’Information sur les March&#233;s des C&#233;r&#233;ales (SIMc) pilot&#233; par la SONAGESS (Soci&#233;t&#233; National de Gestion des Stocks de S&#233;curit&#233;) et collect&#233; sur des march&#233;s de r&#233;f&#233;rence (march&#233; de collecte, de d&#233;tail et de regroupement).&lt;o:p&gt;&lt;/o:p&gt;&lt;/SPAN&gt;&lt;/P&gt; &lt;P class=MsoNormal style=&quot;MARGIN: 0cm 0cm 0pt&quot;&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;Les donn&#233;es de prix du Syst&#232;me d’Information sur les March&#233;s de b&#233;tail SIMb pilot&#233; par la DGPSE sont valoris&#233;es &#233;galement dans le tableau de bord de l’&#233;conomie nationale qui parait trimestriellement.&lt;o:p&gt;&lt;/o:p&gt;&lt;/SPAN&gt;&lt;/P&gt; &lt;P&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;Les rapports &lt;SPAN style=&quot;mso-spacerun: yes&quot;&gt;&#160;&lt;/SPAN&gt;officiels se trouvent ci-dessous:&lt;/SPAN&gt;&lt;/SPAN&gt;&lt;/P&gt; &lt;UL&gt; &lt;LI&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;&lt;A href=&quot;http://www.countrystat.org/country/bfa/documents/docs/ANNUAIRE%20DES%20PRIX%20DES%20PRODUITS%20AGRICOLES%202007.pdf&quot;&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;ANNUAIRES &lt;/SPAN&gt;&lt;?xml:namespace prefix = st1 ns = &quot;urn:schemas-microsoft-com:office:smarttags&quot; /&gt;&lt;st1:stockticker&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;DES&lt;/SPAN&gt;&lt;/st1:stockticker&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt; PRIX &lt;/SPAN&gt;&lt;st1:stockticker&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;DES&lt;/SPAN&gt;&lt;/st1:stockticker&gt;&lt;/A&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt; PRODUITS AGRICOLES - 2007 &lt;/SPAN&gt;&lt;/SPAN&gt;&lt;/LI&gt;&lt;/UL&gt; &lt;P&gt;&lt;SPAN lang=FR style=&quot;mso-ansi-language: FR&quot;&gt;&lt;/SPAN&gt;&#160;&lt;/P&gt;"
+        },
+        "ListSurvey": [
+            {
+                "Title": "Enquête Permanente Agricole",
+                "Link": "http://www.sisa.bf/sisa/",
+                "Overview": "",
+                "SurveyDesign": "",
+                "ConductDataQuality": "",
+                "StatisticalReport": ""
+            }
+        ]
+    },
+    "dimensionsPreferences": [
+        {
+            "showOnColumn": true,
+            "showOnRow": false,
+            "columnName": "Année"
+        },
+        {
+            "showOnColumn": false,
+            "showOnRow": true,
+            "columnName": "Produits"
+        }
+    ],
+    "MapDimensionID": 0,
+    "canAggregate": false,
+    "dimensionOnColIDs": [1],
+    "dimensionOnRowIDs": [2],
+    "source": "EP/DPSA/Direction Générale de la Promotion de l’Economie Rurale",
+    "columnsCountryStat": [
+        {
+            "columnId": "dim_Time",
+            "title": {
+                "FR": "Année"
+            },
+            "dataType": "year",
+            "dimension": {
+                "name": "TIME"
+            },
+            "valuesCountrystat": [
+                {
+                    "codeValue": "1997",
+                    "TextValue": "1997"
+                },
+                {
+                    "codeValue": "1998",
+                    "TextValue": "1998"
+                },
+                {
+                    "codeValue": "1999",
+                    "TextValue": "1999"
+                },
+                {
+                    "codeValue": "2000",
+                    "TextValue": "2000"
+                },
+                {
+                    "codeValue": "2001",
+                    "TextValue": "2001"
+                },
+                {
+                    "codeValue": "2002",
+                    "TextValue": "2002"
+                },
+                {
+                    "codeValue": "2003",
+                    "TextValue": "2003"
+                },
+                {
+                    "codeValue": "2004",
+                    "TextValue": "2004"
+                },
+                {
+                    "codeValue": "2005",
+                    "TextValue": "2005"
+                },
+                {
+                    "codeValue": "2006",
+                    "TextValue": "2006"
+                },
+                {
+                    "codeValue": "2007",
+                    "TextValue": "2007"
+                },
+                {
+                    "codeValue": "2008",
+                    "TextValue": "2008"
+                },
+                {
+                    "codeValue": "2009",
+                    "TextValue": "2009"
+                },
+                {
+                    "codeValue": "2010",
+                    "TextValue": "2010"
+                }
+            ]
+        },
+        {
+            "columnId": "dim_Other_01",
+            "title": {
+                "FR": "Produits"
+            },
+            "dataType": "text",
+            "dimension": {
+                "name": "OTHER"
+            },
+            "valuesCountrystat": [
+                {
+                    "codeValue": "79",
+                    "TextValue": "mil [Code N.R]"
+                },
+                {
+                    "codeValue": "83",
+                    "TextValue": "sorgho [Code N.R]"
+                },
+                {
+                    "codeValue": "56",
+                    "TextValue": "maïs [Code N.R]"
+                },
+                {
+                    "codeValue": "27",
+                    "TextValue": "Riz [Code N.R]"
+                },
+                {
+                    "codeValue": "94",
+                    "TextValue": "Fonio [Code N.R]"
+                },
+                {
+                    "codeValue": "203",
+                    "TextValue": "Niébé/Voandzou [Code N.R]"
+                },
+                {
+                    "codeValue": "236",
+                    "TextValue": "Soja [Code N.R]"
+                },
+                {
+                    "codeValue": "137",
+                    "TextValue": "Igname [Code N.R]"
+                },
+                {
+                    "codeValue": "122",
+                    "TextValue": "Patate douce [Code N.R]"
+                },
+                {
+                    "codeValue": "125",
+                    "TextValue": "Manioc [Code N.R]"
+                },
+                {
+                    "codeValue": "242",
+                    "TextValue": "Arachide coque [Code N.R]"
+                },
+                {
+                    "codeValue": "263",
+                    "TextValue": "Karité [Code N.R]"
+                },
+                {
+                    "codeValue": "289",
+                    "TextValue": "Sésame [Code N.R]"
+                },
+                {
+                    "codeValue": "328",
+                    "TextValue": "Coton graine [Code N.R]"
+                },
+                {
+                    "codeValue": "571",
+                    "TextValue": "Fruits(mangues) [Code N.R]"
+                },
+                {
+                    "codeValue": "402",
+                    "TextValue": "Oignon (bulbe et feuille) [Code N.R]"
+                },
+                {
+                    "codeValue": "358",
+                    "TextValue": "Chou [Code N.R]"
+                },
+                {
+                    "codeValue": "388",
+                    "TextValue": "Tomate [Code N.R]"
+                },
+                {
+                    "codeValue": "399",
+                    "TextValue": "Aubergine [Code N.R]"
+                },
+                {
+                    "codeValue": "401",
+                    "TextValue": "Piment [Code N.R]"
+                },
+                {
+                    "codeValue": "372",
+                    "TextValue": "Laitue [Code N.R]"
+                },
+                {
+                    "codeValue": "426",
+                    "TextValue": "Carotte [Code N.R]"
+                },
+                {
+                    "codeValue": "116",
+                    "TextValue": "Pomme de terre [Code N.R]"
+                },
+                {
+                    "codeValue": "176",
+                    "TextValue": "Haricot [Code N.R]"
+                },
+                {
+                    "codeValue": "544",
+                    "TextValue": "Fraise [Code N.R]"
+                },
+                {
+                    "codeValue": "397",
+                    "TextValue": "Concombre [Code N.R]"
+                },
+                {
+                    "codeValue": "687",
+                    "TextValue": "Poivron [Code N.R]"
+                },
+                {
+                    "codeValue": "406",
+                    "TextValue": "Ail [Code N.R]"
+                },
+                {
+                    "codeValue": "430",
+                    "TextValue": "Gombo [Code N.R]"
+                },
+                {
+                    "codeValue": "826",
+                    "TextValue": "Tabac [Code N.R]"
+                }
+            ]
+        }
+    ],
+    "dateLastUpdateTemporary": 1335916800000,
+    "contactTemporary": "parelas@yahoo.fr     Tel : 50306802/03",
+    "sourceTemporary": "EP/DPSA/Direction Générale de la Promotion de l’Economie Rurale",
+    "unitTemporary": "monnaie locale",
+    "noteTemporary": [
+        {
+            "codeValue": "FR",
+            "TextValue": "FCFA/tonne"
+        }
+    ],
+    "domainTemporary": "Prix",
+    "UserIDTemporary": "13_72"
+}, "dsd": {
+    "contextSystem": {
+        "name": "CountrySTAT"
+    },
+    "startDate": null,
+    "endDate": null,
+    "supplemental": {},
+    "datasource": {
+        "dao": "cstat",
+        "reference": {
+            "psw": "admin",
+            "usr": "admin",
+            "url": "remote:localhost:2425/CountrySTAT_1.0"
+        }
+    },
+    "columns": [
+        {
+            "values": [1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010],
+            "dataType": "year",
+            "title": {
+                "FR": "Année"
+            },
+            "supplemental": {},
+            "columnId": "dim_Time",
+            "codesLevel": null,
+            "virtualColumn": null,
+            "geoLyer": null,
+            "dimension": {
+                "name": "TIME",
+                "title": {}
+            },
+            "codeSystem": null
+        },
+        {
+            "values": null,
+            "dataType": "text",
+            "title": {
+                "FR": "Produits"
+            },
+            "supplemental": {},
+            "columnId": "dim_Other_01",
+            "codesLevel": null,
+            "virtualColumn": null,
+            "geoLyer": null,
+            "dimension": {
+                "name": "OTHER",
+                "title": {}
+            },
+            "codeSystem": null
+        },
+        {
+            "values": [
+                {
+                    "description": {},
+                    "level": 1,
+                    "code": "42",
+                    "childs": [],
+                    "systemKey": "GAUL",
+                    "systemVersion": "1.0",
+                    "title": {
+                        "EN": "Burkina Faso"
+                    },
+                    "supplemental": {},
+                    "exclusionList": null,
+                    "aggregationRules": [],
+                    "relations": [],
+                    "conversions": [],
+                    "propaedeutics": [],
+                    "globalCode": "GAUL|1.0|42"
+                }
+            ],
+            "dataType": "code",
+            "title": {},
+            "supplemental": {},
+            "columnId": "dim_Country",
+            "codesLevel": null,
+            "virtualColumn": "INTERNAL",
+            "geoLyer": null,
+            "dimension": {
+                "name": "GEO",
+                "title": {}
+            },
+            "codeSystem": {
+                "provider": {
+                    "name": "CountrySTAT Admin",
+                    "id": "8_0",
+                    "description": {
+                        "en": "countrySTAT administrator"
+                    },
+                    "role": null,
+                    "title": {},
+                    "region": null,
+                    "supplemental": {},
+                    "institution": "FAO",
+                    "department": "ESS",
+                    "surname": "CountrySTAT admin",
+                    "contactList": [
+                        {
+                            "type": "email",
+                            "contact": "admin@countrystat.org"
+                        }
+                    ]
+                },
+                "description": {
+                    "EN": "GAUL geographic code list"
+                },
+                "source": {
+                    "name": "CountrySTAT Admin",
+                    "id": "8_0",
+                    "description": {
+                        "en": "countrySTAT administrator"
+                    },
+                    "role": null,
+                    "title": {},
+                    "region": null,
+                    "supplemental": {},
+                    "institution": "FAO",
+                    "department": "ESS",
+                    "surname": "CountrySTAT admin",
+                    "contactList": [
+                        {
+                            "type": "email",
+                            "contact": "admin@countrystat.org"
+                        }
+                    ]
+                },
+                "version": "1.0",
+                "category": null,
+                "rootCodes": [],
+                "system": "GAUL",
+                "levelsNumber": 2,
+                "title": {
+                    "EN": "GAUL"
+                },
+                "startDate": -61196864400000,
+                "endDate": null,
+                "virtualDate": null,
+                "sharingPolicy": "publicPolicy",
+                "keyWords": ["geographic", "area", "gaul", "code list"],
+                "region": {
+                    "description": {},
+                    "level": 1,
+                    "code": "101",
+                    "childs": [],
+                    "systemKey": "GAUL",
+                    "systemVersion": "1.0",
+                    "title": {
+                        "EN": "Guam"
+                    },
+                    "supplemental": {},
+                    "exclusionList": null,
+                    "aggregationRules": [],
+                    "relations": [],
+                    "conversions": [],
+                    "propaedeutics": [],
+                    "globalCode": "GAUL|1.0|101"
+                }
+            }
+        },
+        {
+            "values": ["Commodity"],
+            "dataType": "text",
+            "title": {},
+            "supplemental": {},
+            "columnId": "item_type",
+            "codesLevel": null,
+            "virtualColumn": "INTERNAL",
+            "geoLyer": null,
+            "dimension": {
+                "name": "ITEM_TYPE",
+                "title": {}
+            },
+            "codeSystem": null
+        },
+        {
+            "values": null,
+            "dataType": "code",
+            "title": {},
+            "supplemental": {},
+            "columnId": "dim_element",
+            "codesLevel": null,
+            "virtualColumn": "INTERNAL",
+            "geoLyer": null,
+            "dimension": {
+                "name": "ELEMENT",
+                "title": {}
+            },
+            "codeSystem": null
+        },
+        {
+            "values": null,
+            "dataType": "number",
+            "title": {},
+            "supplemental": {},
+            "columnId": "dim_Value",
+            "codesLevel": null,
+            "virtualColumn": null,
+            "geoLyer": null,
+            "dimension": {
+                "name": "VALUE",
+                "title": {}
+            },
+            "codeSystem": null
+        }
+    ]
+}, "availability": null, "categories": [], "contacts": [], "transferOptions": []}

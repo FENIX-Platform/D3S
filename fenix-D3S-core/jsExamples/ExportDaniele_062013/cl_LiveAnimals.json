@@ -1,0 +1,441 @@
+
+{
+    "provider": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "description": {
+        "EN": "Crops code list"
+    },
+    "source": {
+        "name": "CountrySTAT Admin",
+        "id": "10_0",
+        "description": {
+            "en": "countrySTAT administrator"
+        },
+        "role": null,
+        "title": {},
+        "region": null,
+        "supplemental": {},
+        "institution": "FAO",
+        "department": "ESS",
+        "surname": "CountrySTAT admin",
+        "contactList": [
+            {
+                "type": "email",
+                "contact": "admin@countrystat.org"
+            }
+        ]
+    },
+    "version": "1.0",
+    "category": null,
+    "rootCodes": [
+        {
+            "description": {},
+            "level": 1,
+            "code": "976",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ovins",
+                "EN": "Sheep",
+                "ES": "Ovinos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|976"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1157",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Autres Camélidés",
+                "EN": "Other Camelids",
+                "ES": "Otros Camelidos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1157"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1181",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Ruches",
+                "EN": "Beehives",
+                "ES": "Colmenas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1181"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1083",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Pigeons, Autres Oiseaux",
+                "EN": "Pigeons, Other Birds",
+                "ES": "Pich y Otr A"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1083"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1034",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Porcins",
+                "EN": "Pigs",
+                "ES": "Cerdos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1034"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1107",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Anes",
+                "EN": "Asses",
+                "ES": "Asnos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1107"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "946",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Buffles",
+                "EN": "Buffaloes",
+                "ES": "Búfalos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|946"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1016",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Caprins",
+                "EN": "Goats",
+                "ES": "Caprinos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1016"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "866",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Bovins",
+                "EN": "Cattle",
+                "ES": "Ganado Vacuno"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|866"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1096",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Chevaux",
+                "EN": "Horses",
+                "ES": "Caballos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1096"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1126",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Camelidés",
+                "EN": "Camels",
+                "ES": "Camellos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1126"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1072",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Oies et pintades",
+                "EN": "Geese and guinea fowls",
+                "ES": "Gansos y pintadas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1072"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1110",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Mulets",
+                "EN": "Mules",
+                "ES": "Mulas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1110"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1079",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Dindons",
+                "EN": "Turkeys",
+                "ES": "Pavos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1079"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1068",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Canards",
+                "EN": "Ducks",
+                "ES": "Patos"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1068"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1057",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Poules",
+                "EN": "Chickens",
+                "ES": "Gallinas"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1057"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1171",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Animaux vivants Nda",
+                "EN": "Animals Live Nes",
+                "ES": "Animales Viv"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1171"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1140",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Leporidés",
+                "EN": "Rabbits and hares",
+                "ES": "Conejos y liebres"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1140"
+        },
+        {
+            "description": {},
+            "level": 1,
+            "code": "1150",
+            "childs": [],
+            "systemKey": "LiveAnimals",
+            "systemVersion": "1.0",
+            "title": {
+                "FR": "Autres rongeurs",
+                "EN": "Other Rodents",
+                "ES": "Otros Roedores"
+            },
+            "supplemental": {},
+            "exclusionList": null,
+            "aggregationRules": [],
+            "relations": [],
+            "conversions": [],
+            "propaedeutics": [],
+            "globalCode": "LiveAnimals|1.0|1150"
+        }
+    ],
+    "system": "LiveAnimals",
+    "levelsNumber": 1,
+    "title": {
+        "EN": "LiveAnimals"
+    },
+    "startDate": -61891088400000,
+    "endDate": null,
+    "virtualDate": null,
+    "sharingPolicy": "publicPolicy",
+    "keyWords": ["Live Animals", "code list", "faostat"],
+    "region": null
+}

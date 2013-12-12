@@ -1,0 +1,8 @@
+{"name": "CountrySTAT Admin", "id": "8_0", "description": {
+    "en": "countrySTAT administrator"
+}, "role": null, "title": {}, "region": null, "supplemental": {}, "institution": "FAO", "department": "ESS", "surname": "CountrySTAT admin", "contactList": [
+    {
+        "type": "email",
+        "contact": "admin@countrystat.org"
+    }
+]}

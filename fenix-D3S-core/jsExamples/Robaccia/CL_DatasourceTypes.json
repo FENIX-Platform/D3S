@@ -1,0 +1,36 @@
+
+{
+    "system": "DatasourceTypes",
+    "version": "1.0",
+    "title": { "EN": "Datasource types" },
+    "sharingPolicy": "publicPolicy",
+    "description": {
+        "EN": "Datasource types"
+    },
+    "rootCodes": [
+        {
+            "code": "database",
+            "title": { "EN": "Database" }
+        },
+        {
+            "code": "rest",
+            "title": { "EN": "Restful web service" }
+        },
+        {
+            "code": "soap",
+            "title": { "EN": "Web service" }
+        },
+        {
+            "code": "xml",
+            "title": { "EN": "XML" }
+        },
+        {
+            "code": "pdf",
+            "title": { "EN": "PDF" }
+        },
+        {
+            "code": "publication",
+            "title": { "EN": "Publication" }
+        }
+    ]
+}

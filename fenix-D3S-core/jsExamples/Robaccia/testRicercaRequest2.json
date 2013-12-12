@@ -1,0 +1,18 @@
+{
+    "fields" : {
+        "uid" : [{"enumeration":"233CPD010_test_4"},{"enumeration":"233CPD010_test_3"},{"enumeration":"233CPD010_test_2"},{"enumeration":"233CPD010_test_1"}],
+        "title": [{"language":"FR", "text":"production"}]
+    },
+    "parameters" : {
+        "output":   {
+                        "ITEM_TYPE":{"out":false},
+                        "GEO":{"out":false},
+                        "FLAG":{"out":false},
+                        "ITEM":{"out":true, "key":true}
+                    },
+        "aggregation" : {
+            "implementation" : "CSTATAdd",
+            "columnIdParameters" : {"flag":"FLAG"}
+        }
+    }
+}

@@ -1,0 +1,192 @@
+{
+    "uid": "233CPD010_C",
+    "language": "EN",
+    "title": {
+        "EN": "Title"
+    },
+    "summary": {
+        "EN": "Description"
+    },
+    "supplemental": {
+        "EN": "Notes"
+    },
+    "creationDate": 1362610800000,
+    "geographicExtent": {
+        "code": "33",
+        "systemKey": "GAUL",
+        "systemVersion": "1.0"
+    },
+    "coverageSectors": [
+        {
+            "code": "10",
+            "systemKey": "FAOSTAT_CoveregeSectors",
+            "systemVersion": "1.0"
+        }
+    ],
+    "unitOfMeasureDetails": {
+        "EN": "Unit"
+    },
+    "collectionPeriodicity": {
+        "code": "30",
+        "systemKey": "FAOSTAT_Periodicity",
+        "systemVersion": "1.0"
+    },
+    "processMethodologyDocuments": [
+        {
+            "title": {
+                "EN": "methodology.Links title"
+            },
+            "description": {
+                "EN": "methodology.Links description"
+            },
+            "link": "http://countrystat.org/links/11025547",
+            "publicationDate": 1362610800000
+        }
+    ],
+    "processConceptsDocuments": [
+        {
+            "title": {
+                "EN": "concept.link title"
+            },
+            "description": {
+                "EN": "concept.link description"
+            },
+            "link": "http://countrystat.org/links/11025547",
+            "publicationDate": 1362610800000
+        }
+    ],
+    "processConcepts": {
+        "EN": "concept.other"
+    },
+    "sourceType": {
+        "EN": "survey+censun informations"
+    },
+    "aggregationProcessing": {
+        "EN": "methodology text"
+    },
+    "disseminationFormat": {
+        "EN": "Dissemination Method"
+    },
+    "embargoTimeSpec": {
+        "EN": "Timeliness.text"
+    },
+    "publications": [
+        {
+            "title": {
+                "EN": "Attached file title"
+            },
+            "description": {
+                "EN": "Attached file description"
+            },
+            "link": "http://countrystat.org/links/11025547",
+            "publicationDate": 1362610800000
+        }
+    ],
+    "provider": {
+        "id": "10_0"
+    },
+    "owner": {
+        "id": "10_0"
+    },
+    "sources": [
+        {
+            "id": "10_0"
+        }
+    ],
+    "contacts": [
+        {
+            "id": "10_0"
+        },
+        {
+            "id": "10_0"
+        }
+    ],
+    "updateDate": 1362610800000,
+    "nextUpdateDate": 1362610800000,
+    "updatePeriodicity": {
+        "code": "40",
+        "systemKey": "FAOSTAT_Periodicity",
+        "systemVersion": "1.0"
+    },
+    "categories": [
+        {
+            "code": "11",
+            "systemKey": "FAOSTAT_CoveregeSectors",
+            "systemVersion": "1.0"
+        }
+    ],
+    "freeExtension": {
+        "accessLevel": "public",
+        "survey": {
+
+        },
+        "census": {
+
+        },
+        "adminRecords": {
+
+        }
+    },
+    "dataType": "dataset",
+    "availability": {
+        "status": "incomplete"
+    },
+    "dsd": {
+        "supplemental": {
+            "EN": "dataset structure note 1"
+        },
+        "contextSystem": {
+            "name": "CountryStat"
+        },
+        "datasource": {
+            "reference": {
+                "url": "http://vedemo.it",
+                "psw": "password1",
+                "usr": "user1"
+            },
+            "dao": "cstat"
+        },
+        "columns": [
+            {
+                "columnId": "column 1",
+                "dataType": "text",
+                "codesLevel": 2,
+                "virtualColumn": "virtual column ID 1",
+                "values": [
+                    "value 1",
+                    "value 2"
+                ],
+                "title": {
+                    "EN": "column title 1",
+                    "IT": "titolo colonna 1"
+                },
+                "supplemental": {
+                    "EN": "column notes 1",
+                    "IT": "note colonna 1"
+                },
+                "dimension": {
+                    "name": "ITEM"
+                }
+            },
+            {
+                "columnId": "column 2",
+                "dataType": "code",
+                "codesLevel": 2,
+                "values": [
+                    "657",
+                    "659"
+                ],
+                "title": {
+                    "EN": "column title 2",
+                    "IT": "titolo colonna 2"
+                },
+                "supplemental": {
+                    "EN": "column notes 2",
+                    "IT": "note colonna 2"
+                },
+                "codeSystem": {"system":"GAUL3_Test1", "version":"1.0"},
+                "dimension": { "name": "GEO" }
+            }
+        ]
+    }
+}
