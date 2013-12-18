@@ -12,7 +12,7 @@
         <blueprints.version>2.4.0</blueprints.version>
         <tomcat.version>8.0.0-RC5</tomcat.version>
         <resteasy.version>3.0.5.Final</resteasy.version>
-        <orient.version>1.6.1</orient.version>
+        <orient.version>1.6.2</orient.version>
         <spring.version>3.2.5.RELEASE</spring.version>
 	</properties>
 
