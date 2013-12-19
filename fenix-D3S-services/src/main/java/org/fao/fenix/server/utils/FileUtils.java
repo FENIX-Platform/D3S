@@ -32,7 +32,7 @@ public class FileUtils {
     public static String readTextFile(String file, Charset charset) throws IOException { return readTextFile(new File(file), charset); }
     public static String readTextFile(File file, Charset charset) throws IOException {
         StringBuilder buffer = new StringBuilder((int)file.length());
-        for (String line : Files.readAllLines(file.toPath(), Charset.forName("UTF-8")))
+        for (String line : Files.readAllLines(file.toPath(), charset))
             buffer.append(line).append('\n');
         return buffer.toString();
     }
