@@ -27,7 +27,7 @@ public class SchemaClone implements OProgressListener {
             cloneClass(origin, fromIndexManager, schemaTo);
 		//Create indexes
         for (OIndex<?> fromIndex : fromIndexManager.getIndexes())
-            toIndexManager.createIndex(fromIndex.getName(), fromIndex.getType(), fromIndex.getDefinition(),getClustersIndexes(fromIndex.getClusters()), indexCreationProgressListener);
+            toIndexManager.createIndex(fromIndex.getName(), fromIndex.getType(), fromIndex.getDefinition(),getClustersIndexes(fromIndex.getClusters()), indexCreationProgressListener,null);
         //Save schema
         schemaTo.save();
 	}
