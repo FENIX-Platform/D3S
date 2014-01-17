@@ -36,7 +36,7 @@ public abstract class OrientDao extends Dao {
             if (virtual!=null)
                 if ("INTERNAL".equals(virtual)) {
                     Collection<Object> values = columnO.field("values");
-                    if (values.size()!=1)
+                    if (values==null || values.size()!=1)
                         throw new Exception("Column '"+columnO.field("column")+"' into dataset '"+metadata.field("uid")+"' has an INTERNAL virtual column whit more than one or no values");
                     Object value = values.iterator().next();
                     value = value instanceof ORID ? org.fao.fenix.server.tools.orient.OrientDao.getDocument((ORID)value,database) : value;
@@ -78,7 +78,7 @@ public abstract class OrientDao extends Dao {
         if (dimensionFilter!=null)
             whereCondition(colByDim, dimensionFilter, query, parameters);
 
-        return query.length()>0 ? " WHERE " + query.substring(4) : "";
+        return query.length()>0 ? query.substring(4) : null;
     }
 
     private void whereCondition(Map<String,ODocument> colByDim, Map<String, Collection<ColumnValueFilter>> filter, StringBuilder query, Collection<Object> parameterValues) {

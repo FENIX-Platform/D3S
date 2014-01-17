@@ -63,13 +63,13 @@ public class CountryStatDAO extends OrientDao {
 
     //Find method support
     private String createQuery(SearchFilter filter, Collection<Object> parameters, ODocument dataset) {
-        StringBuilder query = new StringBuilder("SELECT FROM CLUSTER:dataset_").append(dataset.field("uid"));
-        query.append(createQueryWhereCondition(filter, parameters, dataset));
+        StringBuilder query = new StringBuilder("SELECT FROM Dataset WHERE datasetID = ?");
+        parameters.add(dataset.field("uid"));
+
+        String whereConditionByDimensionFilter = createQueryWhereCondition(filter, parameters, dataset);
+        if (whereConditionByDimensionFilter!=null)
+            query.append(" AND ").append(whereConditionByDimensionFilter);
+
         return query.toString();
     }
-
-
-    //
-
-
 }
