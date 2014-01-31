@@ -1,20 +1,11 @@
 package org.fao.fenix.msd.services.rest;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import org.fao.fenix.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeConversion;
 import org.fao.fenix.msd.dto.cl.CodePropaedeutic;
@@ -28,276 +19,118 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 public class LoadCodeList implements org.fao.fenix.msd.services.spi.LoadCodeList {
 
 	@Override
-	public Response getCodeList(HttpServletRequest request, String system, String version, Boolean all) {
-		try {
-			CodeSystem systemValue = SpringContext.getBean(Load.class).getCodeList(system, version, all);
-			return systemValue!=null ? Response.ok(systemValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem getCodeList(HttpServletRequest request, String system, String version, Boolean all) throws Exception {
+        return SpringContext.getBean(Load.class).getCodeList(system, version, all);
 	}
 	@Override
 	public Collection<CodeSystem> getCodeList(HttpServletRequest request, Boolean all) throws Exception {
-
-        if (true)
-            throw new Exception("eccezione di test");
         return SpringContext.getBean(Load.class).getCodeList(all);
-/*		try {
-			Collection<CodeSystem> systemValue = SpringContext.getBean(Load.class).getCodeList(all);
-			return systemValue!=null && systemValue.size()>0 ? Response.ok(systemValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
-*/	}
-	
-	@Override
-	public Response getCodesLevel(HttpServletRequest request, String system, String version, int level) {
-		try
-		{				
-			Collection<Code> codes = SpringContext.getBean(Load.class).loadCodesLevel(system, version, level);
-			return codes!=null && codes.size()>0 ? Response.ok(codes).build() : Response.noContent().build();
-		}
-		catch (Exception e)
-		{
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
 	}
 	
 	@Override
-	public Response getCode(HttpServletRequest request,String system, String version, String code, Integer levels)
-	{		
-		if (levels == null)
-			levels = CodeListConverter.ALL_LEVELS;
-		try
-		{				
-			Code branch = SpringContext.getBean(Load.class).loadCode(system, version, code, levels);
-			return branch!=null ? Response.ok(branch).build() : Response.noContent().build();
-		}
-		catch (Exception e)
-		{
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<Code> getCodesLevel(HttpServletRequest request, String system, String version, int level) throws Exception {
+		return SpringContext.getBean(Load.class).loadCodesLevel(system, version, level);
 	}
 	
 	@Override
-	public Response getCodes(HttpServletRequest request,String system, String version, Collection<String> codes, Integer levels)
-	{
-		if (levels == null)
-			levels = CodeListConverter.ALL_LEVELS;
-		try
-		{				
-			Collection<Code> toRet = SpringContext.getBean(Load.class).loadCodes(system, version, codes, levels);
-			return toRet!=null && toRet.size()>0 ? Response.ok(toRet).build() : Response.noContent().build();
-		}
-		catch (Exception e)
-		{
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Code getCode(HttpServletRequest request,String system, String version, String code, Integer levels) throws Exception {
+        return SpringContext.getBean(Load.class).loadCode(system, version, code, levels);
 	}
 	
 	@Override
-	public Response getCodesMap(HttpServletRequest request,String system, String version, Integer levels)
-	{
+	public Collection<Code> getCodes(HttpServletRequest request,String system, String version, Collection<String> codes, Integer levels) throws Exception {
+		return SpringContext.getBean(Load.class).loadCodes(system, version, codes, levels);
+	}
+	
+	@Override
+	public Map<String,Code> getCodesMap(HttpServletRequest request,String system, String version, Integer levels) throws Exception {
 		return getCodesMap(request, system, version, null, levels);
 	}
 	@Override
-	public Response getCodesMap(HttpServletRequest request,String system, String version, String code, Integer levels)
-	{
-		if (levels == null)
-			levels = CodeListConverter.ALL_LEVELS;
-		try
-		{				
-			Map<String,Code> toRet = SpringContext.getBean(Load.class).getCodesMap(system, version, code, levels);
-			return toRet!=null && toRet.size()>0 ? Response.ok(toRet).build() : Response.noContent().build();
-		}
-		catch (Exception e)
-		{
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Map<String,Code> getCodesMap(HttpServletRequest request,String system, String version, String code, Integer levels) throws Exception {
+		return SpringContext.getBean(Load.class).getCodesMap(system, version, code, levels);
 	}
 	//Same as getCodesMap but takes an array of codes instead of a single code
 	@Override
-	public Response getCodesListMap(HttpServletRequest request,String system, String version, Integer levels, Collection<String> codes)
-	{
-		if (levels == null)
-			levels = CodeListConverter.ALL_LEVELS;
-		try
-		{		
-			Map<String,Code> toRet = SpringContext.getBean(Load.class).getCodesMap(system, version, codes, levels);
-			return toRet!=null && toRet.size()>0 ? Response.ok(toRet).build() : Response.noContent().build();
-		}
-		catch (Exception e)
-		{
-			//e.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Map<String,Code> getCodesListMap(HttpServletRequest request,String system, String version, Integer levels, Collection<String> codes) throws Exception {
+		return SpringContext.getBean(Load.class).getCodesMap(system, version, codes, levels);
 	}
 			
 	@Override
-	public Response getKeywords(HttpServletRequest request) {
-		try {
-			Collection<String> systemValue = SpringContext.getBean(Load.class).getKeywords();
-			return systemValue!=null && systemValue.size()>0 ? Response.ok(systemValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<String> getKeywords(HttpServletRequest request) throws Exception {
+		return SpringContext.getBean(Load.class).getKeywords();
 	}
 	
 	//relationships
 	@Override
-	public Response getRelationshipsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom));
 	}
 	@Override
-	public Response getRelationshipsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
 	}
 	@Override
-	public Response getRelationshipsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom));
 	}
 	@Override
-	public Response getRelationshipsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
 	}
 	@Override
-	public Response getRelationshipsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
 	}
 	@Override
-	public Response getRelationshipsFromCLT(HttpServletRequest request, String systemFrom, String versionFrom, String typeCode) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom), CodeRelationshipType.getByCode(typeCode));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCLT(HttpServletRequest request, String systemFrom, String versionFrom, String typeCode) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new CodeSystem(systemFrom, versionFrom), CodeRelationshipType.getByCode(typeCode));
 	}
 	@Override
-	public Response getRelationshipsFromCT(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String typeCode) {
-		try {
-			Collection<CodeRelationship> result = SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), CodeRelationshipType.getByCode(typeCode));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeRelationship> getRelationshipsFromCT(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String typeCode) throws Exception {
+		return SpringContext.getBean(Load.class).getRelationships(new Code(systemFrom, versionFrom, codeFrom), CodeRelationshipType.getByCode(typeCode));
 	}
 	//conversions
 	@Override
-	public Response getConversionsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-		try {
-			Collection<CodeConversion> result = SpringContext.getBean(Load.class).getConversions(new CodeSystem(systemFrom, versionFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeConversion> getConversionsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+		return SpringContext.getBean(Load.class).getConversions(new CodeSystem(systemFrom, versionFrom));
 	}
 	@Override
-	public Response getConversionsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodeConversion> result = SpringContext.getBean(Load.class).getConversions(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeConversion> getConversionsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+		return SpringContext.getBean(Load.class).getConversions(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
 	}
 	@Override
-	public Response getConversionsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-		try {
-			Collection<CodeConversion> result = SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeConversion> getConversionsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+		return SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom));
 	}
 	@Override
-	public Response getConversionsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-		try {
-			Collection<CodeConversion> result = SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeConversion> getConversionsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+		return SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
 	}
 	@Override
-	public Response getConversionsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodeConversion> result = SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodeConversion> getConversionsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+		return SpringContext.getBean(Load.class).getConversions(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
 	}
 	
 	//propaedeutics
 	@Override
-	public Response getPropaedeuticsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-		try {
-			Collection<CodePropaedeutic> result = SpringContext.getBean(Load.class).getPropaedeutics(new CodeSystem(systemFrom, versionFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+        return SpringContext.getBean(Load.class).getPropaedeutics(new CodeSystem(systemFrom, versionFrom));
 	}
 	@Override
-	public Response getPropaedeuticsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodePropaedeutic> result = SpringContext.getBean(Load.class).getPropaedeutics(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+        return SpringContext.getBean(Load.class).getPropaedeutics(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
 	}
 	@Override
-	public Response getPropaedeuticsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-		try {
-			Collection<CodePropaedeutic> result = SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodePropaedeutic> getPropaedeuticsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+        return SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom));
 	}
 	@Override
-	public Response getPropaedeuticsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-		try {
-			Collection<CodePropaedeutic> result = SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+        return SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo));
 	}
 	@Override
-	public Response getPropaedeuticsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-		try {
-			Collection<CodePropaedeutic> result = SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
-			return result!=null && result.size()>0 ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+        return SpringContext.getBean(Load.class).getPropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
 	}
 }

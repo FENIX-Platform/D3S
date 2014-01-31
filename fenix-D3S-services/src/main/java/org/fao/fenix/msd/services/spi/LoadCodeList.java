@@ -1,10 +1,11 @@
 package org.fao.fenix.msd.services.spi;
 
-import org.fao.fenix.msd.dto.cl.CodeSystem;
+import org.fao.fenix.msd.dto.cl.*;
 import org.jboss.resteasy.annotations.GZIP;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -19,7 +20,7 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("system/{system}/{version}")
-	public Response getCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version, @QueryParam("all") @DefaultValue("true") Boolean all);
+	public CodeSystem getCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version, @QueryParam("all") @DefaultValue("true") Boolean all) throws Exception;
 	@GET
     @GZIP
 	@Path("system")
@@ -28,106 +29,106 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("code/{system}/{version}")
-	public Response getCodesLevel(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version, @QueryParam("level") @DefaultValue("1") int level);
+	public Collection<Code> getCodesLevel(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version, @QueryParam("level") @DefaultValue("1") int level) throws Exception;
 	//Returns the code, the children property is filled with the children up to the level passed as param
 	@GET
     @GZIP
 	@Path("code/{system}/{version}/{code}")
-	public Response getCode(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels);
+	public Code getCode(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
 	@POST
     @GZIP
 	@Path("codes/{system}/{version}")
-	public Response getCodes(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, Collection<String> codes, @QueryParam("levels") @DefaultValue("0") Integer levels);
+	public Collection<Code> getCodes(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, Collection<String> codes, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
 		
 	//Returns a Map of code-CodeObject
 	@GET
     @GZIP
 	@Path("codesMap/{system}/{version}")
-	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels);
+	public Map<String,Code> getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
 	@GET
     @GZIP
 	@Path("codesMap/{system}/{version}/{code}")
-	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels);
+	public Map<String,Code> getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
 	@POST
     @GZIP
 	@Path("codesMap/{system}/{version}")
-	public Response getCodesListMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels,  Collection<String> codes);
+	public Map<String,Code> getCodesListMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels,  Collection<String> codes) throws Exception;
 	
 	@GET
     @GZIP
 	@Path("keywords")
-	public Response getKeywords(@Context HttpServletRequest request);
+	public Collection<String> getKeywords(@Context HttpServletRequest request) throws Exception;
 	
 	//relationships
 	@GET
     @GZIP
 	@Path("relationships/fromCL")
-	public Response getRelationshipsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public Collection<CodeRelationship> getRelationshipsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromCLtoCL")
-	public Response getRelationshipsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodeRelationship> getRelationshipsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromC")
-	public Response getRelationshipsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public Collection<CodeRelationship> getRelationshipsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromCtoC")
-	public Response getRelationshipsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public Collection<CodeRelationship> getRelationshipsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromCtoCL")
-	public Response getRelationshipsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodeRelationship> getRelationshipsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromCLT")
-	public Response getRelationshipsFromCLT(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("type") String typeCode);
+	public Collection<CodeRelationship> getRelationshipsFromCLT(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("type") String typeCode) throws Exception;
 	@GET
     @GZIP
 	@Path("relationships/fromCT")
-	public Response getRelationshipsFromCT(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("type") String typeCode);
+	public Collection<CodeRelationship> getRelationshipsFromCT(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("type") String typeCode) throws Exception;
 	//conversions
 	@GET
     @GZIP
 	@Path("conversions/fromCL")
-	public Response getConversionsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public Collection<CodeConversion> getConversionsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("conversions/fromCLtoCL")
-	public Response getConversionsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodeConversion> getConversionsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@GET
     @GZIP
 	@Path("conversions/fromC")
-	public Response getConversionsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public Collection<CodeConversion> getConversionsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("conversions/fromCtoC")
-	public Response getConversionsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public Collection<CodeConversion> getConversionsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@GET
     @GZIP
 	@Path("conversions/fromCtoCL")
-	public Response getConversionsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodeConversion> getConversionsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	
 	//propaedeutics
 	@GET
     @GZIP
 	@Path("propaedeutics/fromCL")
-	public Response getPropaedeuticsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("propaedeutics/fromCLtoCL")
-	public Response getPropaedeuticsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@GET
     @GZIP
 	@Path("propaedeutics/fromC")
-	public Response getPropaedeuticsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@GET
     @GZIP
 	@Path("propaedeutics/fromCtoC")
-	public Response getPropaedeuticsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@GET
     @GZIP
 	@Path("propaedeutics/fromCtoCL")
-	public Response getPropaedeuticsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 }

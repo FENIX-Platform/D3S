@@ -1,149 +1,130 @@
 package org.fao.fenix.msd.services.rest;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 
-import org.fao.fenix.msd.dto.cl.Code;
-import org.fao.fenix.msd.dto.cl.CodeSystem;
+import org.fao.fenix.msd.dto.cl.*;
 import org.fao.fenix.server.services.rest.Service;
-import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 @Path("msd/cl")
 public class LoadCodeList extends Service implements org.fao.fenix.msd.services.spi.LoadCodeList {
 
 	@Override
-	public Response getCodeList(HttpServletRequest request, String system, String version, Boolean all) {
-        return defaultCall(request, CodeSystem.class, system, version, all);
+	public CodeSystem getCodeList(HttpServletRequest request, String system, String version, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodeList(request, system, version, all);
 	}
 	@Override
     public Collection<CodeSystem> getCodeList(HttpServletRequest request, Boolean all) throws Exception {
-        try {
-            return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodeList(request,all);
-        } catch (InternalServerErrorException ex) {
-            throw new Exception("Origin server error: ("+ex.getMessage()+") "+ex.getResponse().readEntity(String.class));
-        }
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodeList(request,all);
     }
 	
 	@Override
-	public Response getKeywords(HttpServletRequest request) {
-        return defaultCall(request, Collection.class);
+	public Collection<String> getKeywords(HttpServletRequest request) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getKeywords(request);
 	}
     @Override
-    public Response getCodesLevel(HttpServletRequest request, String system, String version, int level) {
-        return defaultCall(request, Collection.class, system, version, level);
+    public Collection<Code> getCodesLevel(HttpServletRequest request, String system, String version, int level) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodesLevel(request, system, version, level);
     }
 
 	@Override
-	public Response getCode(HttpServletRequest request, String system, String version, String code, Integer levels) {
-        return defaultCall(request, Code.class, system, version, code, levels);
+	public Code getCode(HttpServletRequest request, String system, String version, String code, Integer levels) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCode(request, system, version, code, levels);
 	}
 
     @Override
-    public Response getCodes(HttpServletRequest request, String system, String version, Collection<String> codes, Integer levels) {
-        return defaultCall(request, Collection.class, system, version, codes, levels);
+    public Collection<Code> getCodes(HttpServletRequest request, String system, String version, Collection<String> codes, Integer levels) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodes(request, system, version, codes, levels);
     }
 
 
     @Override
-	public Response getCodesMap(HttpServletRequest request, String system, String version, Integer levels) {
-        return defaultCall(request, HashMap.class, system, version, levels);
+	public Map<String, Code> getCodesMap(HttpServletRequest request, String system, String version, Integer levels) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodesMap(request, system, version, levels);
 	}
 	@Override
-	public Response getCodesMap(HttpServletRequest request, String system, String version, String code, Integer levels) {
-        return defaultCall(request, HashMap.class, system, version, code, levels);
+	public Map<String, Code> getCodesMap(HttpServletRequest request, String system, String version, String code, Integer levels) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodesMap(request, system, version, code, levels);
 	}
 
     @Override
-    public Response getCodesListMap(HttpServletRequest request, String system, String version, Integer levels, Collection<String> codes) {
-        return defaultCall(request, java.util.Map.class, system, version, levels, codes);
+    public Map<String, Code> getCodesListMap(HttpServletRequest request, String system, String version, Integer levels, Collection<String> codes) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodesListMap(request, system, version, levels, codes);
     }
- /*
-    //relationships
-    @Override
-    public Response getCodesListMap(HttpServletRequest request, String system, String version, Integer levels, String[] codes) {
-        return defaultCall(request, HashMap.class, system, version, levels, codes);
-    }  */
 
 	@Override
-	public Response getRelationshipsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom);
+	public Collection<CodeRelationship> getRelationshipsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCL(request, systemFrom, versionFrom);
 	}
 	@Override
-	public Response getRelationshipsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, systemTo, versionTo);
+	public Collection<CodeRelationship> getRelationshipsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCLToCL(request, systemFrom, versionFrom, systemTo, versionTo);
 	}
 	@Override
-	public Response getRelationshipsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom);
+	public Collection<CodeRelationship> getRelationshipsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromC(request, systemFrom, versionFrom, codeFrom);
 	}
 	@Override
-	public Response getRelationshipsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
+	public Collection<CodeRelationship> getRelationshipsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCtoC(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
 	}
 	@Override
-	public Response getRelationshipsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
+	public Collection<CodeRelationship> getRelationshipsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCtoCL(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
 	}
 	@Override
-	public Response getRelationshipsFromCLT(HttpServletRequest request, String systemFrom, String versionFrom, String typeCode) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, typeCode);
+	public Collection<CodeRelationship> getRelationshipsFromCLT(HttpServletRequest request, String systemFrom, String versionFrom, String typeCode) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCLT(request, systemFrom, versionFrom, typeCode);
 	}
 	@Override
-	public Response getRelationshipsFromCT(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String typeCode) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, typeCode);
+	public Collection<CodeRelationship> getRelationshipsFromCT(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String typeCode) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getRelationshipsFromCT(request, systemFrom, versionFrom, codeFrom, typeCode);
 	}
 	//conversions
 	@Override
-	public Response getConversionsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom);
+	public Collection<CodeConversion> getConversionsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getConversionsFromCL(request, systemFrom, versionFrom);
 	}
 	@Override
-	public Response getConversionsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, systemTo, versionTo);
+	public Collection<CodeConversion> getConversionsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getConversionsFromCLToCL(request, systemFrom, versionFrom, systemTo, versionTo);
 	}
 	@Override
-	public Response getConversionsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom);
+	public Collection<CodeConversion> getConversionsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getConversionsFromC(request, systemFrom, versionFrom, codeFrom);
 	}
 	@Override
-	public Response getConversionsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
+	public Collection<CodeConversion> getConversionsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getConversionsFromCtoC(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
 	}
 	@Override
-	public Response getConversionsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
+	public Collection<CodeConversion> getConversionsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getConversionsFromCtoCL(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
 	}
 	
 	//propaedeutics
 	@Override
-	public Response getPropaedeuticsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getPropaedeuticsFromCL(request, systemFrom, versionFrom);
 	}
 	@Override
-	public Response getPropaedeuticsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, systemTo, versionTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getPropaedeuticsFromCLToCL(request, systemFrom, versionFrom, systemTo, versionTo);
 	}
 	@Override
-	public Response getPropaedeuticsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getPropaedeuticsFromC(request, systemFrom, versionFrom, codeFrom);
 	}
 	@Override
-	public Response getPropaedeuticsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getPropaedeuticsFromCtoC(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo, codeTo);
 	}
 	@Override
-	public Response getPropaedeuticsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) {
-        return defaultCall(request, Collection.class, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
+	public Collection<CodePropaedeutic> getPropaedeuticsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getPropaedeuticsFromCtoCL(request, systemFrom, versionFrom, codeFrom, systemTo, versionTo);
 	}
 
 }

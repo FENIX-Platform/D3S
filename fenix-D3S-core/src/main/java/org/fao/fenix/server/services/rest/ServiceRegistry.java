@@ -21,9 +21,9 @@ import org.fao.fenix.msd.services.rest.StoreDM;
 import org.fao.fenix.msd.services.rest.StoreDSD;
 import org.fao.fenix.search.services.rest.Search;
 
-@ApplicationPath("service")
+@ApplicationPath("/")
 public class ServiceRegistry extends Application {
-	
+
 	@Override public Set<Class<?>> getClasses() { return ServiceRegistry.getResourceClasses(); }
 	
 	public static Set<Class<?>> getResourceClasses() {
@@ -47,6 +47,8 @@ public class ServiceRegistry extends Application {
 		classes.add(MergeCL.class);
 		//CROSS DOMAIN
 		classes.add(CrossDomainInterceptor.class);
+        //ERROR MANAGEMENT
+		classes.add(DefaultErrorManager.class);
         //BACKUP
         classes.add(BackupService.class);
 
