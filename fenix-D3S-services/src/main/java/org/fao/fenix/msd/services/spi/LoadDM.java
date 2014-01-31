@@ -9,9 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("msd/dm")
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-//@Produces(MediaType.APPLICATION_XML)
 public interface LoadDM {
 
 	@GET

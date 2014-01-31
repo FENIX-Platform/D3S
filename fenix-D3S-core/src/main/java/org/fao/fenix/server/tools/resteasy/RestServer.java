@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServlet;
 
 import org.fao.fenix.server.services.rest.ServiceRegistry;
 import org.jboss.resteasy.plugins.server.tjws.TJWSEmbeddedJaxrsServer;
-import org.jboss.resteasy.plugins.spring.SpringBeanProcessor;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.springframework.beans.factory.config.*;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -63,15 +62,7 @@ public class RestServer {
 //        server.setKeepAliveTimeout(3000);
 		initialized = true;
 	}
-	
-	public static void createSpringProcessor() {
-        if (initialized)
-            new SpringBeanProcessor(server.getDeployment().getDispatcher(),
-                    server.getDeployment().getRegistry(),
-                    server.getDeployment().getProviderFactory()).postProcessBeanFactory(new XmlBeanFactory(new ClassPathResource("org/spring/config/applicationContext.xml")));
-            //new SpringBeanProcessor(server.getDeployment()).postProcessBeanFactory(new XmlBeanFactory(new ClassPathResource("org/spring/config/applicationContext.xml")));
-	}
-	
+
 	public static String getPort() {
 		return initialized ? server.getPort() : null;
 	}

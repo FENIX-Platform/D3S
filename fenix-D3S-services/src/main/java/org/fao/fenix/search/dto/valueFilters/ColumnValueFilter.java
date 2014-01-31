@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.dsd.type.DSDDataType;
 import org.fao.fenix.server.utils.DataUtils;

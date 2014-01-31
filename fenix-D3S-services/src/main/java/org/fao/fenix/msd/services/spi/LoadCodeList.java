@@ -1,24 +1,19 @@
 package org.fao.fenix.msd.services.spi;
 
+import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.jboss.resteasy.annotations.GZIP;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("msd/cl")
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+@Consumes
 public interface LoadCodeList {
 
 	@GET
@@ -28,7 +23,7 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("system")
-	public Response getCodeList(@Context HttpServletRequest request, @QueryParam("all") @DefaultValue("false") Boolean all);
+	public Collection<CodeSystem> getCodeList(@Context HttpServletRequest request, @QueryParam("all") @DefaultValue("false") Boolean all) throws Exception;
 	//Returns all the codes at level 0 as property of an empty "root" Code object 
 	@GET
     @GZIP
@@ -38,7 +33,7 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("code/{system}/{version}/{code}")
-	public Response getCode(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") Integer levels);
+	public Response getCode(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels);
 	@POST
     @GZIP
 	@Path("codes/{system}/{version}")
@@ -48,15 +43,15 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("codesMap/{system}/{version}")
-	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") Integer levels);  
+	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels);
 	@GET
     @GZIP
 	@Path("codesMap/{system}/{version}/{code}")
-	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") Integer levels);
+	public Response getCodesMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels);
 	@POST
     @GZIP
 	@Path("codesMap/{system}/{version}")
-	public Response getCodesListMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") Integer levels,  Collection<String> codes);
+	public Response getCodesListMap(@Context HttpServletRequest request,@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels,  Collection<String> codes);
 	
 	@GET
     @GZIP

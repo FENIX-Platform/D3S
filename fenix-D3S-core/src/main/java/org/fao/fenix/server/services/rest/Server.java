@@ -16,8 +16,8 @@ import org.fao.fenix.server.services.impl.AsynchShutdown;
 import org.fao.fenix.server.tools.orient.OrientServer;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
+
 @Path("server")
-@Produces(MediaType.APPLICATION_JSON)
 public class Server implements org.fao.fenix.server.services.spi.Server {
 
     @Override

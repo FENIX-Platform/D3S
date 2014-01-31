@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 
 import org.fao.fenix.server.dto.OrientStatus;
 
-@Path("server")
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 public interface Server {
 

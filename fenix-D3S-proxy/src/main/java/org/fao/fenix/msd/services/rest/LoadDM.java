@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -13,6 +14,7 @@ import org.fao.fenix.msd.dto.dm.DM;
 import org.fao.fenix.msd.dto.dm.DMMeta;
 import org.fao.fenix.server.services.rest.Service;
 
+@Path("msd/dm")
 public class LoadDM extends Service implements org.fao.fenix.msd.services.spi.LoadDM {
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -17,13 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Component
+@Path("msd/dm")
 public class LoadDM implements org.fao.fenix.msd.services.spi.LoadDM {
-
-    private Load loadBusiness;
-    @Autowired public void setLoadBusiness (Load loadBusiness) {
-        this.loadBusiness = loadBusiness;
-    }
 
 	@Override
 	public Response getDatasetMetadata(HttpServletRequest request, String uid, String format, Boolean all) {
@@ -66,7 +62,7 @@ public class LoadDM implements org.fao.fenix.msd.services.spi.LoadDM {
 	@Override
 	public Response getDatasetMetadataLike(HttpServletRequest request, String uid, Boolean all) {
 		try {
-			Collection<DM> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadataLike(uid,all);
+			Collection<DM> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadataLike(uid.replace('*','%'),all);
 			return datasetValue!=null && datasetValue.size()>0 ? Response.ok(datasetValue).build() : Response.noContent().build();
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

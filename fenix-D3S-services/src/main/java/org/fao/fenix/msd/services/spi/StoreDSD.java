@@ -15,7 +15,6 @@ import org.fao.fenix.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.msd.dto.dsd.DSDDimension;
 
-@Path("msd/dsd")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreDSD {
 	//dimension

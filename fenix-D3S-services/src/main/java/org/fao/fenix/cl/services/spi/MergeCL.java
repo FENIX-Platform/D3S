@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 
-@Path("cl/merge")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 public interface MergeCL {

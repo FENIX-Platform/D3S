@@ -2,150 +2,67 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.fao.ess</groupId>
+    <parent>
+        <groupId>org.fao.fenix</groupId>
+        <artifactId>fenix-D3S</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 	<artifactId>fenix-D3S-proxy</artifactId>
-	<version>1.0</version>
 	<packaging>war</packaging>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <resteasy.version>2.3.7.Final</resteasy.version>
-    </properties>
-
 
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<packagingExcludes>**/.svn</packagingExcludes>
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
 					<warName>d3sp</warName>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
+    <!-- PROFILES -->
+    <profiles>
+        <profile>
+            <id>tomcat</id>
 
+            <dependencies>
+                <dependency>
+                    <groupId>org.fao.fenix</groupId>
+                    <artifactId>tomcat-J2EE</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
+    <!-- Dependencies -->
 	<dependencies>
 
 		<!-- Services level interface -->
 		<dependency>
-			<groupId>org.fao.ess</groupId>
+			<groupId>org.fao.fenix</groupId>
 			<artifactId>fenix-D3S-services</artifactId>
-			<version>1.0</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
-		<!-- JSONP support -->
-		<dependency>
-			<groupId>org.fao.ess.widget</groupId>
-			<artifactId>widgetJSONP</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
-		<!-- J2EE -->
-		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-all-6.0</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Cross domain support -->
+        <dependency>
+            <groupId>org.fao.fenix</groupId>
+            <artifactId>fenix-cross-domain</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-		<!-- RestEasy -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-multipart-provider</artifactId>
-			<version>${resteasy.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		
+        <!-- REST client -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>${resteasy.version}</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-
-
-<!-- PROFILES -->
-	<profiles>
-<!-- 	
-		<profile>
-			<id>standard</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webResources>
-								<resource>
-									<directory>src/main/profiles/standard</directory>
-								</resource>
-							</webResources>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
- -->		
-		<profile>
-			<id>tomcat</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<configuration>
-							<webResources>
-								<resource>
-									<directory>src/main/profiles/tomcat</directory>
-								</resource>
-							</webResources>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-
-			<dependencies>
-				<dependency>
-				    <groupId>org.jboss.resteasy</groupId>
-				    <artifactId>resteasy-jaxrs</artifactId>
-				    <version>${resteasy.version}</version>
-				</dependency>
-				
-				<dependency>
-				    <groupId>org.jboss.resteasy</groupId>
-				    <artifactId>resteasy-jackson-provider</artifactId>
-				    <version>${resteasy.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
-  
 </project>

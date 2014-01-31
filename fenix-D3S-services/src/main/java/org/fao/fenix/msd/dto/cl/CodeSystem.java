@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.fao.fenix.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.msd.dto.common.ContactIdentity;
 import org.fao.fenix.server.utils.DataUtils;

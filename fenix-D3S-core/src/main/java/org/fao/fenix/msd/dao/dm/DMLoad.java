@@ -137,7 +137,6 @@ public class DMLoad extends OrientDao {
 	public synchronized Collection<ODocument> loadDatasetMetadataLikeO(String uid,OGraphDatabase database) throws Exception {
 		queryLoadDMWithLike.reset();
 		queryLoadDMWithLike.resetPagination();
-		System.out.println(uid);
 		return (Collection<ODocument>)database.query(queryLoadDMWithLike,uid);
 	}
 	//END of Temp methods to query with "Like" wildcards

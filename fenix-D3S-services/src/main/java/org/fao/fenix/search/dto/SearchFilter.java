@@ -2,7 +2,7 @@ package org.fao.fenix.search.dto;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.fao.fenix.search.dto.valueFilters.ColumnValueFilter;
 import org.fao.fenix.server.utils.JSONUtils;
 

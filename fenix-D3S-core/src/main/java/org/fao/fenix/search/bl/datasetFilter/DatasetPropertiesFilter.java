@@ -73,9 +73,9 @@ public class DatasetPropertiesFilter extends DatasetFilter {
                 query.append(" ]");
             } else {
                 query.append("( ");
-                whereCondition(fieldName, i.next(), query, parameterValues);
+                whereCondition(fieldName, firstFilter, query, parameterValues);
                 while (i.hasNext()) {
-                    query.append("OR ");
+                    query.append(" OR ");
                     whereCondition(fieldName, i.next(), query, parameterValues);
                 }
                 query.append(')');

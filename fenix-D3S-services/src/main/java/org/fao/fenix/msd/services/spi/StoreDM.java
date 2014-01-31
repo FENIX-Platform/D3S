@@ -17,7 +17,6 @@ import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.dm.DM;
 import org.fao.fenix.msd.dto.dm.DMMeta;
 
-@Path("msd/dm")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreDM {
 

@@ -2,7 +2,7 @@ package org.fao.fenix.msd.dto.dsd;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.dto.dsd.type.DSDDataType;
 

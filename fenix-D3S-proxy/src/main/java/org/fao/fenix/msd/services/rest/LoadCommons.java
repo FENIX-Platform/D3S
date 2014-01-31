@@ -3,12 +3,14 @@ package org.fao.fenix.msd.services.rest;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import org.fao.fenix.msd.dto.common.ContactIdentity;
 import org.fao.fenix.msd.dto.common.Publication;
 import org.fao.fenix.server.services.rest.Service;
 
+@Path("msd/cm")
 public class LoadCommons extends Service implements org.fao.fenix.msd.services.spi.LoadCommons {
 
     @Override

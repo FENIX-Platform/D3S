@@ -2,6 +2,7 @@ package org.fao.fenix.cl.services.rest;
 
 import java.util.Collection;
 
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -10,6 +11,7 @@ import org.fao.fenix.cl.services.impl.BasicMergeImpl.MergeType;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
+@Path("cl/merge")
 public class MergeCL implements org.fao.fenix.cl.services.spi.MergeCL {
 
 	@Override

@@ -1,16 +1,13 @@
 package org.fao.fenix.backup.dao;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import org.fao.fenix.backup.dto.BackupMeta;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
 import org.fao.fenix.backup.dto.BackupUnit;
 import org.fao.fenix.server.utils.JSONUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.*;
 

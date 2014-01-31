@@ -14,7 +14,6 @@ import org.fao.fenix.msd.dto.cl.CodePropaedeutic;
 import org.fao.fenix.msd.dto.cl.CodeRelationship;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 
-@Path("msd/cl")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreCodeList {
 

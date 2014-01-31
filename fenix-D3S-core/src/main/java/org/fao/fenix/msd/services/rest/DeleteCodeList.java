@@ -1,6 +1,7 @@
 package org.fao.fenix.msd.services.rest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -15,6 +16,7 @@ import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.services.impl.Delete;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
+@Path("msd/cl")
 public class DeleteCodeList implements org.fao.fenix.msd.services.spi.DeleteCodeList {
 
 	@Override

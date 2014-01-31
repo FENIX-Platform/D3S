@@ -9,7 +9,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("msd/cm")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreCommons {
 

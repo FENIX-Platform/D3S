@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import org.fao.fenix.server.tools.RestClient;
 import org.jboss.resteasy.util.GenericType;
 
-public abstract class Service {
+public abstract class Service extends RestClient {
 
     //INIT
     private static String basePath = "";
@@ -30,6 +30,13 @@ public abstract class Service {
     }
 
 
+    protected <T> T getProxy(Class<T> interfaceClassObj) throws ClassNotFoundException {
+        String path = this.getClass().getAnnotation(Path.class).value();
+        path = basePath + (path.charAt(0)=='/' ? path.substring(1) : path);
+        return getProxy(path, interfaceClassObj);
+    }
+
+
     //STANDARD PROXY CALL
     @SuppressWarnings("unchecked")
 	protected synchronized <T> Response defaultCall (HttpServletRequest request, Class<T> returnType, Object ... parameters) {
@@ -37,15 +44,18 @@ public abstract class Service {
         	T result = makeRequest(request, returnType, parameters);
             return (result!=null ? Response.ok(result) : Response.ok(new HashMap<String,Object>())).build();
         } catch (Throwable e) {
-            return  RestClient.response!=null ?
+/*            return  RestClient.response!=null ?
                     Response.status(RestClient.response.getResponseStatus()).entity(RestClient.response.getEntity(String.class)).build() :
                     Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+*/
+            return null;
         }
     }
 
     private <T> T makeRequest (HttpServletRequest request, Class<T> returnType, Object ... parameters) throws Exception {
     	//Retrieve http method
-    	RestClient.HTTPMethod httpMethod = RestClient.HTTPMethod.valueOf(request.getMethod());
+       	RestClient.HTTPMethod httpMethod = RestClient.HTTPMethod.valueOf(request.getMethod());
+
     	//Define parameters classes
         Class<?>[] parametersClass = new Class<?>[0];
         if (parameters!=null) {
@@ -57,11 +67,12 @@ public abstract class Service {
 
         //Retrieve class and method objects
         StackTraceElement element = Thread.currentThread().getStackTrace()[3];
-        Class<?> classObj = Class.forName(element.getClassName()).getInterfaces()[0];
+        Class<?> serviceClassObj = Class.forName(element.getClassName());
+        Class<?> classObj = serviceClassObj.getInterfaces()[0];
         Method method = classObj.getMethod(element.getMethodName(), parametersClass);
 
         //Retrieve path
-        Path[] paths = {classObj.getAnnotation(Path.class),method.getAnnotation(Path.class)};
+        Path[] paths = {serviceClassObj.getAnnotation(Path.class),method.getAnnotation(Path.class)};
         String path = getPath(paths);
 
         //Retrieve path params, query params and body
@@ -87,7 +98,8 @@ public abstract class Service {
         MediaType sendProtocol = httpMethod==RestClient.HTTPMethod.GET || httpMethod==RestClient.HTTPMethod.DELETE ? MediaType.TEXT_PLAIN_TYPE : MediaType.APPLICATION_JSON_TYPE;
         String[] receiveProtocol = {httpMethod==RestClient.HTTPMethod.GET || httpMethod==RestClient.HTTPMethod.DELETE || httpMethod==RestClient.HTTPMethod.POST ? MediaType.APPLICATION_JSON + "; charset=UTF-8" : MediaType.TEXT_PLAIN};
 
-        return RestClient.request(httpMethod, path, pathParams, queryParams, body, returnType, sendProtocol, receiveProtocol, null);
+//        return RestClient.request(httpMethod, path, pathParams, queryParams, body, returnType, sendProtocol, receiveProtocol, null);
+        return null;
     }
 
 

@@ -7,11 +7,13 @@ import org.fao.fenix.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 
+@Path("msd/dm")
 public class StoreDM extends Service implements org.fao.fenix.msd.services.spi.StoreDM {
 
     @Override

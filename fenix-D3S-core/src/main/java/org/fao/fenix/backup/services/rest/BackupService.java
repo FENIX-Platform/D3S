@@ -7,10 +7,12 @@ import org.fao.fenix.msd.services.impl.Store;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+@Path("backup")
 public class BackupService implements org.fao.fenix.backup.services.spi.BackupService {
     @Override
     public Response saveMsdBackup(HttpServletRequest request) {

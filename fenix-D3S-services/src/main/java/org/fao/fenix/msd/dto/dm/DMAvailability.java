@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.fao.fenix.msd.dto.dm.type.DMStatus;
 
 public class DMAvailability {

@@ -11,15 +11,9 @@ import org.fao.fenix.dataset.dto.DatasetUploadJson;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 
-@Path("dataset")
 public interface Upload {
 
-	
-	@POST
-	@Path("upload/multipart")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadDataset(@MultipartForm DatasetUploadForm data);
-	
+
 	@POST
 	@Path("upload")
 	@Consumes(MediaType.APPLICATION_JSON)

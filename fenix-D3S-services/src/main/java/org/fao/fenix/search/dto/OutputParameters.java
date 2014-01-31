@@ -2,7 +2,7 @@ package org.fao.fenix.search.dto;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.dto.common.ValueOperator;

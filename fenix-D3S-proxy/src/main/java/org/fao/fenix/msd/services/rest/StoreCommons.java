@@ -5,10 +5,12 @@ import org.fao.fenix.msd.dto.common.Publication;
 import org.fao.fenix.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+@Path("msd/cm")
 public class StoreCommons extends Service implements org.fao.fenix.msd.services.spi.StoreCommons {
     @Override
     public Response newContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) {

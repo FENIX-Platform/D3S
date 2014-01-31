@@ -13,7 +13,12 @@ import javax.ws.rs.core.Response;
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.server.services.rest.Service;
+import org.jboss.resteasy.client.ProxyFactory;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
+@Path("msd/cl")
 public class LoadCodeList extends Service implements org.fao.fenix.msd.services.spi.LoadCodeList {
 
 	@Override
@@ -21,9 +26,13 @@ public class LoadCodeList extends Service implements org.fao.fenix.msd.services.
         return defaultCall(request, CodeSystem.class, system, version, all);
 	}
 	@Override
-	public Response getCodeList(HttpServletRequest request, Boolean all) {
-        return defaultCall(request, Collection.class, all);
-	}
+    public Collection<CodeSystem> getCodeList(HttpServletRequest request, Boolean all) throws Exception {
+        try {
+            return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodeList(request,all);
+        } catch (InternalServerErrorException ex) {
+            throw new Exception("Origin server error: ("+ex.getMessage()+") "+ex.getResponse().readEntity(String.class));
+        }
+    }
 	
 	@Override
 	public Response getKeywords(HttpServletRequest request) {

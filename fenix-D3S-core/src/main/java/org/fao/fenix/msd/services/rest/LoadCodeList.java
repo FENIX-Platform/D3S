@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -22,7 +23,8 @@ import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.dto.cl.type.CodeRelationshipType;
 import org.fao.fenix.msd.services.impl.Load;
 import org.fao.fenix.server.tools.spring.SpringContext;
-                       
+
+@Path("msd/cl")
 public class LoadCodeList implements org.fao.fenix.msd.services.spi.LoadCodeList {
 
 	@Override
@@ -35,14 +37,18 @@ public class LoadCodeList implements org.fao.fenix.msd.services.spi.LoadCodeList
 		}
 	}
 	@Override
-	public Response getCodeList(HttpServletRequest request, Boolean all) {
-		try {
+	public Collection<CodeSystem> getCodeList(HttpServletRequest request, Boolean all) throws Exception {
+
+        if (true)
+            throw new Exception("eccezione di test");
+        return SpringContext.getBean(Load.class).getCodeList(all);
+/*		try {
 			Collection<CodeSystem> systemValue = SpringContext.getBean(Load.class).getCodeList(all);
 			return systemValue!=null && systemValue.size()>0 ? Response.ok(systemValue).build() : Response.noContent().build();
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
-	}
+*/	}
 	
 	@Override
 	public Response getCodesLevel(HttpServletRequest request, String system, String version, int level) {
