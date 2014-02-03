@@ -110,13 +110,9 @@ public class Load {
 	public Collection<DM> getDatasetMetadata(boolean all) throws Exception {
 		return dmLoadDAO.loadDatasetMetadata(all);
 	}
-	public DM getDatasetMetadata(String uid) throws Exception { return (DM) getDatasetMetadata(uid, null, true); }
-	public Object getDatasetMetadata(String uid, String format, boolean all) throws Exception {
-        DM metadata = dmLoadDAO.loadDatasetMetadata(uid, all);
-        if (format==null || format.equals(DMMeta.DEFAULT_FORMAT))
-		    return metadata;
-        else
-            return null;  // TODO conversione metadato
+	public DM getDatasetMetadata(String uid) throws Exception { return (DM) getDatasetMetadata(uid, true); }
+	public DM getDatasetMetadata(String uid, boolean all) throws Exception {
+        return dmLoadDAO.loadDatasetMetadata(uid, all);
 	}
 	public Collection<DM> getDatasetMetadataLike(String uid) throws Exception { System.out.println("L1");return getDatasetMetadataLike(uid, true); }
 	public Collection<DM> getDatasetMetadataLike(String uid, boolean all) throws Exception {

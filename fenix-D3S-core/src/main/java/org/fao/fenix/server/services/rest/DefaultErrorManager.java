@@ -11,6 +11,6 @@ public class DefaultErrorManager implements ExceptionMapper<Exception> {
         if (e instanceof NoContentException)
             return Response.noContent().build();
         else
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            return Response.serverError().entity(e.getMessage()).build();
     }
 }

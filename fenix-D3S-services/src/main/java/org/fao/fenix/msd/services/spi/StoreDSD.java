@@ -1,46 +1,43 @@
 package org.fao.fenix.msd.services.spi;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.fao.fenix.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.msd.dto.dsd.DSDDimension;
 
+@Produces
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreDSD {
+
 	//dimension
 	@POST
 	@Path("dimension")
-	public Response newDimension(@Context HttpServletRequest request, DSDDimension dimension);
+	public void newDimension(@Context HttpServletRequest request, DSDDimension dimension) throws Exception;
 	@PUT
 	@Path("dimension")
-	public Response updateDimension(@Context HttpServletRequest request, DSDDimension dimension);
+	public void updateDimension(@Context HttpServletRequest request, DSDDimension dimension) throws Exception;
 	@DELETE
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Path("dimension/{name}")
-	public Response deleteDimension(@Context HttpServletRequest request, @PathParam("name") String name);
+	public void deleteDimension(@Context HttpServletRequest request, @PathParam("name") String name) throws Exception;
+
 	//context system
 	@POST
 	@Path("context")
-	public Response newContextSystem(@Context HttpServletRequest request, DSDContextSystem context);
+	public void newContextSystem(@Context HttpServletRequest request, DSDContextSystem context) throws Exception;
 	@DELETE
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Path("context/{name}")
-	public Response deleteContextSystem(@Context HttpServletRequest request, @PathParam("name") String name);
+	public void deleteContextSystem(@Context HttpServletRequest request, @PathParam("name") String name) throws Exception;
 	
 	//column
 	@PUT
 	@Path("column/{datasetUID}")
-	public Response updateColumn(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, DSDColumn column);
+	public void updateColumn(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, DSDColumn column) throws Exception;
 	
 	
 }

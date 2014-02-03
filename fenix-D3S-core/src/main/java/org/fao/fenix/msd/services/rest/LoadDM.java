@@ -22,61 +22,30 @@ import org.springframework.stereotype.Repository;
 public class LoadDM implements org.fao.fenix.msd.services.spi.LoadDM {
 
 	@Override
-	public Response getDatasetMetadata(HttpServletRequest request, String uid, String format, Boolean all) {
-		try {
-			Object datasetValue = SpringContext.getBean(Load.class).getDatasetMetadata(uid,format,all);
-            //Object datasetValue = loadBusiness.getDatasetMetadata(uid,format,all);
-			return datasetValue!=null ? Response.ok(datasetValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public DM getDatasetMetadata(HttpServletRequest request, String uid, Boolean all) throws Exception {
+		return SpringContext.getBean(Load.class).getDatasetMetadata(uid,all);
 	}
 	@Override
-	public Response getDatasetMetadata(HttpServletRequest request, Boolean all) {
-		try {
-			Collection<DM> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadata(all);
-			return datasetValue!=null && datasetValue.size()>0 ? Response.ok(datasetValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DM> getDatasetMetadata(HttpServletRequest request, Boolean all) throws Exception {
+        return SpringContext.getBean(Load.class).getDatasetMetadata(all);
 	}
 	@Override
-	public Response getDatasetMetadata(HttpServletRequest request, String[] uids, Boolean all) {
-		try {
-			Collection<DM> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadata(uids,all);
-			return datasetValue!=null && datasetValue.size()>0 ? Response.ok(datasetValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DM> getDatasetMetadata(HttpServletRequest request, String[] uids, Boolean all) throws Exception {
+        return SpringContext.getBean(Load.class).getDatasetMetadata(uids,all);
 	}
 	@Override
-	public Response getDatasetMetadataEcho(HttpServletRequest request, String[] uids) {
-		try {
-			Collection<String> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadataEcho(uids);
-			return datasetValue!=null && datasetValue.size()>0 ? Response.ok(datasetValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<String> getDatasetMetadataEcho(HttpServletRequest request, String[] uids) throws Exception {
+        return SpringContext.getBean(Load.class).getDatasetMetadataEcho(uids);
 	}
 
 	@Override
-	public Response getDatasetMetadataLike(HttpServletRequest request, String uid, Boolean all) {
-		try {
-			Collection<DM> datasetValue = SpringContext.getBean(Load.class).getDatasetMetadataLike(uid.replace('*','%'),all);
-			return datasetValue!=null && datasetValue.size()>0 ? Response.ok(datasetValue).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DM> getDatasetMetadataLike(HttpServletRequest request, String uid, Boolean all) throws Exception {
+        return SpringContext.getBean(Load.class).getDatasetMetadataLike(uid.replace('*','%'),all);
 	}
 
     @Override
-    public Response getMetadataStructure(HttpServletRequest request, String uid, Boolean all) {
-        try {
-            Object metadataStructure = SpringContext.getBean(Load.class).getMetadataStructure(uid,all);
-            return metadataStructure!=null? Response.ok(metadataStructure).build() : Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public Object getMetadataStructure(HttpServletRequest request, String uid, Boolean all) throws Exception {
+        return SpringContext.getBean(Load.class).getMetadataStructure(uid,all);
     }
 
 

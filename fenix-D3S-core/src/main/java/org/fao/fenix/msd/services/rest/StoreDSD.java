@@ -4,8 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.NoContentException;
 
 import org.fao.fenix.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.msd.dto.dsd.DSDContextSystem;
@@ -16,64 +15,40 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 
 @Path("msd/dsd")
 public class StoreDSD implements org.fao.fenix.msd.services.spi.StoreDSD {
+
 	//dimension
 	@Override
-	public Response newDimension(@Context HttpServletRequest request, DSDDimension dimension) {
-		try {
-			SpringContext.getBean(Store.class).newDimension(dimension);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newDimension(@Context HttpServletRequest request, DSDDimension dimension) throws Exception {
+		SpringContext.getBean(Store.class).newDimension(dimension);
 	}
 	@Override
-	public Response updateDimension(@Context HttpServletRequest request, DSDDimension dimension) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateDimension(dimension);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void updateDimension(@Context HttpServletRequest request, DSDDimension dimension) throws Exception {
+		if (SpringContext.getBean(Store.class).updateDimension(dimension)<=0)
+            throw new NoContentException("");
 	}
 	@Override
-	public Response deleteDimension(@Context HttpServletRequest request, @PathParam("name") String name) {
-		try {
-			int count =	SpringContext.getBean(Delete.class).deleteDimension(name);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void deleteDimension(@Context HttpServletRequest request, @PathParam("name") String name) throws Exception {
+        if (SpringContext.getBean(Delete.class).deleteDimension(name)<=0)
+            throw new NoContentException("");
 	}
+
 	//context system
 	@Override
-	public Response newContextSystem(@Context HttpServletRequest request, DSDContextSystem context) {
-		try {
-			SpringContext.getBean(Store.class).newContextSystem(context);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newContextSystem(@Context HttpServletRequest request, DSDContextSystem context) throws Exception {
+		SpringContext.getBean(Store.class).newContextSystem(context);
 	}
 	@Override
-	public Response deleteContextSystem(@Context HttpServletRequest request, @PathParam("name") String name) {
-		try {
-			int count =	SpringContext.getBean(Delete.class).deleteContextSystem(name);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void deleteContextSystem(@Context HttpServletRequest request, @PathParam("name") String name) throws Exception {
+        if (SpringContext.getBean(Delete.class).deleteContextSystem(name)<=0)
+            throw new NoContentException("");
 	}
 	
 	//column
 	@Override
-	public Response updateColumn(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, DSDColumn column) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateColumn(uid, column);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
-	}
+	public void updateColumn(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, DSDColumn column) throws Exception {
+        if (SpringContext.getBean(Store.class).updateColumn(uid, column)<=0)
+            throw new NoContentException("");
+    }
 	
 	
 }

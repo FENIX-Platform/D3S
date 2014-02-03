@@ -16,8 +16,8 @@
             "dataType": "code",
             "geoLyer": null,
             "codesLevel": null,
-            "virtualColumn": null,
-            "values": null,
+            "virtualColumn": "INTERNAL",
+            "values": [],
             "title": {
                 "EN": "Partner Country"
             },

@@ -1,5 +1,6 @@
 package org.fao.fenix.msd.services.spi;
 
+import org.fao.fenix.msd.dto.dm.DM;
 import org.fao.fenix.msd.dto.dm.DMMeta;
 import org.jboss.resteasy.annotations.GZIP;
 
@@ -8,34 +9,36 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+@Consumes
 public interface LoadDM {
 
 	@GET
     @GZIP
 	@Path("{datasetUID}")
-	public Response getDatasetMetadata(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, @QueryParam("format") @DefaultValue(DMMeta.DEFAULT_FORMAT) String format, @QueryParam("all") @DefaultValue("true") Boolean all);
+	public DM getDatasetMetadata(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, @QueryParam("all") @DefaultValue("true") Boolean all) throws Exception;
 	@GET
     @GZIP
-	public Response getDatasetMetadata(@Context HttpServletRequest request, @QueryParam("all") @DefaultValue("false") Boolean all);
+	public Collection<DM> getDatasetMetadata(@Context HttpServletRequest request, @QueryParam("all") @DefaultValue("false") Boolean all) throws Exception;
     @GET
     @GZIP
     @Path("like/{datasetUID}")
-    public Response getDatasetMetadataLike(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, @QueryParam("all") @DefaultValue("true") Boolean all);
+    public Collection<DM> getDatasetMetadataLike(@Context HttpServletRequest request, @PathParam("datasetUID") String uid, @QueryParam("all") @DefaultValue("true") Boolean all) throws Exception;
     @POST
     @GZIP
     @Path("list")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getDatasetMetadata(@Context HttpServletRequest request, String[] uids, @QueryParam("all") @DefaultValue("true") Boolean all);
+    public Collection<DM> getDatasetMetadata(@Context HttpServletRequest request, String[] uids, @QueryParam("all") @DefaultValue("true") Boolean all) throws Exception;
     @POST
     @GZIP
     @Path("echo")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getDatasetMetadataEcho(@Context HttpServletRequest request, String[] uids);
+    public Collection<String> getDatasetMetadataEcho(@Context HttpServletRequest request, String[] uids) throws Exception;
 
     @GET
     @GZIP
     @Path("format/{metadataUID}")
-    public Response getMetadataStructure(@Context HttpServletRequest request, @PathParam("metadataUID") String uid, @QueryParam("all") @DefaultValue("false") Boolean all);
+    public Object getMetadataStructure(@Context HttpServletRequest request, @PathParam("metadataUID") String uid, @QueryParam("all") @DefaultValue("false") Boolean all) throws Exception;
 }

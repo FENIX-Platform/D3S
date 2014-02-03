@@ -14,64 +14,65 @@ import org.fao.fenix.msd.dto.cl.CodePropaedeutic;
 import org.fao.fenix.msd.dto.cl.CodeRelationship;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 
+@Produces
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreCodeList {
 
 	//code list
 	@POST
 	@Path("system")
-	public Response newCodeList(@Context HttpServletRequest request, CodeSystem cl);
+	public void newCodeList(@Context HttpServletRequest request, CodeSystem cl) throws Exception;
 	@PUT
 	@Path("system")
-	public Response updateCodeList(@Context HttpServletRequest request, CodeSystem cl);
+	public void updateCodeList(@Context HttpServletRequest request, CodeSystem cl)  throws Exception;
 	@PUT
 	@Path("system/append")
-	public Response appendCodeList(@Context HttpServletRequest request, CodeSystem cl);
+	public void appendCodeList(@Context HttpServletRequest request, CodeSystem cl)  throws Exception;
     @PUT
     @Consumes()
     @Path("system/index/{system}/{version}")
-    public Response restoreCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version);
+    public void restoreCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version)  throws Exception;
     @PUT
     @Consumes()
     @Path("system/index")
-    public Response restoreCodeList(@Context HttpServletRequest request);
+    public void restoreCodeList(@Context HttpServletRequest request)  throws Exception;
 
 	//code
 	@PUT
 	@Path("code")
-	public Response updateCode(@Context HttpServletRequest request, Code code);
+	public void updateCode(@Context HttpServletRequest request, Code code)  throws Exception;
 	
 
 	//keyword
 	@POST
 	@Consumes()
 	@Path("keyword/{keyword}")
-	public Response newKeyword(@Context HttpServletRequest request, @PathParam("keyword") String keyword);
+	public void newKeyword(@Context HttpServletRequest request, @PathParam("keyword") String keyword)  throws Exception;
 
 	//relationship
 	@POST
 	@Path("relationship")
-	public Response newRelationship(@Context HttpServletRequest request, CodeRelationship relation);
+	public void newRelationship(@Context HttpServletRequest request, CodeRelationship relation)  throws Exception;
 	@POST
 	@Path("relationships")
-	public Response newRelationship(@Context HttpServletRequest request, Collection<CodeRelationship> relation);
+	public void newRelationship(@Context HttpServletRequest request, Collection<CodeRelationship> relation)  throws Exception;
 	//conversion
 	@POST
 	@Path("conversion")
-	public Response newConversion(@Context HttpServletRequest request, CodeConversion conversion);
+	public void newConversion(@Context HttpServletRequest request, CodeConversion conversion)  throws Exception;
 	@POST
 	@Path("conversions")
-	public Response newConversion(@Context HttpServletRequest request, Collection<CodeConversion> conversion);
+	public void newConversion(@Context HttpServletRequest request, Collection<CodeConversion> conversion)  throws Exception;
 	@PUT
 	@Path("conversion")
-	public Response updateConversion(@Context HttpServletRequest request, CodeConversion conversion);
+	public void updateConversion(@Context HttpServletRequest request, CodeConversion conversion)  throws Exception;
 	//propaedeutic
 	@POST
 	@Path("propaedeutic")
-	public Response newPropaedeutic(@Context HttpServletRequest request, CodePropaedeutic propaedeutic);
+	public void newPropaedeutic(@Context HttpServletRequest request, CodePropaedeutic propaedeutic)  throws Exception;
 	@POST
 	@Path("propaedeutics")
-	public Response newPropaedeutic(@Context HttpServletRequest request, Collection<CodePropaedeutic> propaedeutic);
+	public void newPropaedeutic(@Context HttpServletRequest request, Collection<CodePropaedeutic> propaedeutic)  throws Exception;
 
 
 

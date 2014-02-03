@@ -1,10 +1,124 @@
-{"language":"EN","owner":null,"provider":null,"description":{"EN":"dataset description 1","IT":"descrizione dataset 1"},"source":{"id":"8_0"},"dataType":"dt1","title":{"EN":"dataset title 1","IT":"titolo dataset 1"},"region":{"systemKey":"sys1","systemVersion":"1.0","code":"code 1"},"supplemental":{"EN":"dataset supplemental 1","IT":"note dataset 1"}, "uid":"d2","creationDate":1362610800000,"updateDate":1362610800000,"dataKind":"d1","periodicity":"dayly","copyright":"sharedPolicy","completeness":"1","accuracy":"accuracy 1","processing":"processing 1",
+{"language": "EN", "owner": null, "provider": null, "description": {
+    "EN": "dataset description 1",
+    "IT": "descrizione dataset 1"
+}, "source": {
+    "id": "8_0"
+}, "dataType": "dt1", "title": {
+    "EN": "dataset title 1",
+    "IT": "titolo dataset 1"
+}, "region": {
+    "systemKey": "sys1",
+    "systemVersion": "1.0",
+    "code": "code 1"
+}, "supplemental": {
+    "EN": "dataset supplemental 1",
+    "IT": "note dataset 1"
+}, "uid": "d2", "creationDate": 1362610800000, "updateDate": 1362610800000, "dataKind": "d1", "periodicity": "dayly", "copyright": "sharedPolicy", "completeness": "1", "accuracy": "accuracy 1", "processing": "processing 1",
 
-"dsd":{"contextSystem":{"name":"context 1"},"startDate":1362610800000,"endDate":1362610800000,"supplemental":{"EN":"dataset note 1","IT":"note dataset 1"},"datasource":{"daoClassName":"dao class 1","reference":{"psw":"password1","usr":"user1"}},
-"columns":[
-{"values":["value 1","value 2"],"dataType":"text","dimension":{"name":"dimension 1"},"title":{"EN":"column title 1","IT":"titolo colonna 1"},"supplemental":{"EN":"column notes 1","IT":"note colonna 1"},"columnId":"column 1","codesLevel":2,"virtualColumn":"virtual column ID 1","geoLyer":"geo layer 1","codeSystem":{"version":"1.0","system":"sys1"}},
-{"values":[3,4],"dataType":"number","dimension":{"name":"ELEMENT"},"title":{"EN":"column title 2","IT":"titolo colonna 2"},"supplemental":{"EN":"column notes 2","IT":"note colonna 2"},"columnId":"column 2","codesLevel":3,"virtualColumn":"virtual column ID 2","geoLyer":"geo layer 2","codeSystem":{"version":"1.0","system":"sys1"}}
-]},
+    "dsd": {
+        "contextSystem": {
+            "name": "context 1"
+        },
+        "startDate": 1362610800000,
+        "endDate": 1362610800000,
+        "supplemental": {
+            "EN": "dataset note 1",
+            "IT": "note dataset 1"
+        },
+        "datasource": {
+            "daoClassName": "dao class 1",
+            "reference": {
+                "psw": "password1",
+                "usr": "user1"
+            }
+        },
+        "columns": [
+            {
+                "values": ["value 1", "value 2"],
+                "dataType": "text",
+                "dimension": {
+                    "name": "dimension 1"
+                },
+                "title": {
+                    "EN": "column title 1",
+                    "IT": "titolo colonna 1"
+                },
+                "supplemental": {
+                    "EN": "column notes 1",
+                    "IT": "note colonna 1"
+                },
+                "columnId": "column 1",
+                "codesLevel": 2,
+                "virtualColumn": "virtual column ID 1",
+                "geoLyer": "geo layer 1",
+                "codeSystem": {
+                    "version": "1.0",
+                    "system": "sys1"
+                }
+            },
+            {
+                "values": [3, 4],
+                "dataType": "number",
+                "dimension": {
+                    "name": "ELEMENT"
+                },
+                "title": {
+                    "EN": "column title 2",
+                    "IT": "titolo colonna 2"
+                },
+                "supplemental": {
+                    "EN": "column notes 2",
+                    "IT": "note colonna 2"
+                },
+                "columnId": "column 2",
+                "codesLevel": 3,
+                "virtualColumn": "virtual column ID 2",
+                "geoLyer": "geo layer 2",
+                "codeSystem": {
+                    "version": "1.0",
+                    "system": "sys1"
+                }
+            }
+        ]
+    },
 
-"availability":{"status":"toUpload","chunksNumber":10,"chunksIndex":[1,3,7]},"categories":[{"systemKey":"sys1","systemVersion":"1.0","code":"code 1"},{"systemKey":"sys1","systemVersion":"1.0","code":"code 4"}],"contacts":[],"transferOptions":[{"description":{"EN":"link description 1","IT":"descrizione link 1"},"title":{"EN":"link title 1","IT":"titolo link 1"},"link":"http://host/link1"},{"description":{"EN":"link description 1","IT":"descrizione link 1"},"title":{"EN":"link title 1","IT":"titolo link 1"},"link":"http://host/link1"}],
-"freeExtension":null}
+    "availability": {
+        "status": "toUpload",
+        "chunksNumber": 10,
+        "chunksIndex": [1, 3, 7]
+    }, "categories": [
+    {
+        "systemKey": "sys1",
+        "systemVersion": "1.0",
+        "code": "code 1"
+    },
+    {
+        "systemKey": "sys1",
+        "systemVersion": "1.0",
+        "code": "code 4"
+    }
+], "contacts": [], "transferOptions": [
+    {
+        "description": {
+            "EN": "link description 1",
+            "IT": "descrizione link 1"
+        },
+        "title": {
+            "EN": "link title 1",
+            "IT": "titolo link 1"
+        },
+        "link": "http://host/link1"
+    },
+    {
+        "description": {
+            "EN": "link description 1",
+            "IT": "descrizione link 1"
+        },
+        "title": {
+            "EN": "link title 1",
+            "IT": "titolo link 1"
+        },
+        "link": "http://host/link1"
+    }
+],
+    "freeExtension": null}

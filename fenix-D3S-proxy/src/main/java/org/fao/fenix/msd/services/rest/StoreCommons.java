@@ -6,34 +6,31 @@ import org.fao.fenix.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 @Path("msd/cm")
 public class StoreCommons extends Service implements org.fao.fenix.msd.services.spi.StoreCommons {
     @Override
-    public Response newContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) {
-        return defaultCall(request, String.class, contactIdentity);
+    public String newContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreCommons.class).newContactIdentity(request, contactIdentity);
     }
 
     @Override
-    public Response updateContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) {
-        return defaultCall(request, null, contactIdentity);
+    public void updateContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreCommons.class).updateContactIdentity(request, contactIdentity);
     }
 
     @Override
-    public Response appendContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) {
-        return defaultCall(request, null, contactIdentity);
+    public void appendContactIdentity(HttpServletRequest request, ContactIdentity contactIdentity) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreCommons.class).appendContactIdentity(request, contactIdentity);
     }
 
     @Override
-    public Response deleteContactIdentity(HttpServletRequest request, String contactID) {
-        return defaultCall(request, null, contactID);
+    public void deleteContactIdentity(HttpServletRequest request, String contactID) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreCommons.class).deleteContactIdentity(request, contactID);
     }
 
     @Override
-    public Response newPublication(HttpServletRequest request, Publication publication) {
-        return defaultCall(request, String.class, publication);
+    public String newPublication(HttpServletRequest request, Publication publication) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreCommons.class).newPublication(request, publication);
     }
 }

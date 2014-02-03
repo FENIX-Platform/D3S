@@ -9,29 +9,30 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Produces
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreCommons {
 
     @POST
     @Path("contact")
-    public Response newContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity);
+    public String newContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity) throws Exception;
 
     @PUT
     @Path("contact")
-    public Response updateContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity);
+    public void updateContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity) throws Exception;
 
     @PUT
     @Path("contact/append")
-    public Response appendContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity);
+    public void appendContactIdentity(@Context HttpServletRequest request, ContactIdentity contactIdentity) throws Exception;
 
     @DELETE
     @Path("contact/{contactID}")
     @Consumes()
-    public Response deleteContactIdentity(HttpServletRequest request, @PathParam("contactID") String contactID);
+    public void deleteContactIdentity(HttpServletRequest request, @PathParam("contactID") String contactID) throws Exception;
 
     @POST
     @Path("publication")
-    public Response newPublication(@Context HttpServletRequest request, Publication publication);
+    public String newPublication(@Context HttpServletRequest request, Publication publication) throws Exception;
 
 
 }

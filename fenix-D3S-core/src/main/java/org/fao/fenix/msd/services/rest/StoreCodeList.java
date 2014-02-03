@@ -5,8 +5,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.NoContentException;
 
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeConversion;
@@ -21,139 +20,75 @@ public class StoreCodeList implements org.fao.fenix.msd.services.spi.StoreCodeLi
 
 	//code list
 	@Override
-	public Response newCodeList(HttpServletRequest request, CodeSystem cl) {
-		try {
-			SpringContext.getBean(Store.class).newCodeList(cl);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newCodeList(HttpServletRequest request, CodeSystem cl) throws Exception {
+		SpringContext.getBean(Store.class).newCodeList(cl);
 	}
 	@Override
-	public Response updateCodeList(HttpServletRequest request, CodeSystem cl) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateCodeList(cl,true);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void updateCodeList(HttpServletRequest request, CodeSystem cl) throws Exception {
+		if (SpringContext.getBean(Store.class).updateCodeList(cl,true)<=0)
+            throw new NoContentException("");
 	}
 	@Override
-	public Response appendCodeList(HttpServletRequest request, CodeSystem cl) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateCodeList(cl,true);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void appendCodeList(HttpServletRequest request, CodeSystem cl) throws Exception {
+        if (SpringContext.getBean(Store.class).updateCodeList(cl,true)<=0)
+            throw new NoContentException("");
 	}
     @Override
-    public Response restoreCodeList(HttpServletRequest request) {
-        try {
-            int count =	SpringContext.getBean(Store.class).codeListIndex(null, null);
-            return count>0 ? Response.ok(count).build() : Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public void restoreCodeList(HttpServletRequest request) throws Exception {
+        if (SpringContext.getBean(Store.class).codeListIndex(null, null)<=0)
+            throw new NoContentException("");
     }
     @Override
-    public Response restoreCodeList(HttpServletRequest request, String system, String version) {
-        try {
-            int count =	SpringContext.getBean(Store.class).codeListIndex(system, version);
-            return count>0 ? Response.ok(count).build() : Response.noContent().build();
-        } catch (Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public void restoreCodeList(HttpServletRequest request, String system, String version) throws Exception {
+        if (SpringContext.getBean(Store.class).codeListIndex(system, version)<=0)
+            throw new NoContentException("");
     }
 
     //code
 	@Override
-	public Response updateCode(HttpServletRequest request, Code code) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateCode(code);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void updateCode(HttpServletRequest request, Code code) throws Exception {
+        if (SpringContext.getBean(Store.class).updateCode(code)<=0)
+            throw new NoContentException("");
 	}
 	
 
 	//keyword
 	@Override
-	public Response newKeyword(HttpServletRequest request, @PathParam("keyword") String keyword) {
-		try {
-			SpringContext.getBean(Store.class).newKeyword(keyword);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newKeyword(HttpServletRequest request, @PathParam("keyword") String keyword) throws Exception {
+		SpringContext.getBean(Store.class).newKeyword(keyword);
 	}
 
 	//relationship
 	@Override
-	public Response newRelationship(HttpServletRequest request, CodeRelationship relation) {
-		try {
-			SpringContext.getBean(Store.class).newRelationship(relation);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newRelationship(HttpServletRequest request, CodeRelationship relation) throws Exception {
+		SpringContext.getBean(Store.class).newRelationship(relation);
 	}
 	@Override
-	public Response newRelationship(HttpServletRequest request, Collection<CodeRelationship> relation) {
-		try {
-			SpringContext.getBean(Store.class).newRelationship(relation);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newRelationship(HttpServletRequest request, Collection<CodeRelationship> relation) throws Exception {
+		SpringContext.getBean(Store.class).newRelationship(relation);
 	}
 	//conversion
 	@Override
-	public Response newConversion(HttpServletRequest request, CodeConversion conversion) {
-		try {
-			SpringContext.getBean(Store.class).newConversion(conversion);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newConversion(HttpServletRequest request, CodeConversion conversion) throws Exception {
+		SpringContext.getBean(Store.class).newConversion(conversion);
 	}
 	@Override
-	public Response newConversion(HttpServletRequest request, Collection<CodeConversion> conversion) {
-		try {
-			SpringContext.getBean(Store.class).newConversion(conversion);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newConversion(HttpServletRequest request, Collection<CodeConversion> conversion) throws Exception {
+		SpringContext.getBean(Store.class).newConversion(conversion);
 	}
 	@Override
-	public Response updateConversion(HttpServletRequest request, CodeConversion conversion) {
-		try {
-			int count =	SpringContext.getBean(Store.class).updateConversion(conversion);
-			return count>0 ? Response.ok().build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void updateConversion(HttpServletRequest request, CodeConversion conversion) throws Exception {
+        if (SpringContext.getBean(Store.class).updateConversion(conversion)<=0)
+            throw new NoContentException("");
 	}
 	//propaedeutic
 	@Override
-	public Response newPropaedeutic(HttpServletRequest request, CodePropaedeutic propaedeutic) {
-		try {
-			SpringContext.getBean(Store.class).newPropaedeutic(propaedeutic);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newPropaedeutic(HttpServletRequest request, CodePropaedeutic propaedeutic) throws Exception {
+		SpringContext.getBean(Store.class).newPropaedeutic(propaedeutic);
 	}
 	@Override
-	public Response newPropaedeutic(HttpServletRequest request, Collection<CodePropaedeutic> propaedeutic) {
-		try {
-			SpringContext.getBean(Store.class).newPropaedeutic(propaedeutic);
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void newPropaedeutic(HttpServletRequest request, Collection<CodePropaedeutic> propaedeutic) throws Exception {
+		SpringContext.getBean(Store.class).newPropaedeutic(propaedeutic);
 	}
 
 }

@@ -6,68 +6,64 @@ import org.fao.fenix.msd.dto.dm.DMMeta;
 import org.fao.fenix.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 @Path("msd/dm")
 public class StoreDM extends Service implements org.fao.fenix.msd.services.spi.StoreDM {
 
     @Override
-    public Response newDatasetMetadata(HttpServletRequest request, DM dm) {
-        return defaultCall(request, String.class, dm);
+    public String newDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newDatasetMetadata(request, dm);
     }
 
     @Override
-    public Response indexDatasetMetadata(HttpServletRequest request, String uid) {
-        return defaultCall(request, null, uid);
+    public void indexDatasetMetadata(HttpServletRequest request, String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetMetadata(request, uid);
     }
 
     @Override
-    public Response indexDatasetsRebuild(@Context HttpServletRequest request) {
-        return defaultCall(request, null);
+    public void indexDatasetsRebuild(HttpServletRequest request) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetsRebuild(request);
     }
 
     @Override
-    public Response updateDatasetMetadata(HttpServletRequest request, DM dm) {
-        return defaultCall(request, null, dm);
+    public void updateDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateDatasetMetadata(request, dm);
     }
 
     @Override
-    public Response appendDatasetMetadata(HttpServletRequest request, DM dm) {
-        return defaultCall(request, null, dm);
+    public void appendDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendDatasetMetadata(request, dm);
     }
 
     @Override
-    public Response deleteDatasetMetadata(HttpServletRequest request, String uid) {
-        return defaultCall(request, null, uid);
+    public void deleteDatasetMetadata(HttpServletRequest request, String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteDatasetMetadata(request, uid);
     }
 
     @Override
-    public Response newMetadataStructure(HttpServletRequest request, DMMeta mm) {
-        return defaultCall(request, String.class, mm);
+    public String newMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newMetadataStructure(request, mm);
     }
 
     @Override
-    public Response updateMetadataStructure(HttpServletRequest request, DMMeta mm) {
-        return defaultCall(request, null, mm);
+    public void updateMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateMetadataStructure(request, mm);
     }
 
     @Override
-    public Response appendMetadataStructure(HttpServletRequest request, DMMeta mm) {
-        return defaultCall(request, null, mm);
+    public void appendMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendMetadataStructure(request, mm);
     }
 
     @Override
-    public Response deleteMetadataStructure(HttpServletRequest request, String uid) {
-        return defaultCall(request, null, uid);
+    public void deleteMetadataStructure(HttpServletRequest request, String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteMetadataStructure(request, uid);
     }
 
     @Override
-    public Response addCategoriesToDataset(HttpServletRequest request, String uid, Collection<Code> listOfCodes) {
-        return defaultCall(request, null, uid, listOfCodes);
+    public void addCategoriesToDataset(HttpServletRequest request, String uid, Collection<Code> listOfCodes) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).addCategoriesToDataset(request, uid, listOfCodes);
     }
 }

@@ -18,31 +18,16 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 public class LoadDSD implements org.fao.fenix.msd.services.spi.LoadDSD {
 
 	@Override
-	public Response getDatasources(@Context HttpServletRequest request) {
-		try {
-			Collection<DSDDatasource> datasetValue = SpringContext.getBean(Load.class).getDatasources();
-			return Response.ok(datasetValue).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DSDDatasource> getDatasources(@Context HttpServletRequest request) throws Exception {
+        return SpringContext.getBean(Load.class).getDatasources();
 	}
 	@Override
-	public Response getDimensions(@Context HttpServletRequest request) {
-		try {
-			Collection<DSDDimension> datasetValue = SpringContext.getBean(Load.class).getDimensions();
-			return Response.ok(datasetValue).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DSDDimension> getDimensions(@Context HttpServletRequest request) throws Exception {
+        return SpringContext.getBean(Load.class).getDimensions();
 	}
 	@Override
-	public Response getContextSystems(@Context HttpServletRequest request) {
-		try {
-			Collection<DSDContextSystem> datasetValue = SpringContext.getBean(Load.class).getContextSystems();
-			return Response.ok(datasetValue).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Collection<DSDContextSystem> getContextSystems(@Context HttpServletRequest request) throws Exception {
+		return SpringContext.getBean(Load.class).getContextSystems();
 	}
 	
 }

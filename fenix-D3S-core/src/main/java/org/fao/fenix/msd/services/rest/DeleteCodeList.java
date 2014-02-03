@@ -2,6 +2,7 @@ package org.fao.fenix.msd.services.rest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.NoContentException;
 
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeConversion;
@@ -16,75 +17,92 @@ public class DeleteCodeList implements org.fao.fenix.msd.services.spi.DeleteCode
 
 	@Override
 	public void deleteCodeList(HttpServletRequest request, String system, String version) throws Exception {
-        SpringContext.getBean(Delete.class).deleteCodeList(system, version);
+        if (SpringContext.getBean(Delete.class).deleteCodeList(system, version)<=0)
+            throw new NoContentException("");
 	}
 	
 	@Override
 	public void deleteKeyword(HttpServletRequest request, String keyword) throws Exception {
-		SpringContext.getBean(Delete.class).deleteKeyword(keyword);
+        if (SpringContext.getBean(Delete.class).deleteKeyword(keyword)<=0)
+            throw new NoContentException("");
 	}
 	//relationships
 	@Override
 	public void deleteRelationshipsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteRelationships(new CodeRelationship(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)));
+        if (SpringContext.getBean(Delete.class).deleteRelationships(new CodeRelationship(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteRelationshipsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deleteRelationships(new CodeSystem(systemFrom, versionFrom));
+        if (SpringContext.getBean(Delete.class).deleteRelationships(new CodeSystem(systemFrom, versionFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteRelationshipsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteRelationships(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deleteRelationships(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteRelationshipsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deleteRelationships(new Code(systemFrom, versionFrom, codeFrom));
+        if (SpringContext.getBean(Delete.class).deleteRelationships(new Code(systemFrom, versionFrom, codeFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteRelationshipsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteRelationships(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deleteRelationships(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	//conversions
 	@Override
 	public void deleteConversionsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteConversions(new CodeConversion(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)));
+        if (SpringContext.getBean(Delete.class).deleteConversions(new CodeConversion(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteConversionsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deleteConversions(new CodeSystem(systemFrom, versionFrom));
+        if (SpringContext.getBean(Delete.class).deleteConversions(new CodeSystem(systemFrom, versionFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteConversionsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteConversions(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deleteConversions(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteConversionsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deleteConversions(new Code(systemFrom, versionFrom, codeFrom));
+        if (SpringContext.getBean(Delete.class).deleteConversions(new Code(systemFrom, versionFrom, codeFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deleteConversionsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deleteConversions(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deleteConversions(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	//propaedeutics
 	@Override
 	public void deletePropaedeuticsFromCtoC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo, String codeTo) throws Exception {
-		SpringContext.getBean(Delete.class).deletePropaedeutics(new CodePropaedeutic(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)));
+        if (SpringContext.getBean(Delete.class).deletePropaedeutics(new CodePropaedeutic(new Code(systemFrom, versionFrom, codeFrom), new Code(systemTo, versionTo, codeTo)))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deletePropaedeuticsFromCL(HttpServletRequest request, String systemFrom, String versionFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deletePropaedeutics(new CodeSystem(systemFrom, versionFrom));
+        if (SpringContext.getBean(Delete.class).deletePropaedeutics(new CodeSystem(systemFrom, versionFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deletePropaedeuticsFromCLToCL(HttpServletRequest request, String systemFrom, String versionFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deletePropaedeutics(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deletePropaedeutics(new CodeSystem(systemFrom, versionFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deletePropaedeuticsFromC(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom) throws Exception {
-		SpringContext.getBean(Delete.class).deletePropaedeutics(new Code(systemFrom, versionFrom, codeFrom));
+        if (SpringContext.getBean(Delete.class).deletePropaedeutics(new Code(systemFrom, versionFrom, codeFrom))<=0)
+            throw new NoContentException("");
 	}
 	@Override
 	public void deletePropaedeuticsFromCtoCL(HttpServletRequest request, String systemFrom, String versionFrom, String codeFrom, String systemTo, String versionTo) throws Exception {
-		SpringContext.getBean(Delete.class).deletePropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo));
+        if (SpringContext.getBean(Delete.class).deletePropaedeutics(new Code(systemFrom, versionFrom, codeFrom), new CodeSystem(systemTo, versionTo))<=0)
+            throw new NoContentException("");
 	}
 	
 }

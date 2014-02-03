@@ -18,31 +18,31 @@ import org.fao.fenix.server.services.rest.Service;
 public class LoadDM extends Service implements org.fao.fenix.msd.services.spi.LoadDM {
 
 	@Override
-	public Response getDatasetMetadata(HttpServletRequest request, String uid, String format, Boolean all) {
-        return defaultCall(request, DM.class, uid, format, all);
+	public DM getDatasetMetadata(HttpServletRequest request, String uid, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getDatasetMetadata(request, uid, all);
 	}
 	@Override
-	public Response getDatasetMetadata(HttpServletRequest request, Boolean all) {
-        return defaultCall(request, Collection.class, all);
+	public Collection<DM> getDatasetMetadata(HttpServletRequest request, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getDatasetMetadata(request, all);
 	}
 
     @Override
-    public Response getDatasetMetadataLike(HttpServletRequest request, String uid, Boolean all) {
-        return defaultCall(request, DM.class, uid, all);
+    public Collection<DM> getDatasetMetadataLike(HttpServletRequest request, String uid, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getDatasetMetadataLike(request, uid, all);
     }
 
     @Override
-    public Response getDatasetMetadata(HttpServletRequest request, String[] uids, Boolean all) {
-        return defaultCall(request, Collection.class, uids, all);
+    public Collection<DM> getDatasetMetadata(HttpServletRequest request, String[] uids, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getDatasetMetadata(request, uids, all);
     }
     @Override
-    public Response getDatasetMetadataEcho(HttpServletRequest request, String[] uids) {
-        return defaultCall(request, Collection.class, uids);
+    public Collection<String> getDatasetMetadataEcho(HttpServletRequest request, String[] uids) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getDatasetMetadataEcho(request, uids);
     }
 
     @Override
-    public Response getMetadataStructure(HttpServletRequest request, String uid, Boolean all) {
-        return defaultCall(request, DMMeta.class, uid, all);
+    public Object getMetadataStructure(HttpServletRequest request, String uid, Boolean all) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadDM.class).getMetadataStructure(request, uid, all);
     }
 
 
