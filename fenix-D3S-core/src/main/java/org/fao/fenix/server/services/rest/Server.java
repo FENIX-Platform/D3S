@@ -3,11 +3,7 @@ package org.fao.fenix.server.services.rest;
 import java.util.Map;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import org.fao.fenix.cache.impl.RamCache;
 import org.fao.fenix.msd.dao.Cleaner;
 import org.fao.fenix.msd.dao.dm.DMIndexStore;
 import org.fao.fenix.server.dto.OrientStatus;
@@ -21,54 +17,29 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 public class Server implements org.fao.fenix.server.services.spi.Server {
 
     @Override
-	public Response createMetadataIndex() throws Exception {
-		try {
-            SpringContext.getBean(DMIndexStore.class).createDynamicIndexStructure();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void createMetadataIndex() throws Exception {
+		SpringContext.getBean(DMIndexStore.class).createDynamicIndexStructure();
 	}
 
     @Override
-	public Response rebuildMetadataIndex() throws Exception {
-		try {
-            SpringContext.getBean(DMIndexStore.class).rebuildIndexes();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void rebuildMetadataIndex() throws Exception {
+		SpringContext.getBean(DMIndexStore.class).rebuildIndexes();
 	}
 
     @Override
-	public Response removeMetadataIndex() throws Exception {
-		try {
-            SpringContext.getBean(DMIndexStore.class).removeIndexes();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void removeMetadataIndex() throws Exception {
+		SpringContext.getBean(DMIndexStore.class).removeIndexes();
 	}
 
     @Override
-	public Response startupSequence() throws Exception {
-		try {
-			MainController.startupModules();
-            MainController.startupOperations();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void startupSequence() throws Exception {
+        MainController.startupModules();
+        MainController.startupOperations();
 	}
 
     @Override
-	public Response stopServer() {
-		try {
-			SpringContext.getBean(AsynchShutdown.class).start();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void stopServer() throws Exception {
+		SpringContext.getBean(AsynchShutdown.class).start();
 	}
 
     @Override
@@ -98,13 +69,8 @@ public class Server implements org.fao.fenix.server.services.spi.Server {
 	}
 
     @Override
-	public Response deleteMsdData() {
-		try {
-			SpringContext.getBean(Cleaner.class).cleanALL();
-			return Response.ok().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public void deleteMsdData() throws Exception {
+		SpringContext.getBean(Cleaner.class).cleanALL();
 	}
 	
 

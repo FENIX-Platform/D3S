@@ -11,20 +11,19 @@ import org.fao.fenix.dataset.services.DatasetStore;
 import org.fao.fenix.dataset.services.impl.DefaultDatasetStore;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
+import java.util.Collection;
+
 
 @Path("dataset")
 public class Upload implements org.fao.fenix.dataset.services.spi.Upload {
 
 
 	@Override
-	public Response uploadDataset(DatasetUploadJson data) { return defaultUploadDataset(data); }
+	public String uploadDataset(DatasetUploadJson data) throws Exception {
+        return defaultUploadDataset(data);
+    }
 	
-	private <T> Response defaultUploadDataset(DatasetUpload<T> data) {
-		DatasetStore store = SpringContext.getBean(DefaultDatasetStore.class);
-		try {
-			return Response.ok(store.storeDataset(data)).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	private <T> String defaultUploadDataset(DatasetUpload<T> data) throws Exception {
+		return SpringContext.getBean(DefaultDatasetStore.class).storeDataset(data);
 	}
 }

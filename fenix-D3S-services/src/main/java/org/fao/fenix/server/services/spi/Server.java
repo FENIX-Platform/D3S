@@ -4,26 +4,26 @@ import java.util.Map;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.fao.fenix.server.dto.OrientStatus;
 
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+@Consumes
 public interface Server {
 
     @POST
     @Path("metadata/index")
-    public Response createMetadataIndex() throws Exception;
+    public void createMetadataIndex() throws Exception;
     @PUT
     @Path("metadata/index")
-    public Response rebuildMetadataIndex() throws Exception;
+    public void rebuildMetadataIndex() throws Exception;
     @DELETE
     @Path("metadata/index")
-    public Response removeMetadataIndex() throws Exception;
+    public void removeMetadataIndex() throws Exception;
     @POST
-    public Response startupSequence() throws Exception;
+    public void startupSequence() throws Exception;
     @DELETE
-    public Response stopServer();
+    public void stopServer() throws Exception;
 
     @GET
     @Path("init/parameters")
@@ -49,6 +49,6 @@ public interface Server {
 
     @DELETE
     @Path("database/msd")
-    public Response deleteMsdData();
+    public void deleteMsdData() throws Exception;
 
 }

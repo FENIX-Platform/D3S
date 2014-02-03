@@ -15,49 +15,20 @@ import javax.ws.rs.core.Response;
 @Path("backup")
 public class BackupService implements org.fao.fenix.backup.services.spi.BackupService {
     @Override
-    public Response saveMsdBackup(HttpServletRequest request) {
-        try {
-            int revision = SpringContext.getBean(ManageBackup.class).storeMsdBackup();
-            return Response.ok(revision).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public Integer saveMsdBackup(HttpServletRequest request) throws Exception {
+        return SpringContext.getBean(ManageBackup.class).storeMsdBackup();
     }
     @Override
-    public Response restoreMsdBackup(HttpServletRequest request, Integer revision) {
-        try {
-            SpringContext.getBean(ManageBackup.class).restoreMsdBackup(revision,true);
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public void restoreMsdBackup(HttpServletRequest request, Integer revision) throws Exception {
+        SpringContext.getBean(ManageBackup.class).restoreMsdBackup(revision,true);
     }
     @Override
-    public Response restoreMsdDataBackup(HttpServletRequest request, Integer revision) {
-        try {
-            SpringContext.getBean(ManageBackup.class).restoreMsdBackup(revision,false);
-            return Response.ok().build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public void restoreMsdDataBackup(HttpServletRequest request, Integer revision) throws Exception {
+        SpringContext.getBean(ManageBackup.class).restoreMsdBackup(revision,false);
     }
     @Override
-    public Response statusMsdBackup(HttpServletRequest request) {
-        try {
-            BackupOperation status = SpringContext.getBean(ManageBackup.class).statusMsdBackup();
-            return Response.ok(status).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+    public BackupOperation statusMsdBackup(HttpServletRequest request) throws Exception {
+        return SpringContext.getBean(ManageBackup.class).statusMsdBackup();
     }
 
-    @Override
-    public Response restoreBackup(HttpServletRequest request, String database, String revision) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Response removeBackup(HttpServletRequest request,String database, String revision) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

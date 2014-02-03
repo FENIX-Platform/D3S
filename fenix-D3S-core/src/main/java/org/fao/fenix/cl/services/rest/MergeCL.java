@@ -3,8 +3,6 @@ package org.fao.fenix.cl.services.rest;
 import java.util.Collection;
 
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.fao.fenix.cl.services.impl.BasicMergeImpl;
 import org.fao.fenix.cl.services.impl.BasicMergeImpl.MergeType;
@@ -15,60 +13,30 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 public class MergeCL implements org.fao.fenix.cl.services.spi.MergeCL {
 
 	@Override
-	public Response getStandardMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.standard, clList, true, false);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem getStandardMerge(Collection<CodeSystem> clList) throws Exception {
+		return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.standard, clList, true, false);
 	}
 	@Override
-	public Response getInterceptionMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.interception, clList, true, false);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem getInterceptionMerge(Collection<CodeSystem> clList) throws Exception {
+        return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.interception, clList, true, false);
 	}
 	@Override
-	public Response getUnionMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.union, clList, true, false);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem getUnionMerge(Collection<CodeSystem> clList) throws Exception {
+        return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.union, clList, true, false);
 	}
 
 	//UPDATE
 	@Override
-	public Response updStandardMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.standard, clList, false, true);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem updStandardMerge(Collection<CodeSystem> clList) throws Exception {
+        return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.standard, clList, false, true);
 	}
 	@Override
-	public Response updInterceptionMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.interception, clList, false, true);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem updInterceptionMerge(Collection<CodeSystem> clList) throws Exception {
+        return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.interception, clList, false, true);
 	}
 	@Override
-	public Response updUnionMerge(Collection<CodeSystem> clList) {
-		try {
-			CodeSystem merge = SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.union, clList, false, true);
-			return Response.ok(merge).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public CodeSystem updUnionMerge(Collection<CodeSystem> clList) throws Exception {
+        return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.union, clList, false, true);
 	}
 
 }

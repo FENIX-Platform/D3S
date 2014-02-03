@@ -13,13 +13,8 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 public class Conversion implements org.fao.fenix.cl.services.spi.Conversion {
 
 	@Override
-	public Response getValueConversion(ConversionParameters conversionInfo) {
-		try {
-			Value converted = SpringContext.getBean(ConversionByCodeList.class).applyConversion(conversionInfo.getValue(), conversionInfo.getUnitOfMeasure());
-			return Response.ok(converted).build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public Value getValueConversion(ConversionParameters conversionInfo) throws Exception {
+		return SpringContext.getBean(ConversionByCodeList.class).applyConversion(conversionInfo.getValue(), conversionInfo.getUnitOfMeasure());
 	}
 
 }

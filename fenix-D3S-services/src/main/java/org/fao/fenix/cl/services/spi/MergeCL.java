@@ -8,7 +8,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 
@@ -18,22 +17,22 @@ public interface MergeCL {
 
 	@POST
 	@Path("default")
-	public Response getStandardMerge(Collection<CodeSystem> clList);
+	public CodeSystem getStandardMerge(Collection<CodeSystem> clList) throws Exception;
 	@POST
 	@Path("interception")
-	public Response getInterceptionMerge(Collection<CodeSystem> clList);
+	public CodeSystem getInterceptionMerge(Collection<CodeSystem> clList) throws Exception;
 	@POST
 	@Path("union")
-	public Response getUnionMerge(Collection<CodeSystem> clList);
+	public CodeSystem getUnionMerge(Collection<CodeSystem> clList) throws Exception;
 	
 	@PUT
 	@Path("update/default")
-	public Response updStandardMerge(Collection<CodeSystem> clList);
+	public CodeSystem updStandardMerge(Collection<CodeSystem> clList) throws Exception;
 	@PUT
 	@Path("update/interception")
-	public Response updInterceptionMerge(Collection<CodeSystem> clList);
+	public CodeSystem updInterceptionMerge(Collection<CodeSystem> clList) throws Exception;
 	@PUT
 	@Path("update/union")
-	public Response updUnionMerge(Collection<CodeSystem> clList);
+	public CodeSystem updUnionMerge(Collection<CodeSystem> clList) throws Exception;
 	
 }

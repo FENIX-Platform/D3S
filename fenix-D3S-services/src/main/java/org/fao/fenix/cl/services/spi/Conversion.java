@@ -8,12 +8,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.fao.fenix.cl.dto.ConversionParameters;
+import org.fao.fenix.cl.dto.Value;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 public interface Conversion {
 
 	@GET
-	public Response getValueConversion(ConversionParameters conversionInfo);
+	public Value getValueConversion(ConversionParameters conversionInfo) throws Exception;
 
 }

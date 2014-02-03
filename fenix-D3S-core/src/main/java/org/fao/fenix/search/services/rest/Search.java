@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.dto.dm.DM;
@@ -31,39 +29,22 @@ import org.fao.fenix.server.utils.JSONUtils;
 public class Search implements org.fao.fenix.search.services.spi.Search {
 
     @Override
-	public Response getDataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) {
-		try {
-    long time = System.currentTimeMillis();
-            decodeOutputParameters(filter);
-			SearchResponse result = SpringContext.getBean(BasicDataSearch.class).search(filter);
-    System.out.println(">> Eseguita ricerca in "+(System.currentTimeMillis()-time)+" ms...");
-			return result!=null ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public SearchResponse getDataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+        decodeOutputParameters(filter);
+        return SpringContext.getBean(BasicDataSearch.class).search(filter);
 	}
 	
     @Override
-	public Response getDataBasicAlgorithmTest(@Context HttpServletRequest request, SearchFilter filter) {
-		try {
-            decodeOutputParameters(filter);
-            Boolean geoOut = ((OutputParameters)((Map<String,Object>)filter.getParameters().get("output")).get("GEO")).getOut();
-			SearchResponse result = getFakeDataToMax(geoOut);
-            return result!=null ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public SearchResponse getDataBasicAlgorithmTest(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+        decodeOutputParameters(filter);
+        Boolean geoOut = ((OutputParameters)((Map<String,Object>)filter.getParameters().get("output")).get("GEO")).getOut();
+        return getFakeDataToMax(geoOut);
 	}
 
 	@Override
-	public Response getMetadataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) {
-		try {
-            decodeOutputParameters(filter);
-			SearchResponse result = SpringContext.getBean(BasicMetadataSearch.class).search(filter);
-            return result!=null ? Response.ok(result).build() : Response.noContent().build();
-		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+	public SearchResponse getMetadataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+        decodeOutputParameters(filter);
+        return SpringContext.getBean(BasicMetadataSearch.class).search(filter);
 	}
 
 
@@ -75,7 +56,7 @@ public class Search implements org.fao.fenix.search.services.spi.Search {
         Map<String,Object> parameters = filter.getParameters();
         Map<String,Object> outputParameters = parameters!=null ? (Map<String,Object>)parameters.get("output") : null;
         if (outputParameters!=null) {
-            Map<String,OutputParameters> outputParametersesDecoded = new HashMap<String, OutputParameters>();
+            Map<String,OutputParameters> outputParametersesDecoded = new HashMap<>();
             for (Map.Entry<String,Object> pEntry : outputParameters.entrySet())
                 outputParametersesDecoded.put(pEntry.getKey(), JSONUtils.convertValue(pEntry.getValue(), OutputParameters.class));
             parameters.put("output",outputParametersesDecoded);
