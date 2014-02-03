@@ -1,69 +1,67 @@
 package org.fao.fenix.msd.services.spi;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
+@Produces
+@Consumes
 public interface DeleteCodeList {
 
 	@DELETE
 	@Path("system/{system}/{version}")
-	public Response deleteCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version);
+	public void deleteCodeList(@Context HttpServletRequest request, @PathParam("system") String system, @PathParam("version") String version) throws Exception;
 	
 	@DELETE
 	@Path("keyword/{keyword}")
-	public Response deleteKeyword(@Context HttpServletRequest request, @PathParam("keyword") String keyword);
+	public void deleteKeyword(@Context HttpServletRequest request, @PathParam("keyword") String keyword) throws Exception;
 	//relationships
 	@DELETE
 	@Path("relationships/fromCtoC")
-	public Response deleteRelationshipsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public void deleteRelationshipsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@DELETE
 	@Path("relationships/fromCL")
-	public Response deleteRelationshipsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public void deleteRelationshipsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@DELETE
 	@Path("relationships/fromCLtoCL")
-	public Response deleteRelationshipsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deleteRelationshipsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@DELETE
 	@Path("relationships/fromC")
-	public Response deleteRelationshipsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public void deleteRelationshipsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@DELETE
 	@Path("relationships/fromCtoCL")
-	public Response deleteRelationshipsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deleteRelationshipsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	//conversions
 	@DELETE
 	@Path("conversions/fromCtoC")
-	public Response deleteConversionsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public void deleteConversionsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@DELETE
 	@Path("conversions/fromCL")
-	public Response deleteConversionsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public void deleteConversionsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@DELETE
 	@Path("conversions/fromCLtoCL")
-	public Response deleteConversionsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deleteConversionsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@DELETE
 	@Path("conversions/fromC")
-	public Response deleteConversionsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public void deleteConversionsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@DELETE
 	@Path("conversions/fromCtoCL")
-	public Response deleteConversionsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deleteConversionsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	//propaedeutics
 	@DELETE
 	@Path("propaedeutics/fromCtoC")
-	public Response deletePropaedeuticsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo);
+	public void deletePropaedeuticsFromCtoC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo, @QueryParam("codeTo") String codeTo) throws Exception;
 	@DELETE
 	@Path("propaedeutics/fromCL")
-	public Response deletePropaedeuticsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom);
+	public void deletePropaedeuticsFromCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom) throws Exception;
 	@DELETE
 	@Path("propaedeutics/fromCLtoCL")
-	public Response deletePropaedeuticsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deletePropaedeuticsFromCLToCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	@DELETE
 	@Path("propaedeutics/fromC")
-	public Response deletePropaedeuticsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom);
+	public void deletePropaedeuticsFromC(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom) throws Exception;
 	@DELETE
 	@Path("propaedeutics/fromCtoCL")
-	public Response deletePropaedeuticsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo);
+	public void deletePropaedeuticsFromCtoCL(@Context HttpServletRequest request, @QueryParam("systemFrom") String systemFrom, @QueryParam("versionFrom") String versionFrom, @QueryParam("codeFrom") String codeFrom, @QueryParam("systemTo") String systemTo, @QueryParam("versionTo") String versionTo) throws Exception;
 	
 }
