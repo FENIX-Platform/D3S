@@ -12,7 +12,7 @@
 
     <modules>
         <module>fenix-D3S-services</module>
-        <module>fenix-D3S-javaClient</module>
+        <module>fenix-D3S-client</module>
         <module>fenix-D3S-core</module>
         <module>fenix-D3S-proxy</module>
     </modules>

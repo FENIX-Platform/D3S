@@ -7,7 +7,7 @@
         <artifactId>fenix-D3S</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-	<artifactId>fenix-D3S-javaClient</artifactId>
+	<artifactId>fenix-D3S-client</artifactId>
 
     <!-- Dependencies -->
 	<dependencies>

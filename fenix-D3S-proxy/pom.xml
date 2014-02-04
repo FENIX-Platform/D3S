@@ -65,7 +65,7 @@
 		<!-- Services client -->
 		<dependency>
 			<groupId>org.fao.fenix</groupId>
-			<artifactId>fenix-D3S-javaClient</artifactId>
+			<artifactId>fenix-D3S-client</artifactId>
 			<version>${version}</version>
 		</dependency>
 
