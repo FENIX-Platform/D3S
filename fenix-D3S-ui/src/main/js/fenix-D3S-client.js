@@ -5,12 +5,13 @@ var D3SC = (function() {
         lang            :   null,
         lang_ISO2       :   null,
         theme           :   'faostat',
-        datasource      :   'faostatproddiss',
+        datasource      :   'faostat2',
         I18N_prefix     :   '',
         msd             :   null,
         msd_url         :   'config/msd.json',
         snippets        :   null,
-        snippets_url    :   'config/snippets.html'
+        snippets_url    :   'config/snippets.html',
+        accordion_url   :   'http://faostat3.fao.org/wds/rest/groupsanddomains'
     };
 
     function init(config) {
@@ -49,7 +50,74 @@ var D3SC = (function() {
         $('#' + D3SC.CONFIG.placeholderID).append($(D3SC.CONFIG.snippets).filter('#structure').html());
         document.getElementById('submit_button').innerHTML = $.i18n.prop('_submit_changes');
 
+        /* Build accordion. */
+        buildAccordion();
+
+//        for (var i = 1 ; i < 15 ; i++) {
+//            var tmp = $(D3SC.CONFIG.snippets).filter('#radio_element').html();
+//            tmp = tmp.replace(new RegExp('radio_id_', 'gm'), ('radio_id_' + i));
+//            tmp = tmp.replace(new RegExp('radio_title_', 'gm'), ('radio_title_' + i));
+//            $('#radio_buttons_1').append(tmp);
+//        }
+//
+//        for (var i = 1 ; i < 15 ; i++)
+//            document.getElementById('radio_title_' + i).innerHTML = 'Option ' + i;
+
     };
+
+    function buildAccordion() {
+
+        /* Add accordion. */
+        $('#accordion_area').append($(D3SC.CONFIG.snippets).filter('#accordion_structure').html());
+
+        /* Fetch groups and domains from the DB. */
+        $.ajax({
+
+            type        :   'GET',
+            dataType    :   'json',
+            url         :   D3SC.CONFIG.accordion_url + '/' + D3SC.CONFIG.datasource + '/' + D3SC.CONFIG.lang,
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                /* Collect group codes and labels. */
+                var groups = [];
+                var labels = [];
+                for (var i = 0 ; i < json.length ; i++) {
+                    if ($.inArray(json[i][0], groups) < 0) {
+                        groups.push(json[i][0]);
+                        labels.push(json[i][1]);
+                    }
+                }
+
+                /* Populate the accordion. */
+                for (var i = 0 ; i < groups.length ; i++)
+                    addAccordionElement(groups[i], labels[i]);
+
+
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
+    };
+
+    function addAccordionElement(code, label) {
+        var s = $(D3SC.CONFIG.snippets).filter('#accordion_element_structure').html();
+        s = s.replace(new RegExp('collapse_', 'gm'), ('collapse_' + code));
+        s = s.replace(new RegExp('accordion_element_title_', 'gm'), ('accordion_element_title_' + code));
+        s = s.replace(new RegExp('radio_buttons_', 'gm'), ('radio_buttons_' + code));
+        $('#accordion').append(s);
+        document.getElementById('accordion_element_title_' + code).innerHTML = label;
+    }
 
     function loadMSD() {
 
@@ -71,9 +139,8 @@ var D3SC = (function() {
 
             },
 
-            /* Use test data */
             error : function(err, b, c) {
-                console.log(err + ', ' + b + ', ' + c);
+
             }
 
         });
