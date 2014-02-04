@@ -14,23 +14,22 @@ public abstract class D3SClient {
     private String basePath = "";
     private ResteasyClient clientRest;
 
-    public void init(Properties initProperties) {
-        basePath = initProperties.getProperty("D3S.baseURL","/");
+    public void initRest(String basePath) {
         if (!basePath.endsWith("/"))
             basePath += '/';
-
+        this.basePath = basePath;
         clientRest = new ResteasyClientBuilder().build();
     }
 
 
     //UTILS
-    protected String getBasePath() {
-        return basePath;
-    }
-
     protected <T> T getProxy(Class<T> interfaceClassObj) throws ClassNotFoundException {
-        String path = this.getClass().getAnnotation(Path.class).value();
-        return clientRest.target(basePath + (path.charAt(0)=='/' ? path.substring(1) : path)).proxy(interfaceClassObj);
+        if (clientRest!=null) { //REST PROXY
+            String path = this.getClass().getAnnotation(Path.class).value();
+            return clientRest.target(basePath + (path.charAt(0)=='/' ? path.substring(1) : path)).proxy(interfaceClassObj);
+        } else { //JMX PROXY
+            return null;
+        }
     }
 
 
