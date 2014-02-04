@@ -45,6 +45,10 @@ var D3SC = (function() {
         /* Add header. */
         $('#' + D3SC.CONFIG.placeholderID).append($(D3SC.CONFIG.snippets).filter('#header').html());
 
+        /* Add structure. */
+        $('#' + D3SC.CONFIG.placeholderID).append($(D3SC.CONFIG.snippets).filter('#structure').html());
+        document.getElementById('submit_button').innerHTML = $.i18n.prop('_submit_changes');
+
     };
 
     function loadMSD() {
