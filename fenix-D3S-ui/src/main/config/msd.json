@@ -1,0 +1,437 @@
+{
+    "TAB_1" : {
+        "E_LABEL" : "Data",
+        "title" : {
+            "TYPE" : "STRING",
+            "E_LABEL" : "Title",
+            "E_DESCRIPTION" : "Name of the dataset.",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "language" : {
+            "TYPE" : "SINGLECHOICE",
+            "E_LABEL" : "Language",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "FAO_Languages/1.0",
+            "SYSTEMKEY" : null,
+            "SYSTEMVERSION" : null
+        },
+        "basePeriodFrom" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Base Period From",
+            "F_LABEL" : "Période de base à partir",
+            "S_LABEL" : "Período Base De",
+            "E_DESCRIPTION" : "",
+            "F_DESCRIPTION" : "",
+            "S_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        },
+        "basePeriodTo" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Base Period To",
+            "F_LABEL" : "Période de base à",
+            "S_LABEL" : "Período de Base de",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        },
+        "codingSystems" : {
+            "TYPE" : "MULTIPLECHOICE",
+            "E_LABEL" : "Coding Systems",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "",
+            "SYSTEMKEY" : "Elements",
+            "SYSTEMVERSION" : "1.0"
+        },
+        "classificationSystems" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Classification Systems",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "supplemental" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Supplemental",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "coverageSectors" : {
+            "TYPE" : "MULTIPLECHOICE",
+            "E_LABEL" : "Coverage Sectors",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "FAOSTAT_CoveregeSectors/1.0",
+            "SYSTEMKEY" : "FAOSTAT_CoveregeSectors",
+            "SYSTEMVERSION" : "1.0"
+        },
+        "summary" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Summary",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "otherDisseminatedData" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Other Disseminated Data",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "publications" : {
+            "TYPE" : "NESTED",
+            "E_LABEL" : "Publications",
+            "E_DESCRIPTION" : "",
+            "E_TAB_LABEL" : "Publication",
+            "MANDATORY" : false,
+            "REST" : "",
+            "SHOW_DATE_FIELD" : true,
+            "FIELDS" : {
+                "title" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Title",
+                    "E_DESCRIPTION" : "Title of the publication.",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "description" : {
+                    "TYPE" : "TEXTAREA",
+                    "E_LABEL" : "Description",
+                    "E_DESCRIPTION" : "Abstract of the publication.",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "link" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Link",
+                    "E_DESCRIPTION" : "Link to the publication.",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "date" : {
+                    "TYPE" : "DATE",
+                    "E_LABEL" : "Date",
+                    "E_DESCRIPTION" : "Date of the publication.",
+                    "MANDATORY" : false,
+                    "REST" : null
+                }
+            }
+        },
+        "geographicExtent" : {
+            "TYPE" : "SINGLECHOICE",
+            "E_LABEL" : "Geographic Extent",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "FAOSTAT_Regions/1.0",
+            "SYSTEMKEY" : "FAOSTAT_Regions",
+            "SYSTEMVERSION" : "1.0"
+        },
+        "referencePeriodFrom" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Reference Period From",
+            "F_LABEL" : "Période de base à partir",
+            "S_LABEL" : "Período Base De",
+            "E_DESCRIPTION" : "",
+            "F_DESCRIPTION" : "",
+            "S_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        },
+        "referencePeriodTo" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Reference Period To",
+            "F_LABEL" : "Période de base à",
+            "S_LABEL" : "Período de Base de",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        },
+        "weightReferencePeriodFrom" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Weight Reference Period From",
+            "F_LABEL" : "Période de base à partir",
+            "S_LABEL" : "Período Base De",
+            "E_DESCRIPTION" : "",
+            "F_DESCRIPTION" : "",
+            "S_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        },
+        "weightReferencePeriodTo" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Weight Reference Period To",
+            "F_LABEL" : "Période de base à",
+            "S_LABEL" : "Período de Base de",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : ""
+        }
+    },
+    "TAB_2" : {
+        "E_LABEL" : "Methodology and Quality",
+        "compilationProcessing" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Compilation Processing",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "collectionProcessing" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Collection Processing",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "processMethodologyDocuments" : {
+            "TYPE" : "NESTED",
+            "E_LABEL" : "Process Methodology Documents",
+            "E_DESCRIPTION" : "",
+            "E_TAB_LABEL" : "Document",
+            "MANDATORY" : false,
+            "REST" : "",
+            "SHOW_DATE_FIELD" : true,
+            "FIELDS" : {
+                "title" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Title",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "description" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Description",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "link" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Link",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "date" : {
+                    "TYPE" : "DATE",
+                    "E_LABEL" : "Date",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                }
+            }
+        },
+        "collectionPeriodicity" : {
+            "TYPE" : "SINGLECHOICE",
+            "E_LABEL" : "Collection Periodicity",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "FAOSTAT_Periodicity/1.0",
+            "SYSTEMKEY" : "FAOSTAT_Periodicity",
+            "SYSTEMVERSION" : "1.0"
+        },
+        "indexType" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Index Type",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "aggregationProcessing" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Aggregation Processing",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "sourceType" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Source Type",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        }
+    },
+    "TAB_3" : {
+        "E_LABEL" : "Distribution",
+        "accessibility" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Accessibility",
+            "F_LABEL" : "Accessibilité",
+            "S_LABEL" : "Accesibilidad",
+            "E_DESCRIPTION" : "",
+            "F_DESCRIPTION" : "",
+            "S_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "dataAdjustment" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Data Adjustment",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "confidentialityDataTreatment" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Confidentiality Data Treatment",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "confidentialityPolicy" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Confidentiality Policy",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "coverageTime" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Coverage Time",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "disseminationFormat" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Dissemination Format",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "updateDate" : {
+            "TYPE" : "DATE",
+            "E_LABEL" : "Update Date",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "dataSources" : {
+            "TYPE" : "NESTED",
+            "E_LABEL" : "Datasources",
+            "E_DESCRIPTION" : "",
+            "E_TAB_LABEL" : "Datasource",
+            "MANDATORY" : false,
+            "REST" : "",
+            "SHOW_DATE_FIELD" : false,
+            "FIELDS" : {
+                "title" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Title",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "reference" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Reference",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "type" : {
+                    "TYPE" : "SINGLECHOICE",
+                    "E_LABEL" : "Type",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : "DatasourceTypes/1.0",
+                    "SYSTEMKEY" : "FAOSTAT_DatasourceTypes",
+                    "SYSTEMVERSION" : "1.0"
+                }
+            }
+        },
+        "news" : {
+            "TYPE" : "NESTED",
+            "E_LABEL" : "News",
+            "E_DESCRIPTION" : "",
+            "E_TAB_LABEL" : "News",
+            "MANDATORY" : false,
+            "REST" : "",
+            "SHOW_DATE_FIELD" : false,
+            "FIELDS" : {
+                "title" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Title",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "description" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Description",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "link" : {
+                    "TYPE" : "STRING",
+                    "E_LABEL" : "Link",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                },
+                "date" : {
+                    "TYPE" : "DATE",
+                    "E_LABEL" : "Date",
+                    "E_DESCRIPTION" : "",
+                    "MANDATORY" : false,
+                    "REST" : null
+                }
+            }
+        },
+        "disseminationPeriodicity" : {
+            "TYPE" : "SINGLECHOICE",
+            "E_LABEL" : "Dissemination Periodicity",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : "FAOSTAT_Periodicity/1.0",
+            "SYSTEMKEY" : "FAOSTAT_Periodicity",
+            "SYSTEMVERSION" : "1.0"
+        },
+        "releasePolicy" : {
+            "TYPE" : "TEXTAREA",
+            "E_LABEL" : "Release Policy",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        }
+    },
+    "TAB_4" : {
+        "E_LABEL" : "Contacts",
+        "owner" : {
+            "TYPE" : "CONTACT",
+            "E_LABEL" : "Owner",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "provider" : {
+            "TYPE" : "CONTACT",
+            "E_LABEL" : "Provider",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "compiler" : {
+            "TYPE" : "CONTACT",
+            "E_LABEL" : "Compiler",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        },
+        "contacts" : {
+            "TYPE" : "CONTACTLIST",
+            "E_LABEL" : "Contacts",
+            "E_DESCRIPTION" : "",
+            "MANDATORY" : false,
+            "REST" : null
+        }
+    }
+}
