@@ -118,11 +118,18 @@ var D3SC = (function() {
     function buildTab(tabID, tabContent) {
         $.each(tabContent, function(k, v) {
             switch (v.TYPE) {
-                case 'STRING'       :   buildString(tabID, k, v);       break;
-                case 'SINGLECHOICE' :   buildSingleChoice(tabID, k, v); break;
-                case 'DATE'         :   buildDate(tabID, k, v); break;
+                case 'STRING'           :   buildString(tabID, k, v);           break;
+                case 'SINGLECHOICE'     :   buildSingleChoice(tabID, k, v);     break;
+                case 'MULTIPLECHOICE'   :   buildMultipleChoice(tabID, k, v);   break;
+                case 'DATE'             :   buildDate(tabID, k, v);             break;
+                case 'TEXTAREA'         :   buildTextArea(tabID, k, v);         break;
             }
         });
+    };
+
+    function buildTextArea(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'date_structure');
+        CKEDITOR.replace(id + '_content', {toolbar: 'FAOSTAT'});
     };
 
     function buildDate(tabID, id, definition) {
@@ -132,6 +139,11 @@ var D3SC = (function() {
 
     function buildSingleChoice(tabID, id, definition) {
         buildFieldBox(tabID, id, definition, 'singlechoice_structure');
+        $('#' + id + '_content').chosen({disable_search_threshold: 10});
+    };
+
+    function buildMultipleChoice(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'multiplechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
     };
 
