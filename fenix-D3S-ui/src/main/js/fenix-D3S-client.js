@@ -53,16 +53,10 @@ var D3SC = (function() {
         /* Build accordion. */
         buildAccordion();
 
-//        for (var i = 1 ; i < 15 ; i++) {
-//            var tmp = $(D3SC.CONFIG.snippets).filter('#radio_element').html();
-//            tmp = tmp.replace(new RegExp('radio_id_', 'gm'), ('radio_id_' + i));
-//            tmp = tmp.replace(new RegExp('radio_title_', 'gm'), ('radio_title_' + i));
-//            $('#radio_buttons_1').append(tmp);
-//        }
-//
-//        for (var i = 1 ; i < 15 ; i++)
-//            document.getElementById('radio_title_' + i).innerHTML = 'Option ' + i;
+    };
 
+    function buildFieldsArea(domainCode) {
+        alert(domainCode);
     };
 
     function buildAccordion() {
@@ -134,6 +128,10 @@ var D3SC = (function() {
             for (var i = 0 ; i < v.length ; i++) {
                 document.getElementById('radio_title_' + v[i]).innerHTML = treeLabels[k][i];
                 $('#radio_id_' + v[i]).attr('value', v[i]);
+                $('#radio_id_' + v[i]).bind('click', function(e) {
+                    var id = e.target.id.substring('radio_id_'.length);
+                    D3SC.buildFieldsArea(id);
+                });
             }
         });
 
@@ -204,8 +202,9 @@ var D3SC = (function() {
     };
 
     return {
-        init    :   init,
-        CONFIG  :   CONFIG
+        init            :   init,
+        buildFieldsArea :   buildFieldsArea,
+        CONFIG          :   CONFIG
     };
 
 })();
