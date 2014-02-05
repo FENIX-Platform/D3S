@@ -105,10 +105,32 @@ var D3SC = (function() {
         /* Initiate tab contents. */
         $('#tab').after('<div class="tab-content" id="tab_content"></div>');
         $.each(D3SC.CONFIG.msd, function(k, v) {
-            $('#tab_content').append('<div class="tab-pane fade active" id="' + k + '">' + k + '</div>');
+            $('#tab_content').append('<div class="tab-pane fade active" id="' + k + '"></div>');
         });
 
+        /* Build tabs. */
+        $.each(D3SC.CONFIG.msd, function(k, v) {
+            buildTab(k, v);
+        });
 
+    };
+
+    function buildTab(tabID, tabContent) {
+        $.each(tabContent, function(k, v) {
+            switch (v.TYPE) {
+                case 'STRING': buildString(tabID, k, v); break;
+            }
+        });
+    };
+
+    function buildString(tabID, id, definition) {
+        var s = $(D3SC.CONFIG.snippets).filter('#string_structure').html();
+        s = s.replace('_title', id + '_title');
+        s = s.replace('_help', id + '_help');
+        s = s.replace('_content', id + '_content');
+        $('#' + tabID).append(s);
+        document.getElementById(id + '_title').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL'];
+        $('#' + id + '_help').attr('title', definition[D3SC.CONFIG.lang + '_DESCRIPTION']);
     };
 
     function buildAccordion() {
