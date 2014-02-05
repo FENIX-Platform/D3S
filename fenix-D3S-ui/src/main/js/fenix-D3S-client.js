@@ -123,8 +123,13 @@ var D3SC = (function() {
                 case 'MULTIPLECHOICE'   :   buildMultipleChoice(tabID, k, v);   break;
                 case 'DATE'             :   buildDate(tabID, k, v);             break;
                 case 'TEXTAREA'         :   buildTextArea(tabID, k, v);         break;
+                case 'NESTED'           :   buildNested(tabID, k, v);           break;
             }
         });
+    };
+
+    function buildNested(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'nested_structure');
     };
 
     function buildTextArea(tabID, id, definition) {
