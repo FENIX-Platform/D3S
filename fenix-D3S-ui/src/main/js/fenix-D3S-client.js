@@ -118,13 +118,30 @@ var D3SC = (function() {
     function buildTab(tabID, tabContent) {
         $.each(tabContent, function(k, v) {
             switch (v.TYPE) {
-                case 'STRING': buildString(tabID, k, v); break;
+                case 'STRING'       :   buildString(tabID, k, v);       break;
+                case 'SINGLECHOICE' :   buildSingleChoice(tabID, k, v); break;
+                case 'DATE'         :   buildDate(tabID, k, v); break;
             }
         });
     };
 
+    function buildDate(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'date_structure');
+        $('#' + id + '_content').jqxDateTimeInput({height: '33px'});
+    };
+
+    function buildSingleChoice(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'singlechoice_structure');
+        $('#' + id + '_content').chosen({disable_search_threshold: 10});
+    };
+
     function buildString(tabID, id, definition) {
-        var s = $(D3SC.CONFIG.snippets).filter('#string_structure').html();
+        buildFieldBox(tabID, id, definition, 'string_structure');
+        $('#' + id + '_help').attr('title', definition[D3SC.CONFIG.lang + '_DESCRIPTION']);
+    };
+
+    function buildFieldBox(tabID, id, definition, snippetID) {
+        var s = $(D3SC.CONFIG.snippets).filter('#' + snippetID).html();
         s = s.replace('_title', id + '_title');
         s = s.replace('_help', id + '_help');
         s = s.replace('_content', id + '_content');
