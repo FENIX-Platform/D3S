@@ -11,7 +11,10 @@ var D3SC = (function() {
         msd_url         :   'config/msd.json',
         snippets        :   null,
         snippets_url    :   'config/snippets.html',
-        accordion_url   :   'http://faostat3.fao.org/wds/rest/groupsanddomains'
+        accordion_url   :   'http://faostat3.fao.org/wds/rest/groupsanddomains',
+        data_url        :   'http://fenixapps.fao.org/d3sp/service/msd/dm',
+        uid_prefix      :   'FAOSTAT_',
+        data            :   null
     };
 
     function init(config) {
@@ -56,7 +59,56 @@ var D3SC = (function() {
     };
 
     function buildFieldsArea(domainCode) {
-        alert(domainCode);
+
+        /* Fetch data from DB.*/
+        $.ajax({
+
+            type        :   'GET',
+            dataType    :   'json',
+            url         :   D3SC.CONFIG.data_url + '/' + D3SC.CONFIG.uid_prefix + domainCode,
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                /* Store the result. */
+                D3SC.CONFIG.data = json;
+
+                /* Build tabs. */
+                buildTabs();
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
+    };
+
+    function buildTabs() {
+
+        /* Append tab structure. */
+        $('#fields_area').append($(D3SC.CONFIG.snippets).filter('#tab_structure').html());
+
+        /* Create tab headers. */
+        $.each(D3SC.CONFIG.msd, function(k, v) {
+            var s = '';
+            s += '<li><a href="#' + k + '" data-toggle="tab">' + v[D3SC.CONFIG.lang + '_LABEL'] + '</a></li>';
+            $('#tab').append(s);
+        });
+
+        /* Initiate tab contents. */
+        $('#tab').after('<div class="tab-content" id="tab_content"></div>');
+        $.each(D3SC.CONFIG.msd, function(k, v) {
+            $('#tab_content').append('<div class="tab-pane fade active" id="' + k + '">' + k + '</div>');
+        });
+
+
     };
 
     function buildAccordion() {
