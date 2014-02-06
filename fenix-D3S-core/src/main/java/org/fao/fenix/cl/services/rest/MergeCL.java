@@ -2,7 +2,9 @@ package org.fao.fenix.cl.services.rest;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 
 import org.fao.fenix.cl.services.impl.BasicMergeImpl;
 import org.fao.fenix.cl.services.impl.BasicMergeImpl.MergeType;
@@ -11,8 +13,9 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 
 @Path("cl/merge")
 public class MergeCL implements org.fao.fenix.cl.services.spi.MergeCL {
+    @Context HttpServletRequest request;
 
-	@Override
+    @Override
 	public CodeSystem getStandardMerge(Collection<CodeSystem> clList) throws Exception {
 		return SpringContext.getBean(BasicMergeImpl.class).merge(MergeType.standard, clList, true, false);
 	}

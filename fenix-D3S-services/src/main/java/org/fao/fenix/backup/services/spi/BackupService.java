@@ -15,19 +15,19 @@ public interface BackupService {
 
     @POST
     @Path("msd")
-    public Integer saveMsdBackup(@Context HttpServletRequest request) throws Exception;
+    public Integer saveMsdBackup() throws Exception;
 
     @PUT
     @Path("msd/{revision}")
-    public void restoreMsdBackup(@Context HttpServletRequest request, @PathParam("revision") Integer revision) throws Exception;
+    public void restoreMsdBackup(@PathParam("revision") Integer revision) throws Exception;
 
     @PUT
     @Path("msd/data/{revision}")
-    public void restoreMsdDataBackup(@Context HttpServletRequest request, @PathParam("revision") Integer revision) throws Exception;
+    public void restoreMsdDataBackup(@PathParam("revision") Integer revision) throws Exception;
 
     @GET
     @Path("msd")
-    public BackupOperation statusMsdBackup(@Context HttpServletRequest request) throws Exception;
+    public BackupOperation statusMsdBackup() throws Exception;
 
 
 

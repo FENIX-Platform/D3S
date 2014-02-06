@@ -1,0 +1,11 @@
+{
+    "uid": "testSimo1",
+    "title": {
+        "FR": "Quantité de production des cultures primaires"
+    },
+    "description": {
+        "FR": "Quantité de production des cultures primaires"
+    },
+    "dataType": "raster",
+    "freeExtension" : {}
+}

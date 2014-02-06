@@ -2,7 +2,9 @@ package org.fao.fenix.server.services.rest;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 
 import org.fao.fenix.msd.dao.Cleaner;
 import org.fao.fenix.msd.dao.dm.DMIndexStore;
@@ -15,6 +17,7 @@ import org.fao.fenix.server.tools.spring.SpringContext;
 
 @Path("server")
 public class Server implements org.fao.fenix.server.services.spi.Server {
+    @Context HttpServletRequest request;
 
     @Override
 	public void createMetadataIndex() throws Exception {

@@ -27,22 +27,23 @@ import org.fao.fenix.server.utils.JSONUtils;
 
 @Path("find")
 public class Search implements org.fao.fenix.search.services.spi.Search {
+    @Context HttpServletRequest request;
 
     @Override
-	public SearchResponse getDataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+	public SearchResponse getDataBasicAlgorithm(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
         return SpringContext.getBean(BasicDataSearch.class).search(filter);
 	}
 	
     @Override
-	public SearchResponse getDataBasicAlgorithmTest(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+	public SearchResponse getDataBasicAlgorithmTest(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
         Boolean geoOut = ((OutputParameters)((Map<String,Object>)filter.getParameters().get("output")).get("GEO")).getOut();
         return getFakeDataToMax(geoOut);
 	}
 
 	@Override
-	public SearchResponse getMetadataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception {
+	public SearchResponse getMetadataBasicAlgorithm(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
         return SpringContext.getBean(BasicMetadataSearch.class).search(filter);
 	}

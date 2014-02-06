@@ -7,63 +7,65 @@ import org.fao.fenix.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import java.util.Collection;
 
 @Path("msd/dm")
 public class StoreDM extends Service implements org.fao.fenix.msd.services.spi.StoreDM {
+    @Context HttpServletRequest request;
 
     @Override
-    public String newDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
-        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newDatasetMetadata(request, dm);
+    public String newDatasetMetadata(DM dm) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newDatasetMetadata(dm);
     }
 
     @Override
-    public void indexDatasetMetadata(HttpServletRequest request, String uid) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetMetadata(request, uid);
+    public void indexDatasetMetadata(String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetMetadata(uid);
     }
 
     @Override
-    public void indexDatasetsRebuild(HttpServletRequest request) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetsRebuild(request);
+    public void indexDatasetsRebuild() throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).indexDatasetsRebuild();
     }
 
     @Override
-    public void updateDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateDatasetMetadata(request, dm);
+    public void updateDatasetMetadata(DM dm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateDatasetMetadata(dm);
     }
 
     @Override
-    public void appendDatasetMetadata(HttpServletRequest request, DM dm) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendDatasetMetadata(request, dm);
+    public void appendDatasetMetadata(DM dm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendDatasetMetadata(dm);
     }
 
     @Override
-    public void deleteDatasetMetadata(HttpServletRequest request, String uid) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteDatasetMetadata(request, uid);
+    public void deleteDatasetMetadata(String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteDatasetMetadata(uid);
     }
 
     @Override
-    public String newMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
-        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newMetadataStructure(request, mm);
+    public String newMetadataStructure(DMMeta mm) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).newMetadataStructure(mm);
     }
 
     @Override
-    public void updateMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateMetadataStructure(request, mm);
+    public void updateMetadataStructure(DMMeta mm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).updateMetadataStructure(mm);
     }
 
     @Override
-    public void appendMetadataStructure(HttpServletRequest request, DMMeta mm) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendMetadataStructure(request, mm);
+    public void appendMetadataStructure(DMMeta mm) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).appendMetadataStructure(mm);
     }
 
     @Override
-    public void deleteMetadataStructure(HttpServletRequest request, String uid) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteMetadataStructure(request, uid);
+    public void deleteMetadataStructure(String uid) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).deleteMetadataStructure(uid);
     }
 
     @Override
-    public void addCategoriesToDataset(HttpServletRequest request, String uid, Collection<Code> listOfCodes) throws Exception {
-        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).addCategoriesToDataset(request, uid, listOfCodes);
+    public void addCategoriesToDataset(String uid, Collection<Code> listOfCodes) throws Exception {
+        getProxy(org.fao.fenix.msd.services.spi.StoreDM.class).addCategoriesToDataset(uid, listOfCodes);
     }
 }

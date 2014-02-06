@@ -1,88 +1,91 @@
-{"uid": "233CPD010B", "language": "fr", "title": {
-    "FR": "Quantité de production des cultures primaires"
-}, "periodicity": "annually", "creationDate": 1360627200000,
+{
+    "uid": "233CPD010B", "language": "fr",
+    "title": {
+        "FR": "Quantité de production des cultures primaires"
+    },
+    "periodicity": "annually", "creationDate": 1360627200000,
     "dsd": {
-    "datasource": {
-        "dao": "cstat",
-        "reference": {
-            "psw": "admin",
-            "usr": "admin",
-            "url": "remote:localhost:2425/CountrySTAT_1.0"
-        }
-    },
-    "contextSystem": {
-        "name": "CountrySTAT"
-    },
-    "columns": [
-        {
-            "columnId": "dim_Time",
-            "title": {
-                "FR": "Année"
-            },
-            "dataType": "year",
-            "dimension": {
-                "name": "TIME"
-            },
-            "values": [1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011]
-        },
-        {
-            "columnId": "dim_ITEM",
-            "title": {
-                "FR": "Culture"
-            },
-            "dataType": "code",
-            "dimension": {
-                "name": "ITEM"
-            },
-            "codeSystem": {
-                "version": "1.0",
-                "system": "Crops"
-            },
-            "values": ["79", "56", "27", "94", "328", "242", "289", "236", "137", "122", "195", "203", "83", "402", "358", "388", "399", "401", "372", "426", "116", "423", "544", "397", "687", "406", "430"]
-        },
-        {
-            "columnId": "dim_Country",
-            "dataType": "code",
-            "dimension": {
-                "name": "GEO"
-            },
-            "codeSystem": {
-                "version": "1.0",
-                "system": "GAUL"
-            },
-            "values": ["42"],
-            "virtualColumn": "INTERNAL"
-        },
-        {
-            "columnId": "item_type",
-            "dataType": "text",
-            "dimension": {
-                "name": "ITEM_TYPE"
-            },
-            "values": ["Commodity"],
-            "virtualColumn": "INTERNAL"
-        },
-        {
-            "columnId": "dim_element",
-            "dataType": "code",
-            "dimension": {
-                "name": "ELEMENT"
-            },
-            "codeSystem": {
-                "version": "1.0",
-                "system": "Elements"
-            },
-            "values": ["1"],
-            "virtualColumn": "INTERNAL"
-        },
-        {
-            "columnId": "dim_Value",
-            "dataType": "number",
-            "dimension": {
-                "name": "VALUE"
+        "datasource": {
+            "dao": "cstat",
+            "reference": {
+                "psw": "admin",
+                "usr": "admin",
+                "url": "remote:localhost:2425/CountrySTAT_1.0"
             }
-        }
-    ]
-}
+        },
+        "contextSystem": {
+            "name": "CountrySTAT"
+        },
+        "columns": [
+            {
+                "columnId": "dim_Time",
+                "title": {
+                    "FR": "Année"
+                },
+                "dataType": "year",
+                "dimension": {
+                    "name": "TIME"
+                },
+                "values": [1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011]
+            },
+            {
+                "columnId": "dim_ITEM",
+                "title": {
+                    "FR": "Culture"
+                },
+                "dataType": "code",
+                "dimension": {
+                    "name": "ITEM"
+                },
+                "codeSystem": {
+                    "version": "1.0",
+                    "system": "Crops"
+                },
+                "values": ["79", "56", "27", "94", "328", "242", "289", "236", "137", "122", "195", "203", "83", "402", "358", "388", "399", "401", "372", "426", "116", "423", "544", "397", "687", "406", "430"]
+            },
+            {
+                "columnId": "dim_Country",
+                "dataType": "code",
+                "dimension": {
+                    "name": "GEO"
+                },
+                "codeSystem": {
+                    "version": "1.0",
+                    "system": "GAUL"
+                },
+                "values": ["42"],
+                "virtualColumn": "INTERNAL"
+            },
+            {
+                "columnId": "item_type",
+                "dataType": "text",
+                "dimension": {
+                    "name": "ITEM_TYPE"
+                },
+                "values": ["Commodity"],
+                "virtualColumn": "INTERNAL"
+            },
+            {
+                "columnId": "dim_element",
+                "dataType": "code",
+                "dimension": {
+                    "name": "ELEMENT"
+                },
+                "codeSystem": {
+                    "version": "1.0",
+                    "system": "Elements"
+                },
+                "values": ["1"],
+                "virtualColumn": "INTERNAL"
+            },
+            {
+                "columnId": "dim_Value",
+                "dataType": "number",
+                "dimension": {
+                    "name": "VALUE"
+                }
+            }
+        ]
+    }
 
 }

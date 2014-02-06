@@ -1,8 +1,6 @@
 package org.fao.fenix.search.services.spi;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.fao.fenix.search.dto.SearchFilter;
@@ -16,14 +14,14 @@ public interface Search {
     @POST
     @GZIP
 	@Path("test")
-	public SearchResponse getDataBasicAlgorithmTest(@Context HttpServletRequest request, SearchFilter filter) throws Exception;
+	public SearchResponse getDataBasicAlgorithmTest(SearchFilter filter) throws Exception;
     @POST
     @GZIP
 	@Path("data")
-	public SearchResponse getDataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception;
+	public SearchResponse getDataBasicAlgorithm(SearchFilter filter) throws Exception;
 
     @POST
     @GZIP
 	@Path("meta")
-	public SearchResponse getMetadataBasicAlgorithm(@Context HttpServletRequest request, SearchFilter filter) throws Exception;
+	public SearchResponse getMetadataBasicAlgorithm(SearchFilter filter) throws Exception;
 }

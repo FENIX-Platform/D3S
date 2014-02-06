@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum DMDataType implements Serializable {
 
-	dataset("dataset"), vector("vector"), raster("raster");
+	dataset("dataset"), vector("vector"), raster("raster"), map("map");
 /*	production("production"), trade("trade"), foodSupply("foodSupply"), prices(
 			"prices"), landAndIrrigation("landAndIrrigation"), population(
 			"population"), labor("labor"), fertilizers("fertilizers"), pesticides(
