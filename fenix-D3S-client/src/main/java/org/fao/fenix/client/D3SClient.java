@@ -25,8 +25,9 @@ public class D3SClient {
     //UTILS
     public <T> T getProxy(Class<T> interfaceClassObj) throws ClassNotFoundException {
         if (clientRest!=null) { //REST PROXY
-            String path = this.getClass().getAnnotation(Path.class).value();
-            return clientRest.target(basePath + (path.charAt(0)=='/' ? path.substring(1) : path)).proxy(interfaceClassObj);
+            Path pathAnnotation = this.getClass().getAnnotation(Path.class);
+            String path = pathAnnotation!=null ? pathAnnotation.value() : "";
+            return clientRest.target(basePath + (path.length()>0 && path.charAt(0)=='/' ? path.substring(1) : path)).proxy(interfaceClassObj);
         } else { //JMX PROXY
             return null;
         }
