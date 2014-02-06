@@ -119,7 +119,9 @@ var D3SC = (function() {
     };
 
     function buildNested(tabID, id, definition) {
-        buildFieldBox(tabID, id, definition, 'nested_structure');
+        buildNestedFieldBox(tabID, id, definition, 'nested_structure');
+        CKEDITOR.replace(id + '_nested_description', {toolbar: 'FAOSTAT'});
+        $('#' + id + '_nested_date').jqxDateTimeInput({height: '33px'});
     };
 
     function buildTextArea(tabID, id, definition) {
@@ -155,6 +157,30 @@ var D3SC = (function() {
         $('#' + tabID).append(s);
         document.getElementById(id + '_title').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL'];
         $('#' + id + '_help').attr('title', definition[D3SC.CONFIG.lang + '_DESCRIPTION']);
+    };
+
+    function buildNestedFieldBox(tabID, id, definition, snippetID) {
+        var s = $(D3SC.CONFIG.snippets).filter('#' + snippetID).html();
+        s = s.replace('_title', id + '_title');
+        s = s.replace('_nested_label_title', id + '_nested_label_title');
+        s = s.replace('_nested_label_description', id + '_nested_label_description');
+        s = s.replace('_nested_label_date', id + '_nested_label_date');
+        s = s.replace('_nested_title', id + '_nested_title');
+        s = s.replace('_nested_description', id + '_nested_description');
+        s = s.replace('_nested_date', id + '_nested_date');
+        s = s.replace('_help_title', id + '_help_title');
+        s = s.replace('_help_description', id + '_help_description');
+        s = s.replace('_help_date', id + '_help_date');
+        $('#' + tabID).append(s);
+        document.getElementById(id + '_title').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL'];
+        document.getElementById(id + '_nested_label_title').innerHTML = $.i18n.prop('_title');
+        document.getElementById(id + '_nested_label_description').innerHTML = $.i18n.prop('_description');
+        document.getElementById(id + '_nested_label_date').innerHTML = $.i18n.prop('_date');
+        $('#' + id + '_help_title').attr('title', definition.FIELDS.title[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        if (definition.FIELDS.date != null)
+            $('#' + id + '_help_date').attr('title', definition.FIELDS.date[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        if (definition.FIELDS.description != null)
+            $('#' + id + '_help_description').attr('title', definition.FIELDS.description[D3SC.CONFIG.lang + '_DESCRIPTION']);
     };
 
     function loadMSD() {

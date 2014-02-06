@@ -1,70 +1,3 @@
-<div id='structure'>
-    <div class='container'>
-        <div class='row' style='background-color: #055C97;'>
-            <div class='col-xs-12 col-sm-12 col-md-9 col-lg-9'>
-                <img src='images/logoFaostat.png' style='padding: 8px;'>
-            </div>
-            <div class='col-xs-12 col-sm-12 col-md-1 col-lg-1'>
-                <a class='languageLink'>english</a>
-            </div>
-            <div class='col-xs-12 col-sm-12 col-md-1 col-lg-1'>
-                <a class='languageLink'>fran&ccedil;ais</a>
-            </div>
-            <div class='col-xs-12 col-sm-12 col-md-1 col-lg-1'>
-                <a class='languageLink'>espa&ntilde;ol</a>
-            </div>
-        </div>
-        <br>
-        <div class='row'>
-            <div class='col-xs-12 col-sm-12 col-md-3 col-lg-3'>
-                <div id='accordion_area'></div>
-            </div>
-            <div class='col-xs-12 col-sm-12 col-md-9 col-lg-9'>
-                <div id='fields_area'></div>
-            </div>
-        </div>
-        <br>
-        <div class='row'>
-            <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                <button style='width: 100%;' type='button' class='btn btn-default' id='submit_button'>
-
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id='accordion_structure'>
-    <div class='panel-group' id='accordion'>
-
-    </div>
-</div>
-
-<div id='accordion_element_structure'>
-    <div class='panel panel-default'>
-        <div class='panel-heading'>
-            <h4 class='panel-title'>
-                <a data-toggle='collapse' data-parent='#accordion' href='#collapse_'>
-                    <div id='accordion_element_title_'>Domain Name</div>
-                </a>
-            </h4>
-        </div>
-        <div id='collapse_' class='panel-collapse collapse'>
-            <div class='panel-body' style='padding: 3px 3px 3px 15px;'>
-                <div class='radio' id='radio_buttons_'></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id='radio_element'>
-    <label>
-        <input type='radio' name='radio_name' id='radio_id_' value='radio_value'>
-        <div id='radio_title_'>Crops</div>
-    </label>
-    <br>
-</div>
-
 <div id='tab_structure'>
     <ul class='nav nav-tabs' id='tab'>
 
@@ -138,22 +71,22 @@
         <fieldset style='border: 1px solid #000000; padding: 8px;'>
             <legend id='_title'>Publications</legend>
             <div style='width: 100%; overflow: hidden;'>
-                <div class='fieldLabel'>Title</div>
-                <img src='images/info.png' class='info' id='_help' title='Language of the dataset'>
+                <div class='fieldLabel' id='_nested_label_title'>Title</div>
+                <img src='images/info.png' class='info' id='_help_title' title='Language of the dataset'>
             </div>
-            <input type='text' class='form-control' style='width: 100%;'>
+            <input type='text' id='_nested_title'class='form-control' style='width: 100%;'>
             <div style='width: 100%; overflow: hidden;'>
-                <div class='fieldLabel'>Description</div>
-                <img src='images/info.png' class='info' id='_help' title='Language of the dataset'>
+                <div class='fieldLabel' id='_nested_label_description'>Description</div>
+                <img src='images/info.png' class='info' id='_help_description' title='Language of the dataset'>
             </div>
-            <textarea name='description' id='description' style='width: 100%; height: 75px;'></textarea>
+            <textarea name='description' id='_nested_description' style='width: 100%; height: 75px;'></textarea>
             <div style='width: 100%; overflow: hidden;'>
-                <div class='fieldLabel'>Date</div>
-                <img src='images/info.png' class='info' id='_help' title='Language of the dataset'>
+                <div class='fieldLabel' id='_nested_label_date'>Date</div>
+                <img src='images/info.png' class='info' id='_help_date' title='Language of the dataset'>
             </div>
-            <div id='date' style='width: 100%;'></div>
-            <button style='width: 100%;' type='button' class='btn btn-default'>Add Publication</button>
-            <button style='width: 100%;' type='button' class='btn btn-default'>Remove Publication</button>
+            <div id='_nested_date' style='width: 100%;'></div>
+            <button style='width: 100%;' type='button' class='btn btn-default' id='_add_button'>Add Publication</button>
+            <button style='width: 100%;' type='button' class='btn btn-default' id='_remove_button'>Remove Publication</button>
         </fieldset>
     </div>
 </div>
