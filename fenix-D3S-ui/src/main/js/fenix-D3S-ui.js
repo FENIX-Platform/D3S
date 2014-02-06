@@ -165,20 +165,26 @@ var D3SC = (function() {
         s = s.replace('_nested_label_title', id + '_nested_label_title');
         s = s.replace('_nested_label_description', id + '_nested_label_description');
         s = s.replace('_nested_label_date', id + '_nested_label_date');
+        s = s.replace('_nested_label_link', id + '_nested_label_link');
         s = s.replace('_nested_title', id + '_nested_title');
         s = s.replace('_nested_description', id + '_nested_description');
         s = s.replace('_nested_date', id + '_nested_date');
+        s = s.replace('_nested_link', id + '_nested_link');
         s = s.replace('_help_title', id + '_help_title');
         s = s.replace('_help_description', id + '_help_description');
         s = s.replace('_help_date', id + '_help_date');
+        s = s.replace('_help_link', id + '_help_link');
         $('#' + tabID).append(s);
         document.getElementById(id + '_title').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL'];
         document.getElementById(id + '_nested_label_title').innerHTML = $.i18n.prop('_title');
         document.getElementById(id + '_nested_label_description').innerHTML = $.i18n.prop('_description');
         document.getElementById(id + '_nested_label_date').innerHTML = $.i18n.prop('_date');
+        document.getElementById(id + '_nested_label_link').innerHTML = $.i18n.prop('_link');
         $('#' + id + '_help_title').attr('title', definition.FIELDS.title[D3SC.CONFIG.lang + '_DESCRIPTION']);
         if (definition.FIELDS.date != null)
             $('#' + id + '_help_date').attr('title', definition.FIELDS.date[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        if (definition.FIELDS.link != null)
+            $('#' + id + '_help_link').attr('title', definition.FIELDS.link[D3SC.CONFIG.lang + '_DESCRIPTION']);
         if (definition.FIELDS.description != null)
             $('#' + id + '_help_description').attr('title', definition.FIELDS.description[D3SC.CONFIG.lang + '_DESCRIPTION']);
     };
