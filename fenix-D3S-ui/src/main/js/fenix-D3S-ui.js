@@ -111,6 +111,8 @@ var D3SC = (function() {
                 case 'STRING'           :   buildString(tabID, k, v);           break;
                 case 'SINGLECHOICE'     :   buildSingleChoice(tabID, k, v);     break;
                 case 'MULTIPLECHOICE'   :   buildMultipleChoice(tabID, k, v);   break;
+                case 'CONTACT'          :   buildContact(tabID, k, v);     break;
+                case 'CONTACTLIST'      :   buildContactList(tabID, k, v);   break;
                 case 'DATE'             :   buildDate(tabID, k, v);             break;
                 case 'TEXTAREA'         :   buildTextArea(tabID, k, v);         break;
                 case 'NESTED'           :   buildNested(tabID, k, v);           break;
@@ -140,6 +142,16 @@ var D3SC = (function() {
     };
 
     function buildMultipleChoice(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'multiplechoice_structure');
+        $('#' + id + '_content').chosen({disable_search_threshold: 10});
+    };
+
+    function buildContact(tabID, id, definition) {
+        buildFieldBox(tabID, id, definition, 'singlechoice_structure');
+        $('#' + id + '_content').chosen({disable_search_threshold: 10});
+    };
+
+    function buildContactList(tabID, id, definition) {
         buildFieldBox(tabID, id, definition, 'multiplechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
     };
