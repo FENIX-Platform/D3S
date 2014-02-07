@@ -135,9 +135,9 @@ var D3SC = (function() {
         buildFieldBox(tabID, id, definition, 'date_structure');
         $('#' + id + '_content').jqxDateTimeInput({height: '33px'});
         if (id.indexOf('From') > -1) {
-
+            $('#' + id + '_content').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id.substring(0, id.indexOf('From'))]['from']));
         } else if (id.indexOf('To') > -1) {
-
+            $('#' + id + '_content').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id.substring(0, id.indexOf('To'))]['to']));
         } else {
             $('#' + id + '_content').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id]));
         }
