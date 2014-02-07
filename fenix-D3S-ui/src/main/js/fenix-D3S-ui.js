@@ -134,6 +134,13 @@ var D3SC = (function() {
     function buildDate(tabID, id, definition) {
         buildFieldBox(tabID, id, definition, 'date_structure');
         $('#' + id + '_content').jqxDateTimeInput({height: '33px'});
+        if (id.indexOf('From') > -1) {
+
+        } else if (id.indexOf('To') > -1) {
+
+        } else {
+            $('#' + id + '_content').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id]));
+        }
     };
 
     function buildSingleChoice(tabID, id, definition) {
@@ -159,6 +166,7 @@ var D3SC = (function() {
     function buildString(tabID, id, definition) {
         buildFieldBox(tabID, id, definition, 'string_structure');
         $('#' + id + '_help').attr('title', definition[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        $('#' + id + '_content').val(D3SC.CONFIG.data[id][D3SC.CONFIG.lang_ISO2]);
     };
 
     function buildFieldBox(tabID, id, definition, snippetID) {
