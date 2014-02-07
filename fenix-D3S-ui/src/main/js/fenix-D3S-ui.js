@@ -15,7 +15,9 @@ var D3SC = (function() {
         accordion_url   :   'http://faostat3.fao.org/wds/rest/groupsanddomains',
         data_url        :   'http://fenixapps.fao.org/d3sp/service/msd/dm',
         uid_prefix      :   'FAOSTAT_',
-        data            :   null
+        data            :   null,
+        codelists_url   :   'http://fenixapps.fao.org/d3sp/service/msd/cl/system',
+        contacts_url    :   'http://fenixapps.fao.org/d3sp/service/msd/cm/contact/byFields?context=FAOSTAT'
     };
 
     function init(config) {
@@ -146,8 +148,40 @@ var D3SC = (function() {
     };
 
     function buildSingleChoice(tabID, id, definition) {
+
         buildFieldBox(tabID, id, definition, 'singlechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
+
+        $.ajax({
+
+            type: 'GET',
+            url: D3SC.CONFIG.codelists_url + '/' + D3SC.CONFIG.msd[tabID][id].REST,
+            dataType: 'json',
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                /* Add options to the list. */
+                for (var i = 0 ; i < json.rootCodes.length ; i++) {
+                    var s = '<option value="' + json.rootCodes[i].code + '">' + json.rootCodes[i].title[D3SC.CONFIG.lang_ISO2] + '</option>';
+                    $('#' + id + '_content').append(s);
+                }
+
+                /* Update chosen. */
+                $('#' + id + '_content').trigger('chosen:updated');
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
     };
 
     function buildMultipleChoice(tabID, id, definition) {
