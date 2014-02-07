@@ -123,9 +123,23 @@ var D3SC = (function() {
     };
 
     function buildNested(tabID, id, definition) {
+
+        /* Build HTML. */
         buildNestedFieldBox(tabID, id, definition, 'nested_structure');
+
+        /* Text area. */
         CKEDITOR.replace(id + '_nested_description', {toolbar: 'FAOSTAT'});
+        if (D3SC.CONFIG.data[id][0].description != null) {
+            CKEDITOR.timestamp = (new Date()).toString() ;
+            console.log(id);
+            console.log(D3SC.CONFIG.data[id][0].description[D3SC.CONFIG.lang_ISO2]);
+            CKEDITOR.instances[id + '_nested_description'].setData(D3SC.CONFIG.data[id][0].description[D3SC.CONFIG.lang_ISO2]);
+        }
+
+        /* Date */
         $('#' + id + '_nested_date').jqxDateTimeInput({height: '33px'});
+        $('#' + id + '_nested_date').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id][0].publicationDate));
+
     };
 
     function buildTextArea(tabID, id, definition) {
