@@ -260,6 +260,7 @@ var D3SC = (function() {
 
     function buildNestedFieldBox(tabID, id, definition, snippetID) {
         var s = $(D3SC.CONFIG.snippets).filter('#' + snippetID).html();
+        s = s.replace('_container_0', id + '_container_0');
         s = s.replace('_title', id + '_title');
         s = s.replace('_nested_label_title', id + '_nested_label_title');
         s = s.replace('_nested_label_description', id + '_nested_label_description');
