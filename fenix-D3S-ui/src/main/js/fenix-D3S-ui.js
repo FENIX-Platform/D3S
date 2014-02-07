@@ -185,8 +185,51 @@ var D3SC = (function() {
     };
 
     function buildMultipleChoice(tabID, id, definition) {
+
         buildFieldBox(tabID, id, definition, 'multiplechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
+
+        $.ajax({
+
+            type: 'GET',
+            url: D3SC.CONFIG.codelists_url + '/' + D3SC.CONFIG.msd[tabID][id].REST,
+            dataType: 'json',
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                if (json.rootCodes != null) {
+
+                    /* Add options to the list. */
+                    for (var i = 0 ; i < json.rootCodes.length ; i++) {
+                        var s = '<option value="' + json.rootCodes[i].code + '">' + json.rootCodes[i].title[D3SC.CONFIG.lang_ISO2] + '</option>';
+                        $('#' + id + '_content').append(s);
+                    }
+
+                } else {
+
+                    for (var i = 0 ; i < json.length ; i++) {
+                        var s = '<option value="' + json[i].system + '">' + json[i].title[D3SC.CONFIG.lang_ISO2] + '</option>';
+                        $('#' + id + '_content').append(s);
+                    }
+
+                }
+
+                /* Update chosen. */
+                $('#' + id + '_content').trigger('chosen:updated');
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
     };
 
     function buildContact(tabID, id, definition) {
