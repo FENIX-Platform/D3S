@@ -129,6 +129,8 @@ var D3SC = (function() {
     function buildTextArea(tabID, id, definition) {
         buildFieldBox(tabID, id, definition, 'date_structure');
         CKEDITOR.replace(id + '_content', {toolbar: 'FAOSTAT'});
+        CKEDITOR.timestamp = (new Date()).toString() ;
+        CKEDITOR.instances[id + '_content'].setData(D3SC.CONFIG.data[id][D3SC.CONFIG.lang_ISO2]);
     };
 
     function buildDate(tabID, id, definition) {
