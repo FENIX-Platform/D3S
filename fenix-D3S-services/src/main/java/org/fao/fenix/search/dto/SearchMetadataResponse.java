@@ -3,6 +3,7 @@ package org.fao.fenix.search.dto;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.fao.fenix.msd.dto.dm.DM;
 
 public class SearchMetadataResponse extends SearchResponse {

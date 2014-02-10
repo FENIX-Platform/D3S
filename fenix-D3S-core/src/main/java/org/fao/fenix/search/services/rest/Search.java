@@ -16,10 +16,7 @@ import org.fao.fenix.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.msd.dto.dsd.type.DSDDataType;
-import org.fao.fenix.search.dto.OutputParameters;
-import org.fao.fenix.search.dto.SearchDataResponse;
-import org.fao.fenix.search.dto.SearchFilter;
-import org.fao.fenix.search.dto.SearchResponse;
+import org.fao.fenix.search.dto.*;
 import org.fao.fenix.search.services.impl.BasicDataSearch;
 import org.fao.fenix.search.services.impl.BasicMetadataSearch;
 import org.fao.fenix.server.tools.spring.SpringContext;
@@ -30,22 +27,22 @@ public class Search implements org.fao.fenix.search.services.spi.Search {
     @Context HttpServletRequest request;
 
     @Override
-	public SearchResponse getDataBasicAlgorithm(SearchFilter filter) throws Exception {
+	public SearchDataResponse getDataBasicAlgorithm(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
-        return SpringContext.getBean(BasicDataSearch.class).search(filter);
+        return (SearchDataResponse)SpringContext.getBean(BasicDataSearch.class).search(filter);
 	}
 	
     @Override
-	public SearchResponse getDataBasicAlgorithmTest(SearchFilter filter) throws Exception {
+	public SearchDataResponse getDataBasicAlgorithmTest(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
         Boolean geoOut = ((OutputParameters)((Map<String,Object>)filter.getParameters().get("output")).get("GEO")).getOut();
-        return getFakeDataToMax(geoOut);
+        return (SearchDataResponse)getFakeDataToMax(geoOut);
 	}
 
 	@Override
-	public SearchResponse getMetadataBasicAlgorithm(SearchFilter filter) throws Exception {
+	public SearchMetadataResponse getMetadataBasicAlgorithm(SearchFilter filter) throws Exception {
         decodeOutputParameters(filter);
-        return SpringContext.getBean(BasicMetadataSearch.class).search(filter);
+        return (SearchMetadataResponse)SpringContext.getBean(BasicMetadataSearch.class).search(filter);
 	}
 
 
