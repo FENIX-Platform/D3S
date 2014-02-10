@@ -127,23 +127,27 @@ var D3SC = (function() {
         /* Build HTML. */
         buildNestedFieldBox(tabID, id, definition, 'nested_structure');
 
-        /* Text area. */
-        CKEDITOR.replace(id + '_nested_description', {toolbar: 'FAOSTAT'});
-        if (D3SC.CONFIG.data[id][0].description != null) {
-            CKEDITOR.timestamp = (new Date()).toString() ;
-            CKEDITOR.instances[id + '_nested_description'].setData(D3SC.CONFIG.data[id][0].description[D3SC.CONFIG.lang_ISO2]);
+        for (var i = 0 ; i < D3SC.CONFIG.data[id].length ; i++) {
+
+            /* Text area. */
+            CKEDITOR.replace(id + '_nested_description_' + i, {toolbar: 'FAOSTAT'});
+            if (D3SC.CONFIG.data[id][0].description != null) {
+                CKEDITOR.timestamp = (new Date()).toString() ;
+                CKEDITOR.instances[id + '_nested_description_' + i].setData(D3SC.CONFIG.data[id][i].description[D3SC.CONFIG.lang_ISO2]);
+            }
+
+            /* Date */
+            $('#' + id + '_nested_date_' + i).jqxDateTimeInput({height: '33px'});
+            $('#' + id + '_nested_date_' + i).jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id][0].publicationDate));
+
+            /* Title. */
+            $('#' + id + '_nested_title_' + i).val(D3SC.CONFIG.data[id][i].title[D3SC.CONFIG.lang_ISO2]);
+
+            /* Link. */
+            if (D3SC.CONFIG.data[id][i].link != null)
+                $('#' + id + '_nested_link_' + i).val(D3SC.CONFIG.data[id][i].link);
+
         }
-
-        /* Date */
-        $('#' + id + '_nested_date').jqxDateTimeInput({height: '33px'});
-        $('#' + id + '_nested_date').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id][0].publicationDate));
-
-        /* Title. */
-        $('#' + id + '_nested_title').val(D3SC.CONFIG.data[id][0].title[D3SC.CONFIG.lang_ISO2]);
-
-        /* Link. */
-        if (D3SC.CONFIG.data[id][0].link != null)
-            $('#' + id + '_nested_link').val(D3SC.CONFIG.data[id][0].link[D3SC.CONFIG.lang_ISO2]);
 
     };
 
@@ -345,33 +349,49 @@ var D3SC = (function() {
 
     function buildNestedFieldBox(tabID, id, definition, snippetID) {
         var s = $(D3SC.CONFIG.snippets).filter('#' + snippetID).html();
-        s = s.replace('_container_0', id + '_container_0');
-        s = s.replace('_title', id + '_title');
-        s = s.replace('_nested_label_title', id + '_nested_label_title');
-        s = s.replace('_nested_label_description', id + '_nested_label_description');
-        s = s.replace('_nested_label_date', id + '_nested_label_date');
-        s = s.replace('_nested_label_link', id + '_nested_label_link');
-        s = s.replace('_nested_title', id + '_nested_title');
-        s = s.replace('_nested_description', id + '_nested_description');
-        s = s.replace('_nested_date', id + '_nested_date');
-        s = s.replace('_nested_link', id + '_nested_link');
-        s = s.replace('_help_title', id + '_help_title');
-        s = s.replace('_help_description', id + '_help_description');
-        s = s.replace('_help_date', id + '_help_date');
-        s = s.replace('_help_link', id + '_help_link');
+        s = s.replace('_legend', id + '_legend');
+        s = s.replace('_container', id + '_container');
+        s = s.replace('_add_button', id + '_add_button');
+        s = s.replace('_remove_button', id + '_remove_button');
         $('#' + tabID).append(s);
-        document.getElementById(id + '_title').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL'];
-        document.getElementById(id + '_nested_label_title').innerHTML = $.i18n.prop('_title');
-        document.getElementById(id + '_nested_label_description').innerHTML = $.i18n.prop('_description');
-        document.getElementById(id + '_nested_label_date').innerHTML = $.i18n.prop('_date');
-        document.getElementById(id + '_nested_label_link').innerHTML = $.i18n.prop('_link');
-        $('#' + id + '_help_title').attr('title', definition.FIELDS.title[D3SC.CONFIG.lang + '_DESCRIPTION']);
-        if (definition.FIELDS.date != null)
-            $('#' + id + '_help_date').attr('title', definition.FIELDS.date[D3SC.CONFIG.lang + '_DESCRIPTION']);
-        if (definition.FIELDS.link != null)
-            $('#' + id + '_help_link').attr('title', definition.FIELDS.link[D3SC.CONFIG.lang + '_DESCRIPTION']);
-        if (definition.FIELDS.description != null)
-            $('#' + id + '_help_description').attr('title', definition.FIELDS.description[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        document.getElementById(id + '_legend').innerHTML = definition[D3SC.CONFIG.lang + '_LABEL']
+        for (var i = 0 ; i < D3SC.CONFIG.data[id].length ; i++) {
+            var tmp = $(D3SC.CONFIG.snippets).filter('#single_nested_structure').html();
+            tmp = tmp.replace('_nested_label_title', id + '_nested_label_title' + '_' + i);
+            tmp = tmp.replace('_nested_label_description', id + '_nested_label_description' + '_' + i);
+            tmp = tmp.replace('_nested_label_date', id + '_nested_label_date' + '_' + i);
+            tmp = tmp.replace('_nested_label_link', id + '_nested_label_link' + '_' + i);
+            tmp = tmp.replace('_nested_title', id + '_nested_title' + '_' + i);
+            tmp = tmp.replace('_nested_description', id + '_nested_description' + '_' + i);
+            tmp = tmp.replace('_nested_date', id + '_nested_date' + '_' + i);
+            tmp = tmp.replace('_nested_link', id + '_nested_link' + '_' + i);
+            tmp = tmp.replace('_help_title', id + '_help_title' + '_' + i);
+            tmp = tmp.replace('_help_description', id + '_help_description' + '_' + i);
+            tmp = tmp.replace('_help_date', id + '_help_date' + '_' + i);
+            tmp = tmp.replace('_help_link', id + '_help_link' + '_' + i);
+            $('#' + id + '_container').append(tmp);
+            document.getElementById(id + '_nested_label_title' + '_' + i).innerHTML = $.i18n.prop('_title');
+            document.getElementById(id + '_nested_label_description' + '_' + i).innerHTML = $.i18n.prop('_description');
+            document.getElementById(id + '_nested_label_date' + '_' + i).innerHTML = $.i18n.prop('_date');
+            document.getElementById(id + '_nested_label_link' + '_' + i).innerHTML = $.i18n.prop('_link');
+            $('#' + id + '_help_title' + '_' + i).attr('title', definition.FIELDS.title[D3SC.CONFIG.lang + '_DESCRIPTION']);
+            if (definition.FIELDS.date != null)
+                $('#' + id + '_help_date' + '_' + i).attr('title', definition.FIELDS.date[D3SC.CONFIG.lang + '_DESCRIPTION']);
+            if (definition.FIELDS.link != null)
+                $('#' + id + '_help_link' + '_' + i).attr('title', definition.FIELDS.link[D3SC.CONFIG.lang + '_DESCRIPTION']);
+            if (definition.FIELDS.description != null)
+                $('#' + id + '_help_description' + '_' + i).attr('title', definition.FIELDS.description[D3SC.CONFIG.lang + '_DESCRIPTION']);
+        }
+        document.getElementById(id + '_add_button').innerHTML = $.i18n.prop('_add') + ' ' + definition[D3SC.CONFIG.lang + '_TAB_LABEL'];
+        document.getElementById(id + '_remove_button').innerHTML = $.i18n.prop('_remove') + ' ' + definition[D3SC.CONFIG.lang + '_TAB_LABEL'];
+        $('#' + id + '_add_button').bind('click', function() {
+            D3SC.addNestedFieldBox(id);
+        });
+    };
+
+    function addNestedFieldBox(id) {
+        var s = $(D3SC.CONFIG.snippets).filter('#single_nested_structure').html();
+        console.log(s);
     };
 
     function loadMSD() {
@@ -430,8 +450,9 @@ var D3SC = (function() {
     };
 
     return {
-        init            :   init,
-        CONFIG          :   CONFIG
+        init                :   init,
+        addNestedFieldBox   :   addNestedFieldBox,
+        CONFIG              :   CONFIG
     };
 
 })();
