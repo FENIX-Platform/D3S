@@ -131,14 +131,19 @@ var D3SC = (function() {
         CKEDITOR.replace(id + '_nested_description', {toolbar: 'FAOSTAT'});
         if (D3SC.CONFIG.data[id][0].description != null) {
             CKEDITOR.timestamp = (new Date()).toString() ;
-            console.log(id);
-            console.log(D3SC.CONFIG.data[id][0].description[D3SC.CONFIG.lang_ISO2]);
             CKEDITOR.instances[id + '_nested_description'].setData(D3SC.CONFIG.data[id][0].description[D3SC.CONFIG.lang_ISO2]);
         }
 
         /* Date */
         $('#' + id + '_nested_date').jqxDateTimeInput({height: '33px'});
         $('#' + id + '_nested_date').jqxDateTimeInput('setDate', new Date(D3SC.CONFIG.data[id][0].publicationDate));
+
+        /* Title. */
+        $('#' + id + '_nested_title').val(D3SC.CONFIG.data[id][0].title[D3SC.CONFIG.lang_ISO2]);
+
+        /* Link. */
+        if (D3SC.CONFIG.data[id][0].link != null)
+            $('#' + id + '_nested_link').val(D3SC.CONFIG.data[id][0].link[D3SC.CONFIG.lang_ISO2]);
 
     };
 
@@ -247,13 +252,79 @@ var D3SC = (function() {
     };
 
     function buildContact(tabID, id, definition) {
+
         buildFieldBox(tabID, id, definition, 'singlechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
+
+        $.ajax({
+
+            type: 'GET',
+            url: D3SC.CONFIG.contacts_url,
+            dataType: 'json',
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                for (var i = 0 ; i < json.length ; i++) {
+                    var s = '<option value="' + json[i].id + '">';
+                    s += json[i].surname + ', ' + json[i].name + ' (' + json[i].institution + ' - ' + json[i].department + ')';
+                    s += '</option>';
+                    $('#' + id + '_content').append(s);
+                }
+
+                /* Update chosen. */
+                $('#' + id + '_content').trigger('chosen:updated');
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
     };
 
     function buildContactList(tabID, id, definition) {
+
         buildFieldBox(tabID, id, definition, 'multiplechoice_structure');
         $('#' + id + '_content').chosen({disable_search_threshold: 10});
+
+        $.ajax({
+
+            type: 'GET',
+            url: D3SC.CONFIG.contacts_url,
+            dataType: 'json',
+
+            success : function(response) {
+
+                /* Convert the response in JSON, if needed */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                for (var i = 0 ; i < json.length ; i++) {
+                    var s = '<option value="' + json[i].id + '">';
+                    s += json[i].surname + ', ' + json[i].name + ' (' + json[i].institution + ' - ' + json[i].department + ')';
+                    s += '</option>';
+                    $('#' + id + '_content').append(s);
+                }
+
+                /* Update chosen. */
+                $('#' + id + '_content').trigger('chosen:updated');
+
+            },
+
+            error : function(err, b, c) {
+
+            }
+
+        });
+
     };
 
     function buildString(tabID, id, definition) {
