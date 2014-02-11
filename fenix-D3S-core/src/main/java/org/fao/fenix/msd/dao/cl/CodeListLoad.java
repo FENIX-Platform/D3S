@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.fao.fenix.msd.dto.cl.Code;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
+import org.fao.fenix.server.tools.SupportedLanguages;
 import org.fao.fenix.server.tools.orient.OrientDao;
 import org.fao.fenix.server.tools.orient.OrientDatabase;
 import org.fao.fenix.server.utils.CompletenessIterator;
@@ -22,7 +23,7 @@ import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 public class CodeListLoad extends OrientDao {
 	
 	@Autowired private CodeListConverter converter;
-	
+
 	private static OSQLSynchQuery<ODocument> queryLoadSystem = new OSQLSynchQuery<ODocument>("select from CSVersion where system = ? and version = ?");
 	private static OSQLSynchQuery<ODocument> queryLoadAllSystem = new OSQLSynchQuery<ODocument>("select from CSVersion");
 	private static OSQLSynchQuery<ODocument> queryLoadSystemByKeyword = new OSQLSynchQuery<ODocument>("select from CSVersion where ? in keywords");
@@ -295,5 +296,49 @@ public class CodeListLoad extends OrientDao {
     }
 
 
+    //Load codes or codelists by title
+    public Collection<Code> loadCodesByTitle(String text, SupportedLanguages language) throws Exception {
+        OGraphDatabase database = getDatabase(OrientDatabase.msd);
+        try {
+            return loadCodesByTitle(text, language, database);
+        } finally {
+            if (database!=null)
+                database.close();
+        }
+    }
+    public Collection<Code> loadCodesByTitle(String text, SupportedLanguages language, OGraphDatabase database) throws Exception {
+        return converter.toCode(loadByTitleO(text, language, false, database),false);
+    }
+
+    public Collection<CodeSystem> loadCodeSystemsByTitle(String text, SupportedLanguages language) throws Exception {
+        OGraphDatabase database = getDatabase(OrientDatabase.msd);
+        try {
+            return loadCodeSystemsByTitle(text, language, database);
+        } finally {
+            if (database!=null)
+                database.close();
+        }
+    }
+    public Collection<CodeSystem> loadCodeSystemsByTitle(String text, SupportedLanguages language, OGraphDatabase database) throws Exception {
+        return converter.toSystem(loadByTitleO(text, language, true, database),false);
+    }
+
+    public synchronized Collection<ODocument> loadByTitleO(String text, SupportedLanguages language, boolean codeList, OGraphDatabase database) throws Exception {
+        StringBuilder query = new StringBuilder("select ");
+        if (codeList)
+            query.append("distinct(system) as system ");
+        query.append("from CSCode where index_title_").append(language.getCode()).append(" containstext ?");
+
+        Collection<ODocument> data = new LinkedList<>();
+        for (String word : text.split("[^\\w%]+"))
+            if (codeList)
+                for (ODocument id : (Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(query.toString()),word))
+                    data.add((ODocument)id.field("system"));
+            else
+                data.addAll ((Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(query.toString()),word));
+        return data;
+    }
+
+    ////////////
 
 }

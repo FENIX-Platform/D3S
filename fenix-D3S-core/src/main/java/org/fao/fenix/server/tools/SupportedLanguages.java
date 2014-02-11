@@ -8,6 +8,13 @@ public enum SupportedLanguages {
 	private SupportedLanguages(String code) { this.code = code; }
 	
 	public String getCode() { return code; }
-	
+
+
+    public static SupportedLanguages getInstance(String code) {
+        for (SupportedLanguages language : SupportedLanguages.values())
+            if (language.getCode().equals(code))
+                return language;
+        return null;
+    }
 
 }

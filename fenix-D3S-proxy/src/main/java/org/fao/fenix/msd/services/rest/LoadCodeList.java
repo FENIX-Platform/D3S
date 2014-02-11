@@ -38,6 +38,16 @@ public class LoadCodeList extends Service implements org.fao.fenix.msd.services.
 	}
 
     @Override
+    public Collection<Code> getCodesByTitle(String languageCode, String text) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodesByTitle(languageCode,text);
+    }
+
+    @Override
+    public Collection<CodeSystem> getCodeListsByTitle(String languageCode, String text) throws Exception {
+        return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodeListsByTitle(languageCode,text);
+    }
+
+    @Override
     public Collection<Code> getCodes(String system, String version, Collection<String> codes, Integer levels) throws Exception {
         return getProxy(org.fao.fenix.msd.services.spi.LoadCodeList.class).getCodes(system, version, codes, levels);
     }

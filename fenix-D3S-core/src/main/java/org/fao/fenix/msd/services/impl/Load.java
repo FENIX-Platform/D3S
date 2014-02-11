@@ -24,6 +24,7 @@ import org.fao.fenix.msd.dto.dm.DMMeta;
 import org.fao.fenix.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.server.tools.SupportedLanguages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -61,7 +62,25 @@ public class Load {
 	{
 		return clLoadDAO.loadCode(system,version,code,levels);
 	}
-	
+    public Collection<Code> loadCodes(String text, SupportedLanguages language) throws Exception {
+        if (language==null)
+            language = SupportedLanguages.english;
+        if (text == null)
+            return null;
+        Collection<Code> result = clLoadDAO.loadCodesByTitle(text,language);
+
+        return result!=null && result.size()>0 ? result : null;
+    }
+    public Collection<CodeSystem> loadCodeLists(String text, SupportedLanguages language) throws Exception {
+        if (language==null)
+            language = SupportedLanguages.english;
+        if (text == null)
+            return null;
+        Collection<CodeSystem> result = clLoadDAO.loadCodeSystemsByTitle(text,language);
+
+        return result!=null && result.size()>0 ? result : null;
+    }
+
 
 	public Collection<Code> loadCodes(String system,String version, Collection<String> codes, int levels) throws Exception
 	{

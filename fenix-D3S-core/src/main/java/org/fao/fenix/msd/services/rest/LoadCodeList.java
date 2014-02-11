@@ -14,6 +14,7 @@ import org.fao.fenix.msd.dto.cl.CodeRelationship;
 import org.fao.fenix.msd.dto.cl.CodeSystem;
 import org.fao.fenix.msd.dto.cl.type.CodeRelationshipType;
 import org.fao.fenix.msd.services.impl.Load;
+import org.fao.fenix.server.tools.SupportedLanguages;
 import org.fao.fenix.server.tools.spring.SpringContext;
 
 @Path("msd/cl")
@@ -52,7 +53,18 @@ public class LoadCodeList implements org.fao.fenix.msd.services.spi.LoadCodeList
 	public Map<String,Code> getCodesMap(String system, String version, String code, Integer levels) throws Exception {
 		return SpringContext.getBean(Load.class).getCodesMap(system, version, code, levels);
 	}
-	//Same as getCodesMap but takes an array of codes instead of a single code
+
+    @Override
+    public Collection<Code> getCodesByTitle(String languageCode, String text) throws Exception {
+        return SpringContext.getBean(Load.class).loadCodes(text, SupportedLanguages.getInstance(languageCode));
+    }
+
+    @Override
+    public Collection<CodeSystem> getCodeListsByTitle(String languageCode, String text) throws Exception {
+        return SpringContext.getBean(Load.class).loadCodeLists(text, SupportedLanguages.getInstance(languageCode));
+    }
+
+    //Same as getCodesMap but takes an array of codes instead of a single code
 	@Override
 	public Map<String,Code> getCodesListMap(String system, String version, Integer levels, Collection<String> codes) throws Exception {
 		return SpringContext.getBean(Load.class).getCodesMap(system, version, codes, levels);

@@ -32,11 +32,22 @@ public interface LoadCodeList {
     @GZIP
 	@Path("code/{system}/{version}/{code}")
 	public Code getCode(@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
-	@POST
+    @POST
     @GZIP
-	@Path("codes/{system}/{version}")
-	public Collection<Code> getCodes(@PathParam("system") String system, @PathParam("version") String version, Collection<String> codes, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
-		
+    @Path("codes/title/{language}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Collection<Code> getCodesByTitle(@PathParam("language") String languageCode, String text) throws Exception;
+    @POST
+    @GZIP
+    @Path("systems/title/{language}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Collection<CodeSystem> getCodeListsByTitle(@PathParam("language") String languageCode, String text) throws Exception;
+    @POST
+    @GZIP
+    @Path("codes/{system}/{version}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<Code> getCodes(@PathParam("system") String system, @PathParam("version") String version, Collection<String> codes, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
+
 	//Returns a Map of code-CodeObject
 	@GET
     @GZIP
@@ -49,6 +60,7 @@ public interface LoadCodeList {
 	@POST
     @GZIP
 	@Path("codesMap/{system}/{version}")
+    @Consumes(MediaType.APPLICATION_JSON)
 	public Map<String,Code> getCodesListMap(@PathParam("system") String system, @PathParam("version") String version, @QueryParam("levels") @DefaultValue("0") Integer levels,  Collection<String> codes) throws Exception;
 	
 	@GET

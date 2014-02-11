@@ -25,8 +25,10 @@ public class CodeListStore extends OrientDao {
 	@Autowired private CodeListLinkStore storeLinkDAO;
 	@Autowired private DMStore dmStoreDAO;
     @Autowired private CommonsStore cmStoreDAO;
+    @Autowired private CodeListIndex index;
 
-	//UPDATE
+
+    //UPDATE
 	//codelist
 	public int updateCodeList(CodeSystem cl, boolean append) throws Exception {
 		OGraphDatabase database = getDatabase(OrientDatabase.msd);
@@ -87,6 +89,10 @@ public class CodeListStore extends OrientDao {
 			csmain.field("provider", null, OType.LINK);
 
 		csmain.save();
+
+        //Index
+        index.rebuildIndex(csmain);
+
 		return 1;
 	}
 
@@ -141,7 +147,10 @@ public class CodeListStore extends OrientDao {
         cl.resetLevels();
         appendCodes(csmain,cl.getRootCodes(),database);
 
-		return 1;
+        //Index
+        index.rebuildIndex(csmain);
+
+        return 1;
 	}
     private void appendCodes (ODocument csO, Collection<Code> rootCodes, OGraphDatabase database) throws Exception {
         Collection<ODocument> rootCodesO = csO.field("rootCodes");
@@ -260,6 +269,8 @@ public class CodeListStore extends OrientDao {
             codeO.field("exclusions",exclusionList.size()>0 ? exclusionList : null, OType.LINKLIST);
 
             codeO.save();
+
+            index.rebuildCodeIndex(codeO);
         }
 		return codeO;
 	}
@@ -300,6 +311,9 @@ public class CodeListStore extends OrientDao {
             }
 
             codeO.save();
+
+            index.rebuildCodeIndex(codeO);
+
         }
 		return codeO;
 	}
@@ -428,8 +442,11 @@ public class CodeListStore extends OrientDao {
 			csmain.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
 		if (cl.getCategory()!=null)
 			csmain.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
-		
-		return csmain.save();
+
+        //Index
+        index.rebuildIndex(csmain);
+
+        return csmain.save();
 	}
 
 	public ODocument storeKeyword(String keyword, OGraphDatabase database) throws Exception {
