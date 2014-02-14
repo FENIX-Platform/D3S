@@ -10,15 +10,7 @@ import javax.ws.rs.core.Application;
 import org.fao.fenix.backup.services.rest.BackupService;
 import org.fao.fenix.cl.services.rest.MergeCL;
 import org.fao.fenix.dataset.services.rest.Upload;
-import org.fao.fenix.msd.services.rest.DeleteCodeList;
-import org.fao.fenix.msd.services.rest.LoadCodeList;
-import org.fao.fenix.msd.services.rest.LoadCommons;
-import org.fao.fenix.msd.services.rest.LoadDM;
-import org.fao.fenix.msd.services.rest.LoadDSD;
-import org.fao.fenix.msd.services.rest.StoreCodeList;
-import org.fao.fenix.msd.services.rest.StoreCommons;
-import org.fao.fenix.msd.services.rest.StoreDM;
-import org.fao.fenix.msd.services.rest.StoreDSD;
+import org.fao.fenix.msd.services.rest.*;
 import org.fao.fenix.search.services.rest.Search;
 
 @ApplicationPath("/")
@@ -39,6 +31,7 @@ public class ServiceRegistry extends Application {
 		classes.add(StoreDSD.class);
 		classes.add(LoadCommons.class);
 		classes.add(StoreCommons.class);
+		classes.add(MSD.class);
 		//SEARCH
 		classes.add(Search.class);
 		//DATASET

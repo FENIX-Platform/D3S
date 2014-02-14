@@ -7,6 +7,7 @@ import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
+import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
@@ -134,5 +135,83 @@ public abstract class OrientDao {
         syncData.field(key,value);
         database.save(syncData);
     }
+
+
+    public void toMap(Map<String,Object> data, ODocument recordO, Set<String> classes, Integer levels) {
+        toMap(data, recordO, 0, classes, levels, new Stack<ORID>());
+    }
+    private void toMap(Map<String,Object> data, ODocument recordO, int level, Set<String> classes, Integer levels, Stack<ORID> done) {
+        if (recordO!=null && !done.contains(recordO.getIdentity()) && (classes==null || classes.isEmpty() || classes.contains(recordO.getClassName())) && (levels==null || level<=levels) ) {
+
+            done.push(recordO.getIdentity());
+
+            for (String fieldName : recordO.fieldNames()) {
+                OType fieldType = recordO.fieldType(fieldName);
+                if (fieldType==null)
+                    fieldType = recordO.getSchemaClass().getProperty(fieldName).getType();
+                if (fieldType==null)
+                    fieldType = OType.BINARY;
+
+                switch (fieldType) {
+                    case LINK:
+                        ODocument childO = recordO.field(fieldName);
+                        if (childO!=null) {
+                            Map<String,Object> record = new HashMap<>();
+                            toMap(record, childO, level+1, classes, levels, done);
+                            if (record.size()>0)
+                                data.put(fieldName, record);
+                        }
+                        break;
+                    case LINKLIST:
+                        List<ODocument> childrenListO = recordO.field(fieldName);
+                        if (childrenListO!=null) {
+                            List<Map<String,Object>> records = new LinkedList<>();
+                            for (ODocument cO : childrenListO) {
+                                Map<String,Object> record = new HashMap<>();
+                                toMap(record, cO, level+1, classes, levels, done);
+                                if (record.size()>0)
+                                    records.add(record);
+                            }
+                            if (records.size()>0)
+                                data.put(fieldName, records);
+                        }
+                        break;
+                    case LINKSET:
+                        Set<ODocument> childrenSetO = recordO.field(fieldName);
+                        if (childrenSetO!=null) {
+                            Set<Map<String,Object>> records = new HashSet<>();
+                            for (ODocument cO : childrenSetO) {
+                                Map<String,Object> record = new HashMap<>();
+                                toMap(record, cO, level+1, classes, levels, done);
+                                if (record.size()>0)
+                                    records.add(record);
+                            }
+                            if (records.size()>0)
+                                data.put(fieldName, records);
+                        }
+                        break;
+                    case LINKMAP:
+                        Map<String, ODocument> childrenMapO = recordO.field(fieldName);
+                        if (childrenMapO!=null) {
+                            Map<String,Map<String,Object>> records = new HashMap<>();
+                            for (Map.Entry<String, ODocument> ceO : childrenMapO.entrySet()) {
+                                Map<String,Object> record = new HashMap<>();
+                                toMap(record, ceO.getValue(), level+1, classes, levels, done);
+                                if (record.size()>0)
+                                    records.put(ceO.getKey(), record);
+                            }
+                            if (records.size()>0)
+                                data.put(fieldName, records);
+                        }
+                        break;
+                    default:
+                        data.put(fieldName,recordO.field(fieldName));
+                }
+            }
+
+            done.pop();
+        }
+    }
+
 
 }

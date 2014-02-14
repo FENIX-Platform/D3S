@@ -59,21 +59,10 @@ public class DMIndexStore extends OrientDao {
             return 0;
 
         OClass dmClassO = dmO.getSchemaClass();
+        OProperty property;
         for (String fieldName : dmO.fieldNames())
-            if (fieldName.startsWith("index_")) {
-                OProperty property = dmClassO.getProperty(fieldName);
-                if (property!=null) {
-                    for (OIndex i : property.getAllIndexes()) {
-                        Object value = dmO.field(fieldName);
-                        if (value instanceof Collection)
-                            for (Object v : (Collection)value)
-                                i.remove(v,dmO);
-                        else
-                            i.remove(value,dmO);
-                    }
+            if (fieldName.startsWith("index_") && (property=dmClassO.getProperty(fieldName))!=null)
                     dmO.field(fieldName, null, property.getType());
-                }
-            }
 
         dmO.save();
         return 1;

@@ -1,5 +1,8 @@
 package org.fao.fenix.client;
 
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.*;
 
 import javax.ws.rs.Path;
@@ -25,10 +28,12 @@ public class D3SClient {
     //UTILS
     public String getBasePath() { return basePath; }
 
-    public <T> T getProxy(Class<T> interfaceClassObj, String ... pathPrefix) throws ClassNotFoundException {
+    public <T> T getProxy(Class<T> interfaceClassObj, String ... pathPrefix) throws Exception {
         if (clientRest!=null) { //REST PROXY
             return clientRest.target(basePath + createServiceBasePath(pathPrefix)).proxy(interfaceClassObj);
         } else { //JMX PROXY
+            Registry registry = LocateRegistry.getRegistry("host",8000);
+
             return null;
         }
     }
