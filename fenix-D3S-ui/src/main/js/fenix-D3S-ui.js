@@ -160,12 +160,20 @@ var D3SC = (function() {
                     json = $.parseJSON(response);
 
                 /* Add options to the list. */
+                console.log(id);
+                console.log(D3SC.CONFIG.data[id]);
+                var s = '<option value="null">Please select...</option>';
                 for (var i = 0 ; i < json.rootCodes.length ; i++) {
-                    var s = '<option value="' + json.rootCodes[i].code + '">' + json.rootCodes[i].title[D3SC.CONFIG.lang_ISO2] + '</option>';
-                    $('#' + id + '_content').append(s);
+                    var che
+                    console.log(D3SC.CONFIG.data.language + " VS " + json.rootCodes[i].code)
+                    if (id == 'language' && D3SC.CONFIG.data.language == json.rootCodes[i].code) {
+
+                    }
+                    s += '<option value="' + json.rootCodes[i].code + '">' + json.rootCodes[i].title[D3SC.CONFIG.lang_ISO2] + '</option>';
                 }
 
                 /* Update chosen. */
+                $('#' + id + '_content').append(s);
                 $('#' + id + '_content').trigger('chosen:updated');
 
             },
@@ -244,14 +252,18 @@ var D3SC = (function() {
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
+                s = '<option value="null">Please select...</option>';
                 for (var i = 0 ; i < json.length ; i++) {
-                    var s = '<option value="' + json[i].id + '">';
+                    s += '<option value="' + json[i].id + '" ';
+                    if (json[i].id == D3SC.CONFIG.data[id].id)
+                        s +=  'selected';
+                    s +=  '>';
                     s += json[i].surname + ', ' + json[i].name + ' (' + json[i].institution + ' - ' + json[i].department + ')';
                     s += '</option>';
-                    $('#' + id + '_content').append(s);
                 }
 
                 /* Update chosen. */
+                $('#' + id + '_content').append(s);
                 $('#' + id + '_content').trigger('chosen:updated');
 
             },
