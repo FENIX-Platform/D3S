@@ -16,6 +16,7 @@ import org.fao.fenix.msd.dto.common.Publication;
 import org.fao.fenix.msd.dto.dm.type.DMCopyrightType;
 import org.fao.fenix.msd.dto.dm.type.DMDataKind;
 import org.fao.fenix.msd.dto.dm.type.DMDataType;
+import org.fao.fenix.msd.dto.dm.type.DMLayerType;
 import org.fao.fenix.msd.dto.dsd.DSD;
 import org.fao.fenix.server.utils.DataUtils;
 
@@ -104,6 +105,7 @@ public class DM implements Comparable<DM> {
     private Map<String,String> statisticalPopulation;
     private Object freeExtension;
     private DMDataType dataType;
+    private DMLayerType layerType;
     private DMDataKind dataKind;
     private DMCopyrightType copyright;
 
@@ -465,6 +467,14 @@ public class DM implements Comparable<DM> {
 
     public void setDataType(DMDataType dataType) {
         this.dataType = dataType;
+    }
+
+    public DMLayerType getLayerType() {
+        return layerType;
+    }
+
+    public void setLayerType(DMLayerType layerType) {
+        this.layerType = layerType;
     }
 
     public DMDataKind getDataKind() {
@@ -875,6 +885,10 @@ public class DM implements Comparable<DM> {
 	@JsonIgnore
 	public void setDecodedDataType(String code) {
 		dataType = DMDataType.getByCode(code);
+	}
+	@JsonIgnore
+	public void setDecodedLayerType(String code) {
+		layerType = DMLayerType.getByCode(code);
 	}
 	@JsonIgnore
 	public void setDecodedDataKind(String code) {
