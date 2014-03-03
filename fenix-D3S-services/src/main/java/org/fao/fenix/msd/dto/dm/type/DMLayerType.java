@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum DMLayerType implements Serializable {
 
-	vector("vector"), raster("raster");
+	raster("raster"), lines("lines"), points("points"), polygons("polygons");
 
     private String code;
 

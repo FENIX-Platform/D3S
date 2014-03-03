@@ -121,7 +121,7 @@ public class DatasetPropertiesFilter extends DatasetFilter {
                 break;
             case dateInterval:
                 if (property==null) //It's a period indexed as separated fields with "_from" and "_to" suffix
-                    query.append("( ").append(indexFieldName).append("_from >= ? AND ").append(indexFieldName).append("_to <= ? ) ");
+                    query.append("( ").append(indexFieldName).append("_to >= ? AND ").append(indexFieldName).append("_from <= ? ) ");
                 else //It's a standard date field
                     query.append(indexFieldName).append(" BETWEEN ? AND ? ");
                 parameterValues.add(filterValue.getFromDate());
@@ -137,7 +137,7 @@ public class DatasetPropertiesFilter extends DatasetFilter {
                 parameterValues.add(getFlow().getLoadedCode(filterValue.getCode()));
                 break;
             case document:
-                query.append(indexFieldName).append(property.getType()==OType.LINKLIST ? " = ? " : " CONTAINS ? "); //field can be LINK or LINKLIST only
+                query.append(indexFieldName).append(property.getType()==OType.LINKLIST ? " CONTAINS ? " : " = ? "); //field can be LINK or LINKLIST only
                 parameterValues.add(toRID(filterValue.getId()));
                 break;
             default:
