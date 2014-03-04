@@ -1,8 +1,8 @@
 package org.fao.fenix.msd.dao.other;
 
-import org.fao.fenix.server.init.MainController;
-import org.fao.fenix.server.tools.orient.OrientServer;
-import org.fao.fenix.server.tools.orient.SchemaClone;
+import org.fao.fenix.d3s.server.init.MainController;
+import org.fao.fenix.d3s.server.tools.orient.OrientServer;
+import org.fao.fenix.d3s.server.tools.orient.SchemaClone;
 
 public class CloneTest {
 	

@@ -4,19 +4,19 @@ import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
-import org.fao.fenix.msd.dao.cl.CodeListStore;
+import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
 import org.fao.fenix.msd.dao.cl.CodeSystemInsertDaoTest;
-import org.fao.fenix.msd.dao.common.CommonsConverter;
-import org.fao.fenix.msd.dao.common.CommonsLoad;
-import org.fao.fenix.msd.dto.cl.Code;
-import org.fao.fenix.msd.dto.cl.CodeSystem;
-import org.fao.fenix.msd.dto.common.Contact;
-import org.fao.fenix.msd.dto.common.ContactIdentity;
-import org.fao.fenix.msd.dto.common.Link;
-import org.fao.fenix.msd.dto.common.ValueOperator;
-import org.fao.fenix.msd.dto.common.type.ContactType;
-import org.fao.fenix.server.tools.orient.OrientDatabase;
-import org.fao.fenix.server.tools.spring.SpringContext;
+import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
+import org.fao.fenix.d3s.msd.dao.common.CommonsLoad;
+import org.fao.fenix.d3s.msd.dto.cl.Code;
+import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.d3s.msd.dto.common.Contact;
+import org.fao.fenix.d3s.msd.dto.common.ContactIdentity;
+import org.fao.fenix.d3s.msd.dto.common.Link;
+import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.d3s.msd.dto.common.type.ContactType;
+import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
+import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -17,7 +17,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.fao.fenix.server.init.MainController</mainClass>
+							<mainClass>org.fao.fenix.d3s.server.init.MainController</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

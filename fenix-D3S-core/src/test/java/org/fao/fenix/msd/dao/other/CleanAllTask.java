@@ -1,8 +1,8 @@
 package org.fao.fenix.msd.dao.other;
 
-import org.fao.fenix.msd.dao.Cleaner;
-import org.fao.fenix.server.init.MainController;
-import org.fao.fenix.server.tools.spring.SpringContext;
+import org.fao.fenix.d3s.msd.dao.Cleaner;
+import org.fao.fenix.d3s.server.init.MainController;
+import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 
 public class CleanAllTask {
 	
