@@ -37,14 +37,14 @@ public class MultipleStepIterable extends SearchStep {
 
             @Override
             public boolean hasNext() {
-                return (currentSurceDataIterator!=null && currentSurceDataIterator.hasNext()) || sourceIterator.hasNext();  //To change body of implemented methods use File | Settings | File Templates.
+                while ((currentSurceDataIterator==null || !currentSurceDataIterator.hasNext()) && sourceIterator.hasNext())
+                    nextSource();
+                return currentSurceDataIterator!=null && currentSurceDataIterator.hasNext();
             }
 
             @Override
             public Object[] next() {
                 if (hasNext()) {
-                    if (currentSurceDataIterator==null || !currentSurceDataIterator.hasNext())
-                        nextSource();
                     Object[] sourceRow = currentSurceDataIterator.next();
                     Object[] row = new Object[currentColumnsMapping.length];
                     for (int i=0; i<row.length; i++)
