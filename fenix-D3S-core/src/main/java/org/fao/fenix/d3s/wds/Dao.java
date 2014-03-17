@@ -2,17 +2,18 @@ package org.fao.fenix.d3s.wds;
 
 import java.util.*;
 
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.dm.DM;
-import org.fao.fenix.d3s.msd.dto.dm.type.DMCopyrightType;
-import org.fao.fenix.d3s.msd.dto.dm.type.DMDataKind;
-import org.fao.fenix.d3s.msd.dto.dm.type.DMDataType;
-import org.fao.fenix.d3s.msd.dto.dsd.DSD;
-import org.fao.fenix.d3s.msd.dto.dsd.DSDColumn;
-import org.fao.fenix.d3s.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.d3s.msd.dto.dsd.DSDDimension;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.dm.DM;
+import org.fao.fenix.commons.msd.dto.dm.type.DMCopyrightType;
+import org.fao.fenix.commons.msd.dto.dm.type.DMDataKind;
+import org.fao.fenix.commons.msd.dto.dm.type.DMDataType;
+import org.fao.fenix.commons.msd.dto.dsd.DSD;
+import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
@@ -29,7 +30,7 @@ public abstract class Dao extends SearchStep {
         this.properties = properties;
     }
     //Interface
-	public abstract void load(SearchFilter filter, ODocument dataset) throws Exception;
+	public abstract void load(ResourceFilter filter, ODocument dataset) throws Exception;
 	public abstract void store(Iterable<Object[]> data, ODocument dataset) throws Exception;
 
 
@@ -92,21 +93,6 @@ public abstract class Dao extends SearchStep {
 		return column;
     }
 
-    @SuppressWarnings("unchecked")
-	protected Collection<ODocument> getOutputColumns(SearchFilter filter, ODocument dataset) {
-        Collection<ODocument> columns = new LinkedList<ODocument>();
-
-        Map<String,ODocument> colByDim = getFlow().getColumnsByDimension(dataset);
-        Set<String> dimensionsByFilter = filter.getDimensions().keySet();
-        Map<String,OutputParameters> outputParameters = filter.getParameters()!=null ? (Map<String,OutputParameters>)filter.getParameters().get("output") : null;
-        for (Map.Entry<String,ODocument> columnEntry : colByDim.entrySet())
-            if (    outputParameters.containsKey(columnEntry.getKey()) ||
-                    dimensionsByFilter.contains(columnEntry.getKey()) ||
-                    columnEntry.getKey().equals(DSDDimension.VALUE_DIMENSION.getName()))
-                columns.add(columnEntry.getValue());
-        return columns;
-    }
-    
     
 
 }

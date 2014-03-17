@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.d3s.search.dto.OutputParameters;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
@@ -20,9 +22,10 @@ public class SearchFlow {
     private long pid;
     private OGraphDatabase msdDatabase;
     private Collection<ODocument> involvedDatasets;
-	private Map<ODocument, SearchFilter> encodedFilters = new HashMap<ODocument, SearchFilter>();
+	private Map<ODocument, ResourceFilter> encodedFilters = new HashMap<ODocument, ResourceFilter>();
 	private Map<ODocument,Map<String,ODocument>> columnsByDimension = new HashMap<ODocument, Map<String,ODocument>>();
     private Map<String,Object> businessParameters = new HashMap<String, Object>();
+    private Map<String,OutputParameters> businessOutputParameters = new HashMap<String,OutputParameters>();
     private Map<Code,ODocument> loadedCodes = new HashMap<Code, ODocument>();
     private Map<CodeSystem,ODocument> loadedSystems = new HashMap<CodeSystem, ODocument>();
     private Map<String,Object> attributes = new HashMap<String, Object>();
@@ -37,18 +40,40 @@ public class SearchFlow {
         return pid;
     }
 
-    public Map<ODocument, SearchFilter> getEncodedFilters() {
+    public Map<ODocument, ResourceFilter> getEncodedFilters() {
 		return encodedFilters;
 	}
 
     public Map<String, Object> getBusinessParameters() {
         return businessParameters;
     }
+    public Object getBusinessParameter(String key) {
+        return businessParameters.get(key);
+    }
 
     public void setBusinessParameters(Map<String, Object> businessParameters) {
         this.businessParameters.clear();
         if (businessParameters!=null)
             this.businessParameters.putAll(businessParameters);
+    }
+    public void putBusinessParameter(String key, Object value) {
+        businessParameters.put(key,value);
+    }
+
+    public Map<String, OutputParameters> getBusinessOutputParameters() {
+        return businessOutputParameters;
+    }
+    public OutputParameters getBusinessOutputParameter(String key) {
+        return businessOutputParameters.get(key);
+    }
+
+    public void setBusinessOutputParameters(Map<String, OutputParameters> businessOutputParameters) {
+        this.businessOutputParameters.clear();
+        if (businessOutputParameters!=null)
+            this.businessOutputParameters.putAll(businessOutputParameters);
+    }
+    public void putBusinessOutputParameter(String key, OutputParameters value) {
+        businessOutputParameters.put(key, value);
     }
 
     public Map<Code,ODocument> getLoadedCodes () {
@@ -88,7 +113,7 @@ public class SearchFlow {
     }
 
     //Utils
-    public void addEncodedFilter(ODocument dataset, SearchFilter customFilter) {
+    public void addEncodedFilter(ODocument dataset, ResourceFilter customFilter) {
         encodedFilters.put(dataset, customFilter);
     }
     public void addBusinessParameter(String key, String value) {

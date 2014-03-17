@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 

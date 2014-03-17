@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.cl.type.CSSharingPolicy;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 import org.junit.Before;
 import org.junit.Test;

@@ -5,7 +5,7 @@ import org.fao.fenix.d3s.backup.dto.BackupOperation;
 import org.fao.fenix.d3s.backup.dto.BackupStatus;
 import org.fao.fenix.d3s.backup.services.impl.BackupRegistry;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.fao.fenix.d3s.server.utils.CompletenessIterator;
+import org.fao.fenix.commons.utils.CompletenessIterator;
 import org.springframework.stereotype.Component;
 
 import java.io.File;

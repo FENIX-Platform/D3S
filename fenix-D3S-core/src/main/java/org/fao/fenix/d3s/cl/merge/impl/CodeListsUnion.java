@@ -13,9 +13,9 @@ import org.fao.fenix.d3s.cl.merge.CodeSystemMerge;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.cl.type.CodeRelationshipType;
+import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

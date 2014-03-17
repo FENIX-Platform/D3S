@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.backup.dto;
 
-import org.fao.fenix.d3s.server.utils.JSONUtils;
+import org.fao.fenix.commons.utils.JSONUtils;
 
 import java.util.Map;
 

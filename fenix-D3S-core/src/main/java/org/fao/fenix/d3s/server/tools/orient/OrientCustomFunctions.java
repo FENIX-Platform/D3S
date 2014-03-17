@@ -5,7 +5,7 @@ import com.orientechnologies.orient.core.db.record.OIdentifiable;
 import com.orientechnologies.orient.core.sql.OSQLEngine;
 import com.orientechnologies.orient.core.sql.functions.OSQLFunction;
 import com.orientechnologies.orient.core.sql.functions.OSQLFunctionAbstract;
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;
 
 public class OrientCustomFunctions extends OSQLFunctionAbstract {

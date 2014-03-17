@@ -1,7 +1,8 @@
 package org.fao.fenix.d3s.search.bl.aggregation;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class H2Aggregator extends Aggregator {
     Map<String,ValueOperator> operatorInfo;
 
     @Override
-    public void init(SearchStep source, SearchFilter filter, ODocument dataset) throws Exception { //first level aggregation init (single dataset)
+    public void init(SearchStep source, ResourceFilter filter, ODocument dataset) throws Exception { //first level aggregation init (single dataset)
         cloneResult(source);
         data = null;
         operatorInfo = findAggregationRules(filter,dataset);

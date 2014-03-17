@@ -14,7 +14,7 @@ import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabasePool;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
-import org.fao.fenix.d3s.server.utils.FileUtils;
+import org.fao.fenix.commons.utils.FileUtils;
 
 public class OrientServer {
 
@@ -129,7 +129,7 @@ public class OrientServer {
     public static void executeDDL (OrientDatabase database, String ddl) throws Exception {
         ddl = ddl.replaceAll("\\%database\\%",getRemoteDatabasePath(database));
         File tmpFile = new File("tmp.ddl");
-        FileUtils.writeTextFile(tmpFile,ddl);
+        new FileUtils().writeTextFile(tmpFile,ddl);
         Process pr = Runtime.getRuntime().exec("java -jar lib/D3S-1.0.jar console "+tmpFile.getName());
         int exitVal = pr.waitFor();
         tmpFile.delete();

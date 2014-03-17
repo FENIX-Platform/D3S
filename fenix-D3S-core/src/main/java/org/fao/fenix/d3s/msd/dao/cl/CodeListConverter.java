@@ -7,13 +7,13 @@ import java.util.Map;
 
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeConversion;
-import org.fao.fenix.d3s.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.d3s.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.cl.type.CSSharingPolicy;
-import org.fao.fenix.d3s.msd.dto.cl.type.CodeRelationshipType;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
+import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

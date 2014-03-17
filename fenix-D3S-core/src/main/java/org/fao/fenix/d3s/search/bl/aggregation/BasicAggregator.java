@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
@@ -27,13 +28,13 @@ public class BasicAggregator extends Aggregator {
     }
 
     @Override
-    public void init(SearchStep source, SearchFilter filter, ODocument dataset) throws Exception {
+    public void init(SearchStep source, ResourceFilter filter, ODocument dataset) throws Exception {
         cloneResult(source);
         loadRules(filter, dataset);
         aggregate();
     }
 
-    private void loadRules(SearchFilter filter, ODocument dataset) throws Exception {
+    private void loadRules(ResourceFilter filter, ODocument dataset) throws Exception {
         defaultRules = new HashMap<String, Operator>();
         for (Map.Entry<String, ValueOperator> operatorInfoEntry : findAggregationRules(filter,null).entrySet())
             defaultRules.put(operatorInfoEntry.getKey(), (Operator)Operator.getInstance(this, operatorInfoEntry.getValue()));

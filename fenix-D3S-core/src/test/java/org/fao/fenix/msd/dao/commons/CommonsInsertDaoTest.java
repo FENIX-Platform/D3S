@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.fao.fenix.d3s.msd.dao.Cleaner;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.common.Contact;
-import org.fao.fenix.d3s.msd.dto.common.ContactIdentity;
-import org.fao.fenix.d3s.msd.dto.common.Link;
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
-import org.fao.fenix.d3s.msd.dto.common.type.ContactType;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.common.Contact;
+import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.common.Link;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.type.ContactType;
 import org.fao.fenix.d3s.server.init.MainController;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.spring.SpringContext;

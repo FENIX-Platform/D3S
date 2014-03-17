@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.search.bl.aggregation.operator;
 
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.server.tools.h2.H2Database;
 import org.h2.api.AggregateFunction;
 import org.springframework.stereotype.Component;

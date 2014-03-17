@@ -5,11 +5,11 @@ import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dm.DMStore;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeConversion;
-import org.fao.fenix.d3s.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.d3s.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

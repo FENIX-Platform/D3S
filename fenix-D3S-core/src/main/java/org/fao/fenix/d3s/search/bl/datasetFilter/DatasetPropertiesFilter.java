@@ -8,12 +8,13 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.valueFilters.ColumnValueFilter;
-import org.fao.fenix.d3s.search.dto.valueFilters.ValueFilterType;
-import org.fao.fenix.d3s.server.utils.DataUtils;
+import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
+import org.fao.fenix.commons.search.dto.filter.ValueFilterType;
+import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +32,13 @@ public class DatasetPropertiesFilter extends DatasetFilter {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<ODocument> filter(SearchFilter baseFilter, Collection<ODocument> source) throws Exception {
+    public Collection<ODocument> filter(ResourceFilter baseFilter, Collection<ODocument> source) throws Exception {
         //Retrieve database instance
         OGraphDatabase database = getFlow().getMsdDatabase();
         //Prepare query
         StringBuilder query = new StringBuilder("SELECT FROM DMMain WHERE uid IS NOT NULL");
         Collection<Object> parameterValues = new LinkedList<Object>();
-        whereCondition(baseFilter.getFields(), baseFilter.getDimensions(), query, parameterValues);
+        whereCondition(baseFilter.getMetadata(), baseFilter.getData(), query, parameterValues);
         //Execute query
         OSQLSynchQuery<ODocument> queryO = new OSQLSynchQuery<ODocument>(query.toString());
         return (Collection<ODocument>)database.query(queryO, parameterValues.toArray());

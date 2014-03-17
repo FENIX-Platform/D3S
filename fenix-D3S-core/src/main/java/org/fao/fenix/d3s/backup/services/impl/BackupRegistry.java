@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.backup.services.impl;
 
 import org.fao.fenix.d3s.backup.dto.BackupMeta;
-import org.fao.fenix.d3s.server.utils.FileUtils;
+import org.fao.fenix.commons.utils.FileUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -128,7 +128,7 @@ public class BackupRegistry {
             }
         });
 
-        return ddlFiles!=null && ddlFiles.length==1 ? FileUtils.readTextFile(ddlFiles[0]) : null;
+        return ddlFiles!=null && ddlFiles.length==1 ? new FileUtils().readTextFile(ddlFiles[0]) : null;
     }
 
     public File getTmpFolder() {

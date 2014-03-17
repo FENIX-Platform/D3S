@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.dataset.dto;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 
-import org.fao.fenix.d3s.msd.dto.dm.DM;
+import org.fao.fenix.commons.msd.dto.dm.DM;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 public abstract class DatasetUpload <T> {

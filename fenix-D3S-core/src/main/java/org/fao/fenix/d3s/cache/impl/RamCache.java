@@ -1,10 +1,11 @@
 package org.fao.fenix.d3s.cache.impl;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.cache.Cache;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.server.utils.SoftMap;
+import org.fao.fenix.commons.utils.SoftMap;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -60,17 +61,17 @@ public class RamCache extends Cache {
     @Override protected void initCache(Properties cacheProperties) throws Exception { }
 
     @Override
-	public void storeData(SearchFilter filter, Collection<ODocument> datasets, SearchStep value) throws Exception {
+	public void storeData(ResourceFilter filter, Collection<ODocument> datasets, SearchStep value) throws Exception {
         cloneResult(value);
         if (filter!=null)
-            datasetsStatus.put(filter.getKey(),new DatasetsStatus(this, datasets));
+            datasetsStatus.put(getKey(filter),new DatasetsStatus(this, datasets));
 	}
 
 
 	@Override
-	public void loadData(SearchFilter filter, Collection<ODocument> datasets) throws Exception {
+	public void loadData(ResourceFilter filter, Collection<ODocument> datasets) throws Exception {
         data = null;
-        String key = filter.getKey();
+        String key = getKey(filter);
         DatasetsStatus status = datasetsStatus.get(key);
         if (status!=null)
             if (status.equals(new DatasetsStatus(null,datasets)))

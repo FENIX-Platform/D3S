@@ -2,13 +2,13 @@ package org.fao.fenix.d3s.msd.dao.cl;
 
 import java.util.Collection;
 
+import org.fao.fenix.commons.msd.dto.cl.*;
 import org.fao.fenix.d3s.msd.dao.EdgesLabels;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
-import org.fao.fenix.d3s.msd.dto.cl.*;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.fao.fenix.d3s.msd.dto.cl.type.CSHierarchyType;
+import org.fao.fenix.commons.msd.dto.cl.type.CSHierarchyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

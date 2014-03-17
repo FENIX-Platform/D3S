@@ -9,7 +9,7 @@ import org.fao.fenix.d3s.backup.services.impl.BackupRegistry;
 import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
-import org.fao.fenix.d3s.server.utils.FileUtils;
+import org.fao.fenix.commons.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,8 +42,8 @@ public class RestoreBackup extends Backup {
         try {
             //Create an hard database copy into tmp folder
             File destination = new File (registry.getTmpFolder(),databaseName);
-            FileUtils.delete(destination);
-            FileUtils.copy(new File(registry.getPhysicalDatabsesFolder(),databaseName), destination);
+            new FileUtils().delete(destination);
+            new FileUtils().copy(new File(registry.getPhysicalDatabsesFolder(),databaseName), destination);
             //Find revision file
             File revisionFile = registry.getFile(database.getDatabaseName(), selectedRevision);
             if (revisionFile==null || !revisionFile.exists() || !revisionFile.isFile())

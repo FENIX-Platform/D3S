@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.d3s.msd.dto.cl.*;
+import org.fao.fenix.commons.msd.dto.cl.*;
 import org.jboss.resteasy.annotations.GZIP;
 
 import java.util.Collection;

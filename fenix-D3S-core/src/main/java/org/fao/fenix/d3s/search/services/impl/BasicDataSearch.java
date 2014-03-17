@@ -2,6 +2,9 @@ package org.fao.fenix.d3s.search.services.impl;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.search.dto.Response;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
+import org.fao.fenix.commons.search.dto.resource.Resource;
 import org.fao.fenix.d3s.cache.Cache;
 import org.fao.fenix.d3s.cache.impl.OrientCache;
 import org.fao.fenix.d3s.cache.impl.RamCache;
@@ -24,7 +27,7 @@ public class BasicDataSearch extends SearchOperation {
 
 	//Search main flow
 	@Override
-	public SearchResponse searchFlow(SearchFilter filter) throws Exception {
+	public Response searchFlow(ResourceFilter filter) throws Exception {
         //Init dependencies
         BestMatchCodec codec = SpringContext.getBean(BestMatchCodec.class);
         BasicConverter converter = SpringContext.getBean(BasicConverter.class);
@@ -51,11 +54,11 @@ public class BasicDataSearch extends SearchOperation {
             filterConverter.filter(filter,datasets);
             //Select single datasets data
             Collection<SearchStep> results = new LinkedList<SearchStep>();
-            Map<ODocument, SearchFilter> encodedFilters = getFlow().getEncodedFilters();
+            Map<ODocument, ResourceFilter> encodedFilters = getFlow().getEncodedFilters();
             for (ODocument dataset : datasets)
                 try {
                     //Retrieve specific filter
-                    SearchFilter daoFilter = encodedFilters.containsKey(dataset) ? encodedFilters.get(dataset) : filter;
+                    ResourceFilter daoFilter = encodedFilters.containsKey(dataset) ? encodedFilters.get(dataset) : filter;
                     //Select row data
                     cacheL1.loadData(daoFilter, dataset);
                     if (!cacheL1.hasData()) {
@@ -98,8 +101,12 @@ public class BasicDataSearch extends SearchOperation {
         outBridge.add(cacheL2);
 
         //Build and return response
-        SearchResponse response = outBridge.hasData() ? buildResponse(filter,outBridge,datasets.size()==1 ? masterDataset : null) : null;
-        return response;
+        if (outBridge.hasData()) {
+            Response response = new Response();
+            response.addResource(buildResponse(filter,outBridge,datasets.size()==1 ? masterDataset : null));
+            return response;
+        } else
+            return null;
 	}
 
 

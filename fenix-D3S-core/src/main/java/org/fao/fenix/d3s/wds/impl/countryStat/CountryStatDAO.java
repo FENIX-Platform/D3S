@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.wds.impl.countryStat;
 
 import java.util.*;
 
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.d3s.wds.impl.OrientDao;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +19,7 @@ public class CountryStatDAO extends OrientDao {
 
     @Override
     @SuppressWarnings("unchecked")
-	public void load(SearchFilter filter, ODocument dataset) throws Exception {
+	public void load(ResourceFilter filter, ODocument dataset) throws Exception {
         OGraphDatabase database = null;
         Collection<Map<String,Object>> rowData = new LinkedList<Map<String, Object>>();
         //Load data
@@ -57,7 +58,7 @@ public class CountryStatDAO extends OrientDao {
 
 
     //Find method support
-    private String createQuery(SearchFilter filter, Collection<Object> parameters, ODocument dataset) {
+    private String createQuery(ResourceFilter filter, Collection<Object> parameters, ODocument dataset) {
         StringBuilder query = new StringBuilder("SELECT FROM Dataset WHERE datasetID = ?");
         parameters.add(dataset.field("uid"));
 

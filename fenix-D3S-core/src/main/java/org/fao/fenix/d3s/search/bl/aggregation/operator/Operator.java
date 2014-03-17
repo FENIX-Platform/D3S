@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.search.bl.aggregation.operator;
 
 import java.util.*;
 
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.d3s.server.tools.spring.SpringContext;

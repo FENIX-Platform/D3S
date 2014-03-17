@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.fao.fenix.d3s.msd.dto.common.ContactIdentity;
-import org.fao.fenix.d3s.msd.dto.common.Publication;
+import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.common.Publication;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.fao.fenix.d3s.server.utils.CompletenessIterator;
+import org.fao.fenix.commons.utils.CompletenessIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

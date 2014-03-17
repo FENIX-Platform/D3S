@@ -8,8 +8,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 
 public class ConverterParameters implements Comparable<ConverterParameters> {
 	

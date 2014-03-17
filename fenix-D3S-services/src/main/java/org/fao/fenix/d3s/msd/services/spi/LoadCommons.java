@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.d3s.msd.dto.common.ContactIdentity;
-import org.fao.fenix.d3s.msd.dto.common.Publication;
+import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.common.Publication;
 import org.jboss.resteasy.annotations.GZIP;
 
 import javax.ws.rs.*;

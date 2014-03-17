@@ -3,9 +3,10 @@ package org.fao.fenix.d3s.wds.impl;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.valueFilters.ColumnValueFilter;
+import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.d3s.wds.Dao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 
@@ -70,9 +71,9 @@ public abstract class OrientDao extends Dao {
 
 
     //Where condition build support
-    protected String createQueryWhereCondition(SearchFilter filter, Collection<Object> parameters, ODocument dataset) {
+    protected String createQueryWhereCondition(ResourceFilter filter, Collection<Object> parameters, ODocument dataset) {
         StringBuilder query = new StringBuilder();
-        LinkedHashMap<String, Collection<ColumnValueFilter>> dimensionFilter = filter!=null ? filter.getDimensions() : null;
+        LinkedHashMap<String, Collection<ColumnValueFilter>> dimensionFilter = filter!=null ? filter.getData() : null;
         Map<String,ODocument> colByDim = getFlow().getColumnsByDimension(dataset);
 
         if (dimensionFilter!=null)

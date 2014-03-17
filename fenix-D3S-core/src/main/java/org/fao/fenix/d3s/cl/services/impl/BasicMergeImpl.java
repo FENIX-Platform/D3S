@@ -8,7 +8,7 @@ import org.fao.fenix.d3s.cl.merge.impl.CodeListsStandardUnion;
 import org.fao.fenix.d3s.cl.merge.impl.CodeListsUnion;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

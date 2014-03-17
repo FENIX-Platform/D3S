@@ -4,14 +4,14 @@ import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorColumns;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.server.utils.TimeNumberPeriod;
+import org.fao.fenix.commons.utils.TimeNumberPeriod;
 
 import java.sql.SQLException;
 import java.util.*;

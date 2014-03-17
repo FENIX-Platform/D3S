@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.backup.dao;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.fao.fenix.d3s.backup.dto.BackupUnit;
-import org.fao.fenix.d3s.server.utils.JSONUtils;
+import org.fao.fenix.commons.utils.JSONUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

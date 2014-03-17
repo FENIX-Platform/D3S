@@ -5,16 +5,16 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.dm.type.*;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
-import org.fao.fenix.d3s.msd.dto.dm.type.*;
-import org.fao.fenix.d3s.msd.dto.common.Period;
-import org.fao.fenix.d3s.msd.dto.dm.DM;
-import org.fao.fenix.d3s.msd.dto.dm.DMAvailability;
-import org.fao.fenix.d3s.msd.dto.dm.DMDataSource;
-import org.fao.fenix.d3s.msd.dto.dm.DMMeta;
-import org.fao.fenix.d3s.server.utils.JSONUtils;
+import org.fao.fenix.commons.msd.dto.common.Period;
+import org.fao.fenix.commons.msd.dto.dm.DM;
+import org.fao.fenix.commons.msd.dto.dm.DMAvailability;
+import org.fao.fenix.commons.msd.dto.dm.DMDataSource;
+import org.fao.fenix.commons.msd.dto.dm.DMMeta;
+import org.fao.fenix.commons.utils.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

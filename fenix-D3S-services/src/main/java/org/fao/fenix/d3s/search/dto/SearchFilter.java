@@ -3,8 +3,8 @@ package org.fao.fenix.d3s.search.dto;
 import java.util.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.fao.fenix.d3s.search.dto.valueFilters.ColumnValueFilter;
-import org.fao.fenix.d3s.server.utils.JSONUtils;
+import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
+import org.fao.fenix.commons.utils.JSONUtils;
 
 public class SearchFilter {
 	

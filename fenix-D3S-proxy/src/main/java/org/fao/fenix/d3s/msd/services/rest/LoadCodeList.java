@@ -7,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.d3s.msd.dto.cl.*;
-import org.fao.fenix.d3s.server.services.rest.Service;
+import org.fao.fenix.commons.msd.dto.cl.*;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 @Path("msd/cl")

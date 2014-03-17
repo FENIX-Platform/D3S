@@ -4,12 +4,13 @@ import java.sql.Types;
 import java.util.*;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.dsd.DSDColumn;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.valueFilters.ColumnValueFilter;
+import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 public abstract class SearchStep extends OrientDao implements Iterable<Object[]> {
@@ -59,7 +60,7 @@ public abstract class SearchStep extends OrientDao implements Iterable<Object[]>
 
     public boolean hasData() { return data!=null; }
 
-    public void initStructure(SearchFilter filter,ODocument dataset, boolean original, boolean forOutput) throws Exception {
+    public void initStructure(ResourceFilter filter,ODocument dataset, boolean original, boolean forOutput) throws Exception {
         datasetName = null;
         columnsNumber = 0;
         structure = null;
@@ -76,7 +77,7 @@ public abstract class SearchStep extends OrientDao implements Iterable<Object[]>
             datasetName = dataset.field("uid");
             Collection<ODocument> columns = dataset.field("dsd.columns");
             if (columns!=null) {
-                Map<String,OutputParameters> outputParameters = filter.getOutParameters();
+                Map<String,OutputParameters> outputParameters = getFlow().getBusinessOutputParameters();
                 Collection<Integer> keyIndexes = new LinkedList<Integer>();
                 Collection<Integer> outIndexes = new LinkedList<Integer>();
 
@@ -113,8 +114,8 @@ public abstract class SearchStep extends OrientDao implements Iterable<Object[]>
             }
         } else {
             Collection<DSDColumn> columns = new LinkedList<DSDColumn>();
-            Map<String,Collection<ColumnValueFilter>> filterColumns = filter.getDimensions();
-            Map<String,OutputParameters> outputParameters = filter.getParameters()!=null ? (Map<String,OutputParameters>)filter.getParameters().get("output") : null;
+            Map<String,Collection<ColumnValueFilter>> filterColumns = filter.getData();
+            Map<String,OutputParameters> outputParameters = getFlow().getBusinessOutputParameters();
 
             DSDColumn column;
             int i=0;

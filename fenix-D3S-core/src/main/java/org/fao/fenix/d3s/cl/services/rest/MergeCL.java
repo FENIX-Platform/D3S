@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
 import org.fao.fenix.d3s.cl.services.impl.BasicMergeImpl;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 
 @Path("cl/merge")

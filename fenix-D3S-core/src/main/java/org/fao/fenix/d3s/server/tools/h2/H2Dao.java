@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.server.tools.h2;
 
-import org.fao.fenix.d3s.msd.dto.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -6,10 +6,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.valueFilters.ColumnValueFilter;
+import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,19 +25,19 @@ public class DatasetDimensionsFilter extends DatasetFilter {
     @Autowired private CodeListLoad clLoadDao;
 
     @Override
-	public Collection<ODocument> filter(SearchFilter baseFilter, Collection<ODocument> source) throws Exception {
-		Map<ODocument,SearchFilter> encodedFilters = getFlow().getEncodedFilters();
+	public Collection<ODocument> filter(ResourceFilter baseFilter, Collection<ODocument> source) throws Exception {
+		Map<ODocument,ResourceFilter> encodedFilters = getFlow().getEncodedFilters();
 		Collection<ODocument> result = new LinkedList<ODocument>();
 		
 		for (ODocument dataset : source) {
-			SearchFilter filter = encodedFilters.containsKey(dataset) ? encodedFilters.get(dataset) : baseFilter;
+            ResourceFilter filter = encodedFilters.containsKey(dataset) ? encodedFilters.get(dataset) : baseFilter;
 			Map<String,ODocument> columnsByDimension = getFlow().getColumnsByDimension(dataset);
 			
 			//Verfy dimensions name existence
-			if (!columnsByDimension.keySet().containsAll(filter.getDimensions().keySet()))
+			if (!columnsByDimension.keySet().containsAll(filter.getData().keySet()))
 				continue;
 			//Values and datatype prefilter over the differen filter dimensions
-			if (!valuesPreFilterCheck(columnsByDimension, filter.getDimensions()))
+			if (!valuesPreFilterCheck(columnsByDimension, filter.getData()))
 				continue;
 			//If every check is passed
 			result.add(dataset);

@@ -5,11 +5,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NoContentException;
 
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeConversion;
-import org.fao.fenix.d3s.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.d3s.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.msd.services.impl.Delete;
 import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 

@@ -3,11 +3,11 @@ package org.fao.fenix.d3s.search.dto;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.fao.fenix.d3s.msd.dto.cl.Code;
-import org.fao.fenix.d3s.msd.dto.cl.CodeSystem;
-import org.fao.fenix.d3s.msd.dto.common.ValueOperator;
-import org.fao.fenix.d3s.msd.dto.dsd.type.DSDDataType;
-import org.fao.fenix.d3s.server.utils.JSONUtils;
+import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.utils.JSONUtils;
 
 public class OutputParameters {
 	
