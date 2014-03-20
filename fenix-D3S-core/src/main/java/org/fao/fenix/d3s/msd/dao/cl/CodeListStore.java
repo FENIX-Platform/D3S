@@ -91,7 +91,7 @@ public class CodeListStore extends OrientDao {
 		csmain.save();
 
         //Index
-        index.rebuildIndex(csmain);
+        index.rebuildIndex(csmain,false);
 
 		return 1;
 	}
@@ -141,60 +141,81 @@ public class CodeListStore extends OrientDao {
 		if (cl.getProvider()!=null)
 			csmain.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
 
-		csmain.save();
-
         //codes
         cl.resetLevels();
         appendCodes(csmain,cl.getRootCodes(),database);
 
         //Index
-        index.rebuildIndex(csmain);
+        index.rebuildIndex(csmain,false);
 
         return 1;
 	}
-    private void appendCodes (ODocument csO, Collection<Code> rootCodes, OGraphDatabase database) throws Exception {
-        Collection<ODocument> rootCodesO = csO.field("rootCodes");
-        rootCodesO = rootCodesO!=null ? new HashSet<ODocument>(rootCodesO) : new HashSet<ODocument>();
-        ODocument codeO;
-        //Update existing codes content (not the links)
-        Map<String,ODocument> updatedCodes = new HashMap<String, ODocument>();
-        if (rootCodes!=null)
-            for (Code code : rootCodes)
-                if ((codeO = appendToCode(updatedCodes, code, database))!=null)
-                    rootCodesO.add(codeO);
-        //Store new codes
-        Map<String,ODocument> storedCodes = new HashMap<String, ODocument>();
-        if (rootCodes!=null)
-            for (Code code : rootCodes)
-                if ((codeO = storeCode(storedCodes, csO, code, database))!=null)
-                    rootCodesO.add(codeO);
-        //Remove links from updated codes to updated codes. These links will be restored as the new structure
-        for (ODocument cO : updatedCodes.values()) {
-            Collection<ODocument> parents = cO.field("parents");
-            Collection<ODocument> childs = cO.field("childs");
-            if (parents!=null)
-                for (Iterator<ODocument> i = parents.iterator(); i.hasNext(); )
-                    if (updatedCodes.containsKey((String)i.next().field("code")))
-                        i.remove();
-            if (childs!=null)
-                for (Iterator<ODocument> i = childs.iterator(); i.hasNext(); )
-                    if (updatedCodes.containsKey((String)i.next().field("code")))
-                        i.remove();
-            cO.field("parents",parents);
-            cO.field("childs",childs);
-        }
-        //Reconnect codes
-        Map<String,ODocument> allCodes = new HashMap<String, ODocument>();
-        allCodes.putAll(storedCodes);
-        allCodes.putAll(updatedCodes);
-        if (rootCodes!=null)
-            for (Code code : rootCodes)
-                addConnections(allCodes, code, null);
-        //Update rootCodes level
-        csO.field("rootCodes",rootCodesO);
-        csO.save();
+
+    private Map<String, ODocument> getExistingCodesO (ODocument csO) throws Exception {
+        Map<String, ODocument> existingCodesO = new HashMap<>();
+        getExistingCodesO(existingCodesO, (Collection<ODocument>)csO.field("rootCodes"));
+        return existingCodesO;
     }
-    private void addConnections(Map<String,ODocument> updatedCodes, Code code, ODocument parentO) throws Exception {
+
+    private void getExistingCodesO (Map<String, ODocument> existingCodesO, Collection<ODocument> codesO) throws Exception {
+        if (codesO!=null)
+            for (ODocument codeO : codesO)
+                if (codeO!=null) {
+                    getExistingCodesO(existingCodesO, (Collection<ODocument>)codeO.field("childs"));
+                    existingCodesO.put((String)codeO.field("code"),codeO);
+                }
+    }
+
+    private Collection<ODocument> getRootCodesO (Collection<ODocument> codesO) {
+        Collection<ODocument> rootCodesO = new LinkedList<>();
+        for (ODocument codeO : codesO) {
+            Collection<ODocument> parentsO = codeO.field("parents");
+            if (parentsO==null || parentsO.size()==0)
+                rootCodesO.add(codeO);
+        }
+        return rootCodesO;
+    }
+
+
+    private void compressGraph (CodeSystem cl) {
+        Collection<Code> rootCodes = cl.getRootCodes();
+        Collection<Code> compressed = new LinkedList<>();
+//        if (rootCodes!=null)
+//            for ()
+    }
+    private Code compressGraph (Code code, Map<String,Code> processedCodes) {
+        //TODO
+        return null;
+    }
+
+
+    private void updateCodesContent (Map<String,ODocument> codesO, Map<String,Code> processedCodes, Set<String> storedCodes, ODocument csO, Collection<Code> codes, boolean append, OGraphDatabase database) throws Exception {
+        if (codes!=null)
+            for (Code code : codes) {
+                String c = code.getCode();
+                ODocument codeO = codesO.get(c);
+
+                if (processedCodes.put(c, code)!=null) //Duplicate key error
+                    throw new Exception ("Duplicate ")
+
+                if (codeO!=null) {
+                    if (append)
+                        appendToCode(codeO,code);
+                    else
+                        updateCode(codeO,code);
+                } else {
+                    codesO.put(c, storeCode(code, csO, null, false, database));
+                    storedCodes.add(c);
+                }
+
+                updateCodesContent(codesO, processedCodes, storedCodes, csO, code.getChilds(), append, database);
+            }
+    }
+
+    private void updateCodesConnections(Map<String,ODocument> updatedCodes, Code code, ODocument parentO) throws Exception {
+
+
+
         ODocument codeO = updatedCodes.get(code.getCode());
         Collection<ODocument> parentsO = codeO.field("parents");
         Collection<ODocument> childsO = codeO.field("childs");
@@ -253,14 +274,27 @@ public class CodeListStore extends OrientDao {
 				database.close();
 		}
 	}
-	@SuppressWarnings("unchecked")
+
 	public ODocument updateCode(Code code, OGraphDatabase database) throws Exception {
 		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database);
-		if (codeO!=null) {
+		updateCode(codeO,code);
+        return codeO.save();
+	}
+
+	public ODocument appendToCode(Code code, OGraphDatabase database) throws Exception {
+		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database);
+        appendToCode(codeO,code);
+		return codeO.save();
+	}
+
+    private void updateCode(ODocument codeO, Code code) throws Exception {
+        if (codeO!=null) {
             codeO.field("level", code.getLevel());
             codeO.field("title", code.getTitle());
             codeO.field("abstract", code.getDescription());
             codeO.field("supplemental", code.getSupplemental());
+            codeO.field("fromDate", code.getFromDate());
+            codeO.field("toDate", code.getToDate());
 
             Collection<ODocument> exclusionList = new LinkedList<ODocument>();
             if (code.getExclusionList()!=null)
@@ -268,40 +302,38 @@ public class CodeListStore extends OrientDao {
                     exclusionList.add(loadDAO.loadCodeO(exclusion.getSystemKey(), exclusion.getSystemVersion(), exclusion.getCode(), database));
             codeO.field("exclusions",exclusionList.size()>0 ? exclusionList : null, OType.LINKLIST);
 
-            codeO.save();
-
             index.rebuildCodeIndex(codeO);
         }
-		return codeO;
-	}
-
-	@SuppressWarnings("unchecked")
-	public ODocument appendToCode(Code code, OGraphDatabase database) throws Exception {
-		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database);
-		if (codeO!=null) {
+    }
+    private void appendToCode(ODocument codeO, Code code) throws Exception {
+        if (codeO!=null) {
             if (code.getLevel()!=null)
                 codeO.field("level", code.getLevel());
             if (code.getTitle()!=null) {
                 Map<String,String> labelO = codeO.field("title");
                 if (labelO==null)
-                    labelO = new HashMap<String, String>();
+                    labelO = new HashMap<>();
                 labelO.putAll(code.getTitle());
                 codeO.field("title", labelO);
             }
             if (code.getDescription()!=null) {
                 Map<String,String> labelO = codeO.field("abstract");
                 if (labelO==null)
-                    labelO = new HashMap<String, String>();
+                    labelO = new HashMap<>();
                 labelO.putAll(code.getDescription());
                 codeO.field("abstract", labelO);
             }
             if (code.getSupplemental()!=null) {
                 Map<String,String> labelO = codeO.field("supplemental");
                 if (labelO==null)
-                    labelO = new HashMap<String, String>();
+                    labelO = new HashMap<>();
                 labelO.putAll(code.getSupplemental());
                 codeO.field("supplemental", labelO);
             }
+            if (code.getFromDate()!=null)
+                codeO.field("fromDate", code.getFromDate());
+            if (code.getToDate()!=null)
+                codeO.field("toDate", code.getToDate());
 
             if (code.getExclusionList()!=null) {
                 Collection<ODocument> exclusionList = new LinkedList<ODocument>();
@@ -310,13 +342,9 @@ public class CodeListStore extends OrientDao {
                 codeO.field("exclusions",exclusionList.size()>0 ? exclusionList : null, OType.LINKLIST);
             }
 
-            codeO.save();
-
             index.rebuildCodeIndex(codeO);
-
         }
-		return codeO;
-	}
+    }
 
 
 	//DELETE
@@ -444,7 +472,7 @@ public class CodeListStore extends OrientDao {
 			csmain.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
 
         //Index
-        index.rebuildIndex(csmain);
+        index.rebuildIndex(csmain,false);
 
         return csmain.save();
 	}
@@ -455,7 +483,6 @@ public class CodeListStore extends OrientDao {
 	}
 	
 	private int counter;
-	@SuppressWarnings("unchecked")
 	private ODocument storeCode(Code code, ODocument system, ODocument parent, boolean storeChilds, OGraphDatabase database) throws Exception {
 		ODocument codeO = loadDAO.loadCodeO(system, code.getCode(), database);
 		if (codeO==null) {
@@ -465,7 +492,9 @@ public class CodeListStore extends OrientDao {
 			codeO.field("title", code.getTitle());
 			codeO.field("abstract", code.getDescription());
 			codeO.field("supplemental", code.getSupplemental());
-			
+            codeO.field("fromDate", code.getFromDate());
+            codeO.field("toDate", code.getToDate());
+
 			//connected hierarchy elements
 			codeO.field("system", system);
 			
@@ -483,6 +512,8 @@ public class CodeListStore extends OrientDao {
 				for (Code exclusion : code.getExclusionList())
 					exclusionList.add(loadDAO.loadCodeO(exclusion.getSystemKey(), exclusion.getSystemVersion(), exclusion.getCode(), database));
 			codeO.field("exclusions",exclusionList.size()>0 ? exclusionList : null, OType.LINKLIST);
+
+            index.rebuildCodeIndex(codeO);
 
 			codeO.save();
 					

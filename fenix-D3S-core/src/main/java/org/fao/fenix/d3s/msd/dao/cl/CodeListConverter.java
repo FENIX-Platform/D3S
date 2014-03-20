@@ -105,6 +105,8 @@ public class CodeListConverter {
 		code.setTitle((Map<String,String>)codeO.field("title",Map.class));
 		code.setDescription((Map<String,String>)codeO.field("abstract",Map.class));
 		code.setSupplemental((Map<String,String>)codeO.field("supplemental",Map.class));
+		code.setFromDate((Date)codeO.field("fromDate"));
+		code.setToDate((Date)codeO.field("toDate"));
 
         //Set hierarchy
 		if (levels!=NO_LEVELS) {

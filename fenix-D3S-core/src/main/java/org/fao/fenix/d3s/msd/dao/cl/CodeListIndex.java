@@ -41,16 +41,20 @@ public class CodeListIndex extends OrientDao {
             clsO = loadDao.loadSystemO(database);
 
         for (ODocument clO : clsO)
-            rebuildIndex(clO);
+            rebuildIndex(clO, true);
 
         return clsO.size();
     }
 
-    public void rebuildIndex(ODocument clO) {
-        Collection<ODocument> rootCodes = clO.field("rootCodes");
-        if (rootCodes!=null)
-            for (ODocument codeO : rootCodes)
+    public void rebuildIndex(ODocument clO, boolean all) {
+        if (all) {
+            Collection<ODocument> rootCodes = clO.field("rootCodes");
+            if (rootCodes!=null)
+                for (ODocument codeO : rootCodes) {
                     rebuildCodeIndex(codeO);
+                    codeO.save();
+                }
+        }
     }
 
     public void rebuildCodeIndex(ODocument codeO) {
@@ -60,7 +64,6 @@ public class CodeListIndex extends OrientDao {
             title = new HashMap<>();
         for (SupportedLanguages language : SupportedLanguages.values())
             codeO.field("index_title_"+language.getCode(),title.get(language.getCode()), OType.STRING);
-        codeO.save();
     }
 
 
