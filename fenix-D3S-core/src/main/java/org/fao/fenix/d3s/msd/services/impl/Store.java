@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.services.impl;
 
 import java.util.Collection;
 
+import org.fao.fenix.d3s.msd.dao.cl.CodeListIndex;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
@@ -35,6 +36,8 @@ public class Store {
     private DMIndexStore dmIndexStoreDAO;
 	@Autowired
 	private CodeListStore clStoreDAO;
+    @Autowired
+    private CodeListIndex clIndexStoreDAO;
 	@Autowired
 	private CodeListLinkStore clLinkStoreDAO;
 
@@ -48,6 +51,7 @@ public class Store {
 	}
 
 	public void newCodeList(CodeSystem cl) throws Exception {
+        cl.normalize();
 		clStoreDAO.storeCodeList(cl);
 	}
 
@@ -71,8 +75,7 @@ public class Store {
 		dsdStoreDAO.storeContext(context);
 	}
 
-	public void newRelationship(Collection<CodeRelationship> relations)
-			throws Exception {
+	public void newRelationship(Collection<CodeRelationship> relations) throws Exception {
 		clLinkStoreDAO.storeCodeRelationship(relations);
 	}
 
@@ -89,8 +92,7 @@ public class Store {
 		clLinkStoreDAO.storeCodeConversion(conversion);
 	}
 
-	public void newPropaedeutic(Collection<CodePropaedeutic> propaedeutics)
-			throws Exception {
+	public void newPropaedeutic(Collection<CodePropaedeutic> propaedeutics) throws Exception {
 		clLinkStoreDAO.storeCodePropaedeutic(propaedeutics);
 	}
 
@@ -103,8 +105,12 @@ public class Store {
 		return cmStoreDAO.updateContactIdentity(contactIdentity, append);
 	}
 
-	public int updateCodeList(CodeSystem cl, boolean append) throws Exception {
-		return clStoreDAO.updateCodeList(cl, append);
+	public int updateCodeList(CodeSystem cl, boolean append, boolean all) throws Exception {
+		return clStoreDAO.updateCodeList(cl, append) + (all ? updateCodeListCodes(cl,append) : 0);
+	}
+	public int updateCodeListCodes(CodeSystem cl, boolean append) throws Exception {
+        cl.normalize();
+		return clStoreDAO.updateCodes(cl, append);
 	}
 
 	public int updateCode(Code code) throws Exception {
@@ -139,7 +145,7 @@ public class Store {
 
     //INDEX
     public int codeListIndex(String system, String version) throws Exception {
-        return system!=null && version!=null && system.trim().length()>0 && version.trim().length()>0 ? clStoreDAO.createHierarchyLinks(system, version) : clStoreDAO.createHierarchyLinks();
+        return clIndexStoreDAO.rebuildIndex(new CodeSystem(system, version));
     }
 
     public int datasetIndex(String uid) throws Exception {

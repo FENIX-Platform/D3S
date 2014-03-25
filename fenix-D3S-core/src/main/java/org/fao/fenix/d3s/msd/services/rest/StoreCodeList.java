@@ -25,25 +25,16 @@ public class StoreCodeList implements org.fao.fenix.d3s.msd.services.spi.StoreCo
 		SpringContext.getBean(Store.class).newCodeList(cl);
 	}
 	@Override
-	public void updateCodeList(CodeSystem cl) throws Exception {
-		if (SpringContext.getBean(Store.class).updateCodeList(cl,true)<=0)
+	public void updateCodeList(CodeSystem cl, boolean all) throws Exception {
+		if (SpringContext.getBean(Store.class).updateCodeList(cl, false, all)<=0)
             throw new NoContentException("");
 	}
 	@Override
-	public void appendCodeList(CodeSystem cl) throws Exception {
-        if (SpringContext.getBean(Store.class).updateCodeList(cl,true)<=0)
+	public void appendCodeList(CodeSystem cl, boolean all) throws Exception {
+        if (SpringContext.getBean(Store.class).updateCodeList(cl, true, all)<=0)
             throw new NoContentException("");
 	}
-    @Override
-    public void restoreCodeList() throws Exception {
-        if (SpringContext.getBean(Store.class).codeListIndex(null, null)<=0)
-            throw new NoContentException("");
-    }
-    @Override
-    public void restoreCodeList(String system, String version) throws Exception {
-        if (SpringContext.getBean(Store.class).codeListIndex(system, version)<=0)
-            throw new NoContentException("");
-    }
+
 
     //code
 	@Override
@@ -51,9 +42,29 @@ public class StoreCodeList implements org.fao.fenix.d3s.msd.services.spi.StoreCo
         if (SpringContext.getBean(Store.class).updateCode(code)<=0)
             throw new NoContentException("");
 	}
-	
 
-	//keyword
+    @Override
+    public void updateCodes(CodeSystem cl) throws Exception {
+        if (SpringContext.getBean(Store.class).updateCodeListCodes(cl, false)<=0)
+            throw new NoContentException("");
+    }
+
+    @Override
+    public void appendCodes(CodeSystem cl) throws Exception {
+        if (SpringContext.getBean(Store.class).updateCodeListCodes(cl, true)<=0)
+            throw new NoContentException("");
+    }
+
+
+    //Index
+    @Override
+    public void rebuildIndex(String system, String version) throws Exception {
+        if (SpringContext.getBean(Store.class).codeListIndex(system,version)<=0)
+            throw new NoContentException("");
+    }
+
+
+    //keyword
 	@Override
 	public void newKeyword(String keyword) throws Exception {
 		SpringContext.getBean(Store.class).newKeyword(keyword);

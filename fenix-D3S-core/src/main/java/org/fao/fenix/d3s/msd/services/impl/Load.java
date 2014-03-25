@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkLoad;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
@@ -120,8 +121,10 @@ public class Load {
 		if (toAdd.getChilds() != null && (levels == CodeListConverter.ALL_LEVELS || levels-->0))
 			for (Code child : toAdd.getChilds())
 				flatCodeBuilder(codes, child, levels);
-		toAdd.setChilds(null);
-	}
+        try {
+            toAdd.setChilds(null);
+        } catch (DuplicateCodeException e) { }
+    }
 	
 	//METADATA
 	public Collection<DM> getDatasetMetadata() throws Exception { return getDatasetMetadata(true); }
