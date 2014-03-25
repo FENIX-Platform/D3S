@@ -21,24 +21,28 @@ public interface StoreCodeList {
 	public void newCodeList(CodeSystem cl) throws Exception;
 	@PUT
 	@Path("system")
-	public void updateCodeList(CodeSystem cl)  throws Exception;
+	public void updateCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
 	@PUT
 	@Path("system/append")
-	public void appendCodeList(CodeSystem cl)  throws Exception;
-    @PUT
-    @Consumes()
-    @Path("system/index/{system}/{version}")
-    public void restoreCodeList(@PathParam("system") String system, @PathParam("version") String version)  throws Exception;
-    @PUT
-    @Consumes()
-    @Path("system/index")
-    public void restoreCodeList()  throws Exception;
+	public void appendCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
 
 	//code
 	@PUT
 	@Path("code")
 	public void updateCode(Code code)  throws Exception;
-	
+	@PUT
+	@Path("codes")
+	public void updateCodes(CodeSystem cl)  throws Exception;
+	@PUT
+	@Path("codes/append")
+	public void appendCodes(CodeSystem cl)  throws Exception;
+
+    //Index
+    @PUT
+    @Path("system/index/{system}/{version}")
+    public void rebuildIndex(@PathParam("system") String system, @PathParam("version") String version)  throws Exception;
+
+
 
 	//keyword
 	@POST
