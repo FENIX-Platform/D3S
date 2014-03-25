@@ -478,46 +478,5 @@ public class CodeListLinkStore extends OrientDao {
 		return propae.field(OGraphDatabase.LABEL, EdgesLabels.propaedeutic).save();
 	}
 
-    //hierarchy
-    public void storeCodeHierarchy(Collection<CodeHierarchy> hierarchies) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            storeCodeHierarchy(hierarchies, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-    public void storeCodeHierarchy(Collection<CodeHierarchy> hierarchies, OGraphDatabase database) throws Exception {
-        for (CodeHierarchy hierarchy : hierarchies)
-            storeCodeHierarchy(hierarchy, database);
-    }
-    public void storeCodeHierarchy(CodeHierarchy hierarchy) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            storeCodeHierarchy(hierarchy, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-    public ODocument storeCodeHierarchy(CodeHierarchy hierarchy, OGraphDatabase database) throws Exception {
-        ODocument from = clLoadDAO.loadCodeO(hierarchy.getFromCode().getSystemKey(), hierarchy.getFromCode().getSystemVersion(), hierarchy.getFromCode().getCode(), database);
-        ODocument to = clLoadDAO.loadCodeO(hierarchy.getToCode().getSystemKey(), hierarchy.getToCode().getSystemVersion(), hierarchy.getToCode().getCode(), database);
-        return storeCodeHierarchy(from, to, hierarchy.getType(), database);
-    }
-    public ODocument storeCodeHierarchy(ODocument from, ODocument to, CSHierarchyType hierarchyType, OGraphDatabase database) throws Exception {
-        return database.createEdge(from,to,"CSHierarchy").field("type",hierarchyType.getCode()).field(OGraphDatabase.LABEL, "hierarchy").save();
-    }
-
-    public int deleteCodeHierarchies(ODocument clO, OGraphDatabase database) throws Exception {
-        Collection<ODocument> hierarchiesO = clLinkLoadDAO.loadHierarchiesFromCLO(clO,database);
-        for (ODocument hierarchyO : hierarchiesO)
-            database.removeEdge(hierarchyO);
-        return hierarchiesO.size();
-    }
-
-
-
 
 }

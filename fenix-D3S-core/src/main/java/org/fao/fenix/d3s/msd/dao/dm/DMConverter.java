@@ -51,7 +51,7 @@ public class DMConverter {
 		//content
 		dm.setCreationDate((Date)dmO.field("creationDate"));
 		if (dmO.field("region")!=null)
-			dm.setGeographicExtent(clConverter.toCode((ODocument)dmO.field("region"), false, CodeListConverter.NO_LEVELS));
+			dm.setGeographicExtent(clConverter.toCode((ODocument)dmO.field("region"), false, CodeListConverter.NO_LEVELS,null));
         if (dmO.field("basePeriod")!=null)
             dm.setBasePeriod(toPeriod((ODocument)dmO.field("basePeriod")));
         if (dmO.field("referencePeriod")!=null)
@@ -61,18 +61,18 @@ public class DMConverter {
 		if (dmO.field("coverageSectors")!=null)
 			dm.setCoverageSectors(clConverter.toCode((Collection<ODocument>)dmO.field("coverageSectors"), false));
 		if (dmO.field("codingSystems")!=null)
-			dm.setCodingSystems(clConverter.toSystem((Collection<ODocument>)dmO.field("codingSystems"), false));
+			dm.setCodingSystems(clConverter.toSystem((Collection<ODocument>)dmO.field("codingSystems")));
 		dm.setClassificationSystems((Map<String,String>)dmO.field("classificationSystems"));
 		dm.setComparability((Map<String,String>)dmO.field("comparability"));
 		dm.setStatisticalUnit((Map<String,String>)dmO.field("statisticalUnit"));
 		dm.setUnitOfMeasureDetails((Map<String,String>)dmO.field("unitOfMeasureDetails"));
         if (dmO.field("um")!=null)
-            dm.setUnitOfMeasure(clConverter.toCode((ODocument)dmO.field("um"), false, CodeListConverter.NO_LEVELS));
+            dm.setUnitOfMeasure(clConverter.toCode((ODocument)dmO.field("um"), false, CodeListConverter.NO_LEVELS,null));
         if (dmO.field("coverageGeographical")!=null)
-            dm.setCoverageGeographical(clConverter.toCode((ODocument)dmO.field("coverageGeographical"), false, CodeListConverter.NO_LEVELS));
+            dm.setCoverageGeographical(clConverter.toCode((ODocument)dmO.field("coverageGeographical"), false, CodeListConverter.NO_LEVELS,null));
 		//process
 		if (dmO.field("collectionPeriodicity")!=null)
-			dm.setCollectionPeriodicity(clConverter.toCode((ODocument)dmO.field("collectionPeriodicity"), false, CodeListConverter.NO_LEVELS));
+			dm.setCollectionPeriodicity(clConverter.toCode((ODocument)dmO.field("collectionPeriodicity"), false, CodeListConverter.NO_LEVELS,null));
 		if (dmO.field("processMethodologyDocuments")!=null)
 			dm.setProcessMethodologyDocuments(cmConverter.toPublication((Collection<ODocument>)dmO.field("processMethodologyDocuments")));
 		dm.setCompilationProcessing((Map<String,String>)dmO.field("compilationProcessing"));
@@ -92,7 +92,7 @@ public class DMConverter {
             dm.setQualityMethodologyDocuments(cmConverter.toPublication((Collection<ODocument>)dmO.field("qualityMethodologyDocuments")));
 		//distribution
 		if (dmO.field("disseminationPeriodicity")!=null)
-			dm.setDisseminationPeriodicity(clConverter.toCode((ODocument)dmO.field("disseminationPeriodicity"), false, CodeListConverter.NO_LEVELS));
+			dm.setDisseminationPeriodicity(clConverter.toCode((ODocument)dmO.field("disseminationPeriodicity"), false, CodeListConverter.NO_LEVELS,null));
 		dm.setUserAccess((Map<String,String>)dmO.field("userAccess"));
 		dm.setDisseminationFormat((Map<String,String>)dmO.field("disseminationFormat"));
 		dm.setRevisionPolicy((Map<String,String>)dmO.field("revisionPolicy"));
@@ -126,7 +126,7 @@ public class DMConverter {
 		dm.setNextUpdateDate((Date)dmO.field("nextUpdateDate"));
 		dm.setCompletenessPercentage((Float)dmO.field("completenessPercentage"));
         if (dmO.field("updatePeriodicity")!=null)
-            dm.setUpdatePeriodicity(clConverter.toCode((ODocument)dmO.field("updatePeriodicity"), false, CodeListConverter.NO_LEVELS));
+            dm.setUpdatePeriodicity(clConverter.toCode((ODocument)dmO.field("updatePeriodicity"), false, CodeListConverter.NO_LEVELS,null));
 		//other
 		if (dmO.field("transferOptions")!=null)
 			dm.setTransferOptions(cmConverter.toLink((Collection<ODocument>)dmO.field("transferOptions")));

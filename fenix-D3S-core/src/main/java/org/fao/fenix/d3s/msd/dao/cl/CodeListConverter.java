@@ -1,10 +1,8 @@
 package org.fao.fenix.d3s.msd.dao.cl;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
+import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
 import org.fao.fenix.commons.msd.dto.cl.Code;
@@ -28,12 +26,13 @@ public class CodeListConverter {
 
 	@Autowired private CommonsConverter cmConverter;
 	@Autowired private DSDConverter dsdConverter;
-	
-	//Code system conversion
-	public Collection<CodeSystem> toSystem (Collection<ODocument> systemsO, boolean all) {
+
+    /****************************************************************************************/
+	//CODE LIST CONVERSION
+	public Collection<CodeSystem> toSystem (Collection<ODocument> systemsO) {
 		if (systemsO==null)
 			return null;
-		Collection<CodeSystem> systems = new LinkedList<CodeSystem>();
+		Collection<CodeSystem> systems = new LinkedList<>();
 		for (ODocument systemO : systemsO)
 			systems.add(toSystem(systemO, false));
 		return systems;
@@ -58,114 +57,111 @@ public class CodeListConverter {
 			for (ODocument keywordO : keywords)
 				system.addKeyWord((String)keywordO.field("keyword"));
 
-		system.setCategory(toCode((ODocument)systemO.field("category"), false, NO_LEVELS));
-		system.setRegion(toCode((ODocument)systemO.field("region"), false, NO_LEVELS));
+		system.setCategory(toCode((ODocument)systemO.field("category"), false, NO_LEVELS, null));
+		system.setRegion(toCode((ODocument)systemO.field("region"), false, NO_LEVELS, null));
 		system.setSource(cmConverter.toContactIdentity((ODocument)systemO.field("source")));
 		system.setProvider(cmConverter.toContactIdentity((ODocument)systemO.field("provider")));
 		
 		//code list
-		if (all) {
-			Collection<ODocument> rootCodes = (Collection<ODocument>)systemO.field("rootCodes");
-			if (rootCodes!=null)
-				for (ODocument codeO : rootCodes)
-					system.addCode(toCode(codeO, ALL_LEVELS));
-		}
-		
+		if (all)
+            try {
+                Collection<ODocument> rootCodes = systemO.field("rootCodes");
+                Map<String, Code> codesBuffer = new HashMap<>();
+                if (rootCodes!=null)
+                    for (ODocument codeO : rootCodes)
+                        system.addCode(toCode(codeO, system, ALL_LEVELS, codesBuffer));
+            } catch (DuplicateCodeException e) {
+                throw new RuntimeException("Malformed code list data into database", e);
+            }
+
 		return system;
 	}
 
-	//Code conversion
+
+
+    /****************************************************************************************/
+	//CODE CONVERSION
 	public Collection<Code> toCode(Collection<ODocument> codesO, boolean codeSystem) {
 		Collection<Code> codes = new LinkedList<Code>();
 		for (ODocument codeO : codesO)
-			codes.add(toCode(codeO, codeSystem, NO_LEVELS));
+			codes.add(toCode(codeO, codeSystem, NO_LEVELS, null));
 		return codes;
 	}	
-	public Code toCode(ODocument codeO, boolean codeSystem, int levels) {
-		if (codeO==null)
-			return null;
-        Code code = toCode(codeO, levels);
-        if (codeSystem) {
-            CodeSystem system = toSystem((ODocument)codeO.field("system"), false);
-
-            if (code.isRoot())
-                system.addCode(code);
-            else
-                code.setSystem(system);
-        }
-        return code;
+	public Code toCode(ODocument codeO, boolean codeSystem, int levels, Map<String,Code> done) {
+        return codeO!=null  ? toCode(codeO, codeSystem ? toSystem((ODocument)codeO.field("system"), false) : null, levels, done) : null;
     }
 	@SuppressWarnings("unchecked")
-	private Code toCode(ODocument codeO, int levels) {
+	private Code toCode(ODocument codeO, CodeSystem codeSystem, int levels, Map<String,Code> done) {
 		if (codeO==null)
 			return null;
-		Code code = new Code();
-		code.setCode((String)codeO.field("code"));
-		code.setLevel((Integer)codeO.field("level"));
-		code.setTitle((Map<String,String>)codeO.field("title",Map.class));
-		code.setDescription((Map<String,String>)codeO.field("abstract",Map.class));
-		code.setSupplemental((Map<String,String>)codeO.field("supplemental",Map.class));
-		code.setFromDate((Date)codeO.field("fromDate"));
-		code.setToDate((Date)codeO.field("toDate"));
 
-        //Set hierarchy
-		if (levels!=NO_LEVELS) {
-			Collection<ODocument> codesO = (Collection<ODocument>)codeO.field("childs");
-			if (codesO!=null)
-				for (ODocument childO : codesO)
-					code.addChild(toCode(childO, levels==ALL_LEVELS?ALL_LEVELS:levels-1));
-		}
+        Code code = done!=null ? done.get(codeO.field("code")) : null;
+        if (code==null) {
+            code = new Code();
+            code.setCode((String) codeO.field("code"));
+            code.setLevel((Integer) codeO.field("level"));
+            code.setTitle((Map<String, String>) codeO.field("title", Map.class));
+            code.setDescription((Map<String, String>) codeO.field("abstract", Map.class));
+            code.setSupplemental((Map<String, String>) codeO.field("supplemental", Map.class));
+            code.setFromDate((Date) codeO.field("fromDate"));
+            code.setToDate((Date) codeO.field("toDate"));
+            //Set system
+            if (codeSystem!=null)
+                code.setSystem(codeSystem);
+            else {
+                code.setSystemKey((String) codeO.field("system.system"));
+                code.setSystemVersion((String) codeO.field("system.version"));
+            }
+            //Aggregation rules
+            Collection<ODocument> aggregationRules = codeO.field("aggregationRules");
+            if (aggregationRules != null)
+                for (ODocument aggregationRule : aggregationRules)
+                    code.addAggregationRule(cmConverter.toOperator(aggregationRule));
 
-        //Set system
-        code.setSystemKey((String)codeO.field("system.system"));
-        code.setSystemVersion((String)codeO.field("system.version"));
+            //Set hierarchy
+            try {
+                if (done!=null) {
+                    done.put(code.getCode(), code); //IMPORTANT
+                    if (levels!=NO_LEVELS && codeO.field("parents")!=null)
+                        for (ODocument parentO : (Collection<ODocument>)codeO.field("parents"))
+                            code.addParent(toCode(parentO, codeSystem, levels == ALL_LEVELS ? ALL_LEVELS : levels - 1, done));
+                }
+                if (levels!=NO_LEVELS && codeO.field("childs")!=null)
+                    for (ODocument childO : (Collection<ODocument>)codeO.field("childs"))
+                        code.addChild(toCode(childO, codeSystem, levels == ALL_LEVELS ? ALL_LEVELS : levels - 1, done));
+            } catch (DuplicateCodeException e) {
+                throw new RuntimeException("Malformed code list data into database", e);
+            }
+        }
 
-        //Connected elements
-		Collection<ODocument> exclusionList = (Collection<ODocument>)codeO.field("exclusions");
-		if (exclusionList!=null)
-			code.setExclusionList(toCode(exclusionList, false));
-
-		Collection<ODocument> aggregationRules = (Collection<ODocument>)codeO.field("aggregationRules");
-		if (aggregationRules!=null)
-			for (ODocument aggregationRule : aggregationRules)
-				code.addAggregationRule(cmConverter.toOperator(aggregationRule));
-		
 		return code;
 	}
-	
-	//Links conversion
+
+
+
+    /****************************************************************************************/
+	//RELATIONS CONVERSION
 	public CodeRelationship toRelationship (ODocument relationO, OGraphDatabase database) {
 		CodeRelationship relation = new CodeRelationship();
 		relation.setType(CodeRelationshipType.getByCode((String)relationO.field("type")));
-		relation.setFromCode(toCode((ODocument)relationO.field("out"), false, NO_LEVELS));
-		relation.setToCode(toCode((ODocument)relationO.field("in"), false, NO_LEVELS));
+		relation.setFromCode(toCode((ODocument)relationO.field("out"), false, NO_LEVELS, null));
+		relation.setToCode(toCode((ODocument)relationO.field("in"), false, NO_LEVELS, null));
 		return relation;
 	}
 	public CodeConversion toConversion (ODocument conversionO, OGraphDatabase database) {
 		CodeConversion conversion = new CodeConversion();
 		conversion.setConversionRule(cmConverter.toOperator((ODocument)conversionO.field("conversionRule")));
-		conversion.setFromCode(toCode((ODocument)conversionO.field("out"), true, NO_LEVELS));
-		conversion.setToCode(toCode((ODocument)conversionO.field("in"), true, NO_LEVELS));
+		conversion.setFromCode(toCode((ODocument)conversionO.field("out"), true, NO_LEVELS, null));
+		conversion.setToCode(toCode((ODocument)conversionO.field("in"), true, NO_LEVELS, null));
 		return conversion;
 	}
 	public CodePropaedeutic toPropaedeutic (ODocument propaedeuticO, OGraphDatabase database) {
 		CodePropaedeutic propaedeutic = new CodePropaedeutic();
 		propaedeutic.setContextSystem(dsdConverter.toContext((ODocument)propaedeuticO.field("contextSystem")));
-		propaedeutic.setFromCode(toCode((ODocument)propaedeuticO.field("out"), true, NO_LEVELS));
-		propaedeutic.setToCode(toCode((ODocument)propaedeuticO.field("in"), true, NO_LEVELS));
+		propaedeutic.setFromCode(toCode((ODocument)propaedeuticO.field("out"), true, NO_LEVELS, null));
+		propaedeutic.setToCode(toCode((ODocument)propaedeuticO.field("in"), true, NO_LEVELS, null));
 		return propaedeutic;
 	}
 
-
-    //UTILS
-    public boolean isLeaf(ODocument codeO) {
-        Collection<ODocument> children = codeO.field("childs");
-        return children==null || children.size()==0;
-    }
-	
-    public boolean isRoot(ODocument codeO) {
-        Collection<ODocument> parents = codeO.field("parents");
-        return parents==null || parents.size()==0;
-    }
 
 }

@@ -51,9 +51,9 @@ public class CommonsConverter {
 
 		//connected elements
 		if (identityO.field("region")!=null)
-			identity.setRegion(clConverter.toCode((ODocument)identityO.field("region"), false, CodeListConverter.NO_LEVELS));
+			identity.setRegion(clConverter.toCode((ODocument)identityO.field("region"), false, CodeListConverter.NO_LEVELS, null));
 		if (identityO.field("role")!=null)
-			identity.setRole(clConverter.toCode((ODocument)identityO.field("role"), false, CodeListConverter.NO_LEVELS));
+			identity.setRole(clConverter.toCode((ODocument)identityO.field("role"), false, CodeListConverter.NO_LEVELS, null));
         if (identityO.field("context")!=null)
             identity.setContext(dsdConverter.toContext((ODocument)identityO.field("context")));
 

@@ -123,7 +123,7 @@ public class CodeListLoad extends OrientDao {
 	}
 	public Code loadCode(String system, String version, String code, OGraphDatabase database, Integer levels) throws Exception {
 		ODocument codeO = loadCodeO(system, version, code, database);
-		return codeO!=null ? converter.toCode(codeO, true, levels!=null?levels:CodeListConverter.NO_LEVELS) : null;
+		return codeO!=null ? converter.toCode(codeO, true, levels!=null?levels:CodeListConverter.NO_LEVELS,null) : null;
 	}
 	public synchronized ODocument loadCodeO(String system, String version, String code, OGraphDatabase database) throws Exception {
 		return loadCodeO(loadSystemO(system, version, database),code, database);
@@ -155,7 +155,7 @@ public class CodeListLoad extends OrientDao {
 			return toRet;
 		
 		for (ODocument cO: codeO)
-				toRet.add(converter.toCode(cO, true, levels!=null?levels:CodeListConverter.NO_LEVELS));
+				toRet.add(converter.toCode(cO, true, levels!=null?levels:CodeListConverter.NO_LEVELS, null));
 
 		return toRet;
 	}
@@ -320,7 +320,7 @@ public class CodeListLoad extends OrientDao {
         }
     }
     public Collection<CodeSystem> loadCodeSystemsByTitle(String text, SupportedLanguages language, OGraphDatabase database) throws Exception {
-        return converter.toSystem(loadByTitleO(text, language, true, database),false);
+        return converter.toSystem(loadByTitleO(text, language, true, database));
     }
 
     public synchronized Collection<ODocument> loadByTitleO(String text, SupportedLanguages language, boolean codeList, OGraphDatabase database) throws Exception {
