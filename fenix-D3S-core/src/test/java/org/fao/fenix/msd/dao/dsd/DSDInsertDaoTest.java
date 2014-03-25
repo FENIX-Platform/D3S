@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.Cleaner;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
 import org.fao.fenix.msd.dao.cl.CodeSystemInsertDaoTest;
@@ -68,7 +69,7 @@ public class DSDInsertDaoTest {
 	
 	
 	//Utils
-	public static DSD createDSD1() {
+	public static DSD createDSD1() throws DuplicateCodeException {
 		DSD dsd = new DSD();
 		dsd.addSupplemental("IT", "note dsd 1");
 		dsd.addSupplemental("EN", "dsd note 1");

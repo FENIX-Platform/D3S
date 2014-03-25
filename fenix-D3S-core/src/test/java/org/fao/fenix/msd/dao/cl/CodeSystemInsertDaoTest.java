@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.Cleaner;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
 import org.fao.fenix.commons.msd.dto.cl.Code;
@@ -57,7 +58,7 @@ public class CodeSystemInsertDaoTest {
 	
 	
 	//Utils
-	public static CodeSystem createCodeSystem1() {
+	public static CodeSystem createCodeSystem1() throws DuplicateCodeException {
 		CodeSystem system = new CodeSystem();
 		system.setSystem("sys1");
 		system.setVersion("1.0");

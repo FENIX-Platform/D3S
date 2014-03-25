@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 import java.util.Date;
 
+import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.Cleaner;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
 import org.fao.fenix.d3s.msd.dao.dm.DMStore;
@@ -69,7 +70,7 @@ public class DMInsertDaoTest {
 	
 	
 	//Utils
-	public static DM createDM(CodeSystem cl) {
+	public static DM createDM(CodeSystem cl) throws DuplicateCodeException {
 		DM dm = new DM();
 		dm.setUid("d1");
 		dm.addDescription("IT", "descrizione dataset 1");
