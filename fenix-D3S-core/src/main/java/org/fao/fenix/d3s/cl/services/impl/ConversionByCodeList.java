@@ -72,7 +72,7 @@ public class ConversionByCodeList extends OrientDao {
 		Collection<ODocument> conversionListO = clLinkDao.loadConversionsFromCodeToCLO(umFromO, clToO, database);
 		if (conversionListO.size()>0) {
 			ODocument conversionO = conversionListO.iterator().next();
-			Code unitOfMeasureTo = clConverter.toCode((ODocument)conversionO.field("in"), false, 0);
+			Code unitOfMeasureTo = clConverter.toCode((ODocument)conversionO.field("in"), false, CodeListConverter.NO_LEVELS, null);
 			return ConverterFactory.getInstance(getConverterInfo(conversionListO.iterator().next(), dataType, unitOfMeasureFrom, unitOfMeasureTo, database));
 		} else
 			return null;
