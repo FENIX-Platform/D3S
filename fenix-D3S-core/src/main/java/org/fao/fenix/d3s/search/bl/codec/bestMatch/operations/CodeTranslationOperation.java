@@ -56,7 +56,7 @@ public class CodeTranslationOperation implements DecodeOperation {
 		if (relations.size()!=1)
 			throw new Exception("Data decode error. More than one relation from original to destination code.");
 		
-		row[columnIndex] = clConverter.toCode((ODocument)relations.iterator().next().field("in"), false, 0);
+		row[columnIndex] = clConverter.toCode((ODocument)relations.iterator().next().field("in"), false, CodeListConverter.NO_LEVELS, null);
 		
 		return row;
 	}
