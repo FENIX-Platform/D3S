@@ -18,6 +18,7 @@ public interface StoreCodeList {
 	//code list
 	@POST
 	@Path("system")
+    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
 	public void newCodeList(CodeSystem cl) throws Exception;
 	@PUT
 	@Path("system")

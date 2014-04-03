@@ -12,6 +12,7 @@ import org.fao.fenix.d3s.cl.services.rest.MergeCL;
 import org.fao.fenix.d3s.dataset.services.rest.Upload;
 import org.fao.fenix.d3s.msd.services.rest.*;
 import org.fao.fenix.d3s.search.services.rest.Search;
+import org.fao.fenix.d3s.server.tools.resteasy.CSVProvider;
 
 @ApplicationPath("/")
 public class ServiceRegistry extends Application {
@@ -44,6 +45,9 @@ public class ServiceRegistry extends Application {
 		classes.add(DefaultErrorManager.class);
         //BACKUP
         classes.add(BackupService.class);
+
+        //CUSTOM PROVIDERS
+        classes.add(CSVProvider.class);
 
 		return classes;
 	}

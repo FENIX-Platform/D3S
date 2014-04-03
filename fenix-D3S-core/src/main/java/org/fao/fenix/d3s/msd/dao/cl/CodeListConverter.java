@@ -125,10 +125,13 @@ public class CodeListConverter {
                     if (levels!=NO_LEVELS && codeO.field("parents")!=null)
                         for (ODocument parentO : (Collection<ODocument>)codeO.field("parents"))
                             code.addParent(toCode(parentO, codeSystem, levels == ALL_LEVELS ? ALL_LEVELS : levels - 1, done));
-                }
-                if (levels!=NO_LEVELS && codeO.field("childs")!=null)
+                    if (levels!=NO_LEVELS && codeO.field("childs")!=null)
+                        for (ODocument childO : (Collection<ODocument>)codeO.field("childs"))
+                            code.addChildOnly(toCode(childO, codeSystem, levels == ALL_LEVELS ? ALL_LEVELS : levels - 1, done));
+                } else if (levels!=NO_LEVELS && codeO.field("childs")!=null)
                     for (ODocument childO : (Collection<ODocument>)codeO.field("childs"))
                         code.addChild(toCode(childO, codeSystem, levels == ALL_LEVELS ? ALL_LEVELS : levels - 1, done));
+
             } catch (DuplicateCodeException e) {
                 throw new RuntimeException("Malformed code list data into database", e);
             }

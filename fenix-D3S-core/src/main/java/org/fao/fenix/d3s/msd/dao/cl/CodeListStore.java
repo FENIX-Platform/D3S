@@ -170,19 +170,19 @@ public class CodeListStore extends OrientDao {
 	}
 	
 	public int updateCodeList(CodeSystem cl, OGraphDatabase database) throws Exception {
-		ODocument csmain = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
-		if (csmain==null)
+		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
+		if (clO==null)
 			return 0;
 
-		csmain.field("system", cl.getSystem());
-		csmain.field("version", cl.getVersion());
-		csmain.field("title", cl.getTitle());
-		csmain.field("abstract", cl.getDescription());
-		csmain.field("startDate", cl.getStartDate());
-		csmain.field("endDate", cl.getEndDate());
-		csmain.field("virtualDate", cl.getVirtualDate());
-		csmain.field("sharingPolicy", cl.getSharingPolicy()!=null ? cl.getSharingPolicy().getCode() : null);
-		csmain.field("levelsNumber", cl.getLevelsNumber());
+		clO.field("system", cl.getSystem());
+		clO.field("version", cl.getVersion());
+		clO.field("title", cl.getTitle());
+		clO.field("abstract", cl.getDescription());
+		clO.field("startDate", cl.getStartDate());
+		clO.field("endDate", cl.getEndDate());
+		clO.field("virtualDate", cl.getVirtualDate());
+		clO.field("sharingPolicy", cl.getSharingPolicy()!=null ? cl.getSharingPolicy().getCode() : null);
+		clO.field("levelsNumber", cl.getLevelsNumber());
 
 		//connected elements
         if (cl.getKeyWords()!=null) {
@@ -190,86 +190,84 @@ public class CodeListStore extends OrientDao {
             if (cl.getKeyWords()!=null)
                 for (String keyword : cl.getKeyWords())
                     keywords.add(storeKeyword(keyword, database).save());
-            csmain.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
+            clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
         }
 
-		if (csmain.field("category")!=null)
-			((ODocument)csmain.field("category")).delete();
+		if (clO.field("category")!=null)
+			((ODocument)clO.field("category")).delete();
 		if (cl.getCategory()!=null)
-			csmain.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
+			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
 		else
-			csmain.field("category", null, OType.LINK);
+			clO.field("category", null, OType.LINK);
 
 		if (cl.getRegion()!=null)
-			csmain.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
+			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
 		else
-			csmain.field("region", null, OType.LINK);
+			clO.field("region", null, OType.LINK);
 
 		if (cl.getSource()!=null)
-			csmain.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
+			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
 		else
-			csmain.field("source", null, OType.LINK);
+			clO.field("source", null, OType.LINK);
 
 		if (cl.getProvider()!=null)
-			csmain.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
+			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
 		else
-			csmain.field("provider", null, OType.LINK);
-
-		csmain.save();
+			clO.field("provider", null, OType.LINK);
 
         //Index
-        index.rebuildIndex(csmain,false);
+        index.rebuildIndex(clO.save(),false);
 
 		return 1;
 	}
 
 
 	public int appendCodeList(CodeSystem cl, OGraphDatabase database) throws Exception {
-		ODocument csmain = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
-		if (csmain==null)
+		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
+		if (clO==null)
 			return 0;
 
 		if (cl.getSystem()!=null)
-			csmain.field("system", cl.getSystem());
+			clO.field("system", cl.getSystem());
 		if (cl.getVersion()!=null)
-			csmain.field("version", cl.getVersion());
+			clO.field("version", cl.getVersion());
 		if (cl.getTitle()!=null)
-			csmain.field("title", cl.getTitle());
+			clO.field("title", cl.getTitle());
 		if (cl.getDescription()!=null)
-			csmain.field("abstract", cl.getDescription());
+			clO.field("abstract", cl.getDescription());
 		if (cl.getStartDate()!=null)
-			csmain.field("startDate", cl.getStartDate());
+			clO.field("startDate", cl.getStartDate());
 		if (cl.getEndDate()!=null)
-			csmain.field("endDate", cl.getEndDate());
+			clO.field("endDate", cl.getEndDate());
 		if (cl.getVirtualDate()!=null)
-			csmain.field("virtualDate", cl.getVirtualDate());
+			clO.field("virtualDate", cl.getVirtualDate());
 		if (cl.getSharingPolicy()!=null)
-			csmain.field("sharingPolicy", cl.getSharingPolicy().getCode());
+			clO.field("sharingPolicy", cl.getSharingPolicy().getCode());
 		if (cl.getLevelsNumber()!=null)
-			csmain.field("levelsNumber", cl.getLevelsNumber());
+			clO.field("levelsNumber", cl.getLevelsNumber());
 
 		//connected elements
 		if (cl.getKeyWords()!=null) {
 			Collection<ODocument> keywords = new ArrayList<ODocument>(); //Nothing to delete about keywords
 			for (String keyword : cl.getKeyWords())
 				keywords.add(storeKeyword(keyword, database).save());
-			csmain.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
+			clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
 		}
 
 		if (cl.getCategory()!=null)
-			csmain.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
+			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
 
 		if (cl.getRegion()!=null)
-			csmain.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
+			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
 
 		if (cl.getSource()!=null)
-			csmain.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
+			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
 
 		if (cl.getProvider()!=null)
-			csmain.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
+			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
 
         //Index
-        index.rebuildIndex(csmain,false);
+        index.rebuildIndex(clO.save(), false);
 
         return 1;
 	}
@@ -364,7 +362,7 @@ public class CodeListStore extends OrientDao {
         if (!code.isRoot()) {
             Set<ODocument> parentsO = DataUtils.toSet((Collection<ODocument>) codeO.field("parents"));
             for (Code parent : code.getParents())
-                parentsO.add(existingCodesO.get(parent));
+                parentsO.add(existingCodesO.get(parent.getCode()));
             codeO.field("parents",DataUtils.toList(parentsO));
         }
         if (!code.isLeaf()) {
@@ -492,10 +490,10 @@ public class CodeListStore extends OrientDao {
 		if (systemO==null)
 			return 0;
 		//Disconnect CodeList
-		disconnectCodeList(systemO, database);
-		dmStoreDAO.disconnectCodeList(systemO, database);
+//		disconnectCodeList(systemO, database);
+//		dmStoreDAO.disconnectCodeList(systemO, database);
 		//Delete CodeSystem
-		return deleteGraph(systemO, new HashSet<String>(Arrays.asList(new String[]{"CMContactIdentity","CSKeyword","CSPropaedeutic","CSRelationship","CSConversion"})));
+		return deleteGraphInclude(systemO, new HashSet<String>(Arrays.asList(new String[]{"CSVersion","CSCode"})));
 	}
 	private void disconnectCodeList(ODocument systemO, OGraphDatabase database) throws Exception {
 		for (ODocument edge : loadLinkDAO.loadLinksFromCLO(systemO, database))

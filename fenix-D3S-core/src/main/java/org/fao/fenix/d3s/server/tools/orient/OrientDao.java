@@ -28,11 +28,13 @@ public abstract class OrientDao {
 	
 	
 	//Utils
+	protected int deleteGraphInclude (ODocument vertex, String[] boundary) { return deleteGraph(vertex, Arrays.asList(boundary)); }
+	protected int deleteGraphInclude (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),true); }
 	protected int deleteGraph (ODocument vertex, String[] boundary) { return deleteGraph(vertex, Arrays.asList(boundary)); }
-	protected int deleteGraph (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<String>(boundary) : new HashSet<String>(), new TreeSet<ORID>()); }
+	protected int deleteGraph (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),false); }
 	@SuppressWarnings("unchecked")
-	private final int deleteGraph (ODocument vertex, Set<String> boundary, Set<ORID> deleted) {
-		if (vertex==null || deleted.contains(vertex.getIdentity()) || boundary.contains(vertex.getClassName()))
+	private final int deleteGraph (ODocument vertex, Set<String> boundary, Set<ORID> deleted, boolean include) {
+		if (vertex==null || deleted.contains(vertex.getIdentity()) || (include && !boundary.contains(vertex.getClassName())))
 			return 0;
 
 		int count = 1;
@@ -46,16 +48,16 @@ public abstract class OrientDao {
 			if (field!=null && fieldValue!=null)
 				switch (field.getType()) {
 					case LINK: 
-						count += deleteGraph((ODocument)fieldValue, boundary, deleted);
+						count += deleteGraph((ODocument)fieldValue, boundary, deleted,include);
 						break;
 					case LINKLIST:
 					case LINKSET: 
 						for (ODocument child : (Collection<ODocument>)fieldValue)
-							count += deleteGraph(child, boundary, deleted);
+							count += deleteGraph(child, boundary, deleted,include);
 						break;
 					case LINKMAP: 
 						for (ODocument child : ((Map<Object,ODocument>)vertex.field(fieldName)).values())
-							count += deleteGraph(child, boundary, deleted);
+							count += deleteGraph(child, boundary, deleted,include);
 						break;
 				}
 		}
