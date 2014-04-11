@@ -4,7 +4,9 @@ import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
+import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.fao.fenix.commons.utils.CSVReader;
+import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
@@ -21,7 +23,7 @@ import java.util.*;
 @Provider
 @Consumes("application/csv")
 public class CSVProvider implements MessageBodyReader<CodeSystem> {
-    private enum CodeListFileStructure { tree, table }
+    public enum CodeListFileStructure { tree, table }
 
     class Structure {
         String csvSeparator;
@@ -31,6 +33,8 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
         Map<String,Integer> titleColumnIndexes = new HashMap<>();
         Map<String,Integer> descriptionColumnIndexes = new HashMap<>();
         Map<String,Integer> supplementalColumnIndexes = new HashMap<>();
+        Integer startYearColumnIndex;
+        Integer expireYearColumnIndex;
     }
 
 
@@ -51,15 +55,12 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
             //Load code list codes
             loadCodeListData(codeList,csvStructure,in);
 
-            //Return normalized codelist
-            return codeList.normalize();
+            //Return codelist
+            return codeList;
         } catch (Exception e) {
-            throw new WebApplicationException("Code list structure problems found.",e);
+            throw new WebApplicationException("Code list structure problems found: "+ e.getMessage(),e);
         }
     }
-
-
-
 
 
 
@@ -76,18 +77,17 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
         Structure structure = new Structure();
 
         //Mandatory structure init (with default values if needed)
-        structure.csvSeparator = structureProperties.getProperty("csvSeparator", ";");
-        structure.dateFormat = new SimpleDateFormat(structureProperties.getProperty("dateFormat","yyyy/mm/dd"));
-        structure.fileBasicStructure = CodeListFileStructure.valueOf(structureProperties.getProperty("structure", "tree"));
+        structure.csvSeparator = structureProperties.getProperty("csvSeparator", ";").trim();
+        structure.dateFormat = new SimpleDateFormat(structureProperties.getProperty("dateFormat","yyyy/mm/dd").trim());
+        structure.fileBasicStructure = CodeListFileStructure.valueOf(structureProperties.getProperty("structure", "tree").trim());
         Collection<Integer> indexes = new LinkedList<>();
-        for (String index : structureProperties.getProperty("codeColumnsIndex","1,2").split(","))
-            try { indexes.add(Integer.parseInt(index)-1);
-            } catch (Exception ex) { throw new Exception("Error on column structure index parsing: "+ex.getMessage()); }
+        for (String index : structureProperties.getProperty("codeColumnsIndex","1,2").trim().split(","))
+            indexes.add(Integer.parseInt(index)-1);
         structure.codeColumnIndexes = indexes.toArray(new Integer[indexes.size()]);
 
         //Fill codelist metadata and add optional structure informations
         for (String fieldName : structureProperties.stringPropertyNames()) {
-            String fieldValue = structureProperties.getProperty(fieldName);
+            String fieldValue = structureProperties.getProperty(fieldName).trim();
 
             if ("name".equalsIgnoreCase(fieldName))
                 codeList.setSystem(fieldValue);
@@ -112,16 +112,20 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
             else if ("sharingPolicy".equalsIgnoreCase(fieldName))
                 codeList.setSharingPolicy(CSSharingPolicy.valueOf(fieldValue));
             else if ("keywords".equalsIgnoreCase(fieldName))
-                for (String keyword : fieldValue.split(","))
-                    if (keyword!=null && !keyword.trim().equals(""))
+                for (String keyword : fieldValue.split(",")) {
+                    if (keyword != null && !keyword.trim().equals(""))
                         codeList.addKeyWord(keyword);
-
-            else if (fieldName.startsWith("titleColumn_"))
-                structure.titleColumnIndexes.put(fieldName.substring("titleColumn_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue));
-            else if (fieldName.startsWith("descriptionColumn_"))
-                structure.descriptionColumnIndexes.put(fieldName.substring("descriptionColumn_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue));
-            else if (fieldName.startsWith("supplementalColumn_"))
-                structure.supplementalColumnIndexes.put(fieldName.substring("supplementalColumn_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue));
+                }
+            else if (fieldName.startsWith("titleColumnIndex_"))
+                structure.titleColumnIndexes.put(fieldName.substring("titleColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue)-1);
+            else if (fieldName.startsWith("descriptionColumnIndex_"))
+                structure.descriptionColumnIndexes.put(fieldName.substring("descriptionColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue)-1);
+            else if (fieldName.startsWith("supplementalColumnIndex_"))
+                structure.supplementalColumnIndexes.put(fieldName.substring("supplementalColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue)-1);
+            else if ("startYearColumnIndex".equals(fieldName))
+                structure.startYearColumnIndex = Integer.parseInt(fieldValue)-1;
+            else if ("expireYearColumnIndex".equals(fieldName))
+                structure.expireYearColumnIndex = Integer.parseInt(fieldValue)-1;
         }
 
         return structure;
@@ -137,8 +141,8 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
 
         int rowCount = 0;
         for (String[] row = csvReader.nextRow(); row!=null; row = csvReader.nextRow()) {
-            rowCount++;
             if (row.length>0) {
+                rowCount++;
                 //Load code informations
                 String code=null, parent=null;
                 if (csvStructure.fileBasicStructure==CodeListFileStructure.table) {
@@ -151,7 +155,7 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
                         } else
                             break;
                 } else if (csvStructure.fileBasicStructure==CodeListFileStructure.tree) {
-                    if (row.length<=csvStructure.codeColumnIndexes[0] || row.length<=csvStructure.codeColumnIndexes[1])
+                    if (csvStructure.codeColumnIndexes.length!=2 || row.length<=csvStructure.codeColumnIndexes[0] || row.length<=csvStructure.codeColumnIndexes[1])
                         throw new Exception ("Wrong structure for data row "+rowCount);
                     else {
                         parent = row[csvStructure.codeColumnIndexes[0]];
@@ -180,6 +184,11 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
                         codeObject.addSupplemental(labelIterator.getKey(), label);
                 }
 
+                if (csvStructure.startYearColumnIndex!=null && row.length>csvStructure.startYearColumnIndex)
+                    try { codeObject.setFromDate(DataUtils.fromStringToDate(row[csvStructure.startYearColumnIndex], null, null, true)); } catch (Exception ex) { throw new Exception ("Wrong value for start year (row "+rowCount+")"); }
+                if (csvStructure.expireYearColumnIndex!=null && row.length>csvStructure.expireYearColumnIndex)
+                    try { codeObject.setToDate(DataUtils.fromStringToDate(row[csvStructure.expireYearColumnIndex], null, null, true)); } catch (Exception ex) { throw new Exception ("Wrong value for expire year (row "+rowCount+")"); }
+
                 //Store temporary code informations
                 loadedCodes.put(code, codeObject);
                 if (parent!=null && !parent.trim().equals("")) {
@@ -200,7 +209,6 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
             for (String code : parentEntry.getValue())
                 parentO.addChild(loadedCodes.get(code));
         }
-        codeList.normalize();
 
         //Check orphan codes
         Collection<Code> orphanCodes = new LinkedList<>();
@@ -215,6 +223,7 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
             throw new Exception(errorMessageBuffer.toString());
         }
     }
+
 
 
 }

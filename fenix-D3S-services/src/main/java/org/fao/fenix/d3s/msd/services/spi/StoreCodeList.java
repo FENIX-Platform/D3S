@@ -11,21 +11,23 @@ import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
 import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
 
-@Produces
+@Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface StoreCodeList {
 
 	//code list
 	@POST
 	@Path("system")
-    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
-	public void newCodeList(CodeSystem cl) throws Exception;
+    @Consumes("application/csv")
+	public String newCodeList(CodeSystem cl) throws Exception;
 	@PUT
 	@Path("system")
-	public void updateCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
+    @Consumes("application/csv")
+	public Integer updateCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
 	@PUT
 	@Path("system/append")
-	public void appendCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
+    @Consumes("application/csv")
+	public Integer appendCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("true") boolean all)  throws Exception;
 
 	//code
 	@PUT

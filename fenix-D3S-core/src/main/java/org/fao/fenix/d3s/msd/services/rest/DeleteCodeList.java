@@ -18,9 +18,11 @@ public class DeleteCodeList implements org.fao.fenix.d3s.msd.services.spi.Delete
     @Context HttpServletRequest request;
 
 	@Override
-	public void deleteCodeList(String system, String version) throws Exception {
-        if (SpringContext.getBean(Delete.class).deleteCodeList(system, version)<=0)
+	public Integer deleteCodeList(String system, String version) throws Exception {
+        int count = SpringContext.getBean(Delete.class).deleteCodeList(system, version);
+        if (count<=0)
             throw new NoContentException("");
+        return count;
 	}
 	
 	@Override

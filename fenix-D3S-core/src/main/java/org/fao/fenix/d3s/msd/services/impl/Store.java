@@ -50,9 +50,9 @@ public class Store {
 		return cmStoreDAO.storePublication(publication);
 	}
 
-	public void newCodeList(CodeSystem cl) throws Exception {
-        cl.normalize();
-		clStoreDAO.storeCodeList(cl);
+	public String newCodeList(CodeSystem cl) throws Exception {
+        clStoreDAO.storeCodeList(cl.normalize());
+        return cl.toString();
 	}
 
     public String newDatasetMetadata(DM dm) throws Exception {
@@ -109,8 +109,7 @@ public class Store {
 		return clStoreDAO.updateCodeList(cl, append) + (all ? updateCodeListCodes(cl,append) : 0);
 	}
 	public int updateCodeListCodes(CodeSystem cl, boolean append) throws Exception {
-        cl.normalize();
-		return clStoreDAO.updateCodes(cl, append);
+        return clStoreDAO.updateCodes(cl.normalize(), append);
 	}
 
 	public int updateCode(Code code) throws Exception {

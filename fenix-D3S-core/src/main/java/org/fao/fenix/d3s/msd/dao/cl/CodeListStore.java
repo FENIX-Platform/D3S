@@ -306,7 +306,7 @@ public class CodeListStore extends OrientDao {
         Map<String, ODocument> existingCodesO = new HashMap<>();
         getExistingCodesO(existingCodesO,rootCodesO);
 
-        //Store new codes, update existing codes content ì and update root codes level
+        //Store new codes, update existing codes content and update root codes level
         Set<String> visitedCodes = new HashSet<>();
         Collection<Code> rootCodes = cl.getRootCodes();
         if (rootCodes!=null)

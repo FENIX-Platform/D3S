@@ -1,14 +1,15 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
-@Produces
+@Produces(MediaType.TEXT_PLAIN)
 @Consumes
 public interface DeleteCodeList {
 
 	@DELETE
 	@Path("system/{system}/{version}")
-	public void deleteCodeList(@PathParam("system") String system, @PathParam("version") String version) throws Exception;
+	public Integer deleteCodeList(@PathParam("system") String system, @PathParam("version") String version) throws Exception;
 	
 	@DELETE
 	@Path("keyword/{keyword}")

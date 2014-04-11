@@ -1,24 +1,27 @@
 package org.fao.fenix.d3s.server.init;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Properties;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 
-import org.fao.fenix.d3s.server.services.rest.Service;
+import org.fao.fenix.commons.utils.WebContext;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 
 @WebListener
-public class MainController implements ServletContextListener {
+@ApplicationScoped
+public class MainController implements ServletContextListener, WebContext {
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ServletContext context = servletContextEvent.getServletContext();
+        context = servletContextEvent.getServletContext();
         Properties properties = new Properties();
         for (Object propertyName : Collections.list(context.getInitParameterNames()))
             properties.setProperty((String)propertyName, context.getInitParameter((String)propertyName));
@@ -37,4 +40,11 @@ public class MainController implements ServletContextListener {
 	}
 
 
+    //Utils
+    private static Properties initParameters = new Properties();
+    @Override public Properties getInitParameters() { return initParameters; }
+    @Override public String getInitParameter(String key) { return initParameters.getProperty(key); }
+
+    private static ServletContext context;
+    @Override public InputStream getWebrootFileStream(String path) throws IOException { return context.getResourceAsStream(path); }
 }

@@ -1,0 +1,28 @@
+#structure
+csvSeparator=;
+structure=table
+dateFormat=dd/mm/yyyy
+codeColumnsIndex=1
+titleColumnIndex_EN=2
+
+#metadata
+name=OECD_PolicyType2
+title_EN=OECD Import measures
+description_EN=OECD Policy Measures of Import measures
+version=1.0
+startDate=03/04/2014
+sharingPolicy=publicPolicy
+
+
+--data--
+
+10;Import tariffs
+11;Tariff quotas
+17;Antidumping measures
+18;Carbon tax exemptions
+19;Countervailing measures
+20;Import tariffs
+21;Licensing requirement
+22;Other import measures
+23;VAT tax rebate
+

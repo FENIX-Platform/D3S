@@ -4,8 +4,8 @@
 	<context-param>
 	    <description>D3S database URL</description>
 	    <param-name>D3S.baseURL</param-name>
-	    <!--param-value>http://hqlprfenixapp1.hq.un.fao.org:7777</param-value-->
-	    <param-value>http://localhost:8081</param-value>
+	    <param-value>http://faostat3.fao.org:7777</param-value>
+	    <!--param-value>http://localhost:8081</param-value-->
 	</context-param>
 
 </web-app>

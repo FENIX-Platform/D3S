@@ -21,18 +21,22 @@ public class StoreCodeList implements org.fao.fenix.d3s.msd.services.spi.StoreCo
 
 	//code list
 	@Override
-	public void newCodeList(CodeSystem cl) throws Exception {
-		SpringContext.getBean(Store.class).newCodeList(cl);
+	public String newCodeList(CodeSystem cl) throws Exception {
+		return SpringContext.getBean(Store.class).newCodeList(cl);
 	}
 	@Override
-	public void updateCodeList(CodeSystem cl, boolean all) throws Exception {
-		if (SpringContext.getBean(Store.class).updateCodeList(cl, false, all)<=0)
+	public Integer updateCodeList(CodeSystem cl, boolean all) throws Exception {
+        int count = SpringContext.getBean(Store.class).updateCodeList(cl, false, all);
+		if (count<=0)
             throw new NoContentException("");
+        return count;
 	}
 	@Override
-	public void appendCodeList(CodeSystem cl, boolean all) throws Exception {
-        if (SpringContext.getBean(Store.class).updateCodeList(cl, true, all)<=0)
+	public Integer appendCodeList(CodeSystem cl, boolean all) throws Exception {
+        int count = SpringContext.getBean(Store.class).updateCodeList(cl, true, all);
+        if (count<=0)
             throw new NoContentException("");
+        return count;
 	}
 
 
