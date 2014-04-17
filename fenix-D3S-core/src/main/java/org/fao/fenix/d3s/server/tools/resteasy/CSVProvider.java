@@ -96,7 +96,7 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
             else if (fieldName.startsWith("title_"))
                 codeList.addTitle(fieldName.substring("title_".length()).trim().toUpperCase(), fieldValue);
             else if (fieldName.startsWith("description_"))
-                codeList.addTitle(fieldName.substring("description_".length()).trim().toUpperCase(), fieldValue);
+                codeList.addDescription(fieldName.substring("description_".length()).trim().toUpperCase(), fieldValue);
             else if ("region".equalsIgnoreCase(fieldName))
                 codeList.setRegion(new Code(fieldValue));
             else if ("category".equalsIgnoreCase(fieldName))

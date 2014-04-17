@@ -18,15 +18,15 @@ public interface StoreCodeList {
 	//code list
 	@POST
 	@Path("system")
-    @Consumes("application/csv")
+    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
 	public String newCodeList(CodeSystem cl) throws Exception;
 	@PUT
 	@Path("system")
-    @Consumes("application/csv")
+    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
 	public Integer updateCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("false") boolean all)  throws Exception;
 	@PUT
 	@Path("system/append")
-    @Consumes("application/csv")
+    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
 	public Integer appendCodeList(CodeSystem cl, @QueryParam("all") @DefaultValue("true") boolean all)  throws Exception;
 
 	//code
