@@ -30,7 +30,7 @@ public interface LoadCodeList {
 	@GET
     @GZIP
 	@Path("code/{system}/{version}/{code}")
-	public Code getCode(@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("0") Integer levels) throws Exception;
+	public Code getCode(@PathParam("system") String system, @PathParam("version") String version, @PathParam("code") String code, @QueryParam("levels") @DefaultValue("-1") Integer levels) throws Exception;
     @POST
     @GZIP
     @Path("codes/title/{language}")

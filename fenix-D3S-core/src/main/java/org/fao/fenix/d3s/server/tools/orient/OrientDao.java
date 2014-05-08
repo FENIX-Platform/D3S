@@ -34,7 +34,7 @@ public abstract class OrientDao {
 	protected int deleteGraph (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),false); }
 	@SuppressWarnings("unchecked")
 	private final int deleteGraph (ODocument vertex, Set<String> boundary, Set<ORID> deleted, boolean include) {
-		if (vertex==null || deleted.contains(vertex.getIdentity()) || (include && !boundary.contains(vertex.getClassName())))
+		if (vertex==null || deleted.contains(vertex.getIdentity()) || (include && !boundary.contains(vertex.getClassName())) || (!include && boundary.contains(vertex.getClassName())))
 			return 0;
 
 		int count = 1;

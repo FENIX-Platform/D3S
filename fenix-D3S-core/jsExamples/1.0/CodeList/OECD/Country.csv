@@ -21,6 +21,8 @@ sharingPolicy=publicPolicy
 37;Brazil
 46;Canada
 53;China
+40765;Egypt
+999000;European Union
 85;France
 93;Germany
 115;India
@@ -38,9 +40,9 @@ sharingPolicy=publicPolicy
 229;Spain
 240;Thailand
 249;Turkey
-254;Ukraine
 256;U.K. of Great Britain and Northern Ireland
+254;Ukraine
 259;United States of America
 264;Viet Nam
-40765;Egypt
-999000;European Union
+
+

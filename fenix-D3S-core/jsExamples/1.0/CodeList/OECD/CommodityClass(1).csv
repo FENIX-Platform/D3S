@@ -16,12 +16,13 @@ sharingPolicy=publicPolicy
 
 --data--
 
-1;Wheat
-2;Rice
 3;Maize
-4;Soybeans
-8;Wheat + Maize
 9;Maize + Rice
 10;Maize + Soybeans
+2;Rice
+4;Soybeans
+1;Wheat
+8;Wheat + Maize
 11;Wheat + Maize + Rice
 12;Wheat + Rice
+

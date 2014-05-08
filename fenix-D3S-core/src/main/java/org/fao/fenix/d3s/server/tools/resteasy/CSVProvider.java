@@ -6,7 +6,6 @@ import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
 import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.fao.fenix.commons.utils.CSVReader;
-import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
@@ -136,7 +135,7 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
     private void loadCodeListData(CodeSystem codeList, Structure csvStructure, BufferedReader in) throws Exception {
         Map<String,Code> loadedCodes = new HashMap<>();
         Map<String, Set<String>> codeParents = new HashMap<>();
-        Set<String> rootCodes = new HashSet<>();
+        Collection<String> rootCodes = new LinkedList<>();
         CSVReader csvReader = new CSVReader(in,csvStructure.csvSeparator);
 
         int rowCount = 0;
