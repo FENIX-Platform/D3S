@@ -1,0 +1,20 @@
+#structure
+csvSeparator=;
+structure=tree
+dateFormat=dd/mm/yyyy
+codeColumnsIndex=1,2
+titleColumnIndex_PT=3
+titleColumnIndex_EN=4
+titleColumnIndex_FR=5
+
+#metadata
+name=CS_Units
+version=1.0
+
+
+
+--data--
+
+
+
+;401;1000 US$;1000 US$;1000 US$
