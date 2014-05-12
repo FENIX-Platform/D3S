@@ -146,13 +146,5 @@
 
 
 
-
-        <!-- Memory check agent -->
-        <dependency>
-            <groupId>eu.javaspecialists.tjsn.memory</groupId>
-            <artifactId>MemoryCounterAgent</artifactId>
-            <version>1.0</version>
-        </dependency>
-
 	</dependencies>
 </project>
