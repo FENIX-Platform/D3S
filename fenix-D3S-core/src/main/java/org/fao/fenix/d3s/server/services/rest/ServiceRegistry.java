@@ -16,7 +16,7 @@ import org.fao.fenix.d3s.server.tools.resteasy.CSVProvider;
 
 @ApplicationPath("/")
 public class ServiceRegistry extends Application {
-
+/*
 	@Override public Set<Class<?>> getClasses() { return ServiceRegistry.getResourceClasses(); }
 	
 	public static Set<Class<?>> getResourceClasses() {
@@ -51,5 +51,5 @@ public class ServiceRegistry extends Application {
 
 		return classes;
 	}
-
+*/
 }

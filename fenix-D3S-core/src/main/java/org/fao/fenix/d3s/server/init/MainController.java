@@ -69,7 +69,7 @@ public class MainController extends HttpServlet {
 	public static void startupModules() throws Exception {
 		initModules();
 		
-		RestServer.addServices(ServiceRegistry.getResourceClasses());
+//		RestServer.addServices(ServiceRegistry.getResourceClasses());
 		RestServer.startServer();
 //		SpringContext.addPostProcessor(RestServer.createSpringProcessor());
 		OrientServer.startServer();
