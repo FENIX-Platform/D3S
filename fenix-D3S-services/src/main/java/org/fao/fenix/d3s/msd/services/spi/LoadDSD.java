@@ -3,7 +3,6 @@ package org.fao.fenix.d3s.msd.services.spi;
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
-import org.jboss.resteasy.annotations.GZIP;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,15 +16,12 @@ import java.util.Collection;
 public interface LoadDSD {
 
 	@GET
-    @GZIP
 	@Path("datasource")
 	public Collection<DSDDatasource> getDatasources() throws Exception;
 	@GET
-    @GZIP
 	@Path("dimension")
 	public Collection<DSDDimension> getDimensions() throws Exception;
 	@GET
-    @GZIP
 	@Path("context")
 	public Collection<DSDContextSystem> getContextSystems() throws Exception;
 	

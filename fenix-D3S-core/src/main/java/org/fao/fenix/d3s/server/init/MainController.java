@@ -1,40 +1,18 @@
 package org.fao.fenix.d3s.server.init;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-
-import org.fao.fenix.d3s.backup.services.impl.BackupRegistry;
 import org.fao.fenix.d3s.search.services.impl.SearchOperation;
-import org.fao.fenix.d3s.server.services.rest.CrossDomainInterceptor;
-import org.fao.fenix.d3s.server.services.rest.ServiceRegistry;
-import org.fao.fenix.d3s.server.tools.resteasy.RestClient;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.server.tools.Properties;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
-import org.fao.fenix.d3s.server.tools.resteasy.RestServer;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
+import org.fao.fenix.d3s.server.tools.rest.Server;
 
 
-//@WebServlet(urlPatterns="/startupSequence",loadOnStartup=1)
-public class MainController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		try {
-			startupModules();
-		} catch (Exception e) {
-			throw new ServletException("Initialization sequence error. Restart the server. Couse exception is:\n", e);
-		}
-	}
+public class MainController {
 
 	//INIT PARAMETERS
 	private static File customPropertiesFile = new File("config/mainConfig.properties");
@@ -58,26 +36,19 @@ public class MainController extends HttpServlet {
 	//STARTUP SEQUENCE
 	public static void initModules() throws Exception {
         Properties parameters = getInitParameters();
-		SpringContext.init(parameters);
-		RestServer.init(parameters);
-		CrossDomainInterceptor.init(parameters);
+
+        Server.init(parameters);
 		OrientServer.init(parameters);
 		SearchStep.init(parameters);
 		SearchOperation.init(parameters);
-        BackupRegistry.init(parameters);
     }
 	public static void startupModules() throws Exception {
-		initModules();
-		
-//		RestServer.addServices(ServiceRegistry.getResourceClasses());
-		RestServer.startServer();
-//		SpringContext.addPostProcessor(RestServer.createSpringProcessor());
-		OrientServer.startServer();
+        Server.start(); //TODO
+        OrientServer.startServer();
 	}
 
     public static void startupOperations() {
-        //Update metadata dynamic index structure
-        //SpringContext.getBean(DMIndexStore.class).createDynamicIndexStructure(OrientServer.getMsdDatabase());
+        //e.g. update metadata dynamic index structure
     }
 	
 	
@@ -86,14 +57,17 @@ public class MainController extends HttpServlet {
 		String operation = args!=null && args.length>0 ? args[0] : null;
 		
 		if (operation==null) {
+            initModules();
 			startupModules();
             startupOperations();
 			System.out.println("\n\nServer started succesfully.");
 		} else if (operation.equals("stop")) {
-			String stopURL = "http://localhost:"+getInitParameters().getProperty("rest.server.port")+"/server";
+            URL stopURL = new URL("http://localhost:"+getInitParameters().getProperty("rest.server.port","7777")+"/shutdown");
 			try {
-				RestClient.delete(stopURL, null, null);
-				System.out.println("Server stopped succesfully.");
+                BufferedReader in = new BufferedReader(new InputStreamReader(stopURL.openConnection().getInputStream()));
+                System.out.println("Stopping D3S server:");
+                for (String line = in.readLine(); line!=null; line = in.readLine())
+                    System.out.println(line);
 			} catch (Exception ex) {
 				System.err.println("Stopping server error: "+ex.getMessage());
 			}
@@ -111,7 +85,8 @@ public class MainController extends HttpServlet {
 	
 	public static void shutdownModules() throws Exception {
 		OrientServer.stopServer();
-		RestServer.stopServer();
+
+        Server.stop();
 	}
 
 

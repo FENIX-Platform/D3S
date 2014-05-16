@@ -1,15 +1,13 @@
 package org.fao.fenix.d3s.search.bl.dataFilter;
 
 import org.fao.fenix.d3s.search.SearchStep;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-@Component
-@Scope("prototype")
+@Dependent
 public class MultipleStepIterable extends SearchStep {
 
     private Collection<SearchStep> sources = new LinkedList<SearchStep>();

@@ -2,12 +2,10 @@ package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 
-@Component
 public class Cleaner extends OrientDao {
 		
 	public void cleanALL() throws Exception {

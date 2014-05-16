@@ -10,16 +10,15 @@ import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
 import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
 import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
 import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+
 public class Delete {
-	@Autowired private CommonsStore cmStoreDAO;
-	@Autowired private DSDStore dsdStoreDAO;
-	@Autowired private DMStore dmStoreDAO;
-	@Autowired private CodeListStore clStoreDAO;
-	@Autowired private CodeListLinkStore clLinkStoreDAO;
+	@Inject private CommonsStore cmStoreDAO;
+	@Inject private DSDStore dsdStoreDAO;
+	@Inject private DMStore dmStoreDAO;
+	@Inject private CodeListStore clStoreDAO;
+	@Inject private CodeListLinkStore clLinkStoreDAO;
 	
 	public int deleteContactIdentity(String contactID) throws Exception {
 		return cmStoreDAO.deleteContatcIdentity(contactID);
@@ -41,7 +40,7 @@ public class Delete {
 		return dsdStoreDAO.deleteDimension(name);
 	}
 	public int deleteContextSystem(String name) throws Exception {
-		return dsdStoreDAO.deleteContext(name);
+		return cmStoreDAO.deleteContext(name);
 	}
 	public int deleteKeyword(String keyword) throws Exception {
 		return clStoreDAO.deleteKeyword(keyword);

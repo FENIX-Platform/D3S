@@ -14,27 +14,20 @@ import org.fao.fenix.commons.msd.dto.dm.DM;
 import org.fao.fenix.commons.msd.dto.dm.DMAvailability;
 import org.fao.fenix.commons.msd.dto.dm.DMDataSource;
 import org.fao.fenix.commons.msd.dto.dm.DMMeta;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DMStore extends OrientDao {
-    @Autowired
-	private DMLoad dmLoadDAO;
-    @Autowired
-	private DMIndexStore dmIndexStoreDAO;
-    @Autowired
-	private DSDStore dsdStoreDAO;
-    @Autowired
-	private CommonsStore cmStoreDAO;
-	@Autowired
-	private CodeListLoad clLoadDAO;
-	@Autowired
-	private DMConverter dmConverter;
+    @Inject private DMLoad dmLoadDAO;
+    @Inject private DMIndexStore dmIndexStoreDAO;
+    @Inject private DSDStore dsdStoreDAO;
+    @Inject private CommonsStore cmStoreDAO;
+	@Inject private CodeListLoad clLoadDAO;
+	@Inject private DMConverter dmConverter;
 
 	// UPDATE
 	public int updateMetadataStructure(DMMeta mm, boolean append) throws Exception {

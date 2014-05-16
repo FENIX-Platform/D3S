@@ -21,25 +21,17 @@ import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+
 public class Store {
-	@Autowired
-	private CommonsStore cmStoreDAO;
-	@Autowired
-	private DSDStore dsdStoreDAO;
-    @Autowired
-    private DMStore dmStoreDAO;
-    @Autowired
-    private DMIndexStore dmIndexStoreDAO;
-	@Autowired
-	private CodeListStore clStoreDAO;
-    @Autowired
-    private CodeListIndex clIndexStoreDAO;
-	@Autowired
-	private CodeListLinkStore clLinkStoreDAO;
+	@Inject private CommonsStore cmStoreDAO;
+	@Inject private DSDStore dsdStoreDAO;
+    @Inject private DMStore dmStoreDAO;
+    @Inject private DMIndexStore dmIndexStoreDAO;
+	@Inject private CodeListStore clStoreDAO;
+    @Inject private CodeListIndex clIndexStoreDAO;
+	@Inject private CodeListLinkStore clLinkStoreDAO;
 
 	// STORE
 	public String newContactIdentity(ContactIdentity contactIdentity) throws Exception {
@@ -72,7 +64,7 @@ public class Store {
 	}
 
 	public void newContextSystem(DSDContextSystem context) throws Exception {
-		dsdStoreDAO.storeContext(context);
+		cmStoreDAO.storeContext(context);
 	}
 
 	public void newRelationship(Collection<CodeRelationship> relations) throws Exception {

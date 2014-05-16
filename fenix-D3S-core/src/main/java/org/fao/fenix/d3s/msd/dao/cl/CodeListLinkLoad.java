@@ -12,18 +12,17 @@ import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component
+import javax.inject.Inject;
+
 public class CodeListLinkLoad extends OrientDao {
 	
-	@Autowired private CodeListConverter converter;
-	@Autowired private CodeListLoad clLoadDao;
+	@Inject private CodeListConverter converter;
+	@Inject private CodeListLoad clLoadDao;
 	
 	private static OSQLSynchQuery<ODocument> queryLoadHierarchy_FromCL = new OSQLSynchQuery<ODocument>("select from CSHierarchy where out.system = ?");
 	private static OSQLSynchQuery<ODocument> queryLoadPropaedeutic_FromCL = new OSQLSynchQuery<ODocument>("select from CSPropaedeutic where out.system = ?");

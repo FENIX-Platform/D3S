@@ -4,7 +4,6 @@ import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.search.dto.Response;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.commons.search.dto.resource.Resource;
 import org.fao.fenix.d3s.cache.Cache;
 import org.fao.fenix.d3s.cache.impl.OrientCache;
 import org.fao.fenix.d3s.cache.impl.RamCache;
@@ -12,31 +11,31 @@ import org.fao.fenix.d3s.search.bl.aggregation.H2Aggregator;
 import org.fao.fenix.d3s.search.bl.codec.bestMatch.BestMatchCodec;
 import org.fao.fenix.d3s.search.bl.dataFilter.MultipleStepIterable;
 import org.fao.fenix.d3s.search.bl.datasetFilter.SearchConverterFilter;
+import org.fao.fenix.d3s.server.tools.rest.CDIUtils;
 import org.fao.fenix.d3s.wds.Dao;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.converter.BasicConverter;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.SearchResponse;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.util.*;
 
-@Component
+@Dependent
 public class BasicDataSearch extends SearchOperation {
+    @Inject CDIUtils cdi;
 
 	//Search main flow
 	@Override
 	public Response searchFlow(ResourceFilter filter) throws Exception {
         //Init dependencies
-        BestMatchCodec codec = SpringContext.getBean(BestMatchCodec.class);
-        BasicConverter converter = SpringContext.getBean(BasicConverter.class);
-        BasicMetadataSearch metadataSearch = SpringContext.getBean(BasicMetadataSearch.class);
-        SearchConverterFilter filterConverter = SpringContext.getBean(SearchConverterFilter.class);
+        BestMatchCodec codec = cdi.getBean(BestMatchCodec.class);
+        BasicConverter converter = cdi.getBean(BasicConverter.class);
+        BasicMetadataSearch metadataSearch = cdi.getBean(BasicMetadataSearch.class);
+        SearchConverterFilter filterConverter = cdi.getBean(SearchConverterFilter.class);
 
-        Cache cacheL1 = SpringContext.getBean(OrientCache.class);
+        Cache cacheL1 = cdi.getBean(OrientCache.class);
         try { cacheL1.init("search.basic.cache.L1."); } catch (Exception e) { }
-        Cache cacheL2 = SpringContext.getBean(RamCache.class);
+        Cache cacheL2 = cdi.getBean(RamCache.class);
         try { cacheL2.init("search.basic.cache.L2."); } catch (Exception e) { }
 
         OGraphDatabase database = getFlow().getMsdDatabase();
@@ -73,7 +72,7 @@ public class BasicDataSearch extends SearchOperation {
                     codec.decodeData(daoFilter, dataset, cacheL1);
                     converter.convertData(daoFilter, codec);
                     //first level aggregation
-                    H2Aggregator aggregatorL1 = SpringContext.getBean(H2Aggregator.class);
+                    H2Aggregator aggregatorL1 = cdi.getBean(H2Aggregator.class);
                     aggregatorL1.init(converter, daoFilter, dataset);
                     //Add result partial result
                     results.add(aggregatorL1);
@@ -85,18 +84,18 @@ public class BasicDataSearch extends SearchOperation {
                 cacheL2.storeData(filter, datasets, results.iterator().next());
             } else if (results.size()>1) {
                 //Prepare data convergence
-                MultipleStepIterable bridge = SpringContext.getBean(MultipleStepIterable.class);
+                MultipleStepIterable bridge = cdi.getBean(MultipleStepIterable.class);
                 bridge.initStructure(filter,masterDataset,false,false);
                 bridge.addAll(results);
                 //Second level aggregation
-                H2Aggregator aggregatorL2 = SpringContext.getBean(H2Aggregator.class);
+                H2Aggregator aggregatorL2 = cdi.getBean(H2Aggregator.class);
                 aggregatorL2.init(bridge,filter,null);
                 //Store result into l2 cache
                 cacheL2.storeData(filter, datasets, aggregatorL2);
             }
 		}
         //Prepare data for output
-        MultipleStepIterable outBridge = SpringContext.getBean(MultipleStepIterable.class);
+        MultipleStepIterable outBridge = cdi.getBean(MultipleStepIterable.class);
         outBridge.initStructure(filter,masterDataset,false,true);
         outBridge.add(cacheL2);
 
@@ -113,7 +112,7 @@ public class BasicDataSearch extends SearchOperation {
     //Utils
     @SuppressWarnings("unchecked")
 	private Dao getDao(ODocument datasource) throws Exception {
-        Dao dao = (Dao)SpringContext.getBean((String) datasource.field("dao"));
+        Dao dao = (Dao)cdi.getBean((String) datasource.field("dao"));
         dao.init((Map<String,String>)datasource.field("reference"));
         return dao;
     }

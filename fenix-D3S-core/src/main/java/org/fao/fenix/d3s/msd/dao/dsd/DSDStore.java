@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.dao.dsd;
 
 import java.util.*;
 
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dm.DMLoad;
@@ -14,19 +15,18 @@ import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DSDStore extends OrientDao {
-	@Autowired private CommonsStore commonsStoreDAO;
-	@Autowired private CodeListLoad clLoadDAO;
-	@Autowired private DSDLoad dsdLoadDAO;
-	@Autowired private DMLoad dmLoadDAO;
+	@Inject private CommonsStore commonsStoreDAO;
+	@Inject private CodeListLoad clLoadDAO;
+	@Inject private DSDLoad dsdLoadDAO;
+	@Inject private DMLoad dmLoadDAO;
 	
 	//UPDATE
 	//dsd
@@ -40,7 +40,7 @@ public class DSDStore extends OrientDao {
 
 		//connected elements
         if (dsd.getAggregationRules()!=null)
-            dsdmain.field("aggregationRules", commonsStoreDAO.storeValueOperator(dsd.getAggregationRules(), database));
+            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
         else
             dsdmain.field("aggregationRules", null, OType.LINKLIST);
 
@@ -50,7 +50,7 @@ public class DSDStore extends OrientDao {
 			dsdmain.field("datasource", null, OType.LINK);
 
 		if (dsd.getContextSystem()!=null)
-			dsdmain.field("contextSystem", storeContext(dsd.getContextSystem(), database));
+			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
 		else
 			dsdmain.field("contextSystem", null, OType.LINK);
 		
@@ -82,13 +82,13 @@ public class DSDStore extends OrientDao {
 
 		//connected elements
         if (dsd.getAggregationRules()!=null)
-            dsdmain.field("aggregationRules", commonsStoreDAO.storeValueOperator(dsd.getAggregationRules(), database));
+            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
 
         if (dsd.getDatasource()!=null)
 			dsdmain.field("datasource", storeDatasource(dsd.getDatasource(), database));
 
 		if (dsd.getContextSystem()!=null)
-			dsdmain.field("contextSystem", storeContext(dsd.getContextSystem(), database));
+			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
 		
 		if (dsd.getColumns()!=null && dsd.getColumns().size()>0) {
 			Collection<ODocument> columns = dsdmain.field("columns");
@@ -181,30 +181,6 @@ public class DSDStore extends OrientDao {
 			column.save();
 		}
 	}
-	//context system
-	public int deleteContext(String name) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteContext(name, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int deleteContext(String name, OGraphDatabase database) throws Exception {
-		ODocument dsdcontext = dsdLoadDAO.loadContextSystem(name, database);
-		if (dsdcontext==null)
-			return 0;
-		disconnectContext(dsdcontext, database);
-		dsdcontext.delete();
-		return 1;
-	}
-	private void disconnectContext(ODocument contextO, OGraphDatabase database) throws Exception {
-		for (ODocument dsd : dsdLoadDAO.loadDsdByContextSystem(contextO, database)) {
-			dsd.field("contextSystem", null, OType.LINK);
-			dsd.save();
-		}
-	}
 	//codelist
 	public void disconnectCodeList (ODocument systemO, OGraphDatabase database) throws Exception {
 		for (ODocument column : dsdLoadDAO.loadColumnsBySystem(systemO, database)) {
@@ -224,17 +200,6 @@ public class DSDStore extends OrientDao {
 		int count=0;
 		try {
 			storeDatasource(datasource, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-		return count;
-	}
-	public int storeContext(DSDContextSystem context) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count=0;
-		try {
-			storeContext(context, database);
 		} finally {
 			if (database!=null)
 				database.close();
@@ -261,11 +226,11 @@ public class DSDStore extends OrientDao {
 		dsdmain.field("supplemental", dsd.getSupplemental());
 
 		//connected elements
-		dsdmain.field("aggregationRules", commonsStoreDAO.storeValueOperator(dsd.getAggregationRules(), database));
+		dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
 
         dsdmain.field("datasource", storeDatasource(dsd.getDatasource(), database));
 
-		dsdmain.field("contextSystem", storeContext(dsd.getContextSystem(), database));
+		dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
 		
 		Collection<ODocument> columns = new ArrayList<ODocument>();
 		for (DSDColumn column : dsd.getColumns())
@@ -327,11 +292,6 @@ public class DSDStore extends OrientDao {
 		return dsddatasource.save();
 	}
 
-	public ODocument storeContext(DSDContextSystem context, OGraphDatabase database) throws Exception {
-		ODocument dsdcontext = dsdLoadDAO.loadContextSystem(context.getName(), database);
-		return dsdcontext!=null ? dsdcontext : database.createVertex("DSDContextSystem").field("name", context.getName()).save();
-	}
-	
 	public ODocument storeDimension (DSDDimension dimension, OGraphDatabase database) throws Exception {
 		ODocument dsddimension = dsdLoadDAO.loadDimensionO(dimension.getName(), database);
 		if (dsddimension==null) {
@@ -342,5 +302,27 @@ public class DSDStore extends OrientDao {
 		}
 		return dsddimension;
 	}
-	
+
+
+    //Value operator
+    public ODocument storeValueOperator(ValueOperator operator, OGraphDatabase database) throws Exception {
+        ODocument operatorO = database.createVertex("CMValueOperator");
+        operatorO.field("implementation", operator.getImplementation());
+        operatorO.field("rule", operator.getRule());
+        operatorO.field("fixedParameters", operator.getFixedParameters());
+        operatorO.field("dimension", storeDimension(operator.getDimension()!=null ? operator.getDimension() : new DSDDimension("VALUE"), database));
+        return operatorO.save();
+    }
+
+    public Collection<ODocument> storeValueOperator(Collection<ValueOperator> operators, OGraphDatabase database) throws Exception {
+        if (operators!=null) {
+            Collection<ODocument> operatorsO = new LinkedList<ODocument>();
+            for (ValueOperator operator : operators)
+                operatorsO.add(storeValueOperator(operator,database));
+            return operatorsO;
+        }
+        return null;
+    }
+
+
 }

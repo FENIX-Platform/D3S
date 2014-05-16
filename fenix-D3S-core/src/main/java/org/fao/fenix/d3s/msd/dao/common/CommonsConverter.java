@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
@@ -14,17 +15,13 @@ import org.fao.fenix.commons.msd.dto.common.Link;
 import org.fao.fenix.commons.msd.dto.common.Publication;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.commons.msd.dto.common.type.ContactType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CommonsConverter {
-	private @Autowired
-    CodeListConverter clConverter;
-	private @Autowired
-    DSDConverter dsdConverter;
+	//private @Inject CodeListConverter clConverter;
 
 	//Identity conversion
 	public Collection<ContactIdentity> toContactIdentity (Collection<ODocument> identitiesO) {
@@ -50,14 +47,14 @@ public class CommonsConverter {
 		identity.setSupplemental((Map<String,String>)identityO.field("supplemental",Map.class));
 
 		//connected elements
-		if (identityO.field("region")!=null)
+/*		if (identityO.field("region")!=null)
 			identity.setRegion(clConverter.toCode((ODocument)identityO.field("region"), false, CodeListConverter.NO_LEVELS, null));
 		if (identityO.field("role")!=null)
 			identity.setRole(clConverter.toCode((ODocument)identityO.field("role"), false, CodeListConverter.NO_LEVELS, null));
-        if (identityO.field("context")!=null)
-            identity.setContext(dsdConverter.toContext((ODocument)identityO.field("context")));
+*/        if (identityO.field("context")!=null)
+            identity.setContext(toContext((ODocument)identityO.field("context")));
 
-		Collection<ODocument> contacts = (Collection<ODocument>)identityO.field("contactList");
+		Collection<ODocument> contacts = identityO.field("contactList");
 		if (contacts!=null)
 			for (ODocument contactO : contacts)
 				identity.addContact(toContact(contactO));
@@ -113,27 +110,15 @@ public class CommonsConverter {
 		return publication;
 	}
 
-	//Value operator conversion
-	public Collection<ValueOperator> toOperator (Collection<ODocument> operatorsO) {
-        if (operatorsO!=null) {
-            Collection<ValueOperator> operators = new LinkedList<ValueOperator>();
-            for (ODocument operatorO : operatorsO)
-                operators.add(toOperator(operatorO));
-            return operators;
-        }
-        return null;
+
+
+
+    public DSDContextSystem toContext (ODocument contextO) {
+        if (contextO==null)
+            return null;
+        DSDContextSystem context = new DSDContextSystem();
+        context.setName((String)contextO.field("name"));
+        return context;
     }
-
-	public ValueOperator toOperator (ODocument operatorO) {
-		if (operatorO==null)
-			return null;
-		ValueOperator operator = new ValueOperator();
-		operator.setImplementation((String)operatorO.field("implementation"));
-		operator.setRule((String)operatorO.field("rule"));
-		operator.setFixedParameters((Map<String,Object>)operatorO.field("fixedParameters",Map.class));
-        operator.setDimension(dsdConverter.toDimension((ODocument)operatorO.field("dimension")));
-		return operator;
-	}
-
 
 }

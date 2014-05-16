@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.services.rest;
 
 import java.util.Collection;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -12,40 +13,41 @@ import org.fao.fenix.commons.msd.dto.dm.DM;
 import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.d3s.msd.services.impl.Delete;
 import org.fao.fenix.d3s.msd.services.impl.Store;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 
 @Path("msd/dm")
 public class StoreDM implements org.fao.fenix.d3s.msd.services.spi.StoreDM {
     @Context HttpServletRequest request;
+    @Inject private Store store;
+    @Inject private Delete delete;
 
     //dataset
 	@Override
 	public String newDatasetMetadata(DM dm) throws Exception {
-		return SpringContext.getBean(Store.class).newDatasetMetadata(dm);
+		return store.newDatasetMetadata(dm);
 	}
 	@Override
 	public void updateDatasetMetadata(DM dm) throws Exception {
-		if (SpringContext.getBean(Store.class).updateDatasetMetadata(dm,false)<=0)
+		if (store.updateDatasetMetadata(dm,false)<=0)
             throw new NoContentException("");
 	}
 	@Override
 	public void appendDatasetMetadata(DM dm) throws Exception {
-        if (SpringContext.getBean(Store.class).updateDatasetMetadata(dm,true)<=0)
+        if (store.updateDatasetMetadata(dm,true)<=0)
             throw new NoContentException("");
 	}
 	@Override
 	public void deleteDatasetMetadata(String uid) throws Exception {
-        if (SpringContext.getBean(Delete.class).deleteDatasetMetadata(uid)<=0)
+        if (delete.deleteDatasetMetadata(uid)<=0)
             throw new NoContentException("");
 	}
 	@Override
 	public void indexDatasetMetadata(String uid) throws Exception {
-        if (SpringContext.getBean(Store.class).datasetIndex(uid)<=0)
+        if (store.datasetIndex(uid)<=0)
             throw new NoContentException("");
 	}
     @Override
     public void indexDatasetsRebuild() throws Exception {
-        if (SpringContext.getBean(Store.class).datasetIndex(null)<=0)
+        if (store.datasetIndex(null)<=0)
             throw new NoContentException("");
     }
 
@@ -53,24 +55,24 @@ public class StoreDM implements org.fao.fenix.d3s.msd.services.spi.StoreDM {
     //structure
     @Override
     public String newMetadataStructure(DMMeta mm) throws Exception {
-        return SpringContext.getBean(Store.class).newMetadataStructure(mm);
+        return store.newMetadataStructure(mm);
     }
 
     @Override
     public void updateMetadataStructure(DMMeta mm) throws Exception {
-        if (SpringContext.getBean(Store.class).updateMetadataStructure(mm,false)<=0)
+        if (store.updateMetadataStructure(mm,false)<=0)
             throw new NoContentException("");
     }
 
     @Override
     public void appendMetadataStructure(DMMeta mm) throws Exception {
-        if (SpringContext.getBean(Store.class).updateMetadataStructure(mm,true)<=0)
+        if (store.updateMetadataStructure(mm,true)<=0)
             throw new NoContentException("");
     }
 
     @Override
     public void deleteMetadataStructure(String uid) throws Exception {
-        if (SpringContext.getBean(Delete.class).deleteMetadataStructure(uid)<=0)
+        if (delete.deleteMetadataStructure(uid)<=0)
             throw new NoContentException("");
     }
 
@@ -78,7 +80,7 @@ public class StoreDM implements org.fao.fenix.d3s.msd.services.spi.StoreDM {
     //Associate a dataset to one or more categories
 	@Override
 	public void addCategoriesToDataset(String uid, Collection<Code> listOfCodes) throws Exception {
-        if (SpringContext.getBean(Store.class).addCategoriesToDataset(uid, listOfCodes)<=0)
+        if (store.addCategoriesToDataset(uid, listOfCodes)<=0)
             throw new NoContentException("");
 	}
 }

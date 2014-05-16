@@ -10,13 +10,15 @@ import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;
+import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorFactory;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-@Component
-@Scope("prototype")
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
+@Dependent
 public class BasicAggregator extends Aggregator {
+    @Inject OperatorFactory operatorFactory;
     Map<String,Operator> defaultRules;
 
 
@@ -35,9 +37,9 @@ public class BasicAggregator extends Aggregator {
     }
 
     private void loadRules(ResourceFilter filter, ODocument dataset) throws Exception {
-        defaultRules = new HashMap<String, Operator>();
+        defaultRules = new HashMap<>();
         for (Map.Entry<String, ValueOperator> operatorInfoEntry : findAggregationRules(filter,null).entrySet())
-            defaultRules.put(operatorInfoEntry.getKey(), (Operator)Operator.getInstance(this, operatorInfoEntry.getValue()));
+            defaultRules.put(operatorInfoEntry.getKey(), operatorFactory.getInstance(this, operatorInfoEntry.getValue()));
     }
 
 

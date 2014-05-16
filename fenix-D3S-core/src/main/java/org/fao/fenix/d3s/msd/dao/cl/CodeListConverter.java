@@ -12,20 +12,19 @@ import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
 import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CodeListConverter {
 	
 	public static final int ALL_LEVELS = -1;
 	public static final int NO_LEVELS = 0;
 
-	@Autowired private CommonsConverter cmConverter;
-	@Autowired private DSDConverter dsdConverter;
+	@Inject private CommonsConverter cmConverter;
+	//@Inject private DSDConverter dsdConverter;
 
     /****************************************************************************************/
 	//CODE LIST CONVERSION
@@ -113,11 +112,11 @@ public class CodeListConverter {
                 code.setSystemVersion((String) codeO.field("system.version"));
             }
             //Aggregation rules
-            Collection<ODocument> aggregationRules = codeO.field("aggregationRules");
+/*            Collection<ODocument> aggregationRules = codeO.field("aggregationRules");
             if (aggregationRules != null)
                 for (ODocument aggregationRule : aggregationRules)
-                    code.addAggregationRule(cmConverter.toOperator(aggregationRule));
-
+                    code.addAggregationRule(dsdConverter.toOperator(aggregationRule));
+*/
             //Set hierarchy
             try {
                 if (done!=null) {
@@ -153,14 +152,14 @@ public class CodeListConverter {
 	}
 	public CodeConversion toConversion (ODocument conversionO, OGraphDatabase database) {
 		CodeConversion conversion = new CodeConversion();
-		conversion.setConversionRule(cmConverter.toOperator((ODocument)conversionO.field("conversionRule")));
+		//conversion.setConversionRule(dsdConverter.toOperator((ODocument)conversionO.field("conversionRule")));
 		conversion.setFromCode(toCode((ODocument)conversionO.field("out"), true, NO_LEVELS, null));
 		conversion.setToCode(toCode((ODocument)conversionO.field("in"), true, NO_LEVELS, null));
 		return conversion;
 	}
 	public CodePropaedeutic toPropaedeutic (ODocument propaedeuticO, OGraphDatabase database) {
 		CodePropaedeutic propaedeutic = new CodePropaedeutic();
-		propaedeutic.setContextSystem(dsdConverter.toContext((ODocument)propaedeuticO.field("contextSystem")));
+		propaedeutic.setContextSystem(cmConverter.toContext((ODocument)propaedeuticO.field("contextSystem")));
 		propaedeutic.setFromCode(toCode((ODocument)propaedeuticO.field("out"), true, NO_LEVELS, null));
 		propaedeutic.setToCode(toCode((ODocument)propaedeuticO.field("in"), true, NO_LEVELS, null));
 		return propaedeutic;

@@ -39,7 +39,7 @@ public abstract class SearchStep extends OrientDao implements Iterable<Object[]>
     protected Iterable<Object[]> data;
     public void setData(Iterable<Object[]> data) { this.data = data; }
 
-    protected void cloneResult(SearchStep source) {
+    public void cloneResult(SearchStep source) {
         if (source!=null) {
             datasetName = source.datasetName;
             structure = source.structure;

@@ -10,22 +10,21 @@ import org.fao.fenix.d3s.msd.dao.dm.DMStore;
 import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CodeListStore extends OrientDao {
-	@Autowired private CodeListLoad loadDAO;
-	@Autowired private CodeListLinkLoad loadLinkDAO;
-	@Autowired private CodeListLinkStore storeLinkDAO;
-	@Autowired private DMStore dmStoreDAO;
-    @Autowired private CommonsStore cmStoreDAO;
-    @Autowired private CodeListIndex index;
+	@Inject private CodeListLoad loadDAO;
+	@Inject private CodeListLinkLoad loadLinkDAO;
+	@Inject private CodeListLinkStore storeLinkDAO;
+	@Inject private DMStore dmStoreDAO;
+    @Inject private CommonsStore cmStoreDAO;
+    @Inject private CodeListIndex index;
 
 
     //STORE CODE LIST

@@ -27,15 +27,13 @@ import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.d3s.search.SearchFlow;
 import org.fao.fenix.d3s.search.SearchStep;
-import org.fao.fenix.d3s.search.dto.SearchDataResponse;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.SearchResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 public abstract class SearchOperation extends SearchStep {
-    @Autowired private DMConverter dmConverter;
-    @Autowired private CodeListLoad clDao;
-    @Autowired private DSDLoad dsdDao;
+    @Inject private DMConverter dmConverter;
+    @Inject private CodeListLoad clDao;
+    @Inject private DSDLoad dsdDao;
 
 	protected static Properties initProperties;
 	public static void init(Properties properties) { initProperties = properties; }

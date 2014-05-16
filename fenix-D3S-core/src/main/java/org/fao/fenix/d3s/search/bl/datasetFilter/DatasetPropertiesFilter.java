@@ -11,12 +11,9 @@ import java.util.Set;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.commons.search.dto.filter.ValueFilterType;
 import org.fao.fenix.commons.msd.utils.DataUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
@@ -25,9 +22,10 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component
+import javax.inject.Inject;
+
 public class DatasetPropertiesFilter extends DatasetFilter {
-    @Autowired private DMIndexStore indexStoreDao;
+    @Inject private DMIndexStore indexStoreDao;
 
 
     @SuppressWarnings("unchecked")

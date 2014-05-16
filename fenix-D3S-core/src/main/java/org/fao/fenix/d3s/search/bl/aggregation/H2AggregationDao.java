@@ -3,20 +3,22 @@ package org.fao.fenix.d3s.search.bl.aggregation;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;
+import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorFactory;
 import org.fao.fenix.d3s.server.tools.h2.H2Dao;
 import org.fao.fenix.d3s.server.tools.h2.H2Database;
 import org.fao.fenix.d3s.search.SearchStep;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-@Component
-@Scope("prototype")
+@Dependent
 public class H2AggregationDao extends H2Dao {
+    @Inject private OperatorFactory operatorFactory;
+
     private String tableName;
     private SearchStep structure;
 
@@ -53,7 +55,7 @@ public class H2AggregationDao extends H2Dao {
     public Iterable<Object[]> aggregate(Map<String,ValueOperator> aggregator) throws Exception {
         Map<String, H2Operator> operatorMap = new HashMap<String, H2Operator>();
         for (Map.Entry<String, ValueOperator> operatorInfoEntry : aggregator.entrySet())
-            operatorMap.put(operatorInfoEntry.getKey(), (H2Operator) Operator.getInstance(structure, operatorInfoEntry.getValue()));
+            operatorMap.put(operatorInfoEntry.getKey(), (H2Operator) operatorFactory.getInstance(structure, operatorInfoEntry.getValue()));
 
         String query = getAggregateQuery(operatorMap);
         PreparedStatement statement = getConnection(H2Database.aggregation).prepareStatement(query);
@@ -141,7 +143,7 @@ public class H2AggregationDao extends H2Dao {
                 }
                 query.append(") as ").append(columnName).append(',');
             } else {
-                H2Operator operator = (H2Operator)Operator.getInstance(null, new ValueOperator("operator.NoKey",null,null));
+                H2Operator operator = (H2Operator)operatorFactory.getInstance(null, new ValueOperator("operator.NoKey",null,null));
                 query.append(' ').append(operator.getAggregationBaseName()).append(" (").append(columnName).append(") as ").append(columnName).append(',');
             }
         }

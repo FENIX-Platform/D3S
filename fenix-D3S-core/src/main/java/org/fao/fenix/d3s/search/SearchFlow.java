@@ -10,14 +10,14 @@ import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
+
+import javax.inject.Inject;
 
 public class SearchFlow {
 
-    private CodeListLoad clLoadDao = SpringContext.getBean(CodeListLoad.class);
+    @Inject private CodeListLoad clLoadDao;
 
     private long pid;
     private OGraphDatabase msdDatabase;

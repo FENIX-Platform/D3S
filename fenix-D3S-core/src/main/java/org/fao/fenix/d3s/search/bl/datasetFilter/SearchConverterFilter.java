@@ -8,16 +8,14 @@ import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchFlow;
 import org.fao.fenix.d3s.search.bl.codec.bestMatch.BestMatchCodec;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class SearchConverterFilter extends DatasetFilter {
-	@Autowired private BestMatchCodec filterEncoder;
+	@Inject private BestMatchCodec filterEncoder;
 
 	@Override
 	public Collection<ODocument> filter(ResourceFilter baseFilter, Collection<ODocument> source) throws Exception {

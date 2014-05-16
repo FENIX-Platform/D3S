@@ -25,16 +25,15 @@ import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Inject;
+
 public class Load {
-	@Autowired private CommonsLoad cmLoadDAO;
-	@Autowired private DSDLoad dsdLoadDAO;
-	@Autowired private DMLoad dmLoadDAO;
-	@Autowired private CodeListLoad clLoadDAO;
-	@Autowired private CodeListLinkLoad clLinkLoadDAO;
+	@Inject private CommonsLoad cmLoadDAO;
+	@Inject private DSDLoad dsdLoadDAO;
+	@Inject private DMLoad dmLoadDAO;
+	@Inject private CodeListLoad clLoadDAO;
+	@Inject private CodeListLinkLoad clLinkLoadDAO;
 	
 	//CONTACT IDENTITY
 	public ContactIdentity getContactIdentity(String contactID) throws Exception { return cmLoadDAO.loadContactIdentity(contactID); }

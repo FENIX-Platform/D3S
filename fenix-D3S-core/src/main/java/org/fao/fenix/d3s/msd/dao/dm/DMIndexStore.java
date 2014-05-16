@@ -12,8 +12,6 @@ import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.commons.msd.utils.DataUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.dictionary.ODictionary;
@@ -24,7 +22,8 @@ import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DMIndexStore extends OrientDao {
     private static Set<String> UNINDEXED_FIELDS = new HashSet<String>();
     static {
@@ -34,8 +33,8 @@ public class DMIndexStore extends OrientDao {
         UNINDEXED_FIELDS.add("dsd");
     }
 
-    @Autowired private DMLoad dmLoadDAO;
-	@Autowired private DMConverter dmConverter;
+    @Inject private DMLoad dmLoadDAO;
+	@Inject private DMConverter dmConverter;
 
 
     //Remove

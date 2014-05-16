@@ -4,15 +4,12 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.cache.Cache;
 import org.fao.fenix.d3s.search.SearchStep;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.utils.SoftMap;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
 import java.util.*;
 
-@Component
-@Scope("prototype")
+@Dependent
 public class RamCache extends Cache {
 
     class DatasetsStatus {

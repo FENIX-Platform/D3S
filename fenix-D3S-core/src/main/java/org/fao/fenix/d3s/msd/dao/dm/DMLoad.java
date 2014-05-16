@@ -10,17 +10,16 @@ import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.commons.utils.CompletenessIterator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component
+import javax.inject.Inject;
+
 public class DMLoad extends OrientDao {
 	
-	@Autowired private DMConverter converter;
+	@Inject private DMConverter converter;
 	
 	private static OSQLSynchQuery<ODocument> queryLoadMM = new OSQLSynchQuery<ODocument>("select from DMMeta where metadataUID = ?");
 	private static OSQLSynchQuery<ODocument> queryLoadDM = new OSQLSynchQuery<ODocument>("select from DMMain where index_uid = ?");

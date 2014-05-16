@@ -6,14 +6,12 @@ import java.util.Properties;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.cache.Cache;
 import org.fao.fenix.d3s.search.SearchStep;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
-@Scope("prototype")
+import javax.enterprise.context.Dependent;
+
+@Dependent
 public class OrientCache extends Cache {
 
     @Override

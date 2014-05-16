@@ -7,18 +7,16 @@ import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-@Component
 public class CodeListIndex extends OrientDao {
 
-    @Autowired private CodeListLoad loadDao;
+    @Inject private CodeListLoad loadDao;
 
     public int rebuildIndex (CodeSystem cl) throws Exception {
         OGraphDatabase database = getDatabase(OrientDatabase.msd);

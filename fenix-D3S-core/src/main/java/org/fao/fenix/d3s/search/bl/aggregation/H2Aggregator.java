@@ -4,19 +4,16 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.Map;
 
-@Component
-@Scope("prototype")
+@Dependent
 public class H2Aggregator extends Aggregator {
 
-    @Autowired H2AggregationDao dao;
+    @Inject H2AggregationDao dao;
     Map<String,ValueOperator> operatorInfo;
 
     @Override

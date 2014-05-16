@@ -15,18 +15,17 @@ import org.fao.fenix.commons.msd.dto.dm.DMAvailability;
 import org.fao.fenix.commons.msd.dto.dm.DMDataSource;
 import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.commons.utils.JSONUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DMConverter {
 	
-	@Autowired private CommonsConverter cmConverter;
-	@Autowired private CodeListConverter clConverter;
-	@Autowired private DSDConverter dsdConverter;
+	@Inject private CommonsConverter cmConverter;
+	@Inject private CodeListConverter clConverter;
+	@Inject private DSDConverter dsdConverter;
 
 	//Metadata conversion
 	public Collection<DM> toDM (Collection<ODocument> dmsO, boolean all) {

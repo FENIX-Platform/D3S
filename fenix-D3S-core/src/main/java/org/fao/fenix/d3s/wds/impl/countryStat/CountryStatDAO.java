@@ -3,18 +3,16 @@ package org.fao.fenix.d3s.wds.impl.countryStat;
 import java.util.*;
 
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.d3s.wds.impl.OrientDao;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component("CountrySTAT")
-@Scope("prototype")
+import javax.enterprise.context.Dependent;
+
+@Dependent
 public class CountryStatDAO extends OrientDao {
 
     @Override

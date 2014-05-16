@@ -6,14 +6,12 @@ import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import org.fao.fenix.commons.msd.dto.common.Select;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-@Component
 public class MSDDao extends OrientDao {
 
 

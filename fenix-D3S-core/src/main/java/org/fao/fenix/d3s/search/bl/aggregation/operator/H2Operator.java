@@ -3,7 +3,6 @@ package org.fao.fenix.d3s.search.bl.aggregation.operator;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.server.tools.h2.H2Database;
 import org.h2.api.AggregateFunction;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.util.HashSet;
@@ -14,13 +13,8 @@ public abstract class H2Operator extends Operator implements AggregateFunction {
     @Override
     public void init(ValueOperator operatorInfo) throws Exception {
         super.init(operatorInfo);
-
-        Component customAnnotation = this.getClass().getAnnotation(Component.class);
-        if (customAnnotation!=null)
-            operatorAlias = customAnnotation.value().replace('.','_');
-        else
-            throw new Exception("Undefined operator name for H2 custom function.");
-
+        String packageName = this.getClass().getPackage().getName();
+        operatorAlias = packageName.substring(packageName.lastIndexOf('.')+1).replace('.', '_')+getClass().getSimpleName();
         registerH2Function();
     }
 

@@ -10,17 +10,16 @@ import org.fao.fenix.commons.msd.dto.common.Publication;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.commons.utils.CompletenessIterator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component
+import javax.inject.Inject;
+
 public class CommonsLoad extends OrientDao {
 	
-	@Autowired private CommonsConverter converter;
+	@Inject private CommonsConverter converter;
 	
 	private static OSQLSynchQuery<ODocument> queryLoadIdentityById = new OSQLSynchQuery<ODocument>("select from CMContactIdentity where @rid = ?");
     private static OSQLSynchQuery<ODocument> queryLoadPublicationById = new OSQLSynchQuery<ODocument>("select from CMPublication where @rid = ?");

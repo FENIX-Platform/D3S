@@ -10,20 +10,17 @@ import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkLoad;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CodecCodeListUtils {
 	
-	private @Autowired CodeListLoad clDao;
-	private @Autowired
-    CodeListLinkLoad clLinkDao;
-	private @Autowired
-    CodeListConverter clConverter;
+	private @Inject CodeListLoad clDao;
+	private @Inject CodeListLinkLoad clLinkDao;
+	private @Inject CodeListConverter clConverter;
 	
 	public CodeListConverter getConverter() { return clConverter; }
 	public CodeListLoad getDao() { return clDao; }

@@ -1,31 +1,23 @@
 package org.fao.fenix.d3s.search.services.impl;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
-import org.fao.fenix.commons.msd.dto.dm.DM;
-import org.fao.fenix.commons.msd.dto.dsd.DSD;
 import org.fao.fenix.commons.search.dto.Response;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.commons.search.dto.resource.Resource;
-import org.fao.fenix.commons.search.dto.resource.data.TableData;
 import org.fao.fenix.d3s.search.bl.datasetFilter.DatasetPropertiesFilter;
 import org.fao.fenix.d3s.msd.dao.dm.DMConverter;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.search.dto.SearchMetadataResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class BasicMetadataSearch extends SearchOperation {
 
 	//Component dependencies
-	@Autowired private DatasetPropertiesFilter mainFilter;
-//	@Autowired private SearchConverterFilter encodeFilter;
-	@Autowired private DMConverter dmConverter;
+	@Inject private DatasetPropertiesFilter mainFilter;
+//	@Inject private SearchConverterFilter encodeFilter;
+	@Inject private DMConverter dmConverter;
 
 
 	//Search main flow

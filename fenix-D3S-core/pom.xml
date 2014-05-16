@@ -41,11 +41,24 @@
 
 
 	<dependencies>
-        <!-- J2EE -->
+        <!-- J2EE server -->
         <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>glassfish-embedded-all</artifactId>
             <version>4.0</version>
+        </dependency>
+
+        <!-- Jackson custom configuration support -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>2.8</version>
+        </dependency>
+        <!-- Cross domain support -->
+        <dependency>
+            <groupId>org.fao.fenix</groupId>
+            <artifactId>fenix-cross-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- Services level interface -->
@@ -54,57 +67,6 @@
             <artifactId>fenix-D3S-services</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- Tomcat
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>${tomcat.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-logging-log4j</artifactId>
-            <version>${tomcat.version}</version>
-        </dependency>
--->
-		<!-- RestEasy -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-<!--		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>tjws</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
--->
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
 
 		<!-- Orient -->
         <dependency>
@@ -149,16 +111,6 @@
             <artifactId>uuid</artifactId>
             <version>3.4</version>
         </dependency>
-
-        <!-- Memory check agent -->
-        <dependency>
-            <groupId>eu.javaspecialists.tjsn.memory</groupId>
-            <artifactId>MemoryCounterAgent</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-
-
 
 	</dependencies>
 </project>

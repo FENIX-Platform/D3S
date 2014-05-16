@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.server.services.rest;
 
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -11,38 +12,33 @@ import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
 import org.fao.fenix.d3s.server.init.MainController;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
-import org.fao.fenix.d3s.server.services.impl.AsynchShutdown;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
 
 
 @Path("server")
 public class Server implements org.fao.fenix.d3s.server.services.spi.Server {
     @Context HttpServletRequest request;
+    @Inject private DMIndexStore dmIndexStore;
+    @Inject private Cleaner cleaner;
 
     @Override
 	public void createMetadataIndex() throws Exception {
-		SpringContext.getBean(DMIndexStore.class).createDynamicIndexStructure();
+		dmIndexStore.createDynamicIndexStructure();
 	}
 
     @Override
 	public void rebuildMetadataIndex() throws Exception {
-		SpringContext.getBean(DMIndexStore.class).rebuildIndexes();
+		dmIndexStore.rebuildIndexes();
 	}
 
     @Override
 	public void removeMetadataIndex() throws Exception {
-		SpringContext.getBean(DMIndexStore.class).removeIndexes();
+		dmIndexStore.removeIndexes();
 	}
 
     @Override
 	public void startupSequence() throws Exception {
         MainController.startupModules();
         MainController.startupOperations();
-	}
-
-    @Override
-	public void stopServer() throws Exception {
-		SpringContext.getBean(AsynchShutdown.class).start();
 	}
 
     @Override
@@ -73,7 +69,7 @@ public class Server implements org.fao.fenix.d3s.server.services.spi.Server {
 
     @Override
 	public void deleteMsdData() throws Exception {
-		SpringContext.getBean(Cleaner.class).cleanALL();
+		cleaner.cleanALL();
 	}
 	
 

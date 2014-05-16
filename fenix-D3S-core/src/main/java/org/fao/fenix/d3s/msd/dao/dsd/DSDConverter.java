@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
@@ -15,18 +16,17 @@ import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDao;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DSDConverter {
 	
-	@Autowired private CodeListConverter clConverter;
-	@Autowired private CommonsConverter commonsConverter;
+	@Inject private CodeListConverter clConverter;
+	@Inject private CommonsConverter commonsConverter;
 
 	//Code system conversion
 	@SuppressWarnings("unchecked")
@@ -35,11 +35,11 @@ public class DSDConverter {
 		dsd.setSupplemental((Map<String,String>)dsdO.field("supplemental",Map.class));
 		dsd.setStartDate((Date)dsdO.field("startDate"));
 		dsd.setEndDate((Date)dsdO.field("endDate"));
-        dsd.setAggregationRules(commonsConverter.toOperator((Collection<ODocument>)dsdO.field("aggregationRules")));
+        dsd.setAggregationRules(toOperator((Collection<ODocument>)dsdO.field("aggregationRules")));
 		
 		//connected elements
 		dsd.setDatasource(toDatasource((ODocument)dsdO.field("datasource")));
-		dsd.setContextSystem(toContext((ODocument)dsdO.field("contextSystem")));
+		dsd.setContextSystem(commonsConverter.toContext((ODocument) dsdO.field("contextSystem")));
 		Collection<ODocument> columns = dsdO.field("columns");
 		if (columns!=null)
 			for (ODocument columnO : columns)
@@ -48,13 +48,6 @@ public class DSDConverter {
 		return dsd;
 	}
 	
-	public DSDContextSystem toContext (ODocument contextO) {
-        if (contextO==null)
-            return null;
-		DSDContextSystem context = new DSDContextSystem();
-		context.setName((String)contextO.field("name"));
-		return context;
-	}
 	@SuppressWarnings("unchecked")
 	public DSDDimension toDimension (ODocument dimensionO) {
         if (dimensionO==null)
@@ -111,6 +104,31 @@ public class DSDConverter {
 		//Return column
 		return column;
 	}
-	
+
+
+
+    //Value operator conversion
+    public Collection<ValueOperator> toOperator (Collection<ODocument> operatorsO) {
+        if (operatorsO!=null) {
+            Collection<ValueOperator> operators = new LinkedList<ValueOperator>();
+            for (ODocument operatorO : operatorsO)
+                operators.add(toOperator(operatorO));
+            return operators;
+        }
+        return null;
+    }
+
+    public ValueOperator toOperator (ODocument operatorO) {
+        if (operatorO==null)
+            return null;
+        ValueOperator operator = new ValueOperator();
+        operator.setImplementation((String)operatorO.field("implementation"));
+        operator.setRule((String)operatorO.field("rule"));
+        operator.setFixedParameters((Map<String,Object>)operatorO.field("fixedParameters",Map.class));
+        operator.setDimension(toDimension((ODocument)operatorO.field("dimension")));
+        return operator;
+    }
+
+
 
 }

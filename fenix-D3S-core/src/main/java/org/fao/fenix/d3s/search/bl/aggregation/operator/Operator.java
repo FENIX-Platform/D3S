@@ -6,9 +6,13 @@ import java.util.*;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.fao.fenix.d3s.server.tools.spring.SpringContext;
+import org.fao.fenix.d3s.server.tools.rest.CDIUtils;
+
+import javax.inject.Inject;
 
 public abstract class Operator extends SearchStep {
+    @Inject private CDIUtils cdi;
+
     protected Map<String,Integer> columnParametersIndex = new HashMap<String, Integer>();
     protected Map<String,Object> aggregationParametersValue = new HashMap<String, Object>();
 
@@ -40,22 +44,6 @@ public abstract class Operator extends SearchStep {
     public abstract void evaluate(Object[] row);
     public abstract Number getFinalResult();
 
-    public static Operator getInstance(SearchStep source, ValueOperator operatorInfo) throws Exception {
-        Operator instance = (Operator)SpringContext.getBean(operatorInfo.getImplementation());
-        if (source!=null)
-            instance.cloneResult(source);
-        instance.init(operatorInfo);
-        return instance;
-    }
-
-    public static String[] getColumnParametersName(ValueOperator operatorInfo) throws Exception {
-        Operator instance = (Operator)SpringContext.getBean(operatorInfo.getImplementation());
-        return instance.getColumnParametersName();
-    }
-    public static String[] getBusinessParametersName(ValueOperator operatorInfo) throws Exception {
-        Operator instance = (Operator)SpringContext.getBean(operatorInfo.getImplementation());
-        return instance.getBusinessParametersName();
-    }
 
     //utils
     public String[] getColumnParametersName() throws Exception {

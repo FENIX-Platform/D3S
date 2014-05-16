@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
+import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
@@ -14,18 +16,19 @@ import org.fao.fenix.commons.msd.dto.common.Publication;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CommonsStore extends OrientDao {
-	@Autowired private CommonsLoad loadDAO;
-	@Autowired private CodeListLoad loadClDAO;
-	@Autowired private DSDStore storeDSDDAO;
+	@Inject private CommonsLoad loadDAO;
+	@Inject private CodeListLoad loadClDAO;
+    @Inject private DSDLoad dsdLoadDAO;
+
+    //@Inject private DSDStore storeDSDDAO;
 
 	//UPDATE
 	//Contact Identity
@@ -67,11 +70,11 @@ public class CommonsStore extends OrientDao {
 			contactIdentityO.field("role", null, OType.LINK);
 		
 		if (contactIdentity.getContext()!=null)
-			contactIdentityO.field("context", storeDSDDAO.storeContext(contactIdentity.getContext(),database));
+			contactIdentityO.field("context", storeContext(contactIdentity.getContext(),database));
 		else
 			contactIdentityO.field("context", null, OType.LINK);
 
-		Collection<ODocument> contacts = (Collection<ODocument>)contactIdentityO.field("contactList");
+		Collection<ODocument> contacts = contactIdentityO.field("contactList");
 		if (contacts!=null)
 			for (ODocument contactO : contacts)
 				contactO.delete();
@@ -125,7 +128,7 @@ public class CommonsStore extends OrientDao {
 		if (contactIdentity.getRole()!=null)
 			contactIdentityO.field("role", loadClDAO.loadCodeO(contactIdentity.getRole().getSystemKey(), contactIdentity.getRole().getSystemVersion(), contactIdentity.getRole().getCode(), database));
         if (contactIdentity.getContext()!=null)
-            contactIdentityO.field("context", storeDSDDAO.storeContext(contactIdentity.getContext(),database));
+            contactIdentityO.field("context", storeContext(contactIdentity.getContext(),database));
 
 		if (contactIdentity.getContactList()!=null) {
 			Collection<ODocument> contacts = (Collection<ODocument>)contactIdentityO.field("contactList");
@@ -209,7 +212,7 @@ public class CommonsStore extends OrientDao {
 			contactIdentityO.field("role", loadClDAO.loadCodeO(contactIdentity.getRole().getSystemKey(), contactIdentity.getRole().getSystemVersion(), contactIdentity.getRole().getCode(), database));
 
         if (contactIdentity.getContext()!=null)
-            contactIdentityO.field("context", storeDSDDAO.storeContext(contactIdentity.getContext(),database));
+            contactIdentityO.field("context", storeContext(contactIdentity.getContext(),database));
 
 		Collection<ODocument> contacts = new ArrayList<ODocument>();
 		if (contactIdentity.getContactList()!=null)
@@ -260,24 +263,48 @@ public class CommonsStore extends OrientDao {
 		return database.createVertex("CMPublication").field("link", publication.getLink()).field("title", publication.getTitle()).field("abstract", publication.getDescription()).field("date", publication.getPublicationDate()).save();
 	}
 
-	//Value operator
-	public ODocument storeValueOperator(ValueOperator operator, OGraphDatabase database) throws Exception {
-		ODocument operatorO = database.createVertex("CMValueOperator");
-		operatorO.field("implementation", operator.getImplementation());
-		operatorO.field("rule", operator.getRule());
-		operatorO.field("fixedParameters", operator.getFixedParameters());
-        operatorO.field("dimension", storeDSDDAO.storeDimension(operator.getDimension()!=null ? operator.getDimension() : new DSDDimension("VALUE"), database));
-		return operatorO.save();
-	}
-	
-	public Collection<ODocument> storeValueOperator(Collection<ValueOperator> operators, OGraphDatabase database) throws Exception {
-        if (operators!=null) {
-            Collection<ODocument> operatorsO = new LinkedList<ODocument>();
-            for (ValueOperator operator : operators)
-                operatorsO.add(storeValueOperator(operator,database));
-            return operatorsO;
+
+
+    //context system
+    public int deleteContext(String name) throws Exception {
+        OGraphDatabase database = getDatabase(OrientDatabase.msd);
+        try {
+            return deleteContext(name, database);
+        } finally {
+            if (database!=null)
+                database.close();
         }
-        return null;
-	}
+    }
+    public int deleteContext(String name, OGraphDatabase database) throws Exception {
+        ODocument dsdcontext = dsdLoadDAO.loadContextSystem(name, database);
+        if (dsdcontext==null)
+            return 0;
+        disconnectContext(dsdcontext, database);
+        dsdcontext.delete();
+        return 1;
+    }
+    private void disconnectContext(ODocument contextO, OGraphDatabase database) throws Exception {
+        for (ODocument dsd : dsdLoadDAO.loadDsdByContextSystem(contextO, database)) {
+            dsd.field("contextSystem", null, OType.LINK);
+            dsd.save();
+        }
+    }
+
+    public ODocument storeContext(DSDContextSystem context, OGraphDatabase database) throws Exception {
+        ODocument dsdcontext = dsdLoadDAO.loadContextSystem(context.getName(), database);
+        return dsdcontext!=null ? dsdcontext : database.createVertex("DSDContextSystem").field("name", context.getName()).save();
+    }
+
+    public int storeContext(DSDContextSystem context) throws Exception {
+        OGraphDatabase database = getDatabase(OrientDatabase.msd);
+        int count=0;
+        try {
+            storeContext(context, database);
+        } finally {
+            if (database!=null)
+                database.close();
+        }
+        return count;
+    }
 
 }

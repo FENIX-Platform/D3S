@@ -22,8 +22,6 @@ public interface Server {
     public void removeMetadataIndex() throws Exception;
     @POST
     public void startupSequence() throws Exception;
-    @DELETE
-    public void stopServer() throws Exception;
 
     @GET
     @Path("init/parameters")

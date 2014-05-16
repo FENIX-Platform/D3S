@@ -9,20 +9,18 @@ import java.util.Map;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class DatasetDimensionsFilter extends DatasetFilter {
 	private static final int MAX_VALUES_TO_CHECK = 1000;
 
-    @Autowired private CodeListLoad clLoadDao;
+    @Inject private CodeListLoad clLoadDao;
 
     @Override
 	public Collection<ODocument> filter(ResourceFilter baseFilter, Collection<ODocument> source) throws Exception {

@@ -2,15 +2,13 @@ package org.fao.fenix.d3s.search.bl.aggregation.operator.standard;
 
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.enterprise.context.Dependent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-@Component("operator.NoKey")
-@Scope("prototype")
+@Dependent
 public class NoKey extends H2Operator {
 
 

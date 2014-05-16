@@ -6,22 +6,23 @@ import org.fao.fenix.commons.msd.dto.cl.*;
 import org.fao.fenix.d3s.msd.dao.EdgesLabels;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
+import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.commons.msd.dto.cl.type.CSHierarchyType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-@Component
+import javax.inject.Inject;
+
 public class CodeListLinkStore extends OrientDao {
-	@Autowired private CodeListLinkLoad clLinkLoadDAO;
-	@Autowired private CodeListLoad clLoadDAO;
-	@Autowired private DSDLoad dsdLoadDAO;
-	@Autowired private CommonsStore cmStoreDAO;
-	
+	@Inject private CodeListLinkLoad clLinkLoadDAO;
+	@Inject private CodeListLoad clLoadDAO;
+	@Inject private DSDLoad dsdLoadDAO;
+	@Inject private CommonsStore cmStoreDAO;
+	@Inject private DSDStore dsdStoreDAO;
+
 	//UPDATE
 	//conversion
 	public int updateCodeConversion(CodeConversion conversion) throws Exception {
@@ -39,7 +40,7 @@ public class CodeListLinkStore extends OrientDao {
 		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCodeO(from, to, database);
 		for (ODocument conversionO : conversions) {
 			((ODocument)conversionO.field("conversionRule")).delete();
-			conversionO.field("conversionRule",cmStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
+			conversionO.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
 		}
 		return conversions.size();
 	}
@@ -440,7 +441,7 @@ public class CodeListLinkStore extends OrientDao {
 	}
 	public ODocument storeCodeConversion(ODocument from, ODocument to, CodeConversion conversion, OGraphDatabase database) throws Exception {
 		ODocument conv = database.createEdge(from,to,"CSConversion");
-		conv.field("conversionRule",cmStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
+		conv.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
 		return conv.field(OGraphDatabase.LABEL, EdgesLabels.conversion).save();
 	}
 	//propaedeutic

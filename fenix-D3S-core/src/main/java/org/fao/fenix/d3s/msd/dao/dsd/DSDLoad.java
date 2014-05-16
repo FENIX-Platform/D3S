@@ -7,18 +7,19 @@ import java.util.List;
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
-@Component
+import javax.inject.Inject;
+
 public class DSDLoad extends OrientDao {
-	@Autowired private DSDConverter dsdConverter;
+	@Inject private DSDConverter dsdConverter;
+	@Inject private CommonsConverter cmConverter;
 
 	private static OSQLSynchQuery<ODocument> queryLoadContextSystem = new OSQLSynchQuery<ODocument>("select from DSDContextSystem where name = ?");
 	private static OSQLSynchQuery<ODocument> queryLoadDatasource = new OSQLSynchQuery<ODocument>("select from DSDDatasource where dao = ? and reference = ?");
@@ -44,7 +45,7 @@ public class DSDLoad extends OrientDao {
 	public Collection<DSDContextSystem> loadContextSystem(OGraphDatabase database) throws Exception {
 		Collection<DSDContextSystem> result = new LinkedList<DSDContextSystem>();
 		for (ODocument contextO : loadContextSystemO(database))
-			result.add(dsdConverter.toContext(contextO));
+			result.add(cmConverter.toContext(contextO));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
@@ -129,7 +130,7 @@ public class DSDLoad extends OrientDao {
 		return (Collection<ODocument>)database.query(queryLoadDsdByDatasource,datasourceO);
 	}
 	@SuppressWarnings("unchecked")
-	protected synchronized Collection<ODocument> loadDsdByContextSystem(ODocument contextO, OGraphDatabase database) throws Exception {
+    public synchronized Collection<ODocument> loadDsdByContextSystem(ODocument contextO, OGraphDatabase database) throws Exception {
 		queryLoadDsdByContextSystem.reset();
 		queryLoadDsdByContextSystem.resetPagination();
 		return (Collection<ODocument>)database.query(queryLoadDsdByContextSystem,contextO);
