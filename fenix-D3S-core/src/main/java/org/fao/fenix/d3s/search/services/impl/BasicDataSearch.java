@@ -112,7 +112,7 @@ public class BasicDataSearch extends SearchOperation {
     //Utils
     @SuppressWarnings("unchecked")
 	private Dao getDao(ODocument datasource) throws Exception {
-        Dao dao = (Dao)cdi.getBean((String) datasource.field("dao"));
+        Dao dao = (Dao)cdi.getBean(Dao.getDaoClass((String) datasource.field("dao")));
         dao.init((Map<String,String>)datasource.field("reference"));
         return dao;
     }

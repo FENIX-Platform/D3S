@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 public class SearchFlow {
 
-    @Inject private CodeListLoad clLoadDao;
+//    @Inject private CodeListLoad clLoadDao;
 
     private long pid;
     private OGraphDatabase msdDatabase;
@@ -125,23 +125,23 @@ public class SearchFlow {
     public void addLoadedSystem(CodeSystem system, ODocument codeO) {
         loadedSystems.put(system,codeO);
     }
-    public ODocument getLoadedCode(Code code) throws Exception {
+    public ODocument getLoadedCode(Code code, CodeListLoad clLoadDao) throws Exception {
         ODocument codeO = loadedCodes.get(code);
         if (codeO == null)
-            loadedCodes.put(code,codeO=clLoadDao.loadCodeO(getLoadedSystem(code.getSystemKey(),code.getSystemVersion()),code.getCode(),getMsdDatabase()));
+            loadedCodes.put(code,codeO=clLoadDao.loadCodeO(getLoadedSystem(code.getSystemKey(),code.getSystemVersion(), clLoadDao),code.getCode(),getMsdDatabase()));
         return codeO;
     }
-    public ODocument getLoadedCode(String system, String version, String code) throws Exception {
-        return getLoadedCode(new Code(system,version,code));
+    public ODocument getLoadedCode(String system, String version, String code, CodeListLoad clLoadDao) throws Exception {
+        return getLoadedCode(new Code(system,version,code), clLoadDao);
     }
-    public ODocument getLoadedSystem(CodeSystem system) throws Exception {
+    public ODocument getLoadedSystem(CodeSystem system, CodeListLoad clLoadDao) throws Exception {
         ODocument systemO = loadedCodes.get(system);
         if (systemO == null)
             loadedSystems.put(system, systemO = clLoadDao.loadSystemO(system.getSystem(), system.getVersion(), getMsdDatabase()));
         return systemO;
     }
-    public ODocument getLoadedSystem(String system, String version) throws Exception {
-        return getLoadedSystem(new CodeSystem(system,version));
+    public ODocument getLoadedSystem(String system, String version, CodeListLoad clLoadDao) throws Exception {
+        return getLoadedSystem(new CodeSystem(system,version), clLoadDao);
     }
 
     public Object getAttribute(String key) {

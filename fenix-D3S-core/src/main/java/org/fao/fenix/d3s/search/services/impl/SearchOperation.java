@@ -162,7 +162,7 @@ public abstract class SearchOperation extends SearchStep {
                     Set<Object> distinctCodes = new TreeSet<Object>();
                     for (Object v : distinct[i]) {
                         Code code = new Code(system,(String)v);
-                        ODocument codeO = flow.getLoadedCode(code);
+                        ODocument codeO = flow.getLoadedCode(code, clDao);
                         code.setLevel((Integer)codeO.field("level"));
                         code.setTitle((Map<String,String>)codeO.field("title",Map.class));
                         code.setDescription((Map<String,String>)codeO.field("abstract",Map.class));

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
+import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
@@ -26,6 +27,7 @@ import javax.inject.Inject;
 
 public class DatasetPropertiesFilter extends DatasetFilter {
     @Inject private DMIndexStore indexStoreDao;
+    @Inject private CodeListLoad clLoadDao;
 
 
     @SuppressWarnings("unchecked")
@@ -133,7 +135,7 @@ public class DatasetPropertiesFilter extends DatasetFilter {
                 break;
             case code:
                 query.append(indexFieldName).append(" CONTAINS ? ");
-                parameterValues.add(getFlow().getLoadedCode(filterValue.getCode()));
+                parameterValues.add(getFlow().getLoadedCode(filterValue.getCode(), clLoadDao));
                 break;
             case document:
                 query.append(indexFieldName).append(property.getType()==OType.LINKLIST ? " CONTAINS ? " : " = ? "); //field can be LINK or LINKLIST only
@@ -212,7 +214,7 @@ public class DatasetPropertiesFilter extends DatasetFilter {
                 break;
             case code:
                 query.append(indexStoreDao.getIndexedDimensionName(dimensionName,DSDDataType.code)).append(" CONTAINS ? ");
-                parameterValues.add(getFlow().getLoadedCode(filterValue.getCode()));
+                parameterValues.add(getFlow().getLoadedCode(filterValue.getCode(), clLoadDao));
                 break;
             case document:
                 query.append(indexStoreDao.getIndexedDimensionName(dimensionName,DSDDataType.document)).append(" CONTAINS ? ");

@@ -21,8 +21,19 @@ import org.fao.fenix.d3s.search.dto.SearchFilter;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.d3s.wds.impl.countryStat.CountryStatDAO;
 
 public abstract class Dao extends SearchStep {
+    private static Map<String,Class<? extends Dao>> daoMapping = new HashMap<>();
+    static {
+        daoMapping.put("CountrySTAT", CountryStatDAO.class);
+    }
+
+    public static Class<? extends Dao> getDaoClass(String daoName) {
+        return daoMapping.get(daoName);
+    }
+
+
 	//Init
     protected Map<String, String> properties;
 

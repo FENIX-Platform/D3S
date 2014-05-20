@@ -143,7 +143,7 @@ public class H2AggregationDao extends H2Dao {
                 }
                 query.append(") as ").append(columnName).append(',');
             } else {
-                H2Operator operator = (H2Operator)operatorFactory.getInstance(null, new ValueOperator("operator.NoKey",null,null));
+                H2Operator operator = (H2Operator)operatorFactory.getInstance(null, new ValueOperator("standard.NoKey",null,null));
                 query.append(' ').append(operator.getAggregationBaseName()).append(" (").append(columnName).append(") as ").append(columnName).append(',');
             }
         }

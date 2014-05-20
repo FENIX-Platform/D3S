@@ -28,8 +28,8 @@
                 "VALUE":{"out":true}
             },
             "secondAggregation" : {
-                "VALUE" : { "implementation" : "operator.UEMOAAdd" },
-                "FLAG" : { "implementation" : "operator.UEMOAFlagAdd" }
+                "VALUE" : { "implementation" : "uemoa.Add" },
+                "FLAG" : { "implementation" : "uemoa.FlagAdd" }
             },
             "checkAllCountriesKeyProducts":true
         }
