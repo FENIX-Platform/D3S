@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.services.impl;
 
 import java.util.Collection;
 
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListIndex;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
@@ -21,6 +22,7 @@ import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.inject.Inject;
 
@@ -35,11 +37,11 @@ public class Store {
 
 	// STORE
 	public String newContactIdentity(ContactIdentity contactIdentity) throws Exception {
-		return cmStoreDAO.storeContactIdentity(contactIdentity);
+		return OrientDao.toString(cmStoreDAO.storeContactIdentity(contactIdentity).getIdentity());
 	}
 
 	public String newPublication(Publication publication) throws Exception {
-		return cmStoreDAO.storePublication(publication);
+		return OrientDao.toString(cmStoreDAO.storePublication(publication).getIdentity());
 	}
 
 	public String newCodeList(CodeSystem cl) throws Exception {
@@ -48,11 +50,13 @@ public class Store {
 	}
 
     public String newDatasetMetadata(DM dm) throws Exception {
-        return dmStoreDAO.storeDatasetMetadata(dm);
+        ODocument datasetO = dmStoreDAO.storeDatasetMetadata(dm);
+        return datasetO!=null ? OrientDao.toString(datasetO.getIdentity()) : null;
     }
 
     public String newMetadataStructure(DMMeta mm) throws Exception {
-        return dmStoreDAO.storeMetadataStructure(mm);
+        ODocument datasetO = dmStoreDAO.storeMetadataStructure(mm);
+        return datasetO!=null ? OrientDao.toString(datasetO.getIdentity()) : null;
     }
 
     public void newKeyword(String keyword) throws Exception {
@@ -105,7 +109,8 @@ public class Store {
 	}
 
 	public int updateCode(Code code) throws Exception {
-		return clStoreDAO.updateCode(code);
+        ODocument clO = clStoreDAO.updateCode(code);
+		return clO!=null ? 1 : 0;
 	}
 
     public int updateDatasetMetadata(DM dm, boolean append) throws Exception {

@@ -26,7 +26,7 @@ public class BasicMetadataSearch extends SearchOperation {
 	public Response searchFlow(ResourceFilter filter) throws Exception {
 
         //Dataset filtering
-        Collection<ODocument> datasets = search(filter,getFlow().getMsdDatabase());
+        Collection<ODocument> datasets = search(filter);
 
         //Build result
         if (datasets!=null && datasets.size()>0) {
@@ -37,7 +37,7 @@ public class BasicMetadataSearch extends SearchOperation {
             return null;
 	}
 
-    protected Collection<ODocument> search(ResourceFilter filter, OGraphDatabase database) throws Exception {
+    protected Collection<ODocument> search(ResourceFilter filter) throws Exception {
         Collection<ODocument> datasets = mainFilter.filter(filter, null);
         return datasets;
     }

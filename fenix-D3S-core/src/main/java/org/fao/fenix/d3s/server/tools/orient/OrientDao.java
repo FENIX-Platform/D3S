@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.server.tools.orient;
 
 import java.util.*;
 
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
@@ -11,19 +12,17 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
+import javax.inject.Inject;
+
 public abstract class OrientDao {
-	
-	public OGraphDatabase getDatabase(OrientDatabase database) {
-		switch (database) {
-			case msd: return OrientServer.getMsdDatabase();
-			case cacheL1: return OrientServer.getCacheL1Database();
-			case cacheL2: return OrientServer.getCacheL2Database();
-			default: return null;
-		}
-	}
-	
-	protected Collection<OClass> getClassList(OGraphDatabase database) throws Exception {
-		return database.getMetadata().getSchema().getClasses();
+    @Inject private DatabaseStandards dbParameters;
+
+    protected OGraphDatabase getConnection() {
+        return dbParameters.getConnection();
+    }
+
+	protected Collection<OClass> getClassList() throws Exception {
+		return getConnection().getMetadata().getSchema().getClasses();
 	}
 	
 	
@@ -68,10 +67,7 @@ public abstract class OrientDao {
 	}
 
 	public ODocument getDocument (ORID rid) {
-        return getDatabase(OrientDatabase.msd).getRecord(rid);
-    }
-	public static ODocument getDocument (ORID rid, OGraphDatabase database) {
-        return database.getRecord(rid);
+        return dbParameters.getConnection().getRecord(rid);
     }
 
 	public static String toString (ORID rid) {
@@ -85,11 +81,11 @@ public abstract class OrientDao {
 		return new ORecordId(rid);
 	}
 
-    public long countClass (String className, OrientDatabase database) throws Exception {
-        return getDatabase(database).countClass(className);
+    public long countClass (String className) throws Exception {
+        return dbParameters.getConnection().countClass(className);
     }
-    public Iterable<ODocument> browseClass (String className, OrientDatabase database) throws Exception {
-        final OGraphDatabase db = getDatabase(database);
+    public Iterable<ODocument> browseClass (String className) throws Exception {
+        final OGraphDatabase db = dbParameters.getConnection();
         try {
             final Iterator<ODocument> producerO = db.browseElements(className,true).iterator();
             return new Iterable<ODocument>() {
@@ -121,23 +117,6 @@ public abstract class OrientDao {
             throw ex;
         }
     }
-
-    public static Date lastUpdate(String key, OGraphDatabase database) {
-        List<ODocument> syncDataList = database.query(new OSQLSynchQuery<ODocument>("SELECT FROM Synchro"));
-        ODocument syncData = syncDataList.size()>0 ? syncDataList.iterator().next() : null;
-        return syncData!=null ? (Date)syncData.field(key) : null;
-    }
-
-    public static void lastUpdate(String key, Date value, OGraphDatabase database) {
-        List<ODocument> syncDataList =  database.query(new OSQLSynchQuery<ODocument>("SELECT FROM Synchro"));
-        ODocument syncData = syncDataList.size()>0 ? syncDataList.iterator().next() : null;
-        if (syncData==null)
-            syncData = new ODocument("Synchro");
-
-        syncData.field(key,value);
-        database.save(syncData);
-    }
-
 
     public void toMap(Map<String,Object> data, ODocument recordO, Set<String> classes, Integer levels) {
         toMap(data, recordO, 0, classes, levels, new Stack<ORID>());

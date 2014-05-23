@@ -31,20 +31,12 @@ public class DMStore extends OrientDao {
 
 	// UPDATE
 	public int updateMetadataStructure(DMMeta mm, boolean append) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count = 0;
-		try {
-			count = append ? appendMetadataStructure(mm, database) : updateMetadataStructure(mm, database);
-		} finally {
-			if (database != null)
-				database.close();
-		}
-		return count;
+		return append ? appendMetadataStructure(mm) : updateMetadataStructure(mm);
 	}
 
-	public int updateMetadataStructure(DMMeta mm, OGraphDatabase database) throws Exception {
+	public int updateMetadataStructure(DMMeta mm) throws Exception {
         //Select record
-        ODocument mmO = dmLoadDAO.loadMetadataStructureO(mm.getUid(), database);
+        ODocument mmO = dmLoadDAO.loadMetadataStructureO(mm.getUid());
 		if (mmO == null)
 			return 0;
 
@@ -52,18 +44,18 @@ public class DMStore extends OrientDao {
         if (mm.getAvailableDatasetsUID()!=null) {
             Collection<ODocument> datasets = new LinkedList<ODocument>();
             for (String uid : mm.getAvailableDatasetsUID())
-                dmLoadDAO.loadDatasetMetadataO(uid, database);
+                dmLoadDAO.loadDatasetMetadataO(uid);
             mm.put("availableDatasets",datasets);
         }
 
         //Update document
-        database.createVertex("DMMeta").fields(mm);
+        getConnection().createVertex("DMMeta").fields(mm);
 		mmO.save();
 		return 1;
 	}
 
-    public int appendMetadataStructure(DMMeta mm, OGraphDatabase database) throws Exception {
-        ODocument mmO = dmLoadDAO.loadMetadataStructureO(mm.getUid(), database);
+    public int appendMetadataStructure(DMMeta mm) throws Exception {
+        ODocument mmO = dmLoadDAO.loadMetadataStructureO(mm.getUid());
         if (mmO == null)
             return 0;
 
@@ -74,20 +66,11 @@ public class DMStore extends OrientDao {
     }
 
 	public int updateDatasetMetadata(DM dm, boolean append) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count = 0;
-		try {
-			count = append ? appendDatasetMetadata(dm, database)
-					: updateDatasetMetadata(dm, database);
-		} finally {
-			if (database != null)
-				database.close();
-		}
-		return count;
+		return append ? appendDatasetMetadata(dm) : updateDatasetMetadata(dm);
 	}
 
-	public int updateDatasetMetadata(DM dm, OGraphDatabase database) throws Exception {
-		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid(), database);
+	public int updateDatasetMetadata(DM dm) throws Exception {
+		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid());
 		if (dmmain == null)
 			return 0;
 
@@ -101,25 +84,25 @@ public class DMStore extends OrientDao {
 		dmmain.field("supplemental", dm.getSupplemental());
 		//content
 		dmmain.field("creationDate", dm.getCreationDate());
-        dmmain.field("region", dm.getGeographicExtent() != null ? clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode(), database):null, OType.LINK);
+        dmmain.field("region", dm.getGeographicExtent() != null ? clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode()):null, OType.LINK);
         dmmain.field("basePeriod", dm.getBasePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getBasePeriod().toMap()) : null, OType.EMBEDDED);
         dmmain.field("referencePeriod", dm.getReferencePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getReferencePeriod().toMap()) : null, OType.EMBEDDED);
         dmmain.field("weightReferencePeriod", dm.getWeightReferencePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getWeightReferencePeriod().toMap()) : null, OType.EMBEDDED);
-		dmmain.field("coverageSectors", dm.getCoverageSectors()==null ? null : loadHeterogeneousCodes(dm.getCoverageSectors(), database));
-		dmmain.field("codingSystems", dm.getCodingSystems()==null ? null : loadCodeLists(dm.getCodingSystems(), database));
+		dmmain.field("coverageSectors", dm.getCoverageSectors()==null ? null : loadHeterogeneousCodes(dm.getCoverageSectors()));
+		dmmain.field("codingSystems", dm.getCodingSystems()==null ? null : loadCodeLists(dm.getCodingSystems()));
 		dmmain.field("classificationSystems", dm.getClassificationSystems());
 		dmmain.field("comparability", dm.getComparability());
 		dmmain.field("statisticalUnit", dm.getStatisticalUnit());
         dmmain.field("unitOfMeasureDetails", dm.getUnitOfMeasureDetails());
-        dmmain.field("um", dm.getUnitOfMeasure()==null ? null : clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode(), database));
-        dmmain.field("coverageGeographical", dm.getCoverageGeographical()==null ? null : clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode(), database));
+        dmmain.field("um", dm.getUnitOfMeasure()==null ? null : clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode()));
+        dmmain.field("coverageGeographical", dm.getCoverageGeographical()==null ? null : clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode()));
 		//process
-		dmmain.field("collectionPeriodicity", dm.getCollectionPeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode(), database));
-		dmmain.field("processMethodologyDocuments", dm.getProcessMethodologyDocuments()==null ? null : cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments(), database));
+		dmmain.field("collectionPeriodicity", dm.getCollectionPeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode()));
+		dmmain.field("processMethodologyDocuments", dm.getProcessMethodologyDocuments()==null ? null : cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments()));
 		dmmain.field("compilationProcessing", dm.getCompilationProcessing());
 		dmmain.field("collectionProcessing", dm.getCollectionProcessing());
 		dmmain.field("indexType", dm.getIndexType());
-        dmmain.field("processConceptsDocuments", dm.getProcessConceptsDocuments()==null ? null : cmStoreDAO.storePublication(dm.getProcessConceptsDocuments(), database));
+        dmmain.field("processConceptsDocuments", dm.getProcessConceptsDocuments()==null ? null : cmStoreDAO.storePublication(dm.getProcessConceptsDocuments()));
         dmmain.field("sourceType", dm.getSourceType());
         dmmain.field("processConcepts", dm.getProcessConcepts());
         dmmain.field("aggregationProcessing", dm.getAggregationProcessing());
@@ -128,26 +111,26 @@ public class DMStore extends OrientDao {
 		dmmain.field("accuracy", dm.getAccuracy());
 		dmmain.field("accuracyAssessment", dm.getAccuracyAssessment());
 		dmmain.field("completeness", dm.getCompleteness());
-        dmmain.field("qualityMethodologyDocuments", dm.getQualityMethodologyDocuments()==null ? null : cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments(), database));
+        dmmain.field("qualityMethodologyDocuments", dm.getQualityMethodologyDocuments()==null ? null : cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments()));
 		//distribution
-		dmmain.field("disseminationPeriodicity", dm.getDisseminationPeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode(), database));
+		dmmain.field("disseminationPeriodicity", dm.getDisseminationPeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode()));
 		dmmain.field("userAccess", dm.getUserAccess());
 		dmmain.field("disseminationFormat", dm.getDisseminationFormat());
 		dmmain.field("revisionPolicy", dm.getRevisionPolicy());
-        dmmain.field("publications", dm.getPublications()==null ? null : cmStoreDAO.storePublication(dm.getPublications(), database));
-        dmmain.field("news", dm.getNews()==null ? null : cmStoreDAO.storePublication(dm.getNews(), database));
+        dmmain.field("publications", dm.getPublications()==null ? null : cmStoreDAO.storePublication(dm.getPublications()));
+        dmmain.field("news", dm.getNews()==null ? null : cmStoreDAO.storePublication(dm.getNews()));
         dmmain.field("embargoTimeSpec", dm.getEmbargoTimeSpec());
         dmmain.field("confidentialityDataTreatment", dm.getConfidentialityDataTreatment());
         dmmain.field("confidentialityPolicy", dm.getConfidentialityPolicy());
         dmmain.field("releasePolicy", dm.getReleasePolicy());
-        dmmain.field("dataSources", dm.getDataSources()==null ? null : storeDatasource(dm.getDataSources(), database));
+        dmmain.field("dataSources", dm.getDataSources()==null ? null : storeDatasource(dm.getDataSources()));
         dmmain.field("otherDisseminatedData", dm.getOtherDisseminatedData());
         //contacts
-		dmmain.field("source", dm.getSources()==null ? null : cmStoreDAO.storeContactIdentity(dm.getSources(), database));
-		dmmain.field("owner", dm.getOwner()==null ? null : cmStoreDAO.storeContactIdentity(dm.getOwner(), database));
-		dmmain.field("provider", dm.getProvider()==null ? null : cmStoreDAO.storeContactIdentity(dm.getProvider(), database));
-		dmmain.field("compiler", dm.getCompiler()==null ? null : cmStoreDAO.storeContactIdentity(dm.getCompiler(), database));
-		dmmain.field("contacts", dm.getContacts()==null ? null : cmStoreDAO.storeContactIdentity(dm.getContacts(), database));
+		dmmain.field("source", dm.getSources()==null ? null : cmStoreDAO.storeContactIdentity(dm.getSources()));
+		dmmain.field("owner", dm.getOwner()==null ? null : cmStoreDAO.storeContactIdentity(dm.getOwner()));
+		dmmain.field("provider", dm.getProvider()==null ? null : cmStoreDAO.storeContactIdentity(dm.getProvider()));
+		dmmain.field("compiler", dm.getCompiler()==null ? null : cmStoreDAO.storeContactIdentity(dm.getCompiler()));
+		dmmain.field("contacts", dm.getContacts()==null ? null : cmStoreDAO.storeContactIdentity(dm.getContacts()));
 		//status
 		dmmain.field("coverageTime", dm.getCoverageTime());
 		dmmain.field("accessibility", dm.getAccessibility());
@@ -155,31 +138,31 @@ public class DMStore extends OrientDao {
 		dmmain.field("referenceUpdateDate", dm.getReferenceUpdateDate());
 		dmmain.field("nextUpdateDate", dm.getNextUpdateDate());
 		dmmain.field("completenessPercentage", dm.getCompletenessPercentage());
-        dmmain.field("updatePeriodicity", dm.getUpdatePeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode(), database));
+        dmmain.field("updatePeriodicity", dm.getUpdatePeriodicity()==null ? null : clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode()));
 		//other
-		dmmain.field("transferOptions", dm.getTransferOptions()==null ? null : cmStoreDAO.storeLink(dm.getTransferOptions(), database));
-		dmmain.field("categories", dm.getCategories()==null ? null : loadHeterogeneousCodes(dm.getCategories(), database));
+		dmmain.field("transferOptions", dm.getTransferOptions()==null ? null : cmStoreDAO.storeLink(dm.getTransferOptions()));
+		dmmain.field("categories", dm.getCategories()==null ? null : loadHeterogeneousCodes(dm.getCategories()));
 		dmmain.field("statisticalPopulation", dm.getStatisticalPopulation());
 		dmmain.field("freeExtension", dm.getFreeExtension());
 		dmmain.field("dataType", dm.getDataType() != null ? dm.getDataType().getCode() : null);
 		dmmain.field("dataKind", dm.getDataKind() != null ? dm.getDataKind().getCode() : null);
 		dmmain.field("copyrightPolicy", dm.getCopyright() != null ? dm.getCopyright().getCode() : null);
 		//upload
-		dmmain.field("availability", dm.getAvailability()==null ? null : storeAvailability(dm.getAvailability(), database));
+		dmmain.field("availability", dm.getAvailability()==null ? null : storeAvailability(dm.getAvailability()));
 
 		//DSD
         if (dm.getDsd() != null)
-            dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd(), database));
+            dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd()));
 
         //Store indexed data, save and rebuild index
-        dmIndexStoreDAO.indexDatasetMetadata(dmmain, database, false);
+        dmIndexStoreDAO.indexDatasetMetadata(dmmain, false);
 
         dmmain.save();
         return 1;
 	}
 
-	public int appendDatasetMetadata(DM dm, OGraphDatabase database) throws Exception {
-		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid(), database);
+	public int appendDatasetMetadata(DM dm) throws Exception {
+		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid());
 		if (dmmain == null)
 			return 0;
 
@@ -205,7 +188,7 @@ public class DMStore extends OrientDao {
 		if (dm.getCreationDate() != null)
 			dmmain.field("creationDate", dm.getCreationDate());
 		if (dm.getGeographicExtent() != null)
-			dmmain.field("region", clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode(), database));
+			dmmain.field("region", clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode()));
 		if (dm.getBasePeriod() != null)
 			dmmain.field("basePeriod", new ODocument("CMPeriod").fields(dm.getBasePeriod().toMap()));
 		if (dm.getReferencePeriod() != null)
@@ -213,9 +196,9 @@ public class DMStore extends OrientDao {
 		if (dm.getWeightReferencePeriod() != null)
 			dmmain.field("weightReferencePeriod", new ODocument("CMPeriod").fields(dm.getWeightReferencePeriod().toMap()));
 		if (dm.getCoverageSectors() != null)
-			dmmain.field("coverageSectors",loadHeterogeneousCodes(dm.getCoverageSectors(), database));
+			dmmain.field("coverageSectors",loadHeterogeneousCodes(dm.getCoverageSectors()));
 		if (dm.getClassificationSystems() != null)
-			dmmain.field("codingSystems",loadCodeLists(dm.getCodingSystems(), database));
+			dmmain.field("codingSystems",loadCodeLists(dm.getCodingSystems()));
 		if (dm.getClassificationSystems() != null)
 			dmmain.field("classificationSystems", dm.getClassificationSystems());
 		if (dm.getComparability() != null)
@@ -225,14 +208,14 @@ public class DMStore extends OrientDao {
         if (dm.getUnitOfMeasureDetails() != null)
             dmmain.field("unitOfMeasureDetails", dm.getUnitOfMeasureDetails());
         if (dm.getUnitOfMeasure() != null)
-            dmmain.field("um", clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode(), database));
+            dmmain.field("um", clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode()));
         if (dm.getCoverageGeographical() != null)
-            dmmain.field("coverageGeographical", clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode(), database));
+            dmmain.field("coverageGeographical", clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode()));
 		//process
 		if (dm.getCollectionPeriodicity() != null)
-			dmmain.field("collectionPeriodicity", clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode(), database));
+			dmmain.field("collectionPeriodicity", clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode()));
 		if (dm.getProcessMethodologyDocuments() != null)
-			dmmain.field("processMethodologyDocuments", cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments(), database));
+			dmmain.field("processMethodologyDocuments", cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments()));
 		if (dm.getCompilationProcessing() != null)
 			dmmain.field("compilationProcessing", dm.getCompilationProcessing());
 		if (dm.getCollectionProcessing() != null)
@@ -240,7 +223,7 @@ public class DMStore extends OrientDao {
 		if (dm.getIndexType() != null)
 			dmmain.field("indexType", dm.getIndexType());
         if (dm.getProcessConceptsDocuments() != null)
-            dmmain.field("processConceptsDocuments", cmStoreDAO.storePublication(dm.getProcessConceptsDocuments(), database));
+            dmmain.field("processConceptsDocuments", cmStoreDAO.storePublication(dm.getProcessConceptsDocuments()));
         if (dm.getSourceType() != null)
             dmmain.field("sourceType", dm.getSourceType());
         if (dm.getProcessConcepts() != null)
@@ -257,10 +240,10 @@ public class DMStore extends OrientDao {
 		if (dm.getCompleteness() != null)
 			dmmain.field("completeness", dm.getCompleteness());
         if (dm.getQualityMethodologyDocuments() != null)
-            dmmain.field("qualityMethodologyDocuments", cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments(), database));
+            dmmain.field("qualityMethodologyDocuments", cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments()));
 		//distribution
 		if (dm.getDisseminationPeriodicity() != null)
-			dmmain.field("disseminationPeriodicity", clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode(), database));
+			dmmain.field("disseminationPeriodicity", clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode()));
 		if (dm.getUserAccess() != null)
 			dmmain.field("userAccess", dm.getUserAccess());
 		if (dm.getDisseminationFormat() != null)
@@ -268,9 +251,9 @@ public class DMStore extends OrientDao {
 		if (dm.getRevisionPolicy() != null)
 			dmmain.field("revisionPolicy", dm.getRevisionPolicy());
         if (dm.getPublications() != null)
-            dmmain.field("publications", cmStoreDAO.storePublication(dm.getPublications(), database));
+            dmmain.field("publications", cmStoreDAO.storePublication(dm.getPublications()));
         if (dm.getNews() != null)
-            dmmain.field("news", cmStoreDAO.storePublication(dm.getNews(), database));
+            dmmain.field("news", cmStoreDAO.storePublication(dm.getNews()));
         if (dm.getEmbargoTimeSpec() != null)
             dmmain.field("embargoTimeSpec", dm.getEmbargoTimeSpec());
         if (dm.getConfidentialityDataTreatment() != null)
@@ -280,21 +263,21 @@ public class DMStore extends OrientDao {
         if (dm.getReleasePolicy() != null)
             dmmain.field("releasePolicy", dm.getReleasePolicy());
         if (dm.getDataSources() != null)
-            dmmain.field("dataSources", storeDatasource(dm.getDataSources(), database));
+            dmmain.field("dataSources", storeDatasource(dm.getDataSources()));
         if (dm.getOtherDisseminatedData() != null)
             dmmain.field("otherDisseminatedData", dm.getOtherDisseminatedData());
 
         //contacts
 		if (dm.getSources() != null)
-			dmmain.field("source", cmStoreDAO.storeContactIdentity(dm.getSources(), database));
+			dmmain.field("source", cmStoreDAO.storeContactIdentity(dm.getSources()));
 		if (dm.getOwner() != null)
-			dmmain.field("owner", cmStoreDAO.storeContactIdentity(dm.getOwner(), database));
+			dmmain.field("owner", cmStoreDAO.storeContactIdentity(dm.getOwner()));
 		if (dm.getProvider() != null)
-			dmmain.field("provider", cmStoreDAO.storeContactIdentity(dm.getProvider(), database));
+			dmmain.field("provider", cmStoreDAO.storeContactIdentity(dm.getProvider()));
 		if (dm.getCompiler() != null)
-			dmmain.field("compiler", cmStoreDAO.storeContactIdentity(dm.getCompiler(), database));
+			dmmain.field("compiler", cmStoreDAO.storeContactIdentity(dm.getCompiler()));
 		if (dm.getContacts() != null)
-			dmmain.field("contacts", cmStoreDAO.storeContactIdentity(dm.getContacts(), database));
+			dmmain.field("contacts", cmStoreDAO.storeContactIdentity(dm.getContacts()));
 		//status
 		if (dm.getCoverageTime() != null)
 			dmmain.field("coverageTime", dm.getCoverageTime());
@@ -309,12 +292,12 @@ public class DMStore extends OrientDao {
 		if (dm.getCompletenessPercentage() != null)
 			dmmain.field("completenessPercentage", dm.getCompletenessPercentage());
         if (dm.getUpdatePeriodicity() != null)
-            dmmain.field("updatePeriodicity", clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode(), database));
+            dmmain.field("updatePeriodicity", clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode()));
 		//other
 		if (dm.getTransferOptions() != null)
-			dmmain.field("transferOptions", cmStoreDAO.storeLink(dm.getTransferOptions(), database));
+			dmmain.field("transferOptions", cmStoreDAO.storeLink(dm.getTransferOptions()));
 		if (dm.getCategories() != null)
-			dmmain.field("categories",loadHeterogeneousCodes(dm.getCategories(), database));
+			dmmain.field("categories",loadHeterogeneousCodes(dm.getCategories()));
 		if (dm.getStatisticalPopulation() != null)
 			dmmain.field("statisticalPopulation", dm.getStatisticalPopulation());
 		if (dm.getFreeExtension() != null)
@@ -327,14 +310,14 @@ public class DMStore extends OrientDao {
 			dmmain.field("copyrightPolicy", dm.getCopyright() != null ? dm.getCopyright().getCode() : null);
 		//upload
 		if (dm.getAvailability() != null)
-			dmmain.field("availability", storeAvailability(dm.getAvailability(), database));
+			dmmain.field("availability", storeAvailability(dm.getAvailability()));
 
 		//DSD
 		if (dm.getDsd() != null)
-			dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd(), database));
+			dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd()));
 
         //Store indexed data, save and rebuild index
-        dmIndexStoreDAO.indexDatasetMetadata(dmmain, database, false);
+        dmIndexStoreDAO.indexDatasetMetadata(dmmain, false);
 
         dmmain.save();
 		return 1;
@@ -342,21 +325,7 @@ public class DMStore extends OrientDao {
 
 	// Assign categories
 	public int addCategoriesToDataset(String datasetUID, Collection<Code> listOfCodes) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count = 0;
-		try {
-			count = addCategoriesToDataset(datasetUID, listOfCodes, database);
-		} finally {
-			if (database != null)
-				database.close();
-		}
-		return count;
-	}
-
-	public int addCategoriesToDataset(String datasetUID,
-			Collection<Code> listOfCodes, OGraphDatabase database)
-			throws Exception {
-		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(datasetUID, database);
+		ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(datasetUID);
 
 		if (listOfCodes == null || listOfCodes.size() == 0 || dmmain == null)
 			return 0;
@@ -367,7 +336,7 @@ public class DMStore extends OrientDao {
 		ODocument codeO;
 		for (Code code : listOfCodes) {
 			codeO = clLoadDAO.loadCodeO(code.getSystemKey(),
-					code.getSystemVersion(), code.getCode(), database);
+					code.getSystemVersion(), code.getCode());
 			if (codeO == null)
 				throw new Exception("Category code not found: " + code);
 			result.add(codeO);
@@ -382,19 +351,7 @@ public class DMStore extends OrientDao {
 
 	// DELETE
 	public int deleteMetadataStructure(String uid) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count = 0;
-		try {
-			count = deleteMetadataStructure(uid, database);
-		} finally {
-			if (database != null)
-				database.close();
-		}
-		return count;
-	}
-
-	public int deleteMetadataStructure(String uid, OGraphDatabase database) throws Exception {
-		ODocument dmO = dmLoadDAO.loadMetadataStructureO(uid, database);
+		ODocument dmO = dmLoadDAO.loadMetadataStructureO(uid);
         if (dmO!=null) {
             dmO.delete();
             return 1;
@@ -403,81 +360,49 @@ public class DMStore extends OrientDao {
 	}
 
 	public int deleteDatasetMetadata(String uid) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count = 0;
-		try {
-			count = deleteDatasetMetadata(uid, database);
-		} finally {
-			if (database != null)
-				database.close();
-		}
-		return count;
-	}
-
-	public int deleteDatasetMetadata(String uid, OGraphDatabase database) throws Exception {
-		ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid, database);
+		ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid);
         dmIndexStoreDAO.dropIndexDatasetMetadata(dmO);
 		return deleteGraph(dmO, new String[] { "CMContactIdentity", "DSDContextSystem", "DSDDimension", "CSVersion", "CSCode" });
 	}
 
-	public void disconnectCodeList(ODocument systemO, OGraphDatabase database) throws Exception {
-		for (ODocument dm : dmLoadDAO.loadDatasetsObyRegionCL(systemO, database)) {
+	public void disconnectCodeList(ODocument systemO) throws Exception {
+		for (ODocument dm : dmLoadDAO.loadDatasetsObyRegionCL(systemO)) {
 			dm.field("region", null, OType.LINK);
 			dm.save();
 		}
-		for (ODocument dm : dmLoadDAO.loadDatasetsObyCategoryCL(systemO, database)) {
+		for (ODocument dm : dmLoadDAO.loadDatasetsObyCategoryCL(systemO)) {
 			dm.field("categories", null, OType.LINKLIST);
 			dm.save();
 		}
 
-		dsdStoreDAO.disconnectCodeList(systemO, database);
+		dsdStoreDAO.disconnectCodeList(systemO);
 	}
 
 	// STORE
-	public String storeMetadataStructure(DMMeta mm) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return (String) storeMetadataStructure(mm, database).field("metadataUID");
-		} finally {
-			if (database != null)
-				database.close();
-		}
-	}
-
-	public ODocument storeMetadataStructure(DMMeta mm, OGraphDatabase database) throws Exception {
+	public ODocument storeMetadataStructure(DMMeta mm) throws Exception {
         //content normalization
         if (mm.getUid()==null)
             mm.setUid(createUID());
         if (mm.getAvailableDatasetsUID()!=null) {
             Collection<ODocument> datasets = new LinkedList<ODocument>();
             for (String uid : mm.getAvailableDatasetsUID())
-                dmLoadDAO.loadDatasetMetadataO(uid, database);
+                dmLoadDAO.loadDatasetMetadataO(uid);
             mm.put("availableDatasets",datasets);
         }
 
         //Create document
-        ODocument mmO = database.createVertex("DMMeta").fields(mm);
+        ODocument mmO = getConnection().createVertex("DMMeta").fields(mm);
 
 		//Return saved document
 		return mmO.save();
 	}
 
-	public String storeDatasetMetadata(DM dm) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return (String) storeDatasetMetadata(dm, database).field("uid");
-		} finally {
-			if (database != null)
-				database.close();
-		}
-	}
-
-	public ODocument storeDatasetMetadata(DM dm, OGraphDatabase database) throws Exception {
-        ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid(), database);
+	public ODocument storeDatasetMetadata(DM dm) throws Exception {
+        ODocument dmmain = dmLoadDAO.loadDatasetMetadataO(dm.getUid());
         if (dmmain != null)
             throw new OIndexException("Found duplicated key");
 
-        dmmain = database.createVertex("DMMain");
+        dmmain = getConnection().createVertex("DMMain");
 		String uid = dm.getUid() != null ? dm.getUid() : createUID();
 		//main
 		dmmain.field("uid", uid);
@@ -491,32 +416,32 @@ public class DMStore extends OrientDao {
 		//content
 		dmmain.field("creationDate", dm.getCreationDate());
 		if (dm.getGeographicExtent() != null)
-			dmmain.field("region", clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode(), database));
+			dmmain.field("region", clLoadDAO.loadCodeO(dm.getGeographicExtent().getSystemKey(), dm.getGeographicExtent().getSystemVersion(), dm.getGeographicExtent().getCode()));
 		dmmain.field("basePeriod", dm.getBasePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getBasePeriod().toMap()) : null, OType.EMBEDDED);
 		dmmain.field("referencePeriod", dm.getReferencePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getReferencePeriod().toMap()) : null, OType.EMBEDDED);
 		dmmain.field("weightReferencePeriod", dm.getWeightReferencePeriod()!=null ? new ODocument("CMPeriod").fields(dm.getWeightReferencePeriod().toMap()) : null, OType.EMBEDDED);
 		if (dm.getCoverageSectors() != null)
-			dmmain.field("coverageSectors",loadHeterogeneousCodes(dm.getCoverageSectors(), database));
+			dmmain.field("coverageSectors",loadHeterogeneousCodes(dm.getCoverageSectors()));
 		if (dm.getCodingSystems() != null)
-			dmmain.field("codingSystems",loadCodeLists(dm.getCodingSystems(), database));
+			dmmain.field("codingSystems",loadCodeLists(dm.getCodingSystems()));
 		dmmain.field("classificationSystems", dm.getClassificationSystems());
 		dmmain.field("comparability", dm.getComparability());
         dmmain.field("statisticalUnit", dm.getStatisticalUnit());
         dmmain.field("unitOfMeasureDetails", dm.getUnitOfMeasureDetails());
         if (dm.getUnitOfMeasure() != null)
-            dmmain.field("um", clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode(), database));
+            dmmain.field("um", clLoadDAO.loadCodeO(dm.getUnitOfMeasure().getSystemKey(), dm.getUnitOfMeasure().getSystemVersion(), dm.getUnitOfMeasure().getCode()));
         if (dm.getCoverageGeographical() != null)
-            dmmain.field("coverageGeographical", clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode(), database));
+            dmmain.field("coverageGeographical", clLoadDAO.loadCodeO(dm.getCoverageGeographical().getSystemKey(), dm.getCoverageGeographical().getSystemVersion(), dm.getCoverageGeographical().getCode()));
 		//process
 		if (dm.getCollectionPeriodicity() != null)
-			dmmain.field("collectionPeriodicity", clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode(), database));
+			dmmain.field("collectionPeriodicity", clLoadDAO.loadCodeO(dm.getCollectionPeriodicity().getSystemKey(), dm.getCollectionPeriodicity().getSystemVersion(), dm.getCollectionPeriodicity().getCode()));
 		if (dm.getProcessMethodologyDocuments() != null)
-			dmmain.field("processMethodologyDocuments", cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments(), database));
+			dmmain.field("processMethodologyDocuments", cmStoreDAO.storePublication(dm.getProcessMethodologyDocuments()));
 		dmmain.field("compilationProcessing", dm.getCompilationProcessing());
 		dmmain.field("collectionProcessing", dm.getCollectionProcessing());
 		dmmain.field("indexType", dm.getIndexType());
         if (dm.getProcessConceptsDocuments() != null)
-            dmmain.field("processConceptsDocuments", cmStoreDAO.storePublication(dm.getProcessConceptsDocuments(), database));
+            dmmain.field("processConceptsDocuments", cmStoreDAO.storePublication(dm.getProcessConceptsDocuments()));
         dmmain.field("sourceType", dm.getSourceType());
         dmmain.field("processConcepts", dm.getProcessConcepts());
         dmmain.field("aggregationProcessing", dm.getAggregationProcessing());
@@ -526,34 +451,34 @@ public class DMStore extends OrientDao {
 		dmmain.field("accuracyAssessment", dm.getAccuracyAssessment());
 		dmmain.field("completeness", dm.getCompleteness());
         if (dm.getQualityMethodologyDocuments() != null)
-            dmmain.field("qualityMethodologyDocuments", cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments(), database));
+            dmmain.field("qualityMethodologyDocuments", cmStoreDAO.storePublication(dm.getQualityMethodologyDocuments()));
 		//distribution
 		if (dm.getDisseminationPeriodicity() != null)
-			dmmain.field("disseminationPeriodicity", clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode(), database));
+			dmmain.field("disseminationPeriodicity", clLoadDAO.loadCodeO(dm.getDisseminationPeriodicity().getSystemKey(), dm.getDisseminationPeriodicity().getSystemVersion(), dm.getDisseminationPeriodicity().getCode()));
 		dmmain.field("userAccess", dm.getUserAccess());
 		dmmain.field("disseminationFormat", dm.getDisseminationFormat());
 		dmmain.field("revisionPolicy", dm.getRevisionPolicy());
         if (dm.getPublications() != null)
-            dmmain.field("publications", cmStoreDAO.storePublication(dm.getPublications(), database));
+            dmmain.field("publications", cmStoreDAO.storePublication(dm.getPublications()));
         if (dm.getNews() != null)
-            dmmain.field("news", cmStoreDAO.storePublication(dm.getNews(), database));
+            dmmain.field("news", cmStoreDAO.storePublication(dm.getNews()));
         dmmain.field("embargoTimeSpec", dm.getEmbargoTimeSpec());
         dmmain.field("confidentialityDataTreatment", dm.getConfidentialityDataTreatment());
         dmmain.field("confidentialityPolicy", dm.getConfidentialityPolicy());
         dmmain.field("releasePolicy", dm.getReleasePolicy());
-        dmmain.field("dataSources", dm.getDataSources()==null ? null : storeDatasource(dm.getDataSources(), database));
+        dmmain.field("dataSources", dm.getDataSources()==null ? null : storeDatasource(dm.getDataSources()));
         dmmain.field("otherDisseminatedData", dm.getOtherDisseminatedData());
 		//contacts
 		if (dm.getSources() != null)
-			dmmain.field("source", cmStoreDAO.storeContactIdentity(dm.getSources(), database));
+			dmmain.field("source", cmStoreDAO.storeContactIdentity(dm.getSources()));
 		if (dm.getOwner() != null)
-			dmmain.field("owner", cmStoreDAO.storeContactIdentity(dm.getOwner(), database));
+			dmmain.field("owner", cmStoreDAO.storeContactIdentity(dm.getOwner()));
 		if (dm.getProvider() != null)
-			dmmain.field("provider", cmStoreDAO.storeContactIdentity(dm.getProvider(), database));
+			dmmain.field("provider", cmStoreDAO.storeContactIdentity(dm.getProvider()));
 		if (dm.getCompiler() != null)
-			dmmain.field("compiler", cmStoreDAO.storeContactIdentity(dm.getCompiler(), database));
+			dmmain.field("compiler", cmStoreDAO.storeContactIdentity(dm.getCompiler()));
 		if (dm.getContacts() != null)
-			dmmain.field("contacts", cmStoreDAO.storeContactIdentity(dm.getContacts(), database));
+			dmmain.field("contacts", cmStoreDAO.storeContactIdentity(dm.getContacts()));
 		//status
 		dmmain.field("coverageTime", dm.getCoverageTime());
 		dmmain.field("accessibility", dm.getAccessibility());
@@ -562,12 +487,12 @@ public class DMStore extends OrientDao {
 		dmmain.field("nextUpdateDate", dm.getNextUpdateDate());
 		dmmain.field("completenessPercentage", dm.getCompletenessPercentage());
         if (dm.getUpdatePeriodicity() != null)
-            dmmain.field("updatePeriodicity", clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode(), database));
+            dmmain.field("updatePeriodicity", clLoadDAO.loadCodeO(dm.getUpdatePeriodicity().getSystemKey(), dm.getUpdatePeriodicity().getSystemVersion(), dm.getUpdatePeriodicity().getCode()));
 		//other
 		if (dm.getTransferOptions() != null)
-			dmmain.field("transferOptions", cmStoreDAO.storeLink(dm.getTransferOptions(), database));
+			dmmain.field("transferOptions", cmStoreDAO.storeLink(dm.getTransferOptions()));
 		if (dm.getCategories() != null)
-			dmmain.field("categories",loadHeterogeneousCodes(dm.getCategories(), database));
+			dmmain.field("categories",loadHeterogeneousCodes(dm.getCategories()));
 		dmmain.field("statisticalPopulation", dm.getStatisticalPopulation());
 		dmmain.field("freeExtension", dm.getFreeExtension());
 		dmmain.field("dataType", dm.getDataType() != null ? dm.getDataType().getCode() : null);
@@ -575,39 +500,39 @@ public class DMStore extends OrientDao {
 		dmmain.field("copyrightPolicy", dm.getCopyright() != null ? dm.getCopyright().getCode() : null);
 		//upload
 		if (dm.getAvailability() != null)
-			dmmain.field("availability", storeAvailability(dm.getAvailability(), database));
+			dmmain.field("availability", storeAvailability(dm.getAvailability()));
 
 		//DSD
         if (dm.getDsd()!=null)
-		    dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd(), database));
+		    dmmain.field("dsd", dsdStoreDAO.storeDSD(dm.getDsd()));
 
         //Store indexed data
-        dmIndexStoreDAO.indexDatasetMetadata(dmmain, database, false);
+        dmIndexStoreDAO.indexDatasetMetadata(dmmain, false);
 
 		//Return saved document
 		return dmmain.save();
 	}
 
-	private Collection<ODocument> storeDatasource(Collection<DMDataSource> dataSources, OGraphDatabase database) throws Exception {
+	private Collection<ODocument> storeDatasource(Collection<DMDataSource> dataSources) throws Exception {
         if (dataSources !=null) {
             Collection<ODocument> dataSourcesO = new LinkedList<ODocument>();
             for (DMDataSource dataSource : dataSources)
-                dataSourcesO.add(storeDatasource(dataSource,database));
+                dataSourcesO.add(storeDatasource(dataSource));
             return dataSourcesO;
         } else
             return null;
 	}
 
-	private ODocument storeDatasource(DMDataSource dataSource, OGraphDatabase database) throws Exception {
-        ODocument datasourceO = database.createVertex("DMDataSource");
+	private ODocument storeDatasource(DMDataSource dataSource) throws Exception {
+        ODocument datasourceO = getConnection().createVertex("DMDataSource");
         datasourceO.field("type", dataSource.getType() != null ? dataSource.getType().getCode() : null);
         datasourceO.field("reference", dataSource.getReference());
         datasourceO.field("title", dataSource.getTitle());
         return datasourceO.save();
 	}
 
-	private ODocument storeAvailability(DMAvailability availability, OGraphDatabase database) throws Exception {
-		ODocument dmavailability = database.createVertex("DMAvailability");
+	private ODocument storeAvailability(DMAvailability availability) throws Exception {
+		ODocument dmavailability = getConnection().createVertex("DMAvailability");
 		dmavailability.field("status", availability.getStatus().getCode());
 		dmavailability.field("chunksNumber", availability.getChunksNumber());
 		dmavailability.field("chunksIndex", availability.getChunksIndex());
@@ -617,21 +542,21 @@ public class DMStore extends OrientDao {
 
 
     // Utils
-	private Collection<ODocument> loadHeterogeneousCodes (Collection<Code> codes, OGraphDatabase database) throws Exception {
+	private Collection<ODocument> loadHeterogeneousCodes (Collection<Code> codes) throws Exception {
 		Collection<ODocument> codesO = new LinkedList<ODocument>();
         ODocument codeO;
 		for (Code code : codes)
-            if ((codeO = clLoadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database))!=null)
+            if ((codeO = clLoadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode()))!=null)
                 codesO.add(codeO);
             else
                 throw new Exception("Code not found: "+code);
 		return codesO;
 	}
-	private Collection<ODocument> loadCodeLists (Collection<CodeSystem> systems, OGraphDatabase database) throws Exception {
+	private Collection<ODocument> loadCodeLists (Collection<CodeSystem> systems) throws Exception {
 		Collection<ODocument> systemsO = new LinkedList<ODocument>();
         ODocument systemO;
 		for (CodeSystem system : systems)
-            if ((systemO = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion(), database))!=null)
+            if ((systemO = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion()))!=null)
 			    systemsO.add(systemO);
             else
                 throw new Exception("Code list not found: "+system);

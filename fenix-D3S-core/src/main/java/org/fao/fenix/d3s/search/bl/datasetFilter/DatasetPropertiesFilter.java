@@ -16,7 +16,6 @@ import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.commons.search.dto.filter.ValueFilterType;
 import org.fao.fenix.commons.msd.utils.DataUtils;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -33,15 +32,13 @@ public class DatasetPropertiesFilter extends DatasetFilter {
     @SuppressWarnings("unchecked")
     @Override
     public Collection<ODocument> filter(ResourceFilter baseFilter, Collection<ODocument> source) throws Exception {
-        //Retrieve database instance
-        OGraphDatabase database = getFlow().getMsdDatabase();
         //Prepare query
         StringBuilder query = new StringBuilder("SELECT FROM DMMain WHERE uid IS NOT NULL");
-        Collection<Object> parameterValues = new LinkedList<Object>();
+        Collection<Object> parameterValues = new LinkedList<>();
         whereCondition(baseFilter.getMetadata(), baseFilter.getData(), query, parameterValues);
         //Execute query
-        OSQLSynchQuery<ODocument> queryO = new OSQLSynchQuery<ODocument>(query.toString());
-        return (Collection<ODocument>)database.query(queryO, parameterValues.toArray());
+        OSQLSynchQuery<ODocument> queryO = new OSQLSynchQuery<>(query.toString());
+        return (Collection<ODocument>)getConnection().query(queryO, parameterValues.toArray());
     }
 
     //WHERE CONDITION UTILS
@@ -86,7 +83,7 @@ public class DatasetPropertiesFilter extends DatasetFilter {
     }
     private void whereCondition(String fieldName, ColumnValueFilter filterValue, StringBuilder query, Collection<Object> parameterValues) throws Exception {
         String indexFieldName = indexStoreDao.getIndexedFieldName(fieldName);
-        OProperty property = getFlow().getMsdDatabase().getMetadata().getSchema().getClass("DMMain").getProperty(indexFieldName);
+        OProperty property = getConnection().getMetadata().getSchema().getClass("DMMain").getProperty(indexFieldName);
         String text;
         String[] words;
 

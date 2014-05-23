@@ -4,6 +4,7 @@ import org.glassfish.embeddable.*;
 import org.glassfish.embeddable.archive.ScatteredArchive;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -11,12 +12,13 @@ public class Server implements Runnable {
     private static GlassFish glassfish = null;
 
     public static void init(Properties initProperties) throws GlassFishException {
-        File tmpFolder = new File("tmp");
+        File tmpFolder = new File("work/tmp");
         tmpFolder.mkdirs();
 
         GlassFishProperties glassfishProperties = new GlassFishProperties();
         glassfishProperties.setPort("http-listener", Integer.parseInt(initProperties.getProperty("rest.server.port","7777")));
         glassfishProperties.setProperty("rest.embedded.tmpdir", tmpFolder.getAbsolutePath());
+
         glassfish = GlassFishRuntime.bootstrap().newGlassFish(glassfishProperties);
     }
 
@@ -30,8 +32,7 @@ public class Server implements Runnable {
             glassfish.start();
 
             ScatteredArchive application = new ScatteredArchive("D3S", ScatteredArchive.Type.WAR);
-            application.addClassPath(new File("target/classes"));//TODO
-            //application.addClassPath(new File("target/fenix-D3S-core-1.0.1-SNAPSHOT.jar"));
+            addClassPath(application);
 
             Deployer deployer = glassfish.getDeployer();
             deployer.deploy(application.toURI(), "--contextroot=/");
@@ -44,8 +45,26 @@ public class Server implements Runnable {
 
     }
 
-    private static void addClassPath(File libFolder) {
+    private static void addClassPath(ScatteredArchive application) throws IOException {
+        File libFolder = new File("lib");
+        File targetLibFolder = new File("target/lib");
+        File targetClassesFolder = new File("target/classes");
 
+        FilenameFilter filter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.startsWith("fenix");
+            }
+        };
+
+        if (libFolder.exists())
+            for (File library : libFolder.listFiles(filter))
+                application.addClassPath(library);
+        if (targetLibFolder.exists())
+            for (File library : targetLibFolder.listFiles(filter))
+                application.addClassPath(library);
+        if (targetClassesFolder.exists())
+            application.addClassPath(targetClassesFolder);
     }
 
 

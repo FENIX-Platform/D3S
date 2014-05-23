@@ -98,7 +98,6 @@ public class DatasetDimensionsFilter extends DatasetFilter {
 
     @SuppressWarnings("unchecked")
 	private boolean checkValue(ColumnValueFilter filterElement, DSDDataType columnDataType, Object value) throws Exception {
-        OGraphDatabase database = getFlow().getMsdDatabase();
         CharSequence v;
         switch (filterElement.getType()) {
             case numberInterval:
@@ -127,9 +126,9 @@ public class DatasetDimensionsFilter extends DatasetFilter {
                 try { v = ((Map<String,String>)value).get(filterElement.getLanguage()); } catch (Exception ex) { v = null; }
                 return v!=null && filterElement.getRegExpPatternLike().matcher(v).matches();
             case code:
-                ODocument filterCodeO = clLoadDao.loadCodeO(filterElement.getCode().getSystemKey(), filterElement.getCode().getSystemVersion(), filterElement.getCode().getCode(), database);
-                ODocument codeO = database.load((ORID)value);
-                return filterCodeO != null && codeO != null && clLoadDao.hasChildO(filterCodeO, codeO, database);
+                ODocument filterCodeO = clLoadDao.loadCodeO(filterElement.getCode().getSystemKey(), filterElement.getCode().getSystemVersion(), filterElement.getCode().getCode());
+                ODocument codeO = getConnection().load((ORID)value);
+                return filterCodeO != null && codeO != null && clLoadDao.hasChildO(filterCodeO, codeO);
             case document:
                 return toRID(filterElement.getId()).equals(value);
         }

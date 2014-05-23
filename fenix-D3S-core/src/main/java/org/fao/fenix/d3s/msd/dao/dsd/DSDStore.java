@@ -30,7 +30,7 @@ public class DSDStore extends OrientDao {
 	
 	//UPDATE
 	//dsd
-	public int updateDSD(DSD dsd, ODocument dsdmain, OGraphDatabase database) throws Exception {
+	public int updateDSD(DSD dsd, ODocument dsdmain) throws Exception {
 		if (dsd==null || dsdmain==null)
 			return 0;
 
@@ -40,17 +40,17 @@ public class DSDStore extends OrientDao {
 
 		//connected elements
         if (dsd.getAggregationRules()!=null)
-            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
+            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules()));
         else
             dsdmain.field("aggregationRules", null, OType.LINKLIST);
 
         if (dsd.getDatasource()!=null)
-			dsdmain.field("datasource", storeDatasource(dsd.getDatasource(), database));
+			dsdmain.field("datasource", storeDatasource(dsd.getDatasource()));
 		else
 			dsdmain.field("datasource", null, OType.LINK);
 
 		if (dsd.getContextSystem()!=null)
-			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
+			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem()));
 		else
 			dsdmain.field("contextSystem", null, OType.LINK);
 		
@@ -60,7 +60,7 @@ public class DSDStore extends OrientDao {
 				column.delete();
 			columns = new ArrayList<ODocument>();
 			for (DSDColumn column : dsd.getColumns())
-				columns.add(storeColumn(column, database));
+				columns.add(storeColumn(column));
 			dsdmain.field("columns", columns, OType.LINKLIST);
 		} else
 			dsdmain.field("columns", null, OType.LINKLIST);
@@ -69,7 +69,7 @@ public class DSDStore extends OrientDao {
 		return 1;
 	}
 	//dsd append mode
-	public int appendDSD(DSD dsd, ODocument dsdmain, OGraphDatabase database) throws Exception {
+	public int appendDSD(DSD dsd, ODocument dsdmain) throws Exception {
 		if (dsd==null || dsdmain==null)
 			return 0;
 
@@ -82,13 +82,13 @@ public class DSDStore extends OrientDao {
 
 		//connected elements
         if (dsd.getAggregationRules()!=null)
-            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
+            dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules()));
 
         if (dsd.getDatasource()!=null)
-			dsdmain.field("datasource", storeDatasource(dsd.getDatasource(), database));
+			dsdmain.field("datasource", storeDatasource(dsd.getDatasource()));
 
 		if (dsd.getContextSystem()!=null)
-			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
+			dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem()));
 		
 		if (dsd.getColumns()!=null && dsd.getColumns().size()>0) {
 			Collection<ODocument> columns = dsdmain.field("columns");
@@ -96,7 +96,7 @@ public class DSDStore extends OrientDao {
 				column.delete();
 			columns = new ArrayList<ODocument>();
 			for (DSDColumn column : dsd.getColumns())
-				columns.add(storeColumn(column, database));
+				columns.add(storeColumn(column));
 			dsdmain.field("columns", columns, OType.LINKLIST);
 		}
 		
@@ -105,19 +105,10 @@ public class DSDStore extends OrientDao {
 	}
 	//column
 	public int updateColumn(String datasetUid, DSDColumn column) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return updateColumn(datasetUid, column, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument dsdO = ((ODocument)dmLoadDAO.loadDatasetMetadataO(datasetUid)).field("dsd");
+		return updateColumn(column, dsdO);
 	}
-	public int updateColumn(String datasetUid, DSDColumn column, OGraphDatabase database) throws Exception {
-		ODocument dsdO = ((ODocument)dmLoadDAO.loadDatasetMetadataO(datasetUid, database)).field("dsd");
-		return updateColumn(column, dsdO, database);
-	}
-	public int updateColumn(DSDColumn column, ODocument dsdmain, OGraphDatabase database) throws Exception {
+	public int updateColumn(DSDColumn column, ODocument dsdmain) throws Exception {
 		if (column==null || dsdmain==null || column.getColumnId()==null || dsdmain.field("columns")==null)
 			return 0;
 
@@ -126,7 +117,7 @@ public class DSDStore extends OrientDao {
 		for (Iterator<ODocument> columnIterator=columns.iterator(); columnIterator.hasNext(); )
 			if (column.getColumnId().equals((columnO=columnIterator.next()).field("column"))) {
 				columnIterator.remove();
-				columns.add(storeColumn(column, database));
+				columns.add(storeColumn(column));
 				dsdmain.field("columns", columns, OType.LINKLIST);
 				dsdmain.save();
 				columnO.delete();
@@ -137,16 +128,7 @@ public class DSDStore extends OrientDao {
 	}
 	//dimension
 	public int updateDimension(DSDDimension dimension) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return updateDimension(dimension, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int updateDimension(DSDDimension dimension, OGraphDatabase database) throws Exception {
-		ODocument dsddatasource = dsdLoadDAO.loadDimensionO(dimension.getName(), database);
+		ODocument dsddatasource = dsdLoadDAO.loadDimensionO(dimension.getName());
 		if (dsddatasource==null)
 			return 0;
 		dsddatasource.field("title", dimension.getTitle());
@@ -159,31 +141,22 @@ public class DSDStore extends OrientDao {
 	//DELETE
 	//dimension
 	public int deleteDimension(String name) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteDimension(name, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int deleteDimension(String name, OGraphDatabase database) throws Exception {
-		ODocument dsddimension = dsdLoadDAO.loadDimensionO(name, database);
+		ODocument dsddimension = dsdLoadDAO.loadDimensionO(name);
 		if (dsddimension==null)
 			return 0;
-		disconnectDimension(dsddimension, database);
+		disconnectDimension(dsddimension);
 		dsddimension.delete();
 		return 1;
 	}
-	private void disconnectDimension(ODocument dimensionO, OGraphDatabase database) throws Exception {
-		for (ODocument column : dsdLoadDAO.loadColumnsByDimension(dimensionO, database)) {
+	private void disconnectDimension(ODocument dimensionO) throws Exception {
+		for (ODocument column : dsdLoadDAO.loadColumnsByDimension(dimensionO)) {
 			column.field("dimension", null, OType.LINK);
 			column.save();
 		}
 	}
 	//codelist
-	public void disconnectCodeList (ODocument systemO, OGraphDatabase database) throws Exception {
-		for (ODocument column : dsdLoadDAO.loadColumnsBySystem(systemO, database)) {
+	public void disconnectCodeList (ODocument systemO) throws Exception {
+		for (ODocument column : dsdLoadDAO.loadColumnsBySystem(systemO)) {
 			if (column.field("codeSystem")!=null) {
 				column.field("codeSystem", null, OType.LINK);
 				column.field("values", null, OType.EMBEDDEDLIST);
@@ -195,53 +168,31 @@ public class DSDStore extends OrientDao {
 	
 	
 	//STORE
-	public int storeDatasource(DSDDatasource datasource) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count=0;
-		try {
-			storeDatasource(datasource, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-		return count;
-	}
-	public int storeDimension (DSDDimension dimension) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		int count=0;
-		try {
-			storeDimension(dimension, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-		return count;
-	}
-	
-	public ODocument storeDSD(DSD dsd, OGraphDatabase database) throws Exception {
-		ODocument dsdmain = database.createVertex("DSDMain");
+
+	public ODocument storeDSD(DSD dsd) throws Exception {
+		ODocument dsdmain = getConnection().createVertex("DSDMain");
 
 		dsdmain.field("startDate", dsd.getStartDate());
 		dsdmain.field("endDate", dsd.getEndDate());
 		dsdmain.field("supplemental", dsd.getSupplemental());
 
 		//connected elements
-		dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules(), database));
+		dsdmain.field("aggregationRules", storeValueOperator(dsd.getAggregationRules()));
 
-        dsdmain.field("datasource", storeDatasource(dsd.getDatasource(), database));
+        dsdmain.field("datasource", storeDatasource(dsd.getDatasource()));
 
-		dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem(), database));
+		dsdmain.field("contextSystem", commonsStoreDAO.storeContext(dsd.getContextSystem()));
 		
 		Collection<ODocument> columns = new ArrayList<ODocument>();
 		for (DSDColumn column : dsd.getColumns())
-			columns.add(storeColumn(column, database));
+			columns.add(storeColumn(column));
 		dsdmain.field("columns", columns.size()>0 ? columns : null, OType.LINKLIST);
 
 		return dsdmain.save();
 	}
 	
-	private ODocument storeColumn(DSDColumn column, OGraphDatabase database) throws Exception {
-		ODocument dsdcolumn = database.createVertex("DSDColumn");
+	private ODocument storeColumn(DSDColumn column) throws Exception {
+		ODocument dsdcolumn = getConnection().createVertex("DSDColumn");
 		dsdcolumn.field("column", column.getColumnId());
 		dsdcolumn.field("title", column.getTitle());
 		dsdcolumn.field("supplemental", column.getSupplemental());
@@ -250,9 +201,9 @@ public class DSDStore extends OrientDao {
 		dsdcolumn.field("virtualColumn", column.getVirtualColumn());
 		dsdcolumn.field("geoLayer", column.getGeoLyer());
 		//Connected elements
-		dsdcolumn.field("dimension", storeDimension(column.getDimension(), database));
+		dsdcolumn.field("dimension", storeDimension(column.getDimension()));
 		if (column.getCodeSystem()!=null)
-			dsdcolumn.field("codeSystem", clLoadDAO.loadSystemO(column.getCodeSystem().getSystem(), column.getCodeSystem().getVersion(), database));
+			dsdcolumn.field("codeSystem", clLoadDAO.loadSystemO(column.getCodeSystem().getSystem(), column.getCodeSystem().getVersion()));
 		//Values (and codes level)
 		Collection<Object> originalValues = column.getValues();
 		if (originalValues!=null && originalValues.size()>0) {
@@ -261,8 +212,8 @@ public class DSDStore extends OrientDao {
 				 Collection<ODocument> valuesConnection = new LinkedList<ODocument>();
 				 CodeSystem cl = column.getCodeSystem();
 				for (Object value : originalValues) {
-					ODocument codeO = cl == null    ? clLoadDAO.loadCodeO((String)((Map<String,Object>) value).get("systemKey"), (String)((Map<String,Object>) value).get("systemVersion"), (String)((Map<String,Object>) value).get("code"), database)
-                                                    : clLoadDAO.loadCodeO(cl.getSystem(), cl.getVersion(), value instanceof String ? (String) value : (String)((Map<String,Object>) value).get("code"), database);
+					ODocument codeO = cl == null    ? clLoadDAO.loadCodeO((String)((Map<String,Object>) value).get("systemKey"), (String)((Map<String,Object>) value).get("systemVersion"), (String)((Map<String,Object>) value).get("code"))
+                                                    : clLoadDAO.loadCodeO(cl.getSystem(), cl.getVersion(), value instanceof String ? (String) value : (String)((Map<String,Object>) value).get("code"));
 					if (codeO!=null) {
 						valuesConnection.add(codeO);
                         levels.add((Integer)codeO.field("level"));
@@ -273,6 +224,7 @@ public class DSDStore extends OrientDao {
                  if (column.getCodesLevel()==null && levels.size()==1)
                      dsdcolumn.field("codesLevel", levels.iterator().next());
 			 } else if (column.getDataType()==DSDDataType.document) {
+                 OGraphDatabase database = getConnection();
 				 Collection<ODocument> valuesConnection = new LinkedList<ODocument>();
 				 for (Object value : originalValues)
 					 valuesConnection.add((ODocument)database.load(toRID((String)value)));
@@ -285,17 +237,17 @@ public class DSDStore extends OrientDao {
 		return dsdcolumn.save();
 	}
 
-	public ODocument storeDatasource(DSDDatasource datasource, OGraphDatabase database) throws Exception {
-		ODocument dsddatasource = database.createVertex("DSDDatasource");
+	public ODocument storeDatasource(DSDDatasource datasource) throws Exception {
+		ODocument dsddatasource = getConnection().createVertex("DSDDatasource");
 		dsddatasource.field("dao", datasource.getDao().getCode());
 		dsddatasource.field("reference", datasource.getReference());
 		return dsddatasource.save();
 	}
 
-	public ODocument storeDimension (DSDDimension dimension, OGraphDatabase database) throws Exception {
-		ODocument dsddimension = dsdLoadDAO.loadDimensionO(dimension.getName(), database);
+	public ODocument storeDimension (DSDDimension dimension) throws Exception {
+		ODocument dsddimension = dsdLoadDAO.loadDimensionO(dimension.getName());
 		if (dsddimension==null) {
-			dsddimension = database.createVertex("DSDDimension");
+			dsddimension = getConnection().createVertex("DSDDimension");
 			dsddimension.field("name", dimension.getName());
 			dsddimension.field("title", dimension.getTitle());
 			dsddimension.save();
@@ -305,20 +257,20 @@ public class DSDStore extends OrientDao {
 
 
     //Value operator
-    public ODocument storeValueOperator(ValueOperator operator, OGraphDatabase database) throws Exception {
-        ODocument operatorO = database.createVertex("CMValueOperator");
+    public ODocument storeValueOperator(ValueOperator operator) throws Exception {
+        ODocument operatorO = getConnection().createVertex("CMValueOperator");
         operatorO.field("implementation", operator.getImplementation());
         operatorO.field("rule", operator.getRule());
         operatorO.field("fixedParameters", operator.getFixedParameters());
-        operatorO.field("dimension", storeDimension(operator.getDimension()!=null ? operator.getDimension() : new DSDDimension("VALUE"), database));
+        operatorO.field("dimension", storeDimension(operator.getDimension()!=null ? operator.getDimension() : new DSDDimension("VALUE")));
         return operatorO.save();
     }
 
-    public Collection<ODocument> storeValueOperator(Collection<ValueOperator> operators, OGraphDatabase database) throws Exception {
+    public Collection<ODocument> storeValueOperator(Collection<ValueOperator> operators) throws Exception {
         if (operators!=null) {
             Collection<ODocument> operatorsO = new LinkedList<ODocument>();
             for (ValueOperator operator : operators)
-                operatorsO.add(storeValueOperator(operator,database));
+                operatorsO.add(storeValueOperator(operator));
             return operatorsO;
         }
         return null;

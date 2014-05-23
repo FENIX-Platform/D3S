@@ -34,46 +34,28 @@ public class CodeListLoad extends OrientDao {
 
 	//Load system
 	public CodeSystem loadSystem(String system, String version, boolean all) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadSystem(system, version, database, all);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public CodeSystem loadSystem(String system, String version, OGraphDatabase database, boolean all) throws Exception {
-		ODocument systemO = loadSystemO(system, version, database);
+		ODocument systemO = loadSystemO(system, version);
 		return systemO!=null ? converter.toSystem(systemO, all) : null;
 	}
-	public synchronized ODocument loadSystemO(String system, String version, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadSystemO(String system, String version) throws Exception {
 		queryLoadSystem.reset();
 		queryLoadSystem.resetPagination();
-		List<ODocument> result = database.query(queryLoadSystem, system, version);
+		List<ODocument> result = getConnection().query(queryLoadSystem, system, version);
 		return result.size()==1 ? result.get(0) : null;
 	}
 
     //Load ALL code lists
 	public Collection<CodeSystem> loadSystem(boolean all) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadSystem(database, all);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<CodeSystem> loadSystem(OGraphDatabase database, boolean all) throws Exception {
 		Collection<CodeSystem> result = new LinkedList<CodeSystem>();
-		for (ODocument systemO : loadSystemO(database))
+		for (ODocument systemO : loadSystemO())
 				result.add(converter.toSystem(systemO, all));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadSystemO(OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadSystemO() throws Exception {
 		queryLoadAllSystem.reset();
 		queryLoadAllSystem.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadAllSystem);
+		return (Collection<ODocument>)getConnection().query(queryLoadAllSystem);
 	}
 
     //Load ALL code iterable
@@ -94,60 +76,41 @@ public class CodeListLoad extends OrientDao {
         };
 	}
 	public synchronized Iterable<ODocument> loadSystemProducerO() throws Exception {
-        return browseClass("CSVersion",OrientDatabase.msd);
+        return browseClass("CSVersion");
 	}
     public long countSystems() throws Exception {
-        return countClass("CSVersion",OrientDatabase.msd);
+        return countClass("CSVersion");
     }
 
 
     //Load by single keyword
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadSystemByKeywordO(ODocument keyword, OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadSystemByKeywordO(ODocument keyword) throws Exception {
 		queryLoadSystemByKeyword.reset();
 		queryLoadSystemByKeyword.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadSystemByKeyword, keyword);
+		return (Collection<ODocument>)getConnection().query(queryLoadSystemByKeyword, keyword);
 	}
 
 	
 	//Load code
 	public Code loadCode(String system, String version, String code, Integer levels) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadCode(system, version, code, database, levels);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Code loadCode(String system, String version, String code, OGraphDatabase database, Integer levels) throws Exception {
-		ODocument codeO = loadCodeO(system, version, code, database);
+		ODocument codeO = loadCodeO(system, version, code);
 		return codeO!=null ? converter.toCode(codeO, true, levels!=null?levels:CodeListConverter.NO_LEVELS,null) : null;
 	}
-	public synchronized ODocument loadCodeO(String system, String version, String code, OGraphDatabase database) throws Exception {
-		return loadCodeO(loadSystemO(system, version, database),code, database);
+	public synchronized ODocument loadCodeO(String system, String version, String code) throws Exception {
+		return loadCodeO(loadSystemO(system, version),code);
 	}
-	public synchronized ODocument loadCodeO(ODocument systemO, String code, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadCodeO(ODocument systemO, String code) throws Exception {
 		queryLoadCode.reset();
 		queryLoadCode.resetPagination();
-		List<ODocument> result = database.query(queryLoadCode,systemO,code);
+		List<ODocument> result = getConnection().query(queryLoadCode,systemO,code);
 		return result.size()==1 ? result.get(0) : null;
 	}
 
 	//Load codes
-	public Collection<Code> loadCodes(String system, String version, Collection<String> codes, Integer levels) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadCodes(system, version, codes, database, levels);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-
     //TODO verificare anomalia con test in multithreading
-	public synchronized Collection<Code> loadCodes(String system, String version, Collection<String> codes, OGraphDatabase database, Integer levels) throws Exception {
-		Collection <ODocument> codeO = loadCodesO(system, version, codes, database);
+	public synchronized Collection<Code> loadCodes(String system, String version, Collection<String> codes, Integer levels) throws Exception {
+		Collection <ODocument> codeO = loadCodesO(system, version, codes);
 		List<Code> toRet = new LinkedList<Code>();
 
 		if (codeO==null)
@@ -160,34 +123,25 @@ public class CodeListLoad extends OrientDao {
 	}
 	
 
-	public synchronized List<ODocument> loadCodesO(String system, String version, Collection<String> codes, OGraphDatabase database) throws Exception {
+	public synchronized List<ODocument> loadCodesO(String system, String version, Collection<String> codes) throws Exception {
 		queryLoadCodes.reset();
 		queryLoadCodes.resetPagination();
-		List<ODocument> result = database.query(queryLoadCodes,loadSystemO(system, version, database),codes);
+		List<ODocument> result = getConnection().query(queryLoadCodes,loadSystemO(system, version),codes);
 		return result;
 	}
 
 	//Load branch
 	public Collection<Code> loadCodeBranch(String system, String version, String code) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadCodeBranch(loadCodeO(system, version, code, database), database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		return loadCodeBranch(loadCodeO(system, version, code));
 	}
-	public Collection<Code> loadCodeBranch(String system, String version, String code, OGraphDatabase database) throws Exception {
-		return loadCodeBranch(loadCodeO(system, version, code, database), database);
+	public Collection<Code> loadCodeBranch(ODocument sourceCodeO) throws Exception {
+		return converter.toCode(loadCodeBranchO(sourceCodeO),true);
 	}
-	public Collection<Code> loadCodeBranch(ODocument sourceCodeO, OGraphDatabase database) throws Exception {
-		return converter.toCode(loadCodeBranchO(sourceCodeO, database),true);
-	}
-	public Collection<ODocument> loadCodeBranchO(String system, String version, String code, OGraphDatabase database) throws Exception {
-		return loadCodeBranchO(loadCodeO(system, version, code, database), database);
+	public Collection<ODocument> loadCodeBranchO(String system, String version, String code) throws Exception {
+		return loadCodeBranchO(loadCodeO(system, version, code));
 	}
 	@SuppressWarnings("unchecked")
-	public Collection<ODocument> loadCodeBranchO(ODocument codeO, OGraphDatabase database) throws Exception {
+	public Collection<ODocument> loadCodeBranchO(ODocument codeO) throws Exception {
 		LinkedList<ODocument> branchO = new LinkedList<ODocument>();
 		branchO.push(codeO);
 		for (Collection<ODocument> parentsO = (Collection<ODocument>)codeO.field("parents"); parentsO!=null; parentsO = (Collection<ODocument>)codeO.field("parents"))
@@ -202,26 +156,17 @@ public class CodeListLoad extends OrientDao {
 	
 	//Load code level
 	public Collection<Code> loadCodeLevel(String system, String version, Integer level) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadCodeLevel(system, version, level, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<Code> loadCodeLevel(String system, String version, Integer level, OGraphDatabase database) throws Exception {
-		return converter.toCode(loadCodeLevelO(system, version, level, database), true);
+		return converter.toCode(loadCodeLevelO(system, version, level), true);
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadCodeLevelO(String system, String version, Integer level, OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadCodeLevelO(String system, String version, Integer level) throws Exception {
 		queryLoadCodeLevel.reset();
 		queryLoadCodeLevel.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadCodeLevel,loadSystemO(system, version, database),level);
+		return (Collection<ODocument>)getConnection().query(queryLoadCodeLevel,loadSystemO(system, version),level);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<ODocument> loadCodeLevelO(ODocument codeO, OGraphDatabase database) throws Exception {
+	public Collection<ODocument> loadCodeLevelO(ODocument codeO) throws Exception {
 		if (codeO==null)
 			return null;
 		ODocument parentO = codeO.field("parent");
@@ -233,53 +178,39 @@ public class CodeListLoad extends OrientDao {
 	
 	
 	//Load keyword
-	public synchronized ODocument loadKeywordO(String keyword, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadKeywordO(String keyword) throws Exception {
 		queryLoadKeyword.reset();
 		queryLoadKeyword.resetPagination();
-		List<ODocument> result = database.query(queryLoadKeyword,keyword);
+		List<ODocument> result = getConnection().query(queryLoadKeyword,keyword);
 		return result.size()==1 ? result.get(0) : null;
 	}
 	
 	public Collection<String> loadKeyword() throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadKeyword(database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<String> loadKeyword(OGraphDatabase database) throws Exception {
 		Collection<String> result = new LinkedList<String>();
-		for (ODocument keywordO : loadKeywordO(database))
+		for (ODocument keywordO : loadKeywordO())
 			result.add((String)keywordO.field("keyword"));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadKeywordO(OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadKeywordO() throws Exception {
 		queryLoadAllKeywords.reset();
 		queryLoadAllKeywords.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadAllKeywords);
+		return (Collection<ODocument>)getConnection().query(queryLoadAllKeywords);
 	}
 
 
     //Hierarchy relationship check
     public boolean hasChild(Code parent, Code child) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            return hasChildO(loadCodeO(parent.getSystemKey(), parent.getSystemVersion(), parent.getCode(), database), loadCodeO(child.getSystemKey(), child.getSystemVersion(), child.getCode(), database), database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
+        return hasChildO(loadCodeO(parent.getSystemKey(), parent.getSystemVersion(), parent.getCode()), loadCodeO(child.getSystemKey(), child.getSystemVersion(), child.getCode()));
     }
 
-    public boolean hasChild(ORID parent, ORID child, OGraphDatabase database) throws Exception {
-        return hasChildO((ODocument)database.load(parent), (ODocument)database.load(child), database);
+    public boolean hasChild(ORID parent, ORID child) throws Exception {
+        OGraphDatabase database = getConnection();
+        return hasChildO((ODocument)database.load(parent), (ODocument)database.load(child));
     }
 
     @SuppressWarnings("unchecked")
-    public boolean hasChildO(ODocument parentO, ODocument childO, OGraphDatabase database) throws Exception {
+    public boolean hasChildO(ODocument parentO, ODocument childO) throws Exception {
         if (childO.equals(parentO))
             return true;
 
@@ -288,7 +219,7 @@ public class CodeListLoad extends OrientDao {
             return false;
 
         for (ODocument cO : parentsO)
-            if (hasChildO(parentO, cO, database))
+            if (hasChildO(parentO, cO))
                 return true;
 
         return false;
@@ -297,32 +228,14 @@ public class CodeListLoad extends OrientDao {
 
     //Load codes or codelists by title
     public Collection<Code> loadCodesByTitle(String text, SupportedLanguages language) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            return loadCodesByTitle(text, language, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-    public Collection<Code> loadCodesByTitle(String text, SupportedLanguages language, OGraphDatabase database) throws Exception {
-        return converter.toCode(loadByTitleO(text, language, false, database),false);
+        return converter.toCode(loadByTitleO(text, language, false),false);
     }
 
     public Collection<CodeSystem> loadCodeSystemsByTitle(String text, SupportedLanguages language) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            return loadCodeSystemsByTitle(text, language, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-    public Collection<CodeSystem> loadCodeSystemsByTitle(String text, SupportedLanguages language, OGraphDatabase database) throws Exception {
-        return converter.toSystem(loadByTitleO(text, language, true, database));
+        return converter.toSystem(loadByTitleO(text, language, true));
     }
 
-    public synchronized Collection<ODocument> loadByTitleO(String text, SupportedLanguages language, boolean codeList, OGraphDatabase database) throws Exception {
+    public synchronized Collection<ODocument> loadByTitleO(String text, SupportedLanguages language, boolean codeList) throws Exception {
         StringBuilder query = new StringBuilder("select ");
         if (codeList)
             query.append("distinct(system) as system ");
@@ -331,10 +244,10 @@ public class CodeListLoad extends OrientDao {
         Collection<ODocument> data = new LinkedList<>();
         for (String word : text.split("[^\\w%]+"))
             if (codeList)
-                for (ODocument id : (Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(query.toString()),word))
+                for (ODocument id : (Collection<ODocument>)getConnection().query(new OSQLSynchQuery<ODocument>(query.toString()),word))
                     data.add((ODocument)id.field("system"));
             else
-                data.addAll ((Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(query.toString()),word));
+                data.addAll ((Collection<ODocument>)getConnection().query(new OSQLSynchQuery<ODocument>(query.toString()),word));
         return data;
     }
 

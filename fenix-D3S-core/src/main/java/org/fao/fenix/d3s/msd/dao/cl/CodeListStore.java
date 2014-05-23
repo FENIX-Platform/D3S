@@ -28,89 +28,74 @@ public class CodeListStore extends OrientDao {
 
 
     //STORE CODE LIST
-    public void storeCodeList(CodeSystem cl) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
+    public ODocument storeCodeList(CodeSystem cl) throws Exception {
+        OGraphDatabase database = getConnection();
         try {
             database.declareIntent( new OIntentMassiveInsert() );
-            storeCodeList(cl, database);
+            if (cl.getSystem()==null)
+                cl.setSystem(createCodeSystemName());
+            ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion());
+            if (clO!=null)
+                throw new OIndexException("Found duplicated key");
+
+            clO = getConnection().createVertex("CSVersion");
+            clO.field("system", cl.getSystem());
+            clO.field("version", cl.getVersion());
+            clO.field("title", cl.getTitle());
+            clO.field("abstract", cl.getDescription());
+            clO.field("startDate", cl.getStartDate());
+            clO.field("endDate", cl.getEndDate());
+            clO.field("virtualDate", cl.getVirtualDate());
+            clO.field("sharingPolicy", cl.getSharingPolicy()!=null ? cl.getSharingPolicy().getCode() : null);
+            clO.field("levelsNumber", cl.getLevelsNumber());
+
+            //connected elements
+            Collection<ODocument> keywords = new ArrayList<ODocument>();
+            if (cl.getKeyWords()!=null)
+                for (String keyword : cl.getKeyWords())
+                    keywords.add(storeKeyword(keyword));
+            clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
+
+            if (cl.getSource()!=null)
+                clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource()));
+            if (cl.getProvider()!=null)
+                clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider()));
+
+            //code list
+            clO.save();
+            Map<String, ODocument> storedCodes = new HashMap<>();
+            Collection<ODocument> rootCodes = new ArrayList<>();
+            if (cl.getRootCodes()!=null)
+                for (Code code : cl.getRootCodes())
+                    rootCodes.add(storeCode(code, clO, null, true, storedCodes));
+            clO.field("rootCodes", rootCodes.size()>0 ? rootCodes : null, OType.LINKLIST);
+            clO.save();
+
+            //Code metadata
+            if (cl.getRegion()!=null)
+                clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode()));
+            if (cl.getCategory()!=null)
+                clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode()));
+
+            //Index
+            index.rebuildIndex(clO,false);
+
+            return clO.save();
         } finally {
-            if (database!=null) {
-                database.declareIntent(null);
-                database.close();
-            }
+            database.declareIntent(null);
         }
-    }
-    public void storeKeyword(String keyword) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            storeKeyword(keyword, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
+
     }
 
-    public ODocument storeCodeList(CodeSystem cl, OGraphDatabase database) throws Exception {
-        if (cl.getSystem()==null)
-            cl.setSystem(createCodeSystemName(database));
-        ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
-        if (clO!=null)
-            throw new OIndexException("Found duplicated key");
-
-        clO = database.createVertex("CSVersion");
-        clO.field("system", cl.getSystem());
-        clO.field("version", cl.getVersion());
-        clO.field("title", cl.getTitle());
-        clO.field("abstract", cl.getDescription());
-        clO.field("startDate", cl.getStartDate());
-        clO.field("endDate", cl.getEndDate());
-        clO.field("virtualDate", cl.getVirtualDate());
-        clO.field("sharingPolicy", cl.getSharingPolicy()!=null ? cl.getSharingPolicy().getCode() : null);
-        clO.field("levelsNumber", cl.getLevelsNumber());
-
-        //connected elements
-        Collection<ODocument> keywords = new ArrayList<ODocument>();
-        if (cl.getKeyWords()!=null)
-            for (String keyword : cl.getKeyWords())
-                keywords.add(storeKeyword(keyword, database));
-        clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
-
-        if (cl.getSource()!=null)
-            clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
-        if (cl.getProvider()!=null)
-            clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
-
-        //code list
-        clO.save();
-        Map<String, ODocument> storedCodes = new HashMap<>();
-        Collection<ODocument> rootCodes = new ArrayList<>();
-        if (cl.getRootCodes()!=null)
-            for (Code code : cl.getRootCodes())
-                rootCodes.add(storeCode(code, clO, null, true, storedCodes, database));
-        clO.field("rootCodes", rootCodes.size()>0 ? rootCodes : null, OType.LINKLIST);
-        clO.save();
-
-        //Code metadata
-        if (cl.getRegion()!=null)
-            clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
-        if (cl.getCategory()!=null)
-            clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
-
-        //Index
-        index.rebuildIndex(clO,false);
-
-        return clO.save();
+    public ODocument storeKeyword(String keyword) throws Exception {
+        ODocument cskeyword = loadDAO.loadKeywordO(keyword);
+        return cskeyword!=null ? cskeyword : getConnection().createVertex("CSKeyword").field("keyword", keyword).save();
     }
 
-    public ODocument storeKeyword(String keyword, OGraphDatabase database) throws Exception {
-        ODocument cskeyword = loadDAO.loadKeywordO(keyword, database);
-        return cskeyword!=null ? cskeyword : database.createVertex("CSKeyword").field("keyword", keyword).save();
-    }
-
-    private ODocument storeCode(Code code, ODocument system, ODocument parent, boolean storeChilds, Map<String,ODocument> storedCodes, OGraphDatabase database) throws Exception {
-        ODocument codeO = storedCodes!=null ? storedCodes.get(code.getCode()) : loadDAO.loadCodeO(system, code.getCode(), database);
+    private ODocument storeCode(Code code, ODocument system, ODocument parent, boolean storeChilds, Map<String,ODocument> storedCodes) throws Exception {
+        ODocument codeO = storedCodes!=null ? storedCodes.get(code.getCode()) : loadDAO.loadCodeO(system, code.getCode());
         if (codeO==null) {
-            storedCodes.put(code.getCode(), codeO = database.createVertex("CSCode"));
+            storedCodes.put(code.getCode(), codeO = getConnection().createVertex("CSCode"));
             codeO.field("code", code.getCode());
             codeO.field("level", code.getLevel());
             codeO.field("title", code.getTitle());
@@ -126,7 +111,7 @@ public class CodeListStore extends OrientDao {
                 Collection<ODocument> childs = new LinkedList<>();
                 if (code.getChilds()!=null)
                     for (Code child : code.getChilds())
-                        childs.add(storeCode(child, system, codeO, storeChilds, storedCodes, database));
+                        childs.add(storeCode(child, system, codeO, storeChilds, storedCodes));
                 codeO.field("childs", childs);
             }
 
@@ -159,17 +144,11 @@ public class CodeListStore extends OrientDao {
     /**************************************************************************************************/
     //UPDATE CODE LIST METADATA
 	public int updateCodeList(CodeSystem cl, boolean append) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return append ? appendCodeList(cl, database) : updateCodeList(cl, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		return append ? appendCodeList(cl) : updateCodeList(cl);
 	}
 	
-	public int updateCodeList(CodeSystem cl, OGraphDatabase database) throws Exception {
-		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
+	public int updateCodeList(CodeSystem cl) throws Exception {
+		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion());
 		if (clO==null)
 			return 0;
 
@@ -188,29 +167,29 @@ public class CodeListStore extends OrientDao {
             Collection<ODocument> keywords = new ArrayList<>(); //Nothing to delete about keywords
             if (cl.getKeyWords()!=null)
                 for (String keyword : cl.getKeyWords())
-                    keywords.add(storeKeyword(keyword, database).save());
+                    keywords.add(storeKeyword(keyword).save());
             clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
         }
 
 		if (clO.field("category")!=null)
 			((ODocument)clO.field("category")).delete();
 		if (cl.getCategory()!=null)
-			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
+			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode()));
 		else
 			clO.field("category", null, OType.LINK);
 
 		if (cl.getRegion()!=null)
-			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
+			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode()));
 		else
 			clO.field("region", null, OType.LINK);
 
 		if (cl.getSource()!=null)
-			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
+			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource()));
 		else
 			clO.field("source", null, OType.LINK);
 
 		if (cl.getProvider()!=null)
-			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
+			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider()));
 		else
 			clO.field("provider", null, OType.LINK);
 
@@ -221,8 +200,8 @@ public class CodeListStore extends OrientDao {
 	}
 
 
-	public int appendCodeList(CodeSystem cl, OGraphDatabase database) throws Exception {
-		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
+	public int appendCodeList(CodeSystem cl) throws Exception {
+		ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion());
 		if (clO==null)
 			return 0;
 
@@ -249,21 +228,21 @@ public class CodeListStore extends OrientDao {
 		if (cl.getKeyWords()!=null) {
 			Collection<ODocument> keywords = new ArrayList<ODocument>(); //Nothing to delete about keywords
 			for (String keyword : cl.getKeyWords())
-				keywords.add(storeKeyword(keyword, database).save());
+				keywords.add(storeKeyword(keyword).save());
 			clO.field("keywords", keywords.size()>0 ? keywords : null, OType.LINKLIST);
 		}
 
 		if (cl.getCategory()!=null)
-			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode(), database));
+			clO.field("category", loadDAO.loadCodeO(cl.getCategory().getSystemKey(), cl.getCategory().getSystemVersion(), cl.getCategory().getCode()));
 
 		if (cl.getRegion()!=null)
-			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode(), database));
+			clO.field("region", loadDAO.loadCodeO(cl.getRegion().getSystemKey(), cl.getRegion().getSystemVersion(), cl.getRegion().getCode()));
 
 		if (cl.getSource()!=null)
-			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource(), database));
+			clO.field("source", cmStoreDAO.storeContactIdentity(cl.getSource()));
 
 		if (cl.getProvider()!=null)
-			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider(), database));
+			clO.field("provider", cmStoreDAO.storeContactIdentity(cl.getProvider()));
 
         //Index
         index.rebuildIndex(clO.save(), false);
@@ -277,28 +256,18 @@ public class CodeListStore extends OrientDao {
     /**************************************************************************************************/
     //UPDATE CODE LIST STRUCTURE
     public int updateCodes(CodeSystem cl, boolean append) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            return updateCodes(cl, append, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-
-    public int updateCodes(CodeSystem cl, boolean append, OGraphDatabase database) throws Exception {
-        ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion(), database);
+        ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion());
         if (clO==null)
             return 0;
         else
-            return append ? appendCodes(clO, cl, database) : updateCodes(clO, cl, database);
+            return append ? appendCodes(clO, cl) : updateCodes(clO, cl);
     }
 
-    public int updateCodes(ODocument clO, CodeSystem cl, OGraphDatabase database) throws Exception {
+    public int updateCodes(ODocument clO, CodeSystem cl) throws Exception {
         //TODO update support will be added after codes delete revision
         throw new UnsupportedOperationException("Only append mode is supported.");
     }
-    public int appendCodes(ODocument clO, CodeSystem cl, OGraphDatabase database) throws Exception {
+    public int appendCodes(ODocument clO, CodeSystem cl) throws Exception {
         //Retrieve existing root codes level
         Set<ODocument> rootCodesO = DataUtils.toSet((Collection<ODocument>) clO.field("rootCodes"));
         //Retrieve all existing codes
@@ -310,7 +279,7 @@ public class CodeListStore extends OrientDao {
         Collection<Code> rootCodes = cl.getRootCodes();
         if (rootCodes!=null)
             for (Code code : rootCodes)
-                rootCodesO.add(updateCodesContent(clO, code, existingCodesO, visitedCodes, true, database));
+                rootCodesO.add(updateCodesContent(clO, code, existingCodesO, visitedCodes, true));
         clO.field("rootCodes",DataUtils.toList(rootCodesO)).save();
         //Update codes hierarchy
         int count = 0;
@@ -331,14 +300,14 @@ public class CodeListStore extends OrientDao {
                 }
     }
 
-    private ODocument updateCodesContent(ODocument clO, Code code, Map<String, ODocument> existingCodesO, Set<String> visited, boolean append, OGraphDatabase database) throws Exception {
+    private ODocument updateCodesContent(ODocument clO, Code code, Map<String, ODocument> existingCodesO, Set<String> visited, boolean append) throws Exception {
         if (visited.contains(code.getCode()))
             return existingCodesO.get(code.getCode());
         visited.add(code.getCode());
 
         ODocument codeO = existingCodesO.get(code.getCode());
         if (codeO==null)
-            existingCodesO.put(code.getCode(), codeO = storeCode(code, clO, null, false, existingCodesO, database));
+            existingCodesO.put(code.getCode(), codeO = storeCode(code, clO, null, false, existingCodesO));
         else if (append)
             appendToCode(codeO, code);
         else
@@ -347,7 +316,7 @@ public class CodeListStore extends OrientDao {
         Collection<Code> children = code.getChilds();
         if (children!=null)
             for (Code child : children)
-                updateCodesContent(clO, child, existingCodesO, visited, append, database);
+                updateCodesContent(clO, child, existingCodesO, visited, append);
 
         return codeO;
     }
@@ -386,27 +355,8 @@ public class CodeListStore extends OrientDao {
 
     /**************************************************************************************************/
 	//UPDATE SINGLE CODE
-	public int updateCode(Code code) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return updateCode(code, database)!=null ? 1 : 0;
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int appendToCode(Code code) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return appendToCode(code, database)!=null ? 1 : 0;
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-
-	public ODocument updateCode(Code code, OGraphDatabase database) throws Exception {
-		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database);
+	public ODocument updateCode(Code code) throws Exception {
+		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode());
 		if (codeO!=null) {
             updateCode(codeO, code);
             return codeO.save();
@@ -414,8 +364,8 @@ public class CodeListStore extends OrientDao {
             return null;
 	}
 
-	public ODocument appendToCode(Code code, OGraphDatabase database) throws Exception {
-		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode(), database);
+	public ODocument appendToCode(Code code) throws Exception {
+		ODocument codeO = loadDAO.loadCodeO(code.getSystemKey(), code.getSystemVersion(), code.getCode());
         if (codeO!=null) {
             appendToCode(codeO, code);
             return codeO.save();
@@ -475,50 +425,31 @@ public class CodeListStore extends OrientDao {
     /**************************************************************************************************/
 	//DELETE CODE LIST
 	public int deleteCodeList(String system, String version) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			int count = deleteCodeList(system, version, database);
-			return count;
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int deleteCodeList(String system, String version, OGraphDatabase database) throws Exception {
-		ODocument systemO = loadDAO.loadSystemO(system, version, database);
+		ODocument systemO = loadDAO.loadSystemO(system, version);
 		if (systemO==null)
 			return 0;
 		//Disconnect CodeList
-//		disconnectCodeList(systemO, database);
-//		dmStoreDAO.disconnectCodeList(systemO, database);
+//		disconnectCodeList(systemO);
+//		dmStoreDAO.disconnectCodeList(systemO);
 		//Delete CodeSystem
 		return deleteGraphInclude(systemO, new HashSet<String>(Arrays.asList(new String[]{"CSVersion","CSCode"})));
 	}
-	private void disconnectCodeList(ODocument systemO, OGraphDatabase database) throws Exception {
-		for (ODocument edge : loadLinkDAO.loadLinksFromCLO(systemO, database))
-			database.removeEdge(edge);
+	private void disconnectCodeList(ODocument systemO) throws Exception {
+		for (ODocument edge : loadLinkDAO.loadLinksFromCLO(systemO))
+			getConnection().removeEdge(edge);
 	}
 	//keyword
 	public int deleteKeyword(String keyword) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteKeyword(keyword, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int deleteKeyword(String keyword, OGraphDatabase database) throws Exception {
-		ODocument cskeyword = loadDAO.loadKeywordO(keyword, database);
+		ODocument cskeyword = loadDAO.loadKeywordO(keyword);
 		if (cskeyword==null)
 			return 0;
-		disconnectKeyword(cskeyword, database);
+		disconnectKeyword(cskeyword);
 		cskeyword.delete();
 		return 1;
 	}
 	@SuppressWarnings("unchecked")
-	private void disconnectKeyword(ODocument keywordO, OGraphDatabase database) throws Exception {
-		for (ODocument systemO : loadDAO.loadSystemByKeywordO(keywordO, database)) {
+	private void disconnectKeyword(ODocument keywordO) throws Exception {
+		for (ODocument systemO : loadDAO.loadSystemByKeywordO(keywordO)) {
 			Collection<ODocument> keywords = systemO.field("keywords");
 			keywords.remove(keywordO);
 			systemO.field("keywords", keywords, OType.LINKLIST);
@@ -532,7 +463,7 @@ public class CodeListStore extends OrientDao {
 
     /**************************************************************************************************/
 	//Utils
-	public String createCodeSystemName(OGraphDatabase database) {
+	public String createCodeSystemName() {
         return "_DynamicCodeSystem_"+new com.eaio.uuid.UUID().toString();
 	}
 

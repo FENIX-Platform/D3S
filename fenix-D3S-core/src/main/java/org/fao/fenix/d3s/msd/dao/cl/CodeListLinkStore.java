@@ -8,8 +8,6 @@ import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
-import org.fao.fenix.commons.msd.dto.cl.type.CSHierarchyType;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
@@ -26,21 +24,12 @@ public class CodeListLinkStore extends OrientDao {
 	//UPDATE
 	//conversion
 	public int updateCodeConversion(CodeConversion conversion) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return updateCodeConversion(conversion, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public int updateCodeConversion(CodeConversion conversion, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode(), database);
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCodeO(from, to, database);
+		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode());
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCodeO(from, to);
 		for (ODocument conversionO : conversions) {
 			((ODocument)conversionO.field("conversionRule")).delete();
-			conversionO.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
+			conversionO.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule()));
 		}
 		return conversions.size();
 	}
@@ -49,329 +38,194 @@ public class CodeListLinkStore extends OrientDao {
 	//DELETE
 	//relations
 	public int deleteCodeRelationship(CodeRelationship relation) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeRelationship(relation, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(relation.getFromCode().getSystemKey(), relation.getFromCode().getSystemVersion(), relation.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(relation.getToCode().getSystemKey(), relation.getToCode().getSystemVersion(), relation.getToCode().getCode());
+		return deleteCodeRelationship(from, to);
 	}
-	public int deleteCodeRelationship(CodeRelationship relation, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(relation.getFromCode().getSystemKey(), relation.getFromCode().getSystemVersion(), relation.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(relation.getToCode().getSystemKey(), relation.getToCode().getSystemVersion(), relation.getToCode().getCode(), database);
-		return deleteCodeRelationship(from, to, database);
-	}
-	public int deleteCodeRelationship(ODocument codeFromO, ODocument codeToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeToCodeO(codeFromO, codeToO, database);
+	public int deleteCodeRelationship(ODocument codeFromO, ODocument codeToO) throws Exception {
+		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeToCodeO(codeFromO, codeToO);
 		for (ODocument relation : relations)
-			database.removeEdge(relation);
+			getConnection().removeEdge(relation);
 		return relations.size();
 	}	
 	//conversions
 	public int deleteCodeConversion(CodeConversion conversion) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeConversion(conversion, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode());
+		return deleteCodeConversion(from, to);
 	}
-	public int deleteCodeConversion(CodeConversion conversion, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode(), database);
-		return deleteCodeConversion(from, to, database);
-	}
-	public int deleteCodeConversion(ODocument codeFromO, ODocument codeToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCodeO(codeFromO, codeToO, database);
+	public int deleteCodeConversion(ODocument codeFromO, ODocument codeToO) throws Exception {
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCodeO(codeFromO, codeToO);
 		for (ODocument conversion : conversions) {
 			((ODocument)conversion.field("conversionRule")).delete();
-			database.removeEdge(conversion);
+			getConnection().removeEdge(conversion);
 		}
 		return conversions.size();
 	}	
 	//propaedeutics
 	public int deleteCodePropaedeutics(CodePropaedeutic propaedeutic) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodePropaedeutics(propaedeutic, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(propaedeutic.getFromCode().getSystemKey(), propaedeutic.getFromCode().getSystemVersion(), propaedeutic.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(propaedeutic.getToCode().getSystemKey(), propaedeutic.getToCode().getSystemVersion(), propaedeutic.getToCode().getCode());
+		return deleteCodePropaedeutics(from, to);
 	}
-	public int deleteCodePropaedeutics(CodePropaedeutic propaedeutic, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(propaedeutic.getFromCode().getSystemKey(), propaedeutic.getFromCode().getSystemVersion(), propaedeutic.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(propaedeutic.getToCode().getSystemKey(), propaedeutic.getToCode().getSystemVersion(), propaedeutic.getToCode().getCode(), database);
-		return deleteCodePropaedeutics(from, to, database);
-	}
-	public int deleteCodePropaedeutics(ODocument codeFromO, ODocument codeToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeToCodeO(codeFromO, codeToO, database);
+	public int deleteCodePropaedeutics(ODocument codeFromO, ODocument codeToO) throws Exception {
+		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeToCodeO(codeFromO, codeToO);
 		for (ODocument propaedeutic : propaedeutics)
-			database.removeEdge(propaedeutic);
+			getConnection().removeEdge(propaedeutic);
 		return propaedeutics.size();
 	}	
 	
 	//DELETE FROM CODE
 	//relations
 	public int deleteCodeRelationshipFromCode(Code codeFrom) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeRelationshipFromCode(codeFrom, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode());
+		return deleteCodeRelationshipFromCode(from);
 	}
-	public int deleteCodeRelationshipFromCode(Code codeFrom, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode(), database);
-		return deleteCodeRelationshipFromCode(from, database);
-	}
-	public int deleteCodeRelationshipFromCode(ODocument codeFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeO(codeFromO, database);
+	public int deleteCodeRelationshipFromCode(ODocument codeFromO) throws Exception {
+		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeO(codeFromO);
 		for (ODocument relation : relations)
-			database.removeEdge(relation);
+			getConnection().removeEdge(relation);
 		return relations.size();
 	}	
 	//conversions
 	public int deleteCodeConversionFromCode(Code codeFrom) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeConversionFromCode(codeFrom, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode());
+ 		return deleteCodeConversionFromCode(from);
 	}
-	public int deleteCodeConversionFromCode(Code codeFrom, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode(), database);
- 		return deleteCodeConversionFromCode(from, database);
-	}
-	public int deleteCodeConversionFromCode(ODocument codeFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeO(codeFromO, database);
+	public int deleteCodeConversionFromCode(ODocument codeFromO) throws Exception {
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeO(codeFromO);
 		for (ODocument conversion : conversions) {
 			((ODocument)conversion.field("conversionRule")).delete();
-			database.removeEdge(conversion);
+			getConnection().removeEdge(conversion);
 		}
 		return conversions.size();
 	}	
 	//propaedeutics
 	public int deleteCodePropaedeuticsFromCode(Code codeFrom) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodePropaedeuticsFromCode(codeFrom, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode());
+		return deleteCodePropaedeuticsFromCode(from);
 	}
-	public int deleteCodePropaedeuticsFromCode(Code codeFrom, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(codeFrom.getSystemKey(), codeFrom.getSystemVersion(), codeFrom.getCode(), database);
-		return deleteCodePropaedeuticsFromCode(from, database);
-	}
-	public int deleteCodePropaedeuticsFromCode(ODocument codeFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeO(codeFromO, database);
+	public int deleteCodePropaedeuticsFromCode(ODocument codeFromO) throws Exception {
+		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeO(codeFromO);
 		for (ODocument propaedeutic : propaedeutics)
-			database.removeEdge(propaedeutic);
+			getConnection().removeEdge(propaedeutic);
 		return propaedeutics.size();
 	}	
 	
 	//DELETE FROM CL
 	//relations
 	public int deleteCodeRelationshipFromCL(CodeSystem system) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeRelationshipFromCL(system, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion());
+		return deleteCodeRelationshipFromCL(from);
 	}
-	public int deleteCodeRelationshipFromCL(CodeSystem system, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion(), database);
-		return deleteCodeRelationshipFromCL(from, database);
-	}
-	public int deleteCodeRelationshipFromCL(ODocument systemFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCLO(systemFromO, database);
+	public int deleteCodeRelationshipFromCL(ODocument systemFromO) throws Exception {
+		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCLO(systemFromO);
 		for (ODocument relation : relations)
-			database.removeEdge(relation);
+			getConnection().removeEdge(relation);
 		return relations.size();
 	}	
 	//conversions
 	public int deleteCodeConversionFromCL(CodeSystem system) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeConversionFromCL(system, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion());
+ 		return deleteCodeConversionFromCL(from);
 	}
-	public int deleteCodeConversionFromCL(CodeSystem system, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion(), database);
- 		return deleteCodeConversionFromCL(from, database);
-	}
-	public int deleteCodeConversionFromCL(ODocument systemFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCLO(systemFromO, database);
+	public int deleteCodeConversionFromCL(ODocument systemFromO) throws Exception {
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCLO(systemFromO);
 		for (ODocument conversion : conversions) {
 			((ODocument)conversion.field("conversionRule")).delete();
-			database.removeEdge(conversion);
+			getConnection().removeEdge(conversion);
 		}
 		return conversions.size();
 	}	
 	//propaedeutics
 	public int deleteCodePropaedeuticsFromCL(CodeSystem system) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodePropaedeuticsFromCL(system, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion());
+		return deleteCodePropaedeuticsFromCL(from);
 	}
-	public int deleteCodePropaedeuticsFromCL(CodeSystem system, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(system.getSystem(), system.getVersion(), database);
-		return deleteCodePropaedeuticsFromCL(from, database);
-	}
-	public int deleteCodePropaedeuticsFromCL(ODocument systemFromO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCLO(systemFromO, database);
+	public int deleteCodePropaedeuticsFromCL(ODocument systemFromO) throws Exception {
+		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCLO(systemFromO);
 		for (ODocument propaedeutic : propaedeutics)
-			database.removeEdge(propaedeutic);
+			getConnection().removeEdge(propaedeutic);
 		return propaedeutics.size();
 	}	
 	
 	//DELETE FROM CODE TO CL
 	//relations
 	public int deleteCodeRelationshipFromCodeToCL(Code fromCode, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeRelationshipFromCodeToCL(fromCode, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodeRelationshipFromCodeToCL(from, to);
 	}
-	public int deleteCodeRelationshipFromCodeToCL(Code fromCode, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodeRelationshipFromCodeToCL(from, to, database);
-	}
-	public int deleteCodeRelationshipFromCodeToCL(ODocument codeFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeToCLO(codeFromO, systemToO, database);
+	public int deleteCodeRelationshipFromCodeToCL(ODocument codeFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCodeToCLO(codeFromO, systemToO);
 		for (ODocument relation : relations)
-			database.removeEdge(relation);
+			getConnection().removeEdge(relation);
 		return relations.size();
 	}	
 	//conversions
 	public int deleteCodeConversionFromCodeToCL(Code fromCode, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeConversionFromCodeToCL(fromCode, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodeConversionFromCodeToCL(from, to);
 	}
-	public int deleteCodeConversionFromCodeToCL(Code fromCode, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodeConversionFromCodeToCL(from, to, database);
-	}
-	public int deleteCodeConversionFromCodeToCL(ODocument codeFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCLO(codeFromO, systemToO, database);
+	public int deleteCodeConversionFromCodeToCL(ODocument codeFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCodeToCLO(codeFromO, systemToO);
 		for (ODocument conversion : conversions) {
 			((ODocument)conversion.field("conversionRule")).delete();
-			database.removeEdge(conversion);
+			getConnection().removeEdge(conversion);
 		}
 		return conversions.size();
 	}	
 	//propaedeutics
 	public int deleteCodePropaedeuticsFromCodeToCL(Code fromCode, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodePropaedeuticsFromCodeToCL(fromCode, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodePropaedeuticsFromCodeToCL(from, to);
 	}
-	public int deleteCodePropaedeuticsFromCodeToCL(Code fromCode, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(fromCode.getSystemKey(), fromCode.getSystemVersion(), fromCode.getCode(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodePropaedeuticsFromCodeToCL(from, to, database);
-	}
-	public int deleteCodePropaedeuticsFromCodeToCL(ODocument codeFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeToCLO(codeFromO, systemToO, database);
+	public int deleteCodePropaedeuticsFromCodeToCL(ODocument codeFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCodeToCLO(codeFromO, systemToO);
 		for (ODocument propaedeutic : propaedeutics)
-			database.removeEdge(propaedeutic);
+			getConnection().removeEdge(propaedeutic);
 		return propaedeutics.size();
 	}	
 	
 	//DELETE FROM CL TO CL
 	//relations
 	public int deleteCodeRelationshipFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeRelationshipFromCLtoCL(fromSystem, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodeRelationshipFromCLtoCL(from, to);
 	}
-	public int deleteCodeRelationshipFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodeRelationshipFromCLtoCL(from, to, database);
-	}
-	public int deleteCodeRelationshipFromCLtoCL(ODocument systemFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCLtoCLO(systemFromO, systemToO, database);
+	public int deleteCodeRelationshipFromCLtoCL(ODocument systemFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> relations = clLinkLoadDAO.loadRelationshipsFromCLtoCLO(systemFromO, systemToO);
 		for (ODocument relation : relations)
-			database.removeEdge(relation);
+			getConnection().removeEdge(relation);
 		return relations.size();
 	}	
 	//conversions
 	public int deleteCodeConversionFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodeConversionFromCLtoCL(fromSystem, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodeConversionFromCLtoCL(from, to);
 	}
-	public int deleteCodeConversionFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodeConversionFromCLtoCL(from, to, database);
-	}
-	public int deleteCodeConversionFromCLtoCL(ODocument systemFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCLtoCLO(systemFromO, systemToO, database);
+	public int deleteCodeConversionFromCLtoCL(ODocument systemFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> conversions = clLinkLoadDAO.loadConversionsFromCLtoCLO(systemFromO, systemToO);
 		for (ODocument conversion : conversions) {
 			((ODocument)conversion.field("conversionRule")).delete();
-			database.removeEdge(conversion);
+			getConnection().removeEdge(conversion);
 		}
 		return conversions.size();
 	}	
 	//propaedeutics
 	public int deleteCodePropaedeuticsFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return deleteCodePropaedeuticsFromCLtoCL(fromSystem, toSystem, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion());
+		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion());
+		return deleteCodePropaedeuticsFromCLtoCL(from, to);
 	}
-	public int deleteCodePropaedeuticsFromCLtoCL(CodeSystem fromSystem, CodeSystem toSystem, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadSystemO(fromSystem.getSystem(), fromSystem.getVersion(), database);
-		ODocument to = clLoadDAO.loadSystemO(toSystem.getSystem(), toSystem.getVersion(), database);
-		return deleteCodePropaedeuticsFromCLtoCL(from, to, database);
-	}
-	public int deleteCodePropaedeuticsFromCLtoCL(ODocument systemFromO, ODocument systemToO, OGraphDatabase database) throws Exception {
-		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCLtoCLO(systemFromO, systemToO, database);
+	public int deleteCodePropaedeuticsFromCLtoCL(ODocument systemFromO, ODocument systemToO) throws Exception {
+		Collection<ODocument> propaedeutics = clLinkLoadDAO.loadPropaedeuticsFromCLtoCLO(systemFromO, systemToO);
 		for (ODocument propaedeutic : propaedeutics)
-			database.removeEdge(propaedeutic);
+			getConnection().removeEdge(propaedeutic);
 		return propaedeutics.size();
 	}	
 
@@ -380,102 +234,48 @@ public class CodeListLinkStore extends OrientDao {
 	//STORE
 	//relationship
 	public void storeCodeRelationship(Collection<CodeRelationship> relations) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodeRelationship(relations, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public void storeCodeRelationship(Collection<CodeRelationship> relations, OGraphDatabase database) throws Exception {
 		for (CodeRelationship relation : relations)
-			storeCodeRelationship(relation, database);
+			storeCodeRelationship(relation);
 	}
-	public void storeCodeRelationship(CodeRelationship relation) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodeRelationship(relation, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+	public ODocument storeCodeRelationship(CodeRelationship relation) throws Exception {
+		ODocument from = clLoadDAO.loadCodeO(relation.getFromCode().getSystemKey(), relation.getFromCode().getSystemVersion(), relation.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(relation.getToCode().getSystemKey(), relation.getToCode().getSystemVersion(), relation.getToCode().getCode());
+		return storeCodeRelationship(from, to, relation);
 	}
-	public ODocument storeCodeRelationship(CodeRelationship relation, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(relation.getFromCode().getSystemKey(), relation.getFromCode().getSystemVersion(), relation.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(relation.getToCode().getSystemKey(), relation.getToCode().getSystemVersion(), relation.getToCode().getCode(), database);
-		return storeCodeRelationship(from, to, relation, database);
-	}
-	public ODocument storeCodeRelationship(ODocument from, ODocument to, CodeRelationship relation, OGraphDatabase database) throws Exception {
-		ODocument rel = database.createEdge(from,to,"CSRelationship");
+	public ODocument storeCodeRelationship(ODocument from, ODocument to, CodeRelationship relation) throws Exception {
+		ODocument rel = getConnection().createEdge(from,to,"CSRelationship");
 		rel.field("type", relation.getType().getCode());
 		return rel.field(OGraphDatabase.LABEL, EdgesLabels.relation).save();
 	}
 	//conversion
 	public void storeCodeConversion(Collection<CodeConversion> conversions) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodeConversion(conversions, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public void storeCodeConversion(Collection<CodeConversion> conversions, OGraphDatabase database) throws Exception {
 		for (CodeConversion conversion : conversions)
-			storeCodeConversion(conversion, database);
+			storeCodeConversion(conversion);
 	}
-	public void storeCodeConversion(CodeConversion conversion) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodeConversion(conversion, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+	public ODocument storeCodeConversion(CodeConversion conversion) throws Exception {
+		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode());
+		return storeCodeConversion(from, to, conversion);
 	}
-	public ODocument storeCodeConversion(CodeConversion conversion, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(conversion.getFromCode().getSystemKey(), conversion.getFromCode().getSystemVersion(), conversion.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(conversion.getToCode().getSystemKey(), conversion.getToCode().getSystemVersion(), conversion.getToCode().getCode(), database);
-		return storeCodeConversion(from, to, conversion, database);
-	}
-	public ODocument storeCodeConversion(ODocument from, ODocument to, CodeConversion conversion, OGraphDatabase database) throws Exception {
-		ODocument conv = database.createEdge(from,to,"CSConversion");
-		conv.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule(), database));
+	public ODocument storeCodeConversion(ODocument from, ODocument to, CodeConversion conversion) throws Exception {
+		ODocument conv = getConnection().createEdge(from,to,"CSConversion");
+		conv.field("conversionRule",dsdStoreDAO.storeValueOperator(conversion.getConversionRule()));
 		return conv.field(OGraphDatabase.LABEL, EdgesLabels.conversion).save();
 	}
 	//propaedeutic
 	public void storeCodePropaedeutic(Collection<CodePropaedeutic> propaedeutics) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodePropaedeutic(propaedeutics, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public void storeCodePropaedeutic(Collection<CodePropaedeutic> propaedeutics, OGraphDatabase database) throws Exception {
 		for (CodePropaedeutic propaedeutic : propaedeutics)
-			storeCodePropaedeutic(propaedeutic, database);
+			storeCodePropaedeutic(propaedeutic);
 	}
-	public void storeCodePropaedeutic(CodePropaedeutic propaedeutic) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			storeCodePropaedeutic(propaedeutic, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+	public ODocument storeCodePropaedeutic(CodePropaedeutic propaedeutic) throws Exception {
+		ODocument from = clLoadDAO.loadCodeO(propaedeutic.getFromCode().getSystemKey(), propaedeutic.getFromCode().getSystemVersion(), propaedeutic.getFromCode().getCode());
+		ODocument to = clLoadDAO.loadCodeO(propaedeutic.getToCode().getSystemKey(), propaedeutic.getToCode().getSystemVersion(), propaedeutic.getToCode().getCode());
+		return storeCodePropaedeutic(from, to, propaedeutic);
 	}
-	public ODocument storeCodePropaedeutic(CodePropaedeutic propaedeutic, OGraphDatabase database) throws Exception {
-		ODocument from = clLoadDAO.loadCodeO(propaedeutic.getFromCode().getSystemKey(), propaedeutic.getFromCode().getSystemVersion(), propaedeutic.getFromCode().getCode(), database);
-		ODocument to = clLoadDAO.loadCodeO(propaedeutic.getToCode().getSystemKey(), propaedeutic.getToCode().getSystemVersion(), propaedeutic.getToCode().getCode(), database);
-		return storeCodePropaedeutic(from, to, propaedeutic, database);
-	}
-	public ODocument storeCodePropaedeutic(ODocument from, ODocument to, CodePropaedeutic propaedeutic, OGraphDatabase database) throws Exception {
-		ODocument propae = database.createEdge(from,to,"CSPropaedeutic");
+	public ODocument storeCodePropaedeutic(ODocument from, ODocument to, CodePropaedeutic propaedeutic) throws Exception {
+		ODocument propae = getConnection().createEdge(from,to,"CSPropaedeutic");
 		if (propaedeutic.getContextSystem()!=null)
-			propae.field("contextSystem",dsdLoadDAO.loadContextSystem(propaedeutic.getContextSystem().getName(), database));
+			propae.field("contextSystem",dsdLoadDAO.loadContextSystem(propaedeutic.getContextSystem().getName()));
 		return propae.field(OGraphDatabase.LABEL, EdgesLabels.propaedeutic).save();
 	}
 

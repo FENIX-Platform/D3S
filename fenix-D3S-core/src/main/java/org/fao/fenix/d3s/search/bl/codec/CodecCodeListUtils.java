@@ -30,12 +30,12 @@ public class CodecCodeListUtils {
 	public String toString(ODocument code) { return code.field("system.system")+"|"+code.field("system.version")+"|"+code.field("code"); }
 
 	@SuppressWarnings("unchecked")
-	public Map<String,Collection<ODocument>>[] getRelationsBetween(ODocument clFromO, ODocument clToO, OGraphDatabase database) throws Exception {
+	public Map<String,Collection<ODocument>>[] getRelationsBetween(ODocument clFromO, ODocument clToO) throws Exception {
 		Map<String,Collection<ODocument>> ooRelations = new HashMap<String, Collection<ODocument>>();
 		Map<String,Collection<ODocument>> omRelations = new HashMap<String, Collection<ODocument>>();
 		Map<String,Collection<ODocument>> moRelations = new HashMap<String, Collection<ODocument>>();
 		Collection<ODocument> relationList = null;
-		for (ODocument relation : clLinkDao.loadRelationshipsFromCLtoCLO(clFromO, clToO, database)) {
+		for (ODocument relation : clLinkDao.loadRelationshipsFromCLtoCLO(clFromO, clToO)) {
 			String sourceCodeKey = toString((ODocument)relation.field("out"));
 			switch(CodeRelationshipType.getByCode((String)relation.field("type"))) {
 			case oneToOne:

@@ -40,24 +40,16 @@ public abstract class SearchOperation extends SearchStep {
 	
 	
 	public Response search (Filter filter) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            SearchFlow flowData = getFlow();
-            //Cache database instance
-            flowData.setMsdDatabase(database);
-            //Cache initial business parameters
-            RequiredPlugin[] businessPlugins = filter.getBusiness();
-            flowData.setBusinessParameters(businessPlugins!=null && businessPlugins.length>0 ? businessPlugins[0].getProperties() : null);
-            decodeOutputParameters(flowData);
-            //Store filter codes link
-            loadFilterCodes(filter.getFilter(),flowData,database);
+        SearchFlow flowData = getFlow();
+        //Cache initial business parameters
+        RequiredPlugin[] businessPlugins = filter.getBusiness();
+        flowData.setBusinessParameters(businessPlugins!=null && businessPlugins.length>0 ? businessPlugins[0].getProperties() : null);
+        decodeOutputParameters(flowData);
+        //Store filter codes link
+        loadFilterCodes(filter.getFilter(),flowData);
 
-            //Execute search
-            return searchFlow(filter.getFilter());
-        } finally {
-            if (database!=null)
-                database.close();
-        }
+        //Execute search
+        return searchFlow(filter.getFilter());
     }
 
     protected abstract Response searchFlow (ResourceFilter filter) throws Exception;
@@ -74,17 +66,17 @@ public abstract class SearchOperation extends SearchStep {
     }
 
     //Load filter codes
-    private void loadFilterCodes(ResourceFilter filter, SearchFlow flowData, OGraphDatabase database) throws Exception {
+    private void loadFilterCodes(ResourceFilter filter, SearchFlow flowData) throws Exception {
         for (Collection<ColumnValueFilter> filterValues : filter.getMetadata().values())
-            loadFilterCodes(filterValues,flowData,database);
+            loadFilterCodes(filterValues,flowData);
         for (Collection<ColumnValueFilter> filterValues : filter.getData().values())
-            loadFilterCodes(filterValues,flowData,database);
+            loadFilterCodes(filterValues,flowData);
     }
-    private void loadFilterCodes(Collection<ColumnValueFilter> filterValues, SearchFlow flowData, OGraphDatabase database) throws Exception {
+    private void loadFilterCodes(Collection<ColumnValueFilter> filterValues, SearchFlow flowData) throws Exception {
         for (ColumnValueFilter filterValue : filterValues)
             if (filterValue.getType()== ValueFilterType.code) {
                 Code code = filterValue.getCode();
-                ODocument codeO = clDao.loadCodeO(code.getSystemKey(),code.getSystemVersion(),code.getCode(),database);
+                ODocument codeO = clDao.loadCodeO(code.getSystemKey(),code.getSystemVersion(),code.getCode());
                 if (codeO==null)
                     throw new Exception("Search filter contains unknown code: "+code);
                 flowData.addLoadedCode(code,codeO);
@@ -212,12 +204,11 @@ public abstract class SearchOperation extends SearchStep {
         dm.setDsd(dsd);
 
         //Define structure
-        OGraphDatabase database = getFlow().getMsdDatabase();
         if (source.structure != null) {
             for (int i=0; i<source.columnsNumber; i++) {
                 if (i!=source.valueIndex)
                     source.structure[i].setValues(distinct[i]);
-                DSDDimension dimension = dsdDao.loadDimension(source.structure[i].getColumnId(), database);
+                DSDDimension dimension = dsdDao.loadDimension(source.structure[i].getColumnId());
                 source.structure[i].setDimension(dimension);
                 source.structure[i].setTitle(dimension.getTitle());
             }

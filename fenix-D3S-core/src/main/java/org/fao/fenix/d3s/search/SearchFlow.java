@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.commons.msd.dto.cl.Code;
@@ -13,14 +12,10 @@ import org.fao.fenix.d3s.search.dto.OutputParameters;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-import javax.inject.Inject;
 
 public class SearchFlow {
 
-//    @Inject private CodeListLoad clLoadDao;
-
     private long pid;
-    private OGraphDatabase msdDatabase;
     private Collection<ODocument> involvedDatasets;
 	private Map<ODocument, ResourceFilter> encodedFilters = new HashMap<ODocument, ResourceFilter>();
 	private Map<ODocument,Map<String,ODocument>> columnsByDimension = new HashMap<ODocument, Map<String,ODocument>>();
@@ -80,14 +75,6 @@ public class SearchFlow {
         return loadedCodes;
     }
 
-    public OGraphDatabase getMsdDatabase() {
-        return msdDatabase;
-    }
-
-    public void setMsdDatabase(OGraphDatabase msdDatabase) {
-        this.msdDatabase = msdDatabase;
-    }
-
     public Map<CodeSystem, ODocument> getLoadedSystems() {
         return loadedSystems;
     }
@@ -128,7 +115,7 @@ public class SearchFlow {
     public ODocument getLoadedCode(Code code, CodeListLoad clLoadDao) throws Exception {
         ODocument codeO = loadedCodes.get(code);
         if (codeO == null)
-            loadedCodes.put(code,codeO=clLoadDao.loadCodeO(getLoadedSystem(code.getSystemKey(),code.getSystemVersion(), clLoadDao),code.getCode(),getMsdDatabase()));
+            loadedCodes.put(code,codeO=clLoadDao.loadCodeO(getLoadedSystem(code.getSystemKey(),code.getSystemVersion(), clLoadDao),code.getCode()));
         return codeO;
     }
     public ODocument getLoadedCode(String system, String version, String code, CodeListLoad clLoadDao) throws Exception {
@@ -137,7 +124,7 @@ public class SearchFlow {
     public ODocument getLoadedSystem(CodeSystem system, CodeListLoad clLoadDao) throws Exception {
         ODocument systemO = loadedCodes.get(system);
         if (systemO == null)
-            loadedSystems.put(system, systemO = clLoadDao.loadSystemO(system.getSystem(), system.getVersion(), getMsdDatabase()));
+            loadedSystems.put(system, systemO = clLoadDao.loadSystemO(system.getSystem(), system.getVersion()));
         return systemO;
     }
     public ODocument getLoadedSystem(String system, String version, CodeListLoad clLoadDao) throws Exception {

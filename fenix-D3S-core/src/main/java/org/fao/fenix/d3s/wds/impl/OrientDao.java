@@ -3,25 +3,76 @@ package org.fao.fenix.d3s.wds.impl;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.d3s.wds.Dao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 
+import javax.inject.Inject;
 import java.util.*;
 
 
-public abstract class OrientDao extends Dao {
+public abstract class OrientDao extends Dao implements Runnable {
+    @Inject OrientServer orientServer;
 
-    @SuppressWarnings("unchecked")
-	protected OGraphDatabase getDataDatabase(ODocument datasource) {
-        Map<String,String> reference = (Map<String,String>)datasource.field("reference");
-        return OrientServer.getDatabase(reference.get("url"),reference.get("usr"),reference.get("psw"));
-        //return OrientServer.getDatabase("remote:localhost:2425/CountrySTAT_1.0",reference.get("usr"),reference.get("psw"));
+    //ASYNCHRONOUS LOADING MANAGEMENT
+
+    private enum DaoAction {load, store};
+    private DaoAction dataSourceAction;
+    private Exception daoError;
+    private String dataSourceURL,dataSourceUSR,dataSourcePSW;
+    private Collection<Map<String,Object>> dataSourceRowData;
+    private OSQLSynchQuery<ODocument> dataSourceQuery;
+    private Collection<Object> dataSourceParameters;
+
+    protected Collection<Map<String,Object>> loadAsynch(ODocument dataset, OSQLSynchQuery<ODocument> query, Collection<Object> parameters) throws Exception {
+        Map<String,String> reference = dataset.field("dsd.datasource.reference");
+        dataSourceURL = reference.get("url");
+        dataSourceUSR = reference.get("usr");
+        dataSourcePSW = reference.get("psw");
+
+        this.dataSourceAction = DaoAction.load;
+        dataSourceRowData = new LinkedList<>();
+        dataSourceQuery = query;
+        dataSourceParameters = parameters;
+
+        Thread daoThread = new Thread(this);
+        daoThread.start();
+        daoThread.join();
+
+        if (daoError!=null)
+            throw daoError;
+
+        return dataSourceRowData;
     }
 
+    @Override
+    public void run() {
+        OGraphDatabase connection = null;
+        try {
+            connection = orientServer.getDatabase(dataSourceURL,dataSourceUSR,dataSourcePSW);
+
+            if (dataSourceAction==DaoAction.load) {
+                Collection<ODocument> dataO = (Collection<ODocument>)connection.query(dataSourceQuery,dataSourceParameters.toArray());
+                for (ODocument rowO : dataO)
+                    dataSourceRowData.add (processRow(rowO,connection));
+            } else {
+                daoError = new UnsupportedOperationException();
+            }
+
+        } catch (Exception ex) {
+            daoError = ex;
+        } finally {
+            if (connection!=null)
+                connection.close();
+        }
+    }
+
+    protected abstract Map<String,Object> processRow(ODocument rowO, OGraphDatabase connection) throws Exception;
+
+    //UTILS
 
     //Create data iterable
     protected Iterable<Object[]> createRowIterable(ODocument metadata, final Iterable<Map<String,Object>> data) throws Exception {
@@ -30,7 +81,6 @@ public abstract class OrientDao extends Dao {
         final String[] columnsID = new String[size];
         final Object[] rowTemplate = new Object[size];
 
-        OGraphDatabase database = getFlow().getMsdDatabase();
         int i=0;
         for (ODocument columnO : columnsO) {
             String virtual = columnO.field("virtualColumn");
@@ -40,7 +90,7 @@ public abstract class OrientDao extends Dao {
                     if (values==null || values.size()!=1)
                         throw new Exception("Column '"+columnO.field("column")+"' into dataset '"+metadata.field("uid")+"' has an INTERNAL virtual column whit more than one or no values");
                     Object value = values.iterator().next();
-                    value = value instanceof ORID ? org.fao.fenix.d3s.server.tools.orient.OrientDao.getDocument((ORID) value, database) : value;
+                    value = value instanceof ORID ? getConnection().load((ORID) value) : value;
                     rowTemplate[i] = value!=null && value instanceof ODocument ? ((ODocument)value).field("code") : value;
                 } else
                     throw new UnsupportedOperationException("External virtual column is unsupported yet");

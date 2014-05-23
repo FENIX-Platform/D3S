@@ -1,93 +1,105 @@
 package org.fao.fenix.d3s.server.init;
 
-import java.io.*;
-import java.net.URL;
-import java.util.Date;
-import java.util.Map;
 
-import org.fao.fenix.d3s.search.services.impl.SearchOperation;
 import org.fao.fenix.d3s.search.SearchStep;
+import org.fao.fenix.d3s.search.services.impl.SearchOperation;
 import org.fao.fenix.d3s.server.tools.Properties;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.tools.rest.Server;
+import org.glassfish.embeddable.GlassFishException;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Collections;
+
+@WebListener
+public class MainController implements ServletContextListener {
+    @Inject private OrientServer orientClient;
 
 
-public class MainController {
+    //STANDALONE STARTUP
+    public static void main(String[] args) throws Exception {
+        String operation = args!=null && args.length>0 ? args[0] : null;
 
-	//INIT PARAMETERS
-	private static File customPropertiesFile = new File("config/mainConfig.properties");
-	private static Properties properties;
-	public static Properties getInitParameters() throws Exception {
-		if (properties==null) {
-			properties = new Properties();
-			properties.load(OrientServer.class.getResourceAsStream("/org/fao/fenix/config/mainConfig.properties"));
-			if (customPropertiesFile.exists() && customPropertiesFile.isFile() && customPropertiesFile.canRead())
-				properties.load(new FileInputStream(customPropertiesFile));
-		}
-		return properties;
-	}
-	public static void setInitParameters(Map<String,String> parameters) throws Exception {
-		Properties properties = getInitParameters();
-		if (parameters!=null)
-			properties.putAll(parameters);
-		properties.store(new FileOutputStream(customPropertiesFile, false), String.format("Updated on %tD", new Date()));
-	}
-	
-	//STARTUP SEQUENCE
-	public static void initModules() throws Exception {
-        Properties parameters = getInitParameters();
-
-        Server.init(parameters);
-		OrientServer.init(parameters);
-		SearchStep.init(parameters);
-		SearchOperation.init(parameters);
-    }
-	public static void startupModules() throws Exception {
-        Server.start(); //TODO
-        OrientServer.startServer();
-	}
-
-    public static void startupOperations() {
-        //e.g. update metadata dynamic index structure
-    }
-	
-	
-	//STANDALONE STARTUP
-	public static void main(String[] args) throws Exception {
-		String operation = args!=null && args.length>0 ? args[0] : null;
-		
-		if (operation==null) {
-            initModules();
-			startupModules();
-            startupOperations();
-			System.out.println("\n\nServer started succesfully.");
-		} else if (operation.equals("stop")) {
+        if (operation==null) {
+            Server.init(getInitParameters());
+            Server.start();
+            System.out.println("\n\nServer started succesfully.");
+        } else if (operation.equals("stop")) {
             URL stopURL = new URL("http://localhost:"+getInitParameters().getProperty("rest.server.port","7777")+"/shutdown");
-			try {
+            try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(stopURL.openConnection().getInputStream()));
                 System.out.println("Stopping D3S server:");
                 for (String line = in.readLine(); line!=null; line = in.readLine())
                     System.out.println(line);
-			} catch (Exception ex) {
-				System.err.println("Stopping server error: "+ex.getMessage());
-			}
-		} else {
-			initModules();
-			if ("console".equalsIgnoreCase(operation)) {
-				if (args.length==2)
-					OrientServer.startConsole(args[1]);
-				else
-					OrientServer.startConsole();
-			}
-		}
-			
-	}
-	
-	public static void shutdownModules() throws Exception {
-		OrientServer.stopServer();
+            } catch (Exception ex) {
+                System.err.println("Stopping server error: "+ex.getMessage());
+            }
+        }
 
+    }
+
+
+    //WEB CONTEXT INITIALIZATION
+
+    @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        //Append Web context parameters
+        ServletContext context = servletContextEvent.getServletContext();
+        for (Object key : Collections.list(context.getInitParameterNames()))
+            initParameters.setProperty((String)key, context.getInitParameter((String)key));
+
+        try {
+            //Init modules
+            SearchStep.init(initParameters);
+            SearchOperation.init(initParameters);
+            orientClient.init(initParameters);
+            //Startup modules
+            orientClient.startServer();
+        } catch (Exception e) {
+            try {
+                e.printStackTrace();
+                Server.stop();
+            } catch (GlassFishException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        initParameters.clear();
+    }
+
+
+    //SHUTDOWN MANAGEMENT
+    public void shutdown() throws Exception {
+        orientClient.stopServer();
         Server.stop();
-	}
+    }
 
 
+
+    //Utils
+    private static File customPropertiesFile = new File("config/mainConfig.properties");
+    private static Properties initParameters;
+    public static Properties getInitParameters() throws Exception {
+        if (initParameters ==null) {
+            initParameters = new org.fao.fenix.d3s.server.tools.Properties();
+            initParameters.load(OrientServer.class.getResourceAsStream("/org/fao/fenix/config/mainConfig.properties"));
+            if (customPropertiesFile.exists() && customPropertiesFile.isFile() && customPropertiesFile.canRead())
+                initParameters.load(new FileInputStream(customPropertiesFile));
+        }
+        return initParameters;
+    }
+    public String getInitParameter(String key) { return initParameters.getProperty(key); }
 }

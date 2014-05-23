@@ -18,36 +18,26 @@ public class CountryStatDAO extends OrientDao {
     @Override
     @SuppressWarnings("unchecked")
 	public void load(ResourceFilter filter, ODocument dataset) throws Exception {
-        OGraphDatabase database = null;
         Collection<Map<String,Object>> rowData = new LinkedList<Map<String, Object>>();
         //Load data
-        try {
-            //Load data (switch database to CountrySTAT Orient database)
-            ODatabaseRecordThreadLocal.INSTANCE.set( database = getDataDatabase((ODocument)dataset.field("dsd.datasource")) );
-            Collection<Object> parameters = new LinkedList<Object>();
-            OSQLSynchQuery<ODocument> query = new OSQLSynchQuery<ODocument>(createQuery(filter,parameters,dataset));
-            Collection<ODocument> dataO = (Collection<ODocument>)database.query(query,parameters.toArray());
-            //Prepare data for output
-            Map<String,Object> row;
-            for (ODocument rowO : dataO) {
-                rowData.add(row = new LinkedHashMap<String, Object>());
-                for (Iterator<Map.Entry<String,Object>> i=rowO.iterator(); i.hasNext();) {
-                    Map.Entry<String,Object> field = i.next();
-                    Object value = field.getValue();
-                    if (value instanceof Collection)
-                        value = ((Collection)value).isEmpty() ? null : ((Collection)value).iterator().next();
-                    row.put(field.getKey(), value!=null && value instanceof ODocument ? ((ODocument)value).field("code") : value);
-                }
-            }
-        } finally {
-            if (database!=null)
-                database.close();
-            //Restore MDS database as the default one
-            ODatabaseRecordThreadLocal.INSTANCE.set( getFlow().getMsdDatabase() );
-        }
+        Collection<Object> parameters = new LinkedList<>();
+        OSQLSynchQuery<ODocument> query = new OSQLSynchQuery<>(createQuery(filter,parameters,dataset));
         //Return result
-        data = createRowIterable(dataset, rowData);
+        data = createRowIterable(dataset, loadAsynch(dataset, query, parameters));
 	}
+
+    @Override
+    protected Map<String, Object> processRow(ODocument rowO, OGraphDatabase connection) throws Exception {
+        Map<String,Object> row = new LinkedHashMap<>();
+        for (Iterator<Map.Entry<String,Object>> i=rowO.iterator(); i.hasNext();) {
+            Map.Entry<String,Object> field = i.next();
+            Object value = field.getValue();
+            if (value instanceof Collection)
+                value = ((Collection)value).isEmpty() ? null : ((Collection)value).iterator().next();
+            row.put(field.getKey(), value!=null && value instanceof ODocument ? ((ODocument)value).field("code") : value);
+        }
+        return row;
+    }
 
 	@Override
 	public void store(Iterable<Object[]> data, ODocument dataset) throws Exception {

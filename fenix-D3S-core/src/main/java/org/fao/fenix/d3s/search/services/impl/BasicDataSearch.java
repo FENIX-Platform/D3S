@@ -38,9 +38,8 @@ public class BasicDataSearch extends SearchOperation {
         Cache cacheL2 = cdi.getBean(RamCache.class);
         try { cacheL2.init("search.basic.cache.L2."); } catch (Exception e) { }
 
-        OGraphDatabase database = getFlow().getMsdDatabase();
         //Dataset filtering
-        Collection<ODocument> datasets = metadataSearch.search(filter,database);
+        Collection<ODocument> datasets = metadataSearch.search(filter);
         ODocument masterDataset = datasets!=null && datasets.size()>0 ? datasets.iterator().next() : null;
         if (masterDataset==null)
             return null;

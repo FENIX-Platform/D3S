@@ -11,7 +11,7 @@ import org.fao.fenix.d3s.server.tools.rest.CDIUtils;
 import javax.inject.Inject;
 
 public abstract class Operator extends SearchStep {
-    @Inject private CDIUtils cdi;
+    //@Inject private CDIUtils cdi;
 
     protected Map<String,Integer> columnParametersIndex = new HashMap<String, Integer>();
     protected Map<String,Object> aggregationParametersValue = new HashMap<String, Object>();

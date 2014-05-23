@@ -6,22 +6,16 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
-import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.commons.msd.dto.common.Contact;
 import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
 import org.fao.fenix.commons.msd.dto.common.Link;
 import org.fao.fenix.commons.msd.dto.common.Publication;
-import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.commons.msd.dto.common.type.ContactType;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-import javax.inject.Inject;
-
 public class CommonsConverter {
-	//private @Inject CodeListConverter clConverter;
 
 	//Identity conversion
 	public Collection<ContactIdentity> toContactIdentity (Collection<ODocument> identitiesO) {

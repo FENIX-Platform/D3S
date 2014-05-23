@@ -16,7 +16,6 @@ import org.fao.fenix.commons.msd.dto.dm.DMDataSource;
 import org.fao.fenix.commons.msd.dto.dm.DMMeta;
 import org.fao.fenix.commons.utils.JSONUtils;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
 import javax.inject.Inject;
@@ -184,7 +183,7 @@ public class DMConverter {
 
 
     @SuppressWarnings("unchecked")
-    public DMMeta toMetadataStructure (ODocument mmO, OGraphDatabase database, Boolean all) throws Exception {
+    public DMMeta toMetadataStructure (ODocument mmO, Boolean all) throws Exception {
         //Convert to map
         DMMeta mm = new DMMeta();
         mm.putAll(JSONUtils.toMap(mmO.toJSON()));

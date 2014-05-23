@@ -1,9 +1,6 @@
 package org.fao.fenix.d3s.msd.dao.common;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
 import org.fao.fenix.commons.msd.dto.common.Publication;
@@ -25,17 +22,8 @@ public class CommonsLoad extends OrientDao {
     private static OSQLSynchQuery<ODocument> queryLoadPublicationById = new OSQLSynchQuery<ODocument>("select from CMPublication where @rid = ?");
 
 	//Identity standard load
-	public Collection<ContactIdentity> loadContactIdentities(String institution, String department, String name, String surname, String context) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadContactIdentities(institution, department, name, surname, context, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<ContactIdentity> loadContactIdentities (String institution, String department, String name, String surname, String context, OGraphDatabase database) throws Exception {
-		Collection<ODocument> identitiesO = loadContactIdentitiesO(institution, department, name, surname, context, database);
+	public Collection<ContactIdentity> loadContactIdentities (String institution, String department, String name, String surname, String context) throws Exception {
+		Collection<ODocument> identitiesO = loadContactIdentitiesO(institution, department, name, surname, context);
 		Collection<ContactIdentity> identities = new LinkedList<ContactIdentity>();
 		if (identitiesO!=null)
 			for (ODocument identityO : identitiesO)
@@ -43,7 +31,7 @@ public class CommonsLoad extends OrientDao {
 		return identities;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadContactIdentitiesO(String institution, String department, String name, String surname, String context, OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadContactIdentitiesO(String institution, String department, String name, String surname, String context) throws Exception {
         StringBuilder queryBuffer = new StringBuilder();
         Collection<String> paramsBuffer = new LinkedList<String>();
         if (context!=null && !context.trim().equals("")) {
@@ -68,44 +56,26 @@ public class CommonsLoad extends OrientDao {
         }
 
         if (paramsBuffer.size()>0)
-            return (Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>("select from CMContactIdentity where "+queryBuffer.substring(4)), paramsBuffer.toArray());
+            return (Collection<ODocument>)getConnection().query(new OSQLSynchQuery<ODocument>("select from CMContactIdentity where " + queryBuffer.substring(4)), paramsBuffer.toArray());
         else
             return new LinkedList<ODocument>();
 	}
 	
 	//Identity load by ID
-	public ContactIdentity loadContactIdentity(String id) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadContactIdentity(id, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public ContactIdentity loadContactIdentity (String id, OGraphDatabase database) throws Exception {
-		ODocument identityO = loadContactIdentityO(id, database);
+	public ContactIdentity loadContactIdentity (String id) throws Exception {
+		ODocument identityO = loadContactIdentityO(id);
 		return identityO!=null ? converter.toContactIdentity(identityO) : null;
 	}
-	public synchronized ODocument loadContactIdentityO(String id, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadContactIdentityO(String id) throws Exception {
 		queryLoadIdentityById.reset();
 		queryLoadIdentityById.resetPagination();
-		List<ODocument> result = database.query(queryLoadIdentityById, toRID(id));
+		List<ODocument> result = getConnection().query(queryLoadIdentityById, toRID(id));
 		return result.size()==1 ? result.get(0) : null;
 	}
 	
 	//Identity fulltext load
-	public Collection<ContactIdentity> loadContactIdentitiesFulltext(String text) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadContactIdentitiesFulltext (text, database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<ContactIdentity> loadContactIdentitiesFulltext (String text, OGraphDatabase database) throws Exception {
-		Collection<ODocument> identitiesO = loadContactIdentitiesFulltextO(text, database);
+	public Collection<ContactIdentity> loadContactIdentitiesFulltext (String text) throws Exception {
+		Collection<ODocument> identitiesO = loadContactIdentitiesFulltextO(text);
 		Collection<ContactIdentity> identities = new LinkedList<ContactIdentity>();
 		if (identitiesO!=null)
 			for (ODocument identityO : identitiesO)
@@ -113,7 +83,7 @@ public class CommonsLoad extends OrientDao {
 		return identities;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadContactIdentitiesFulltextO(String text, OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadContactIdentitiesFulltextO(String text) throws Exception {
         String[] wordsBuffer = text!=null ? text.split(" ") : null;
         if (wordsBuffer!=null && wordsBuffer.length>0) {
             StringBuilder queryBuffer = new StringBuilder("select from CMContactIdentity where ");
@@ -123,30 +93,40 @@ public class CommonsLoad extends OrientDao {
                 if (i<wordsBuffer.length-1)
                     queryBuffer.append(" OR");
             }
-            return (Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(queryBuffer.toString()), (Object[])wordsBuffer);
+            return (Collection<ODocument>)getConnection().query(new OSQLSynchQuery<ODocument>(queryBuffer.toString()), (Object[]) wordsBuffer);
         } else
             return new LinkedList<ODocument>();
 	}
 	
 	//Publication by ID
-    public Publication loadPublication(String id) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            return loadPublication(id, database);
-        } finally {
-            if (database!=null)
-                database.close();
-        }
-    }
-    public Publication loadPublication (String id, OGraphDatabase database) throws Exception {
-        ODocument publicationO = loadPublicationO(id, database);
+    public Publication loadPublication (String id) throws Exception {
+        ODocument publicationO = loadPublicationO(id);
         return publicationO!=null ? converter.toPublication(publicationO) : null;
     }
-    public synchronized ODocument loadPublicationO(String id, OGraphDatabase database) throws Exception {
+    public synchronized ODocument loadPublicationO(String id) throws Exception {
         queryLoadPublicationById.reset();
         queryLoadPublicationById.resetPagination();
-        List<ODocument> result = database.query(queryLoadPublicationById, toRID(id));
+        List<ODocument> result = getConnection().query(queryLoadPublicationById, toRID(id));
         return result.size()==1 ? result.get(0) : null;
+    }
+
+
+    //SYNCHRO
+    public Date lastUpdate(String key) {
+        List<ODocument> syncDataList = getConnection().query(new OSQLSynchQuery<ODocument>("SELECT FROM Synchro"));
+        ODocument syncData = syncDataList.size()>0 ? syncDataList.iterator().next() : null;
+        return syncData!=null ? (Date)syncData.field(key) : null;
+    }
+
+    public void lastUpdate(String key, Date value) {
+        OGraphDatabase database = getConnection();
+        List<ODocument> syncDataList =  database.query(new OSQLSynchQuery<ODocument>("SELECT FROM Synchro"));
+        ODocument syncData = syncDataList.size()>0 ? syncDataList.iterator().next() : null;
+        if (syncData==null)
+            syncData = new ODocument("Synchro");
+
+        syncData.field(key,value);
+        database.save(syncData);
     }
 
 
@@ -171,10 +151,10 @@ public class CommonsLoad extends OrientDao {
         };
 	}
     public synchronized Iterable<ODocument> loadContactIdentitiesProducerO() throws Exception {
-        return browseClass("CMContactIdentity", OrientDatabase.msd);
+        return browseClass("CMContactIdentity");
     }
     public long countContactIdentities() throws Exception {
-        return countClass("CMContactIdentity", OrientDatabase.msd);
+        return countClass("CMContactIdentity");
     }
 
 

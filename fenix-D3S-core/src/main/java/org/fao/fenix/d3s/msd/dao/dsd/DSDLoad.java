@@ -8,10 +8,8 @@ import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
-import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 
@@ -34,121 +32,94 @@ public class DSDLoad extends OrientDao {
 	
 	//Context system
 	public Collection<DSDContextSystem> loadContextSystem() throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadContextSystem(database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<DSDContextSystem> loadContextSystem(OGraphDatabase database) throws Exception {
-		Collection<DSDContextSystem> result = new LinkedList<DSDContextSystem>();
-		for (ODocument contextO : loadContextSystemO(database))
+		Collection<DSDContextSystem> result = new LinkedList<>();
+		for (ODocument contextO : loadContextSystemO())
 			result.add(cmConverter.toContext(contextO));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadContextSystemO(OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadContextSystemO() throws Exception {
 		queryLoadAllContextSystem.reset();
 		queryLoadAllContextSystem.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadAllContextSystem);
+		return (Collection<ODocument>)getConnection().query(queryLoadAllContextSystem);
 	}
-	public synchronized ODocument loadContextSystem(String contextSystem, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadContextSystem(String contextSystem) throws Exception {
 		queryLoadContextSystem.reset();
 		queryLoadContextSystem.resetPagination();
-		List<ODocument> result = database.query(queryLoadContextSystem,contextSystem);
+		List<ODocument> result = getConnection().query(queryLoadContextSystem,contextSystem);
 		return result.size()==1 ? result.get(0) : null;
 	}
 	//dimension
 	public Collection<DSDDimension> loadDimension() throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadDimension(database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<DSDDimension> loadDimension(OGraphDatabase database) throws Exception {
-		Collection<DSDDimension> result = new LinkedList<DSDDimension>();
-		for (ODocument dimensionO : loadDimensionO(database))
+		Collection<DSDDimension> result = new LinkedList<>();
+		for (ODocument dimensionO : loadDimensionO())
 			result.add(dsdConverter.toDimension(dimensionO));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadDimensionO(OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadDimensionO() throws Exception {
 		queryLoadAllDimension.reset();
 		queryLoadAllDimension.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadAllDimension);
+		return (Collection<ODocument>)getConnection().query(queryLoadAllDimension);
 	}
-    public DSDDimension loadDimension(String name, OGraphDatabase database) throws Exception {
-        return dsdConverter.toDimension(loadDimensionO(name,database));
+    public DSDDimension loadDimension(String name) throws Exception {
+        return dsdConverter.toDimension(loadDimensionO(name));
     }
-	public synchronized ODocument loadDimensionO(String name, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadDimensionO(String name) throws Exception {
 		queryLoadDimension.reset();
 		queryLoadDimension.resetPagination();
-		List<ODocument> result = database.query(queryLoadDimension,name);
+		List<ODocument> result = getConnection().query(queryLoadDimension,name);
 		return result.size()==1 ? result.get(0) : null;
 	}
 	
 	//datasource
 	public Collection<DSDDatasource> loadDatasource() throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-			return loadDatasource(database);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
-	}
-	public Collection<DSDDatasource> loadDatasource(OGraphDatabase database) throws Exception {
-		Collection<DSDDatasource> result = new LinkedList<DSDDatasource>();
-		for (ODocument datasourceO : loadDatasourceO(database))
+		Collection<DSDDatasource> result = new LinkedList<>();
+		for (ODocument datasourceO : loadDatasourceO())
 			result.add(dsdConverter.toDatasource(datasourceO));
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public synchronized Collection<ODocument> loadDatasourceO(OGraphDatabase database) throws Exception {
+	public synchronized Collection<ODocument> loadDatasourceO() throws Exception {
 		queryLoadAllDatasource.reset();
 		queryLoadAllDatasource.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadAllDatasource);
+		return (Collection<ODocument>)getConnection().query(queryLoadAllDatasource);
 	}
-	public synchronized ODocument loadDatasource(String dao, String reference, OGraphDatabase database) throws Exception {
+	public synchronized ODocument loadDatasource(String dao, String reference) throws Exception {
 		queryLoadDatasource.reset();
 		queryLoadDatasource.resetPagination();
-		List<ODocument> result = database.query(queryLoadDatasource,dao,reference);
+		List<ODocument> result = getConnection().query(queryLoadDatasource,dao,reference);
 		return result.size()==1 ? result.get(0) : null;
 	}
 	
 	
 	//DSD
 	@SuppressWarnings("unchecked")
-	protected synchronized Collection<ODocument> loadDsdByDatasource(ODocument datasourceO, OGraphDatabase database) throws Exception {
+	protected synchronized Collection<ODocument> loadDsdByDatasource(ODocument datasourceO) throws Exception {
 		queryLoadDsdByDatasource.reset();
 		queryLoadDsdByDatasource.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadDsdByDatasource,datasourceO);
+		return (Collection<ODocument>)getConnection().query(queryLoadDsdByDatasource,datasourceO);
 	}
 	@SuppressWarnings("unchecked")
-    public synchronized Collection<ODocument> loadDsdByContextSystem(ODocument contextO, OGraphDatabase database) throws Exception {
+    public synchronized Collection<ODocument> loadDsdByContextSystem(ODocument contextO) throws Exception {
 		queryLoadDsdByContextSystem.reset();
 		queryLoadDsdByContextSystem.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadDsdByContextSystem,contextO);
+		return (Collection<ODocument>)getConnection().query(queryLoadDsdByContextSystem,contextO);
 	}
 	
 	
 	//columns
 	@SuppressWarnings("unchecked")
-	protected synchronized Collection<ODocument> loadColumnsBySystem(ODocument systemO, OGraphDatabase database) throws Exception {
+	protected synchronized Collection<ODocument> loadColumnsBySystem(ODocument systemO) throws Exception {
 		queryLoadColumnsBySystem.reset();
 		queryLoadColumnsBySystem.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadColumnsBySystem,systemO);
+		return (Collection<ODocument>)getConnection().query(queryLoadColumnsBySystem,systemO);
 	}
 	@SuppressWarnings("unchecked")
-	protected synchronized Collection<ODocument> loadColumnsByDimension(ODocument dimensionO, OGraphDatabase database) throws Exception {
+	protected synchronized Collection<ODocument> loadColumnsByDimension(ODocument dimensionO) throws Exception {
 		queryLoadColumnsByDimension.reset();
 		queryLoadColumnsByDimension.resetPagination();
-		return (Collection<ODocument>)database.query(queryLoadColumnsByDimension,dimensionO);
+		return (Collection<ODocument>)getConnection().query(queryLoadColumnsByDimension,dimensionO);
 	}
 
 

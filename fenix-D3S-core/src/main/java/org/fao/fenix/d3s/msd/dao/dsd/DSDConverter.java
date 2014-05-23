@@ -5,19 +5,18 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import org.fao.fenix.commons.msd.dto.common.ValueOperator;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
-import org.fao.fenix.d3s.server.tools.orient.OrientServer;
+import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.commons.msd.dto.dsd.DSD;
 import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
 import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDao;
 import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
@@ -27,6 +26,7 @@ public class DSDConverter {
 	
 	@Inject private CodeListConverter clConverter;
 	@Inject private CommonsConverter commonsConverter;
+	@Inject private DatabaseStandards database;
 
 	//Code system conversion
 	@SuppressWarnings("unchecked")
@@ -79,19 +79,14 @@ public class DSDConverter {
 		column.setVirtualColumn((String)columnO.field("virtualColumn"));
 		column.setGeoLyer((String)columnO.field("geoLayer"));
 		//Values
+        OGraphDatabase connection = database.getConnection();
 		Collection<Object> valuesBuffer = columnO.field("values");
 		if (valuesBuffer!=null && valuesBuffer.size()>0 && valuesBuffer.iterator().next() instanceof ORID && DSDDataType.code==column.getDataType()) {
-			OGraphDatabase database = OrientServer.getMsdDatabase();
-			try {
-			Collection<ODocument> values = new LinkedList<ODocument>();
+			Collection<ODocument> values = new LinkedList<>();
 			for (Object value : valuesBuffer)
-				values.add((ODocument)database.load((ORID)value));
+				values.add((ODocument)connection.load((ORID)value));
 			valuesBuffer.clear();
 			valuesBuffer.addAll(clConverter.toCode(values, all));
-			} finally {
-				if (database!=null)
-					database.close();
-			}
 		}
 		
 //TODO convertire i document in mappe se nn sono codici

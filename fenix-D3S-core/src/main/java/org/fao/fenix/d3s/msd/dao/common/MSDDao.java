@@ -17,13 +17,7 @@ public class MSDDao extends OrientDao {
 
 	//Identity standard load
 	public Collection<ODocument> select(String query, Object[] parameters) throws Exception {
-		OGraphDatabase database = getDatabase(OrientDatabase.msd);
-		try {
-            return (Collection<ODocument>)database.query(new OSQLSynchQuery<ODocument>(query), parameters);
-		} finally {
-			if (database!=null)
-				database.close();
-		}
+        return (Collection<ODocument>)getConnection().query(new OSQLSynchQuery<ODocument>(query), parameters);
 	}
 
     public Collection<Map<String,Object>> select(Select queryInfo) throws Exception {

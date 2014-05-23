@@ -39,18 +39,7 @@ public class DMIndexStore extends OrientDao {
 
     //Remove
     public int dropIndexDatasetMetadata(String uid) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        int count = 0;
-        try {
-            count = dropIndexDatasetMetadata(uid, database);
-        } finally {
-            if (database != null)
-                database.close();
-        }
-        return count;
-    }
-    public int dropIndexDatasetMetadata(String uid, OGraphDatabase database) throws Exception {
-        ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid, database);
+        ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid);
         return dropIndexDatasetMetadata(dmO);
     }
     public int dropIndexDatasetMetadata(ODocument dmO) throws Exception {
@@ -71,23 +60,14 @@ public class DMIndexStore extends OrientDao {
 
     //Store index data
     public int indexDatasetMetadata(String uid) throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        int count = 0;
-        try {
-            count = indexDatasetMetadata(uid, database);
-        } finally {
-            if (database != null)
-                database.close();
-        }
-        return count;
+        ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid);
+        return indexDatasetMetadata(dmO,true);
     }
-    public int indexDatasetMetadata(String uid, OGraphDatabase database) throws Exception {
-        ODocument dmO = dmLoadDAO.loadDatasetMetadataO(uid, database);
-        return indexDatasetMetadata(dmO,database,true);
-    }
-    public int indexDatasetMetadata(ODocument dmO, OGraphDatabase database, boolean rebuild) throws Exception {
+    public int indexDatasetMetadata(ODocument dmO, boolean rebuild) throws Exception {
         if (dmO == null)
             return 0;
+
+        OGraphDatabase database = getConnection();
 
         //Temporary variables
         OClass dmClassO = dmO.getSchemaClass();
@@ -131,7 +111,7 @@ public class DMIndexStore extends OrientDao {
             for (ODocument columnO : columnsO) {
                 Collection<?> valuesBuffer = columnO.field("values");
                 if (valuesBuffer!=null && valuesBuffer.size()>0) {
-                    createDimensionIndexStructure(columnO,database);
+                    createDimensionIndexStructure(columnO);
 
                     DSDDataType fieldType = DSDDataType.getByCode((String) columnO.field("datatype"));
                     indexedFieldName = getIndexedDimensionName((String)columnO.field("dimension.name"),fieldType);
@@ -198,7 +178,7 @@ public class DMIndexStore extends OrientDao {
         //Rebuild indexes
         if (rebuild) {
             dmO.save();
-            rebuildIndexes(database);
+            rebuildIndexes();
         }
 
         //Return
@@ -207,17 +187,8 @@ public class DMIndexStore extends OrientDao {
 
 
     //Rebuild metadata indexes
-    public void rebuildIndexes() throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            rebuildIndexes(database);
-        } finally {
-            if (database != null)
-                database.close();
-        }
-    }
-    public void rebuildIndexes (OGraphDatabase database) throws Exception {
-        for (OProperty indexProperty : database.getMetadata().getSchema().getClass("DMMain").properties()) {
+    public void rebuildIndexes () throws Exception {
+        for (OProperty indexProperty : getConnection().getMetadata().getSchema().getClass("DMMain").properties()) {
             Collection<OIndex<?>> indexes = indexProperty.getName().startsWith("index_") ? indexProperty.getAllIndexes() : null;
             if (indexes!=null)
                 for (OIndex<?> index : indexes)
@@ -227,17 +198,10 @@ public class DMIndexStore extends OrientDao {
 
 
      //Create index structure
-     public void createDynamicIndexStructure() throws Exception {
-         OGraphDatabase database = getDatabase(OrientDatabase.msd);
-         try {
-             createDynamicIndexStructure(database);
-         } finally {
-             if (database != null)
-                 database.close();
-         }
-     }
     //Update descriptive dataset metadata (from DMMain class)
-     public void createDynamicIndexStructure(OGraphDatabase database) {
+     public void createDynamicIndexStructure() {
+         OGraphDatabase database = getConnection();
+
          ODictionary<?> msdDictionary = database.getDictionary();
          OSchema schema = database.getMetadata().getSchema();
          OClass mainClass = schema.getClass("DMMain");
@@ -289,7 +253,9 @@ public class DMIndexStore extends OrientDao {
      }
 
     //Update structural dataset metadata (from DMMain class)
-     public int createDimensionIndexStructure(ODocument columnO, OGraphDatabase database) throws Exception {
+     public int createDimensionIndexStructure(ODocument columnO) throws Exception {
+         OGraphDatabase database = getConnection();
+
          ODictionary<?> msdDictionary = database.getDictionary();
          DSDDataType fieldType = DSDDataType.getByCode((String) columnO.field("datatype"));
          String fieldName = getIndexedDimensionName((String)columnO.field("dimension.name"),fieldType);
@@ -359,16 +325,9 @@ public class DMIndexStore extends OrientDao {
 
 
     //CLEAN
-    public void removeIndexes() throws Exception {
-        OGraphDatabase database = getDatabase(OrientDatabase.msd);
-        try {
-            removeIndexes(database);
-        } finally {
-            if (database != null)
-                database.close();
-        }
-    }
-    public void removeIndexes (OGraphDatabase database) throws Exception {
+    public void removeIndexes () throws Exception {
+        OGraphDatabase database = getConnection();
+
         ODictionary<?> msdDictionary = database.getDictionary();
         OSchema schema = database.getMetadata().getSchema();
         OClass mainClass = schema.getClass("DMMain");

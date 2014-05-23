@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.search.bl.aggregation.operator.cstat;
 
-import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
@@ -8,7 +7,6 @@ import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorColumns;
-import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.search.dto.SearchFilter;
 import org.fao.fenix.commons.utils.TimeNumberPeriod;
@@ -17,7 +15,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 @OperatorColumns({"FLAG","GEO","ITEM","TIME"})
-public abstract class RegionAggregation extends H2Operator {
+public abstract class RegionAggregation extends H2Operator implements Runnable {
+
     public enum Region {
         UEMOA("143252"), EAC("143249"), SADC("143251"), ECO("143250");
 
@@ -78,7 +77,7 @@ public abstract class RegionAggregation extends H2Operator {
     protected static Map<String,Map<String,TreeSet<TimeNumberPeriod>>> aggregationsKeysEAC;
     protected static Map<String,Map<String,TreeSet<TimeNumberPeriod>>> aggregationsKeysSADC;
     protected static Map<String,Map<String,TreeSet<TimeNumberPeriod>>> aggregationsKeysECO;
-    protected static Date lastUpdate;
+    //protected static Date lastUpdate;
 
     protected Object result;
     protected Set<String> geos = new HashSet<String>();
@@ -86,8 +85,33 @@ public abstract class RegionAggregation extends H2Operator {
     protected Long year;
 
 
+    //ASYNCH INITIALIZATION
+
+    private Region region;
+    private SQLException initAggregationKeysError;
     protected void initAggregationsKeys(Region region) throws SQLException {
-        OGraphDatabase database = OrientServer.getDatabase(
+        this.region = region;
+        Thread initThread = new Thread(this);
+        initThread.start();
+        try {
+            initThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (initAggregationKeysError!=null)
+            throw initAggregationKeysError;
+    }
+    @Override
+    public void run() {
+        try {
+            initAggregationsKeys();
+        } catch (SQLException ex) {
+            initAggregationKeysError = ex;
+        }
+    }
+
+    protected void initAggregationsKeys() throws SQLException {
+        OGraphDatabase database = OrientServer.getInstance().getDatabase(
                 SearchStep.initProperties.getProperty("CountrySTAT.aggregations.keyProductsDatabase.url"),
                 SearchStep.initProperties.getProperty("CountrySTAT.aggregations.keyProductsDatabase.usr"),
                 SearchStep.initProperties.getProperty("CountrySTAT.aggregations.keyProductsDatabase.psw")
@@ -100,9 +124,9 @@ public abstract class RegionAggregation extends H2Operator {
             case ECO: aggregationsKeys = aggregationsKeysECO; break;
         }
         try {
-            ODatabaseRecordThreadLocal.INSTANCE.set( database );
-            Date currentLastUpdate = OrientDao.lastUpdate("aggregationsKey", database);
-            if (aggregationsKeys==null || (currentLastUpdate!=null && (lastUpdate==null || currentLastUpdate.compareTo(lastUpdate)>0))) {
+            //Date currentLastUpdate = commonsDao.lastUpdate("aggregationsKey");
+            //if (aggregationsKeys==null || (currentLastUpdate!=null && (lastUpdate==null || currentLastUpdate.compareTo(lastUpdate)>0))) {
+            if (aggregationsKeys==null) {
                 //Load data (switch database to CountrySTAT Orient database)
                 aggregationsKeys = new HashMap<String, Map<String, TreeSet<TimeNumberPeriod>>>();
                 Collection<ODocument> aggregationsKeyO = loadAggregationsKeyO(region.name(),null,null,null,null,database);
@@ -124,15 +148,13 @@ public abstract class RegionAggregation extends H2Operator {
                     case SADC: aggregationsKeysSADC = aggregationsKeys; break;
                     case ECO: aggregationsKeysECO = aggregationsKeys; break;
                 }
-                lastUpdate = currentLastUpdate;
+                //lastUpdate = currentLastUpdate;
             }
         } catch (Exception ex) {
             throw new SQLException("UEMOA Key products reading exception: "+ex.getMessage());
         } finally {
             if (database!=null)
                 database.close();
-            //Restore MDS database as the default one
-            ODatabaseRecordThreadLocal.INSTANCE.set( getFlow().getMsdDatabase() );
         }
     }
 

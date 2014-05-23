@@ -57,10 +57,9 @@ public abstract class Dao extends SearchStep {
         dsd.setStartDate(date);
         dsd.setEndDate(date);
 
-        OGraphDatabase database = getFlow().getMsdDatabase();
         Collection<DSDColumn> columns = new LinkedList<DSDColumn>();
         for (ODocument columnO : columnsO)
-			columns.add(createColumnMetadata(columnO,database));
+			columns.add(createColumnMetadata(columnO));
         dsd.setColumns(columns);
 
         DM dm = new DM();
@@ -75,8 +74,8 @@ public abstract class Dao extends SearchStep {
     }
     
     @SuppressWarnings("unchecked")
-	private DSDColumn createColumnMetadata (ODocument columnO, OGraphDatabase database) {
-    	String dimensionName = (String)((ODocument)columnO.field("dimension")).field("name");
+	private DSDColumn createColumnMetadata (ODocument columnO) {
+    	String dimensionName = ((ODocument)columnO.field("dimension")).field("name");
 
     	DSDColumn column = new DSDColumn();
 		column.setColumnId(dimensionName);
@@ -86,11 +85,11 @@ public abstract class Dao extends SearchStep {
 		column.setGeoLyer((String)columnO.field("geoLayer"));
 		column.setVirtualColumn((String)columnO.field("virtualColumn"));
 		//Values only if single value
-		Collection<Object> values = (Collection<Object>)columnO.field("values");
+		Collection<Object> values = columnO.field("values");
 		if (values!=null && values.size()==1) {
 			Object value = values.iterator().next();
 			if (value instanceof ORID && DSDDataType.code==column.getDataType()) {
-				value = (ODocument)database.load((ORID)value);
+				value = getConnection().load((ORID)value);
 				value = new Code((String)((ODocument)value).field("system.system"),(String)((ODocument)value).field("system.version"),(String)((ODocument)value).field("code"));
 			}
 			column.addValue(value);

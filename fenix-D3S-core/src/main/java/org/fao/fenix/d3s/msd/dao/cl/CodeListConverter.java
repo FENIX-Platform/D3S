@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.fao.fenix.commons.msd.dto.cl.type.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
-import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
 import org.fao.fenix.commons.msd.dto.cl.Code;
 import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
 import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
@@ -13,7 +12,6 @@ import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.cl.type.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
 import javax.inject.Inject;
@@ -24,7 +22,6 @@ public class CodeListConverter {
 	public static final int NO_LEVELS = 0;
 
 	@Inject private CommonsConverter cmConverter;
-	//@Inject private DSDConverter dsdConverter;
 
     /****************************************************************************************/
 	//CODE LIST CONVERSION
@@ -143,21 +140,21 @@ public class CodeListConverter {
 
     /****************************************************************************************/
 	//RELATIONS CONVERSION
-	public CodeRelationship toRelationship (ODocument relationO, OGraphDatabase database) {
+	public CodeRelationship toRelationship (ODocument relationO) {
 		CodeRelationship relation = new CodeRelationship();
 		relation.setType(CodeRelationshipType.getByCode((String)relationO.field("type")));
 		relation.setFromCode(toCode((ODocument)relationO.field("out"), false, NO_LEVELS, null));
 		relation.setToCode(toCode((ODocument)relationO.field("in"), false, NO_LEVELS, null));
 		return relation;
 	}
-	public CodeConversion toConversion (ODocument conversionO, OGraphDatabase database) {
+	public CodeConversion toConversion (ODocument conversionO) {
 		CodeConversion conversion = new CodeConversion();
 		//conversion.setConversionRule(dsdConverter.toOperator((ODocument)conversionO.field("conversionRule")));
 		conversion.setFromCode(toCode((ODocument)conversionO.field("out"), true, NO_LEVELS, null));
 		conversion.setToCode(toCode((ODocument)conversionO.field("in"), true, NO_LEVELS, null));
 		return conversion;
 	}
-	public CodePropaedeutic toPropaedeutic (ODocument propaedeuticO, OGraphDatabase database) {
+	public CodePropaedeutic toPropaedeutic (ODocument propaedeuticO) {
 		CodePropaedeutic propaedeutic = new CodePropaedeutic();
 		propaedeutic.setContextSystem(cmConverter.toContext((ODocument)propaedeuticO.field("contextSystem")));
 		propaedeutic.setFromCode(toCode((ODocument)propaedeuticO.field("out"), true, NO_LEVELS, null));
