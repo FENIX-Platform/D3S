@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.fao.fenix</groupId>
         <artifactId>fenix-D3S</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 	<artifactId>fenix-D3S-services</artifactId>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <version>1.9.13</version>
+            <version>${jackson.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.fao.fenix</groupId>
             <artifactId>fenix-commons-search</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
 	</dependencies>

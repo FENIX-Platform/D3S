@@ -4,7 +4,7 @@
 
   <groupId>org.fao.fenix</groupId>
   <artifactId>fenix-D3S</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
 
   <name>D3S</name>

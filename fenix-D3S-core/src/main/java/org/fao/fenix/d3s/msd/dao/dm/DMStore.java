@@ -3,6 +3,7 @@ package org.fao.fenix.d3s.msd.dao.dm;
 import java.util.*;
 
 import com.orientechnologies.orient.core.index.OIndexException;
+import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
@@ -28,6 +29,7 @@ public class DMStore extends OrientDao {
     @Inject private CommonsStore cmStoreDAO;
 	@Inject private CodeListLoad clLoadDAO;
 	@Inject private DMConverter dmConverter;
+    @Inject private UIDUtils uidUtil;
 
 	// UPDATE
 	public int updateMetadataStructure(DMMeta mm, boolean append) throws Exception {
@@ -382,7 +384,7 @@ public class DMStore extends OrientDao {
 	public ODocument storeMetadataStructure(DMMeta mm) throws Exception {
         //content normalization
         if (mm.getUid()==null)
-            mm.setUid(createUID());
+            mm.setUid(uidUtil.newId("D3S","metadataStructure"));
         if (mm.getAvailableDatasetsUID()!=null) {
             Collection<ODocument> datasets = new LinkedList<ODocument>();
             for (String uid : mm.getAvailableDatasetsUID())
@@ -403,7 +405,7 @@ public class DMStore extends OrientDao {
             throw new OIndexException("Found duplicated key");
 
         dmmain = getConnection().createVertex("DMMain");
-		String uid = dm.getUid() != null ? dm.getUid() : createUID();
+		String uid = dm.getUid() != null ? dm.getUid() : uidUtil.newId("D3S","dataset");
 		//main
 		dmmain.field("uid", uid);
 		dmmain.field("uidParent", dm.getParentUid());
@@ -563,6 +565,6 @@ public class DMStore extends OrientDao {
 		return systemsO;
 	}
 	
-	public static String createUID() { return 'D'+new com.eaio.uuid.UUID().toString(); }
+
 
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.orientechnologies.orient.core.index.OIndexException;
 import org.fao.fenix.commons.msd.utils.DataUtils;
+import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.dm.DMStore;
@@ -25,6 +26,7 @@ public class CodeListStore extends OrientDao {
 	@Inject private DMStore dmStoreDAO;
     @Inject private CommonsStore cmStoreDAO;
     @Inject private CodeListIndex index;
+    @Inject private UIDUtils uidUtil;
 
 
     //STORE CODE LIST
@@ -33,7 +35,7 @@ public class CodeListStore extends OrientDao {
         try {
             database.declareIntent( new OIntentMassiveInsert() );
             if (cl.getSystem()==null)
-                cl.setSystem(createCodeSystemName());
+                cl.setSystem(uidUtil.newId("D3S","codelist"));
             ODocument clO = loadDAO.loadSystemO(cl.getSystem(), cl.getVersion());
             if (clO!=null)
                 throw new OIndexException("Found duplicated key");
@@ -455,16 +457,6 @@ public class CodeListStore extends OrientDao {
 			systemO.field("keywords", keywords, OType.LINKLIST);
 			systemO.save();
 		}
-	}
-
-
-
-
-
-    /**************************************************************************************************/
-	//Utils
-	public String createCodeSystemName() {
-        return "_DynamicCodeSystem_"+new com.eaio.uuid.UUID().toString();
 	}
 
 }
