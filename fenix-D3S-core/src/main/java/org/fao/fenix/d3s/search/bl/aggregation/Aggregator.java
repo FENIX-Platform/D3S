@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.search.bl.aggregation;
 import java.util.*;
 
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
 import org.fao.fenix.d3s.search.SearchFlow;
 import org.fao.fenix.d3s.search.SearchStep;
