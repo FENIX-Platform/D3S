@@ -11,7 +11,7 @@ import java.util.Set;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
-import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 import org.fao.fenix.commons.search.dto.filter.ValueFilterType;
 import org.fao.fenix.commons.msd.utils.DataUtils;

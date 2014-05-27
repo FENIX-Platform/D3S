@@ -2,7 +2,6 @@ package org.fao.fenix.d3s.search.services.impl;
 
 import java.util.*;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.search.dto.Response;
 import org.fao.fenix.commons.search.dto.filter.*;
@@ -12,19 +11,18 @@ import org.fao.fenix.commons.search.dto.resource.data.LayerData;
 import org.fao.fenix.commons.search.dto.resource.data.TableData;
 import org.fao.fenix.commons.utils.JSONUtils;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
-import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.dm.DMConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.dm.DM;
-import org.fao.fenix.commons.msd.dto.dm.type.DMCopyrightType;
-import org.fao.fenix.commons.msd.dto.dm.type.DMDataKind;
-import org.fao.fenix.commons.msd.dto.dm.type.DMDataType;
-import org.fao.fenix.commons.msd.dto.dsd.DSD;
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.type.dm.DMCopyrightType;
+import org.fao.fenix.commons.msd.dto.type.dm.DMDataKind;
+import org.fao.fenix.commons.msd.dto.type.dm.DMDataType;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSD;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
 import org.fao.fenix.d3s.search.SearchFlow;
 import org.fao.fenix.d3s.search.SearchStep;
 

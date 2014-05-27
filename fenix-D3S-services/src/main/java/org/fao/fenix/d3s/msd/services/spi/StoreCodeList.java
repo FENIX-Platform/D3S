@@ -5,11 +5,11 @@ import java.util.Collection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
 
 @Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)

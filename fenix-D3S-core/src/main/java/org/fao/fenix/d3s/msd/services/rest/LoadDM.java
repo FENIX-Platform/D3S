@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.commons.msd.dto.dm.DM;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
 import org.fao.fenix.d3s.msd.services.impl.Load;
 
 @Path("msd/dm")

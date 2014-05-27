@@ -8,10 +8,9 @@ import java.util.Map;
 
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
+import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ColumnValueFilter;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 

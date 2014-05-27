@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDatasource;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 

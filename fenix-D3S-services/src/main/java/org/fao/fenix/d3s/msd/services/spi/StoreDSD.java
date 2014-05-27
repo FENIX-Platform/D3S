@@ -3,9 +3,9 @@ package org.fao.fenix.d3s.msd.services.spi;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
 
 @Produces
 @Consumes(MediaType.APPLICATION_JSON)

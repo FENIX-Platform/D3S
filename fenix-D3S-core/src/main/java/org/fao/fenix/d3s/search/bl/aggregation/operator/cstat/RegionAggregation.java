@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.search.bl.aggregation.operator.cstat;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorColumns;

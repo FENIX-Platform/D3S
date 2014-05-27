@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.commons.msd.dto.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;

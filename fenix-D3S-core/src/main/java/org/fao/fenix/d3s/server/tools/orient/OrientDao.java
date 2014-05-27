@@ -2,7 +2,9 @@ package org.fao.fenix.d3s.server.tools.orient;
 
 import java.util.*;
 
+import com.orientechnologies.orient.core.db.ODatabase;
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
@@ -11,39 +13,48 @@ import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 
 import javax.inject.Inject;
 
 public abstract class OrientDao {
     @Inject private DatabaseStandards dbParameters;
 
-    protected OGraphDatabase getConnection() {
+    protected ODatabase getConnection() {
         return dbParameters.getConnection();
     }
+    protected OObjectDatabaseTx getOConnection() {
+        return dbParameters.getOConnection();
+    }
+    protected ODatabaseDocumentTx getDConnection() {
+        return dbParameters.getDConnection();
+    }
+    protected OrientGraph getGConnection() {
+        return dbParameters.getGConnection();
+    }
 
-	protected Collection<OClass> getClassList() throws Exception {
-		return getConnection().getMetadata().getSchema().getClasses();
-	}
-	
-	
-	//Utils
-	protected int deleteGraphInclude (ODocument vertex, String[] boundary) { return deleteGraph(vertex, Arrays.asList(boundary)); }
-	protected int deleteGraphInclude (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),true); }
-	protected int deleteGraph (ODocument vertex, String[] boundary) { return deleteGraph(vertex, Arrays.asList(boundary)); }
-	protected int deleteGraph (ODocument vertex, Collection<String> boundary) { return deleteGraph(vertex, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),false); }
+
+
+	//DELETE UTILS
+
+    protected int deleteGraphInclude (ODocument document, String[] boundary) { return deleteGraph(document, Arrays.asList(boundary)); }
+	protected int deleteGraphInclude (ODocument document, Collection<String> boundary) { return deleteGraph(document, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),true); }
+	protected int deleteGraph (ODocument document, String[] boundary) { return deleteGraph(document, Arrays.asList(boundary)); }
+	protected int deleteGraph (ODocument document, Collection<String> boundary) { return deleteGraph(document, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),false); }
 	@SuppressWarnings("unchecked")
-	private final int deleteGraph (ODocument vertex, Set<String> boundary, Set<ORID> deleted, boolean include) {
-		if (vertex==null || deleted.contains(vertex.getIdentity()) || (include && !boundary.contains(vertex.getClassName())) || (!include && boundary.contains(vertex.getClassName())))
+	private final int deleteGraph (ODocument document, Set<String> boundary, Set<ORID> deleted, boolean include) {
+		if (document==null || deleted.contains(document.getIdentity()) || (include && !boundary.contains(document.getClassName())) || (!include && boundary.contains(document.getClassName())))
 			return 0;
 
 		int count = 1;
-		deleted.add(vertex.getIdentity());
+		deleted.add(document.getIdentity());
 
 		OProperty field = null;
-		OClass vertexClass = vertex.getSchemaClass();
-		for (String fieldName : vertex.fieldNames()) {
+		OClass vertexClass = document.getSchemaClass();
+		for (String fieldName : document.fieldNames()) {
 			for (OClass fieldsClass = vertexClass; fieldsClass!=null && (field = fieldsClass.getProperty(fieldName))==null; fieldsClass = fieldsClass.getSuperClass());
-			Object fieldValue = vertex.field(fieldName);
+			Object fieldValue = document.field(fieldName);
 			if (field!=null && fieldValue!=null)
 				switch (field.getType()) {
 					case LINK: 
@@ -55,67 +66,43 @@ public abstract class OrientDao {
 							count += deleteGraph(child, boundary, deleted,include);
 						break;
 					case LINKMAP: 
-						for (ODocument child : ((Map<Object,ODocument>)vertex.field(fieldName)).values())
+						for (ODocument child : ((Map<Object,ODocument>)document.field(fieldName)).values())
 							count += deleteGraph(child, boundary, deleted,include);
 						break;
 				}
 		}
 		
-		vertex.delete();
+		document.delete();
 		
 		return count;
 	}
 
-	public ODocument getDocument (ORID rid) {
-        return dbParameters.getConnection().getRecord(rid);
-    }
 
-	public static String toString (ORID rid) {
-		return rid.getClusterId()+"_"+rid.getClusterPosition();
-	}
-	public static ORID toRID(String rid) {
-		if (rid!=null) {
-			int splitIndex = rid.indexOf('_');
-			rid = splitIndex>0 ? '#'+rid.substring(0, splitIndex)+':'+rid.substring(splitIndex+1) : rid;
-		}
-		return new ORecordId(rid);
-	}
+    //DOCUMENT DATABASE UTILS
+
+	public ODocument getDocument (ORID rid) {
+        return dbParameters.getDConnection().getRecord(rid);
+    }
 
     public long countClass (String className) throws Exception {
-        return dbParameters.getConnection().countClass(className);
+        return dbParameters.getDConnection().countClass(className);
     }
     public Iterable<ODocument> browseClass (String className) throws Exception {
-        final OGraphDatabase db = dbParameters.getConnection();
-        try {
-            final Iterator<ODocument> producerO = db.browseElements(className,true).iterator();
-            return new Iterable<ODocument>() {
-                @Override
-                public Iterator<ODocument> iterator() {
-                    return new Iterator<ODocument>() {
-                        private boolean open = true;
-                        @Override public void remove() { throw new UnsupportedOperationException(); }
-                        @Override public boolean hasNext() { return producerO.hasNext(); }
+        final Iterator<ODocument> producerO = dbParameters.getDConnection().browseClass(className).iterator();
+        return new Iterable<ODocument>() {
+            @Override
+            public Iterator<ODocument> iterator() {
+                return new Iterator<ODocument>() {
+                    @Override public void remove() { throw new UnsupportedOperationException(); }
+                    @Override public boolean hasNext() { return producerO.hasNext(); }
 
-                        @Override
-                        public ODocument next() {
-                            if (producerO.hasNext())
-                                return producerO.next();
-                            else
-                                if (open) {
-                                    db.close();
-                                    open = false;
-                                }
-                            return null;
-                        }
-                    };
-                }
-            };
-
-        } catch (Exception ex){
-            if (db!=null)
-                db.close();
-            throw ex;
-        }
+                    @Override
+                    public ODocument next() {
+                        return producerO.hasNext() ? producerO.next() : null;
+                    }
+                };
+            }
+        };
     }
 
     public void toMap(Map<String,Object> data, ODocument recordO, Set<String> classes, Integer levels) {

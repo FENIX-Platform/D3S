@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.object.db.OObjectDatabasePool;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
 
 import com.orientechnologies.orient.console.OConsoleDatabaseApp;
@@ -20,7 +25,15 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class OrientServer {
-    //Support factory references
+    private String databaseFolderPath;
+
+    private String serverConfig;
+    private OrientStatus status = new OrientStatus();
+    private OServer server;
+
+
+    //FACTORY SUPPPORT
+
     private static OrientServer instance;
     public OrientServer() {
         instance = this;
@@ -30,12 +43,7 @@ public class OrientServer {
     }
 
 
-
-	private String databaseFolderPath;
-
-    private String serverConfig;
-    private OrientStatus status = new OrientStatus();
-    private OServer server;
+    //SERVER MANAGEMENT
 
 	public void startServer() throws Exception {
 		if (status.isInitialized() && !status.isActive()) {
@@ -52,7 +60,10 @@ public class OrientServer {
 			status.setActive(false);
 		}
 	}
-	
+
+
+    //INIT
+
 	public OrientStatus getStatus() {
 		return status;
 	}
@@ -72,31 +83,55 @@ public class OrientServer {
         if (!databaseFolderPath.endsWith("/"))
             databaseFolderPath += '/';
 
-		status.setInitialized(true);
-	}
-	
-	private Map<String, OGraphDatabasePool> dataBasePoolMap = new HashMap<String, OGraphDatabasePool>();
-	private OGraphDatabasePool getDataBasePoolInstance(String path, String user, String password) {
-		OGraphDatabasePool dataBasePool = dataBasePoolMap.get(path);
-		if (dataBasePool==null)
-			dataBasePoolMap.put(path, dataBasePool=new OGraphDatabasePool(path, user, password));
-		return dataBasePool;
+        status.setInitialized(true);
+
+        registerPersistentEntities();
 	}
 
-    public OGraphDatabase getMsdDatabase() { return getDatabase(OrientDatabase.msd); }
-	public OGraphDatabase getCacheL1Database() { return getDatabase(OrientDatabase.cacheL1); }
-	public OGraphDatabase getCacheL2Database() { return getDatabase(OrientDatabase.cacheL2); }
-	public OGraphDatabase getDatabase(OrientDatabase database) { return getDatabase(getDatabasePath(database), "admin", "admin"); }
-	public OGraphDatabase getDatabase(OrientDatabase database, String user, String password) { return getDatabase(getDatabasePath(database), user, password); }
-    public OGraphDatabase getDatabase(String path, String user, String password) {
-        return status.isActive() ? getDataBasePoolInstance(path, user, password).acquire() : null;
+    public void registerPersistentEntities() throws Exception {
+        OObjectDatabaseTx connection = null;
+        try {
+            connection = getODatabase(OrientDatabase.msd);
+            connection.setAutomaticSchemaGeneration(false);
+            connection.getEntityManager().registerEntityClasses("org.fao.fenix.commons.msd.dto.full");
+        } finally {
+            if (connection!=null)
+                connection.close();
+        }
+    }
+    public void registerPersistentEntity(Class<?> entityClass) {
+        OObjectDatabaseTx connection = null;
+        try {
+            connection = getODatabase(OrientDatabase.msd);
+            connection.setAutomaticSchemaGeneration(false);
+            connection.getEntityManager().registerEntityClass(entityClass);
+        } finally {
+            if (connection!=null)
+                connection.close();
+        }
     }
 
 
-    //Utils
-    private String getDatabasePath(OrientDatabase database) {
-        return "plocal:"+databaseFolderPath+database.getDatabaseName();
+
+    //DATABASE CONNECTION
+
+    private ODatabaseDocumentPool dPool = ODatabaseDocumentPool.global(10,300);
+    public ODatabaseDocumentTx getDDatabase(OrientDatabase database) {
+        return dPool.acquire(database.getURL(databaseFolderPath),"admin","admin");
     }
+
+    private OObjectDatabasePool oPool = OObjectDatabasePool.global(10,300);
+    public OObjectDatabaseTx getODatabase(OrientDatabase database) {
+        return oPool.acquire(database.getURL(databaseFolderPath),"admin","admin");
+    }
+
+    public OrientGraph getGDatabase(OrientDatabase database) {
+        return new OrientGraph(database.getURL(databaseFolderPath),"admin","admin");
+    }
+
+
+
+    //UTILS
 
     private String readD3SConfigFile(String configFilePath, String databaseHome, String binaryPortNumber, String httpPortNumber) throws FileNotFoundException {
         try {

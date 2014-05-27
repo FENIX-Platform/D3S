@@ -8,8 +8,8 @@ import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.dm.DMStore;
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;

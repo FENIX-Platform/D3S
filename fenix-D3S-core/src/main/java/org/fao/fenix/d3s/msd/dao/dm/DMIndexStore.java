@@ -6,9 +6,8 @@ import java.util.regex.Pattern;
 
 import com.orientechnologies.orient.core.metadata.schema.OSchema;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
-import org.fao.fenix.commons.msd.dto.common.Period;
-import org.fao.fenix.commons.msd.dto.dsd.type.DSDDataType;
-import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
+import org.fao.fenix.commons.msd.dto.full.common.Period;
+import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.commons.msd.utils.DataUtils;

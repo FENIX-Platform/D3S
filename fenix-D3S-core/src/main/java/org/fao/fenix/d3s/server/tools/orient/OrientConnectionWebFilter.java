@@ -1,11 +1,14 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
+import com.orientechnologies.orient.core.db.ODatabase;
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
+import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @WebFilter(filterName="OrientConnectionManager", urlPatterns={"/*"})
@@ -19,16 +22,21 @@ public class OrientConnectionWebFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        OGraphDatabase connection = null;
+        ODatabase connection = null;
         try {
-            dbParameters.setConnection(connection = client.getMsdDatabase());
+            if (((HttpServletRequest)servletRequest).getPathInfo().contains("msd"))
+                connection = client.getODatabase(OrientDatabase.msd);
+            else
+                connection = client.getDDatabase(OrientDatabase.msd);
+            dbParameters.setConnection(connection);
         } catch (Exception ex) {
             throw new ServletException("Database connection error.", ex);
         }
 
         try {
-            if (servletRequest.getParameter("perPage")!=null)
-                dbParameters.setPaginationInfo(new Page(servletRequest));
+            dbParameters.setOrderingInfo(new Order(servletRequest));
+            dbParameters.setPaginationInfo(new Page(servletRequest));
+
             filterChain.doFilter(servletRequest,servletResponse);
         } finally {
             if (connection!=null)

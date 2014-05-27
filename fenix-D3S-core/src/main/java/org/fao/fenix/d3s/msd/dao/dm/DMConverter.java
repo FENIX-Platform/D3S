@@ -5,15 +5,16 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.fao.fenix.commons.msd.dto.dm.type.*;
+import org.fao.fenix.commons.msd.dto.full.dm.type.*;
+import org.fao.fenix.commons.msd.dto.type.dm.*;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
-import org.fao.fenix.commons.msd.dto.common.Period;
-import org.fao.fenix.commons.msd.dto.dm.DM;
-import org.fao.fenix.commons.msd.dto.dm.DMAvailability;
-import org.fao.fenix.commons.msd.dto.dm.DMDataSource;
-import org.fao.fenix.commons.msd.dto.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.full.common.Period;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.full.dm.DMAvailability;
+import org.fao.fenix.commons.msd.dto.full.dm.DMDataSource;
+import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
 import org.fao.fenix.commons.utils.JSONUtils;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;

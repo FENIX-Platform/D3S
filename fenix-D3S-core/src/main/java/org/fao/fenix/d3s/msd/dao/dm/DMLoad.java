@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.fao.fenix.commons.msd.dto.dm.DM;
-import org.fao.fenix.commons.msd.dto.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.commons.utils.CompletenessIterator;

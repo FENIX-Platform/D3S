@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
-import org.fao.fenix.commons.msd.dto.common.Publication;
+import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.full.common.Publication;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 @Path("msd/cm")

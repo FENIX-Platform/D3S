@@ -3,15 +3,14 @@ package org.fao.fenix.d3s.msd.dao.cl;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.cl.CodeLink;
-import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeLink;
+import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.type.cl.CodeRelationshipType;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;

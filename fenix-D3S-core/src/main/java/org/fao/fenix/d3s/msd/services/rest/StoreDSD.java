@@ -6,9 +6,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NoContentException;
 
-import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
 import org.fao.fenix.d3s.msd.services.impl.Store;
 import org.fao.fenix.d3s.msd.services.impl.Delete;
 

@@ -5,9 +5,9 @@ import java.util.Collection;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.fao.fenix.commons.msd.dto.dm.DM;
-import org.fao.fenix.commons.msd.dto.dm.DMMeta;
-import org.fao.fenix.commons.msd.dto.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
 
 @Produces
 @Consumes(MediaType.APPLICATION_JSON)

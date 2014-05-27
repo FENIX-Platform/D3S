@@ -8,10 +8,9 @@ import java.util.Map;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkLoad;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.type.cl.CodeRelationshipType;
 
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
 import javax.inject.Inject;

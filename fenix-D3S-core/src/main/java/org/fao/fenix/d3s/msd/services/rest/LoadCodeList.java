@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.commons.msd.dto.cl.Code;
-import org.fao.fenix.commons.msd.dto.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.cl.CodeRelationship;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.cl.type.CodeRelationshipType;
+import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.type.cl.CodeRelationshipType;
 import org.fao.fenix.d3s.msd.services.impl.Load;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 

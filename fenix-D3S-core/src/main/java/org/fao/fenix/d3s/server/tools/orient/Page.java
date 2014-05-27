@@ -11,13 +11,11 @@ public class Page {
     public int pages = 1;
 
     public Page(ServletRequest request) {
-        if (request!=null) {
-            String page = request.getParameter("page");
-            String perPage = request.getParameter("perPage");
-            String pages = request.getParameter("pages");
+        String page = request.getParameter("page");
+        String perPage = request.getParameter("perPage");
+        String pages = request.getParameter("pages");
 
-            init(page!=null?new Integer(page):null, perPage!=null?new Integer(perPage):null, pages!=null?new Integer(pages):null);
-        }
+        init(page!=null?new Integer(page):null, perPage!=null?new Integer(perPage):null, pages!=null?new Integer(pages):null);
     }
 
     public Page(int skip, int length) {
@@ -40,5 +38,9 @@ public class Page {
             length = perPage*pages;
             skip = (page-1)*perPage;
         }
+    }
+
+    public String toSQL() {
+        return perPage>0 ? " skip "+skip+" limit "+length : "";
     }
 }

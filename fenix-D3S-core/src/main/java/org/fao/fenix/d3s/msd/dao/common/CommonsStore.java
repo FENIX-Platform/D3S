@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.commons.msd.dto.common.Contact;
-import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
-import org.fao.fenix.commons.msd.dto.common.Link;
-import org.fao.fenix.commons.msd.dto.common.Publication;
+import org.fao.fenix.commons.msd.dto.full.common.Contact;
+import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.full.common.Link;
+import org.fao.fenix.commons.msd.dto.full.common.Publication;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import com.orientechnologies.orient.core.metadata.schema.OType;

@@ -1,8 +1,8 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.commons.msd.dto.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDimension;
-import org.fao.fenix.commons.msd.dto.dsd.DSDDatasource;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.full.dsd.DSDDatasource;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.commons.msd.dto.common.Select;
+import org.fao.fenix.commons.msd.dto.full.common.Select;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

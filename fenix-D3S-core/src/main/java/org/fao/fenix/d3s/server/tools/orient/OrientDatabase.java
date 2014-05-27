@@ -1,9 +1,22 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 public enum OrientDatabase {
-	msd("msd_1.0"),cacheL1("cacheLevel1_1.0"),cacheL2("cacheLevel2_1.0"),test("test_1.0");
+	msd("plocal:","msd_1.0", 400),cacheL1("plocal:","cacheLevel1_1.0", 4000),cacheL2("plocal:","cacheLevel2_1.0", 400);
 
     private String databaseName;
-    OrientDatabase(String databaseName) { this.databaseName = databaseName; }
-    public String getDatabaseName() { return databaseName; }
+    private String protocol;
+    private int maxConnections;
+    OrientDatabase(String databaseName, String protocol, int maxConnections) {
+        this.databaseName = databaseName;
+        this.protocol = protocol;
+        this.maxConnections = maxConnections;
+    }
+
+    public String getURL(String databaseFolderPath) {
+        return protocol+databaseFolderPath+databaseName;
+    }
+
+    public int getMaxConnections() {
+        return maxConnections;
+    }
 }

@@ -2,7 +2,7 @@ package org.fao.fenix.d3s.msd.dao.cl;
 
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.commons.msd.dto.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 

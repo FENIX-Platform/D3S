@@ -2,8 +2,8 @@ package org.fao.fenix.d3s.msd.dao.common;
 
 import java.util.*;
 
-import org.fao.fenix.commons.msd.dto.common.ContactIdentity;
-import org.fao.fenix.commons.msd.dto.common.Publication;
+import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.full.common.Publication;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.commons.utils.CompletenessIterator;

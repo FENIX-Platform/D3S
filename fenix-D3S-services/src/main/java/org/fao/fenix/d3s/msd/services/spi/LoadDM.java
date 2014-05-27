@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.commons.msd.dto.dm.DM;
+import org.fao.fenix.commons.msd.dto.full.dm.DM;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
