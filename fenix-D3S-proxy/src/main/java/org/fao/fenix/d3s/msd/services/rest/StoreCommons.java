@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
-import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
-import org.fao.fenix.commons.msd.dto.full.common.Publication;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Publication;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;

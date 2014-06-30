@@ -1,0 +1,115 @@
+{
+    "uid" : "",
+    "dsd" : {
+        "contextSystem" : "",
+        "datasource" : "",
+        "aggregationRules" : "",
+
+        "columns" : [
+            {
+                "dimension" : {}, //Dimension
+                "dataTypes" : [""],
+
+                "values" : [],
+                "domain": {
+                    "codes" : [ { }], //code & codeList,
+                    "customCodes" : [], //customCodes
+                    "enumeration" : "",
+                    "period" : {"from":"" , "to":"" } //il datatype di from e to è il dataType della colonna
+                },
+
+                "columnLink" : "",
+
+                "key" : true,
+
+                "transposed" : true,
+
+                "virtual":true,
+
+
+                "id" : "",
+                "title" : {
+                    "EN":"",
+                    "FR":""
+                },
+                "supplemental" : {
+                    "EN":"",
+                    "FR":""
+                }
+            }
+        ]
+
+    }
+}
+
+
+
+
+Dimension {
+    link : "",
+    uid : "",
+    title : {
+        "EN":"",
+        "FR":""
+    }
+}
+
+
+dataTypes
+
+codeList:
+{
+    "codeList":"",
+    "version": "",
+    "title" : {
+        "EN":"",
+        "FR":""
+    }
+}
+
+code:
+{
+    "codeList":"",
+    "version": "",
+    "code": "",
+    "title" : {
+        "EN":"",
+        "FR":""
+    }
+}
+
+customCode:
+{
+    "code" : "",
+    "title" : {
+        "EN":"",
+        "FR":""
+    }
+}
+
+enum: ""
+
+
+date: 20140624
+month: 201406
+yaer: 2014
+time: 2012-04-23T18:25:43.511Z (Javascript JSON default format)
+
+
+string: ""
+
+label:
+{
+    "EN":"",
+    "FR":""
+}
+
+
+boolean: true/false
+
+
+percentage: numero
+
+number: numero
+
+

@@ -14,12 +14,8 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
 
-import com.orientechnologies.orient.console.OConsoleDatabaseApp;
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
-import com.orientechnologies.orient.core.db.graph.OGraphDatabasePool;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
-import org.fao.fenix.commons.utils.FileUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 

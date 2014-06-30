@@ -1,8 +1,8 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
-import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMMeta;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 import javax.servlet.http.HttpServletRequest;

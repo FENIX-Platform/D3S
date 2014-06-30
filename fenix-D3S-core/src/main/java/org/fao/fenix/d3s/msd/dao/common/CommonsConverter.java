@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDContextSystem;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.fao.fenix.commons.msd.dto.full.common.Contact;
-import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
-import org.fao.fenix.commons.msd.dto.full.common.Link;
-import org.fao.fenix.commons.msd.dto.full.common.Publication;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Contact;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Link;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Publication;
 import org.fao.fenix.commons.msd.dto.type.common.ContactType;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;

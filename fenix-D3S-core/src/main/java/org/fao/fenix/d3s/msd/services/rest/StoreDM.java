@@ -8,9 +8,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NoContentException;
 
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
-import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMMeta;
 import org.fao.fenix.d3s.msd.services.impl.Delete;
 import org.fao.fenix.d3s.msd.services.impl.Store;
 

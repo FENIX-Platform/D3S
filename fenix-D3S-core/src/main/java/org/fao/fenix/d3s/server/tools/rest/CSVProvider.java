@@ -1,9 +1,9 @@
 package org.fao.fenix.d3s.server.tools.rest;
 
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.type.cl.CSSharingPolicy;
-import org.fao.fenix.commons.msd.dto.full.common.ContactIdentity;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ContactIdentity;
 import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.fao.fenix.commons.utils.CSVReader;
 

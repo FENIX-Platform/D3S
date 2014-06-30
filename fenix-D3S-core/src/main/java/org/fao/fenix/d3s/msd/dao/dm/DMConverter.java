@@ -10,11 +10,11 @@ import org.fao.fenix.commons.msd.dto.type.dm.*;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDConverter;
-import org.fao.fenix.commons.msd.dto.full.common.Period;
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
-import org.fao.fenix.commons.msd.dto.full.dm.DMAvailability;
-import org.fao.fenix.commons.msd.dto.full.dm.DMDataSource;
-import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Period;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMAvailability;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMDataSource;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMMeta;
 import org.fao.fenix.commons.utils.JSONUtils;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;

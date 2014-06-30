@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 

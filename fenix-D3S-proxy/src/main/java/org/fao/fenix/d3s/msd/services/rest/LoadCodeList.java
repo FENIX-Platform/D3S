@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 
 import org.fao.fenix.commons.msd.dto.cl.*;
 import org.fao.fenix.commons.msd.dto.full.cl.*;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.*;
 import org.fao.fenix.d3s.server.services.rest.Service;
 
 @Path("msd/cl")

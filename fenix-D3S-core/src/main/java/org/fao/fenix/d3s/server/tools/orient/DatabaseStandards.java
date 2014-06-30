@@ -11,8 +11,12 @@ public class DatabaseStandards {
     private static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
 
 
-    public ODatabase getConnection() {
-        return connection.get();
+    protected <T extends ODatabase> T getConnection() {
+        try {
+            return (T) connection.get();
+        } catch (ClassCastException ex) {
+            return null;
+        }
     }
 
     public void setConnection(ODatabase c) {
@@ -35,17 +39,4 @@ public class DatabaseStandards {
         orderingInfo.set(o);
     }
 
-
-    public OObjectDatabaseTx getOConnection() {
-        ODatabase conn = connection.get();
-        return conn!=null && conn instanceof OObjectDatabaseTx ? (OObjectDatabaseTx)conn : null;
-    }
-    public ODatabaseDocumentTx getDConnection() {
-        ODatabase conn = connection.get();
-        return conn!=null && conn instanceof ODatabaseDocumentTx ? (ODatabaseDocumentTx)conn : null;
-    }
-    public OrientGraph getGConnection() {
-        ODatabase conn = connection.get();
-        return conn!=null && conn instanceof OrientGraph ? (OrientGraph)conn : null;
-    }
 }

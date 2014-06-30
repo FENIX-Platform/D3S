@@ -2,16 +2,16 @@ package org.fao.fenix.d3s.msd.dao.dsd;
 
 import java.util.*;
 
-import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ValueOperator;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dm.DMLoad;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSD;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDDatasource;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSD;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDDatasource;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;

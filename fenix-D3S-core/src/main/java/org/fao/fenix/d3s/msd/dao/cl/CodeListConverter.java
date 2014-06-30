@@ -4,11 +4,11 @@ import java.util.*;
 
 import org.fao.fenix.commons.msd.dto.type.cl.DuplicateCodeException;
 import org.fao.fenix.d3s.msd.dao.common.CommonsConverter;
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.type.cl.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.type.cl.CodeRelationshipType;
 

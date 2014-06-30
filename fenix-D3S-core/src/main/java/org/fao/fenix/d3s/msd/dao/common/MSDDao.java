@@ -2,7 +2,7 @@ package org.fao.fenix.d3s.msd.dao.common;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.full.common.Select;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.Select;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import java.util.Collection;

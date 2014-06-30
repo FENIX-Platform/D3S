@@ -9,12 +9,12 @@ import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientDatabase;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
-import org.fao.fenix.commons.msd.dto.full.dm.DMAvailability;
-import org.fao.fenix.commons.msd.dto.full.dm.DMDataSource;
-import org.fao.fenix.commons.msd.dto.full.dm.DMMeta;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMAvailability;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMDataSource;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DMMeta;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.metadata.schema.OType;

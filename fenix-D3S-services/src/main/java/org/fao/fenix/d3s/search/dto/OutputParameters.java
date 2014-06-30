@@ -3,9 +3,9 @@ package org.fao.fenix.d3s.search.dto;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ValueOperator;
 import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.commons.utils.JSONUtils;
 

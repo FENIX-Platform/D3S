@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.search.bl.aggregation;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ValueOperator;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;
 

@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.search.bl.aggregation.operator;
 
 //import javax.enterprise.context.ApplicationScoped;
-import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ValueOperator;
 import org.fao.fenix.d3s.search.SearchStep;
 import org.fao.fenix.d3s.server.tools.rest.CDIUtils;
 

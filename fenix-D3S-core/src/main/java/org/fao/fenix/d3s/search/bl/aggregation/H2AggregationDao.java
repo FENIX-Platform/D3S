@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.search.bl.aggregation;
 
-import org.fao.fenix.commons.msd.dto.full.common.ValueOperator;
+import org.fao.fenix.commons.msd.dto.templates.canc.common.ValueOperator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.H2Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.Operator;
 import org.fao.fenix.d3s.search.bl.aggregation.operator.OperatorFactory;

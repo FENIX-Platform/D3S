@@ -1,9 +1,6 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 import com.orientechnologies.orient.core.db.ODatabase;
-import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
-import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
-import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 import javax.inject.Inject;
 import javax.servlet.*;

@@ -76,6 +76,11 @@
         </dependency>
         <dependency>
             <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-lucene</artifactId>
+            <version>${orient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-distributed</artifactId>
             <version>${orient.version}</version>
         </dependency>
@@ -83,19 +88,16 @@
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-client</artifactId>
             <version>${orient.version}</version>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-object</artifactId>
             <version>${orient.version}</version>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-nativeos</artifactId>
             <version>${orient.version}</version>
-            <type>pom</type>
         </dependency>
 
         <!-- H2 database -->

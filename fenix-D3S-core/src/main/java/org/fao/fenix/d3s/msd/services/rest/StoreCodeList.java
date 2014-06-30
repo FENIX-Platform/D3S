@@ -8,11 +8,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NoContentException;
 
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 import org.fao.fenix.d3s.msd.services.impl.Store;
 
 @Path("msd/cl")

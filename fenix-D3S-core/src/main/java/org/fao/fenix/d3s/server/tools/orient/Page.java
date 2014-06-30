@@ -4,7 +4,7 @@ import javax.servlet.ServletRequest;
 
 public class Page {
     public int skip = 0;
-    public int length = -1;
+    public int length = 100; //Default result maximum size
 
     public int page = 1;
     public int perPage = -1;
@@ -14,8 +14,13 @@ public class Page {
         String page = request.getParameter("page");
         String perPage = request.getParameter("perPage");
         String pages = request.getParameter("pages");
+        String limit = request.getParameter("limit");
 
-        init(page!=null?new Integer(page):null, perPage!=null?new Integer(perPage):null, pages!=null?new Integer(pages):null);
+        init(page!=null?new Integer(page):null, perPage!=null?new Integer(perPage):null, pages!=null?new Integer(pages):null, limit!=null?new Integer(limit):null);
+    }
+
+    public Page(Integer page, Integer perPage, Integer pages, Integer limit) {
+        init(page,perPage,pages,limit);
     }
 
     public Page(int skip, int length) {
@@ -23,13 +28,10 @@ public class Page {
         this.length = length;
     }
 
-    public Page(Integer page, Integer perPage, Integer pages) {
-        init(page,perPage,pages);
-    }
 
 
 
-    private void init(Integer page, Integer perPage, Integer pages) {
+    private void init(Integer page, Integer perPage, Integer pages, Integer limit) {
         if (perPage!=null && perPage>0) {
             this.perPage = perPage;
             this.page = page = page != null && page > 0 ? page : 1;
@@ -37,10 +39,11 @@ public class Page {
 
             length = perPage*pages;
             skip = (page-1)*perPage;
-        }
+        } else if (limit!=null)
+            length = limit>0 ? limit : -1;
     }
 
     public String toSQL() {
-        return perPage>0 ? " skip "+skip+" limit "+length : "";
+        return perPage>0 ? " skip "+skip+" limit "+length : " limit "+length;
     }
 }

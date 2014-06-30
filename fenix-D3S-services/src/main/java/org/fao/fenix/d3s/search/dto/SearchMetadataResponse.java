@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.search.dto;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
 
 public class SearchMetadataResponse extends SearchResponse {
 	

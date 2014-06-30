@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.fao.fenix.commons.msd.dto.cl.*;
 import org.fao.fenix.commons.msd.dto.full.cl.*;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.*;
 import org.fao.fenix.d3s.msd.dao.EdgesLabels;
 import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;

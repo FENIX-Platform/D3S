@@ -2,16 +2,16 @@ package org.fao.fenix.d3s.wds;
 
 import java.util.*;
 
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.full.dm.DM;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dm.DM;
 import org.fao.fenix.commons.msd.dto.type.dm.DMCopyrightType;
 import org.fao.fenix.commons.msd.dto.type.dm.DMDataKind;
 import org.fao.fenix.commons.msd.dto.type.dm.DMDataType;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSD;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSD;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDDimension;
 import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.SearchStep;

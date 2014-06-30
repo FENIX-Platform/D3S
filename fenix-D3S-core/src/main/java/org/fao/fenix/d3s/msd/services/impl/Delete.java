@@ -5,11 +5,11 @@ import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
 import org.fao.fenix.d3s.msd.dao.dm.DMStore;
 import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
 import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
-import org.fao.fenix.commons.msd.dto.full.cl.Code;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeConversion;
-import org.fao.fenix.commons.msd.dto.full.cl.CodePropaedeutic;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeRelationship;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeConversion;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodePropaedeutic;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeRelationship;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 
 import javax.inject.Inject;
 

@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDContextSystem;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDDatasource;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDDimension;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDContextSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDDatasource;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDDimension;
 import org.fao.fenix.d3s.msd.services.impl.Load;
 
 @Path("msd/dsd")

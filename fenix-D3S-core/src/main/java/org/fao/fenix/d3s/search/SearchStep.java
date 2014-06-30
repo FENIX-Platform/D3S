@@ -4,8 +4,8 @@ import java.sql.Types;
 import java.util.*;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.fao.fenix.commons.msd.dto.full.cl.CodeSystem;
-import org.fao.fenix.commons.msd.dto.full.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
+import org.fao.fenix.commons.msd.dto.templates.canc.dsd.DSDColumn;
 import org.fao.fenix.commons.msd.dto.type.dsd.DSDDataType;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.dto.OutputParameters;
