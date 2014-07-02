@@ -12,6 +12,7 @@ import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
+import com.orientechnologies.orient.core.query.OQuery;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
@@ -75,31 +76,43 @@ public abstract class OrientDao {
     //LOAD UTILS
     private static Map<String,OSQLSynchQuery> queries = new TreeMap<>();
 
-    private <T> OSQLSynchQuery<T> getSelect(String query, Class<T> type) {
-        query += dbParameters.getOrderingInfo().toSQL();
-        query += dbParameters.getPaginationInfo().toSQL();
+    private <T> OSQLSynchQuery<T> getSelect(String query, Class<T> type, Order ordering, Page paging) {
+        if (ordering!=null)
+            query += ordering.toSQL();
+        if (paging!=null)
+            query += paging.toSQL();
 
         OSQLSynchQuery queryO = queries.get(type.getSimpleName()+query);
         if (queryO==null)
-            queries.put(type.getSimpleName()+query, queryO = new OSQLSynchQuery<>(query));
+            queries.put(type.getSimpleName()+query, queryO = createSelect(query,type));
 
         queryO.reset();
         queryO.resetPagination();
 
         return queryO;
     }
+    public <T> OSQLSynchQuery<T> createSelect(String query, Class<T> type) {
+        return new OSQLSynchQuery<>(query);
+    }
 
     public synchronized Collection<ODocument> select(String query, Object... params) throws Exception {
-        return ((ODatabaseDocumentTx)getConnection()).query(getSelect(query,ODocument.class), params);
+        return select(query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
+    }
+    public synchronized Collection<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
+        return ((ODatabaseDocumentTx)getConnection()).query(getSelect(query, ODocument.class, ordering, paging), params);
     }
     public synchronized <T> Collection<T> select(Class<T> type, String query, Object... params) throws Exception {
+        return select(type, query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
+    }
+    public synchronized <T> Collection<T> select(Class<T> type, String query, Order ordering, Page paging, Object... params) throws Exception {
         try {
-            return (Collection<T>) ((OObjectDatabaseTx)getConnection()).query(getSelect(query,type), params);
+            return (Collection<T>) ((OObjectDatabaseTx)getConnection()).query(getSelect(query, type, ordering, paging), params);
         } catch (OSerializationException ex) {
             client.registerPersistentEntities();
-            return select(type,query,params);
+            return select(type,query,ordering,paging,params);
         }
     }
+
 
     public ODocument load (String rid) throws Exception {
         return load(JSONdto.toRID(rid));
@@ -146,10 +159,9 @@ public abstract class OrientDao {
     private static final Map<Class,Collection<MethodGetSet>> standardGetSet = new HashMap<>();
     private static final Map<Class,Collection<MethodGetSet>> entityGetSet = new HashMap<>();
     private static final Map<Class,Collection<MethodGetSet>> entityCollectionGetSet = new HashMap<>();
-
-
+    private static final Map<Method,Boolean> embeddedGetSet = new HashMap<>();
     public <T extends JSONdto> T newCustomEntity(T bean, boolean ... checks) {
-        boolean cycleCheck = checks==null || checks.length==0 || checks[0]; //true by default
+        boolean cycleCheck = checks!=null && checks.length>0 && checks[0]; //false by default
         try {
             bean.setRID(null); //Ignore bean ORID
             return saveCustomEntity(bean, false, cycleCheck); //Save in append mode for connected entities
@@ -159,13 +171,13 @@ public abstract class OrientDao {
     }
     public <T extends JSONdto> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
         boolean overwrite = checks!=null && checks.length>0 && checks[0]; //false by default
-        boolean cycleCheck = checks==null || checks.length<2 || checks[1]; //true by default
+        boolean cycleCheck = checks!=null && checks.length>1 && checks[1]; //false by default
 
         OObjectDatabaseTx connection = null;
         try {
             connection = getConnection();
             connection.begin();
-            bean = saveCustomEntity(bean, overwrite, cycleCheck ? new HashMap<>() : null, (OObjectDatabaseTx)getConnection());
+            bean = saveCustomEntity(bean, overwrite, cycleCheck ? new HashMap<>() : null, (OObjectDatabaseTx)getConnection(), false);
             connection.commit();
             return bean;
         } catch (OSerializationException e) {
@@ -182,7 +194,7 @@ public abstract class OrientDao {
                 connection.close();
         }
     }
-    private <T extends JSONdto> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
+    private <T extends JSONdto> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
         //Avoid cycle and useless proxy create/load
         if (bean==null)
             return null;
@@ -215,7 +227,7 @@ public abstract class OrientDao {
                 empty = false;
                 Collection<JSONdto> proxyCollectionFieldValue = new HashSet<>();
                 for (JSONdto elementValue : collectionFieldValue)
-                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection));
+                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
                 //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
                 if (!overwrite) {
                     Collection<? extends JSONdto> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);
@@ -225,14 +237,14 @@ public abstract class OrientDao {
                                 proxyCollectionFieldValue.add((JSONdto) existingValue);
                 }
                 //Set new value
-                methodGetSet.set.invoke(beanProxy,proxyCollectionFieldValue);
+                methodGetSet.set.invoke(beanProxy,new LinkedList<>(proxyCollectionFieldValue));
             } else if (overwrite) //In overwrite mode maintain nullable fields for the last step
                 nullFields.add(methodGetSet.set);
 
         for (MethodGetSet methodGetSet : entityGetSet.get(beanClass))
             if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
                 empty = false;
-                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONdto) fieldValue, overwrite, buffer, connection));
+                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONdto) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
             } else if (overwrite)
                 nullFields.add(methodGetSet.set);
 
@@ -249,8 +261,11 @@ public abstract class OrientDao {
                 set.invoke(beanProxy,new Object[] {null});
 
         //Return updated proxy bean
-        return connection.save(beanProxy);
+        if (!embedded)
+            connection.save(beanProxy);
+        return beanProxy;
     }
+
 
     private synchronized <T extends JSONdto> void initEntityRecursionInformation (Class<T> beanClass) throws NoSuchMethodException {
         Collection<MethodGetSet> standardGetSetCollection = new LinkedList<>();
@@ -265,21 +280,20 @@ public abstract class OrientDao {
                 if (getter.getName().startsWith("get") && !getter.getName().equals("getRID") && !getter.getName().equals("getORID")) {
                     Class returnClass = getter.getReturnType();
                     MethodGetSet getSet = new MethodGetSet(getter, beanClass.getMethod('s'+getter.getName().substring(1),returnClass));
-                    boolean embedded = getSet.set.isAnnotationPresent(Embedded.class);
-                    if (!embedded && Collection.class.isAssignableFrom(returnClass)) {
+                    if (Collection.class.isAssignableFrom(returnClass)) {
                         Class elementClass = (Class) ((ParameterizedType) getter.getGenericReturnType()).getActualTypeArguments()[0];
                         if (JSONdto.class.isAssignableFrom(elementClass))
                             entityCollectionGetSetCollection.add(getSet);
                         else
                             standardGetSetCollection.add(getSet);
-                    } else if (!embedded && JSONdto.class.isAssignableFrom(returnClass))
+                    } else if (JSONdto.class.isAssignableFrom(returnClass))
                         entityGetSetCollection.add(getSet);
                     else
                         standardGetSetCollection.add(getSet);
+                    embeddedGetSet.put(getSet.set,getSet.set.isAnnotationPresent(Embedded.class));
                 }
         entityClass.add(beanClass);
     }
-
 
 
     //DOCUMENT DATABASE UTILS

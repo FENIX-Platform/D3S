@@ -15,7 +15,7 @@
                     "codes" : [ { }], //code & codeList,
                     "customCodes" : [], //customCodes
                     "enumeration" : "",
-                    "period" : {"from":"" , "to":"" } //il datatype di from e to è il dataType della colonna
+                    "period" : {"from":"" , "to":"" } // "from" and "to" fields datatype is the column dataType
                 },
 
                 "columnLink" : "",
