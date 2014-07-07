@@ -9,31 +9,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
 @Path("msd/cm")
-public class StoreCommons extends Service implements org.fao.fenix.d3s.msd.services.spi.StoreCommons {
+public class StoreCommons extends Service implements org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons {
     @Context HttpServletRequest request;
 
     @Override
     public String newContactIdentity(ContactIdentity contactIdentity) throws Exception {
-        return getProxy(org.fao.fenix.d3s.msd.services.spi.StoreCommons.class).newContactIdentity(contactIdentity);
+        return getProxy(org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons.class).newContactIdentity(contactIdentity);
     }
 
     @Override
     public void updateContactIdentity(ContactIdentity contactIdentity) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreCommons.class).updateContactIdentity(contactIdentity);
+        getProxy(org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons.class).updateContactIdentity(contactIdentity);
     }
 
     @Override
     public void appendContactIdentity(ContactIdentity contactIdentity) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreCommons.class).appendContactIdentity(contactIdentity);
+        getProxy(org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons.class).appendContactIdentity(contactIdentity);
     }
 
     @Override
     public void deleteContactIdentity(String contactID) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreCommons.class).deleteContactIdentity(contactID);
+        getProxy(org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons.class).deleteContactIdentity(contactID);
     }
 
     @Override
     public String newPublication(Publication publication) throws Exception {
-        return getProxy(org.fao.fenix.d3s.msd.services.spi.StoreCommons.class).newPublication(publication);
+        return getProxy(org.fao.fenix.d3s.msd.services.spi.canc.StoreCommons.class).newPublication(publication);
     }
 }

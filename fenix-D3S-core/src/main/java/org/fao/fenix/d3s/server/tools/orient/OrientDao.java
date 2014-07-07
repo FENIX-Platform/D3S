@@ -120,6 +120,25 @@ public abstract class OrientDao {
     public ODocument load (ORID orid) throws Exception {
         return ((ODatabaseDocumentTx)getConnection()).load(orid);
     }
+    public <T> T loadBean (String rid, Class<T> type) throws Exception {
+        try {
+            return (T)loadBean(JSONdto.toRID(rid));
+        } catch (ClassCastException ex) {
+            throw new NoContentException("Illegal type '"+type+"' for the entity "+rid);
+        }
+    }
+    public <T extends JSONdto> T loadBean (T bean) throws Exception { return (T)loadBean(bean.getORID()); }
+    public Object loadBean (ORID orid) throws Exception {
+        try {
+            Object entity = orid != null ? ((OObjectDatabaseTx)getConnection()).load(orid) : null;
+            if (entity == null)
+                throw new NoContentException(JSONdto.toString(orid));
+            return entity;
+        } catch (OSerializationException ex) {
+            client.registerPersistentEntities();
+            return loadBean(orid);
+        }
+    }
 
     public <T> Iterator<T> browse(Class<T> type) throws Exception {
         return ((OObjectDatabaseTx)getConnection()).browseClass(type);
@@ -160,6 +179,7 @@ public abstract class OrientDao {
     private static final Map<Class,Collection<MethodGetSet>> entityGetSet = new HashMap<>();
     private static final Map<Class,Collection<MethodGetSet>> entityCollectionGetSet = new HashMap<>();
     private static final Map<Method,Boolean> embeddedGetSet = new HashMap<>();
+
     public <T extends JSONdto> T newCustomEntity(T bean, boolean ... checks) {
         boolean cycleCheck = checks!=null && checks.length>0 && checks[0]; //false by default
         try {
@@ -170,6 +190,11 @@ public abstract class OrientDao {
         }
     }
     public <T extends JSONdto> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
+        Collection<T> beans = new LinkedList<>();
+        beans.add(bean);
+        return saveCustomEntity(beans,checks).iterator().next();
+    }
+    public <T extends JSONdto> Collection<T> saveCustomEntity(Collection<T> beans, boolean ... checks) throws Exception {
         boolean overwrite = checks!=null && checks.length>0 && checks[0]; //false by default
         boolean cycleCheck = checks!=null && checks.length>1 && checks[1]; //false by default
 
@@ -177,14 +202,19 @@ public abstract class OrientDao {
         try {
             connection = getConnection();
             connection.begin();
-            bean = saveCustomEntity(bean, overwrite, cycleCheck ? new HashMap<>() : null, (OObjectDatabaseTx)getConnection(), false);
+
+            Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
+            Collection<T> beansBuffer = new LinkedList<>();
+            for (T bean : beans)
+                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, (OObjectDatabaseTx)getConnection(), false));
+
             connection.commit();
-            return bean;
+            return beansBuffer;
         } catch (OSerializationException e) {
             if (connection!=null)
                 connection.rollback();
             client.registerPersistentEntities();
-            return saveCustomEntity(bean, overwrite);
+            return saveCustomEntity(beans, overwrite, cycleCheck);
         } catch (Exception e) {
             if (connection!=null)
                 connection.rollback();

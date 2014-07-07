@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListLoad;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 import org.fao.fenix.d3s.search.dto.OutputParameters;

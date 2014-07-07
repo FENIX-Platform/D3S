@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.fao.fenix.commons.msd.dto.type.cl.DuplicateCodeException;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkLoad;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListLoad;
-import org.fao.fenix.d3s.msd.dao.common.CommonsLoad;
-import org.fao.fenix.d3s.msd.dao.dm.DMLoad;
-import org.fao.fenix.d3s.msd.dao.dsd.DSDLoad;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListConverter;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListLinkLoad;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListLoad;
+import org.fao.fenix.d3s.msd.dao.canc.common.CommonsLoad;
+import org.fao.fenix.d3s.msd.dao.canc.dm.DMLoad;
+import org.fao.fenix.d3s.msd.dao.canc.dsd.DSDLoad;
 import org.fao.fenix.d3s.server.tools.SupportedLanguages;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeConversion;

@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.fao.fenix.commons.search.dto.Response;
 import org.fao.fenix.commons.search.dto.filter.ResourceFilter;
 import org.fao.fenix.d3s.search.bl.datasetFilter.DatasetPropertiesFilter;
-import org.fao.fenix.d3s.msd.dao.dm.DMConverter;
+import org.fao.fenix.d3s.msd.dao.canc.dm.DMConverter;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;

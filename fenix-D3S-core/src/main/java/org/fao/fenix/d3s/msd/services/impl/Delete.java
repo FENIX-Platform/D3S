@@ -1,10 +1,10 @@
 package org.fao.fenix.d3s.msd.services.impl;
 
-import org.fao.fenix.d3s.msd.dao.cl.CodeListStore;
-import org.fao.fenix.d3s.msd.dao.common.CommonsStore;
-import org.fao.fenix.d3s.msd.dao.dm.DMStore;
-import org.fao.fenix.d3s.msd.dao.cl.CodeListLinkStore;
-import org.fao.fenix.d3s.msd.dao.dsd.DSDStore;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListStore;
+import org.fao.fenix.d3s.msd.dao.canc.common.CommonsStore;
+import org.fao.fenix.d3s.msd.dao.canc.dm.DMStore;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListLinkStore;
+import org.fao.fenix.d3s.msd.dao.canc.dsd.DSDStore;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeConversion;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodePropaedeutic;

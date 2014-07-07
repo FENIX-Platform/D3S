@@ -73,6 +73,7 @@ CREATE PROPERTY OjCitation.ISSN STRING;
 
 CREATE PROPERTY Code.codeList LINK MeIdentification;
 CREATE PROPERTY Code.code STRING;
+CREATE PROPERTY Code.level INTEGER;
 CREATE PROPERTY Code.title EMBEDDEDMAP STRING;
 CREATE PROPERTY Code.description EMBEDDEDMAP STRING;
 CREATE PROPERTY Code.validityPeriod EMBEDDED Period;
@@ -82,22 +83,26 @@ CREATE PROPERTY Code.relations LINKLIST Code;
 
 
 CREATE PROPERTY MeIdentification.uid STRING;
+CREATE PROPERTY MeIdentification.parentsIdentifier EMBEDDEDSET STRING;
 CREATE PROPERTY MeIdentification.languages LINKLIST OjCodeList;
 CREATE PROPERTY MeIdentification.languageDetail EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.title EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.creationDate DATE;
 CREATE PROPERTY MeIdentification.characterSet LINK OjCodeList;
-CREATE PROPERTY MeIdentification.parentsIdentifier EMBEDDEDSET STRING;
 CREATE PROPERTY MeIdentification.metadataStandardName EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.metadataStandardVersion EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.metadataLanguage LINKLIST OjCodeList;
 CREATE PROPERTY MeIdentification.contacts LINKLIST OjResponsibleParty;
 CREATE PROPERTY MeIdentification.noDataValue STRING;
+CREATE PROPERTY MeIdentification.meContent LINK MeContent;
 
 
 CREATE PROPERTY MeContent.resourceRepresentationType STRING;
 CREATE PROPERTY MeContent.keyWords EMBEDDEDLIST STRING;
 CREATE PROPERTY MeContent.description EMBEDDEDMAP STRING;
+CREATE PROPERTY MeContent.seReferencePopulation LINK SeReferencePopulation;
+CREATE PROPERTY MeContent.seCoverage LINK SeCoverage;
+CREATE PROPERTY MeContent.seCodeList LINK SeCodeList;
 
 CREATE PROPERTY SeReferencePopulation.statisticalPopulation EMBEDDEDMAP STRING;
 CREATE PROPERTY SeReferencePopulation.statisticalUnit EMBEDDEDMAP STRING;

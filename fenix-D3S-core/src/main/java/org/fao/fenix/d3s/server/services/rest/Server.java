@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
-import org.fao.fenix.d3s.msd.dao.dm.DMIndexStore;
+import org.fao.fenix.d3s.msd.dao.canc.dm.DMIndexStore;
 import org.fao.fenix.d3s.server.init.MainController;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.dto.OrientStatus;

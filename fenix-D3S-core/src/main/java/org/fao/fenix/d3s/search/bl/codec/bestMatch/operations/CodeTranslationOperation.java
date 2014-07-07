@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.search.bl.codec.bestMatch.operations;
 import java.util.Collection;
 import java.util.Map;
 
-import org.fao.fenix.d3s.msd.dao.cl.CodeListConverter;
+import org.fao.fenix.d3s.msd.dao.canc.cl.CodeListConverter;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
