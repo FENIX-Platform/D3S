@@ -98,7 +98,7 @@ public abstract class OrientDao {
     public synchronized Collection<ODocument> select(String query, Object... params) throws Exception {
         return select(query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
     }
-    public synchronized Collection<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
+    public synchronized List<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
         return ((ODatabaseDocumentTx)getConnection()).query(getSelect(query, ODocument.class, ordering, paging), params);
     }
     public synchronized <T> Collection<T> select(Class<T> type, String query, Object... params) throws Exception {

@@ -28,4 +28,9 @@ public class DMMainIndexManager extends DocumentTrigger {
 
         return RESULT.RECORD_CHANGED;
     }
+
+    @Override
+    public void onUnregister() {
+
+    }
 }

@@ -11,7 +11,7 @@ import org.fao.fenix.d3s.server.dto.OrientStatus;
 @Consumes
 public interface Server {
 
-    @POST
+/*    @POST
     @Path("metadata/index")
     public void createMetadataIndex() throws Exception;
     @PUT
@@ -20,7 +20,7 @@ public interface Server {
     @DELETE
     @Path("metadata/index")
     public void removeMetadataIndex() throws Exception;
-
+*/
     @GET
     @Path("init/parameters")
     public Map<String,String> serverInitParameters() throws Exception;

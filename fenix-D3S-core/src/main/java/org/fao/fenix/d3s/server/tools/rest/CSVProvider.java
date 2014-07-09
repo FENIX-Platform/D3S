@@ -1,12 +1,13 @@
 package org.fao.fenix.d3s.server.tools.rest;
 
-import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
+import org.fao.fenix.commons.msd.dto.full.CodeList;
+/*import org.fao.fenix.commons.msd.dto.templates.canc.cl.Code;
 import org.fao.fenix.commons.msd.dto.templates.canc.cl.CodeSystem;
 import org.fao.fenix.commons.msd.dto.type.cl.CSSharingPolicy;
 import org.fao.fenix.commons.msd.dto.templates.canc.common.ContactIdentity;
 import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.fao.fenix.commons.utils.CSVReader;
-
+*/
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +22,7 @@ import java.util.*;
 
 @Provider
 @Consumes("application/csv")
-public class CSVProvider implements MessageBodyReader<CodeSystem> {
+public class CSVProvider implements MessageBodyReader<CodeList> {
     public enum CodeListFileStructure { tree, table }
 
     class Structure {
@@ -39,13 +40,13 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return aClass.equals(CodeSystem.class);
+        return aClass.equals(CodeList.class);
     }
 
     @Override
-    public CodeSystem readFrom(Class<CodeSystem> codeSystemClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
+    public CodeList readFrom(Class<CodeList> codeSystemClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try {
-            CodeSystem codeList = new CodeSystem();
+            CodeList codeList = new CodeList();
             BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 
             //Load structure and code list metadata
@@ -72,9 +73,9 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
         return structureProperties;
     }
 
-    private Structure loadCodeListMetadata(CodeSystem codeList, Properties structureProperties) throws Exception {
+    private Structure loadCodeListMetadata(CodeList codeList, Properties structureProperties) throws Exception {
         Structure structure = new Structure();
-
+/*
         //Mandatory structure init (with default values if needed)
         structure.csvSeparator = structureProperties.getProperty("csvSeparator", ";").trim();
         structure.dateFormat = new SimpleDateFormat(structureProperties.getProperty("dateFormat","yyyy/mm/dd").trim());
@@ -127,13 +128,13 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
                 structure.expireYearColumnIndex = Integer.parseInt(fieldValue)-1;
         }
 
-        return structure;
+*/        return structure;
     }
 
 
 
-    private void loadCodeListData(CodeSystem codeList, Structure csvStructure, BufferedReader in) throws Exception {
-        Map<String,Code> loadedCodes = new HashMap<>();
+    private void loadCodeListData(CodeList codeList, Structure csvStructure, BufferedReader in) throws Exception {
+/*        Map<String,Code> loadedCodes = new HashMap<>();
         Map<String, Set<String>> codeParents = new HashMap<>();
         Collection<String> rootCodes = new LinkedList<>();
         CSVReader csvReader = new CSVReader(in,csvStructure.csvSeparator);
@@ -221,7 +222,7 @@ public class CSVProvider implements MessageBodyReader<CodeSystem> {
                 errorMessageBuffer.append('\n').append(codeO.getCode());
             throw new Exception(errorMessageBuffer.toString());
         }
-    }
+*/    }
 
 
 

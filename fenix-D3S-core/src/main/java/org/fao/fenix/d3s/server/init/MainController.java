@@ -1,8 +1,8 @@
 package org.fao.fenix.d3s.server.init;
 
 
-import org.fao.fenix.d3s.search.SearchStep;
-import org.fao.fenix.d3s.search.services.impl.SearchOperation;
+//import org.fao.fenix.d3s.search.SearchStep;
+//import org.fao.fenix.d3s.search.services.impl.SearchOperation;
 import org.fao.fenix.d3s.server.tools.Properties;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.tools.rest.Server;
@@ -60,8 +60,8 @@ public class MainController implements ServletContextListener {
 
         try {
             //Init modules
-            SearchStep.init(initParameters);
-            SearchOperation.init(initParameters);
+            //SearchStep.init(initParameters);
+            //SearchOperation.init(initParameters);
             orientClient.init(initParameters);
             //Startup modules
             orientClient.startServer();
