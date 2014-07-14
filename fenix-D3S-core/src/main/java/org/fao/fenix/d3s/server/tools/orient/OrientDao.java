@@ -12,11 +12,10 @@ import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
-import com.orientechnologies.orient.core.query.OQuery;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import org.fao.fenix.commons.msd.dto.JSONdto;
+import org.fao.fenix.commons.msd.dto.JSONEntity;
 
 import javax.inject.Inject;
 import javax.persistence.Embedded;
@@ -115,24 +114,24 @@ public abstract class OrientDao {
 
 
     public ODocument load (String rid) throws Exception {
-        return load(JSONdto.toRID(rid));
+        return load(JSONEntity.toRID(rid));
     }
     public ODocument load (ORID orid) throws Exception {
         return ((ODatabaseDocumentTx)getConnection()).load(orid);
     }
     public <T> T loadBean (String rid, Class<T> type) throws Exception {
         try {
-            return (T)loadBean(JSONdto.toRID(rid));
+            return (T)loadBean(JSONEntity.toRID(rid));
         } catch (ClassCastException ex) {
             throw new NoContentException("Illegal type '"+type+"' for the entity "+rid);
         }
     }
-    public <T extends JSONdto> T loadBean (T bean) throws Exception { return (T)loadBean(bean.getORID()); }
+    public <T extends JSONEntity> T loadBean (T bean) throws Exception { return (T)loadBean(bean.getORID()); }
     public Object loadBean (ORID orid) throws Exception {
         try {
             Object entity = orid != null ? ((OObjectDatabaseTx)getConnection()).load(orid) : null;
             if (entity == null)
-                throw new NoContentException(JSONdto.toString(orid));
+                throw new NoContentException(JSONEntity.toString(orid));
             return entity;
         } catch (OSerializationException ex) {
             client.registerPersistentEntities();
@@ -180,7 +179,7 @@ public abstract class OrientDao {
     private static final Map<Class,Collection<MethodGetSet>> entityCollectionGetSet = new HashMap<>();
     private static final Map<Method,Boolean> embeddedGetSet = new HashMap<>();
 
-    public <T extends JSONdto> T newCustomEntity(T bean, boolean ... checks) {
+    public <T extends JSONEntity> T newCustomEntity(T bean, boolean ... checks) {
         boolean cycleCheck = checks!=null && checks.length>0 && checks[0]; //false by default
         try {
             bean.setRID(null); //Ignore bean ORID
@@ -189,12 +188,12 @@ public abstract class OrientDao {
             throw new RuntimeException(e);
         }
     }
-    public <T extends JSONdto> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
+    public <T extends JSONEntity> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
         Collection<T> beans = new LinkedList<>();
         beans.add(bean);
         return saveCustomEntity(beans,checks).iterator().next();
     }
-    public <T extends JSONdto> Collection<T> saveCustomEntity(Collection<T> beans, boolean ... checks) throws Exception {
+    public <T extends JSONEntity> Collection<T> saveCustomEntity(Collection<T> beans, boolean ... checks) throws Exception {
         boolean overwrite = checks!=null && checks.length>0 && checks[0]; //false by default
         boolean cycleCheck = checks!=null && checks.length>1 && checks[1]; //false by default
 
@@ -224,7 +223,7 @@ public abstract class OrientDao {
                 connection.close();
         }
     }
-    private <T extends JSONdto> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
+    private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
         //Avoid cycle and useless proxy create/load
         if (bean==null)
             return null;
@@ -248,23 +247,23 @@ public abstract class OrientDao {
         boolean empty = true;
         Set<Method> nullFields = new HashSet<>();
 
-        Collection<? extends JSONdto> collectionFieldValue;
+        Collection<? extends JSONEntity> collectionFieldValue;
         Object fieldValue;
 
         for (MethodGetSet methodGetSet : entityCollectionGetSet.get(beanClass))
             if ((collectionFieldValue = (Collection) methodGetSet.get.invoke(bean))!=null && collectionFieldValue.size()>0) {
                 //Collect new proxy entities
                 empty = false;
-                Collection<JSONdto> proxyCollectionFieldValue = new HashSet<>();
-                for (JSONdto elementValue : collectionFieldValue)
+                Collection<JSONEntity> proxyCollectionFieldValue = new HashSet<>();
+                for (JSONEntity elementValue : collectionFieldValue)
                     proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
                 //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
                 if (!overwrite) {
-                    Collection<? extends JSONdto> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);
+                    Collection<? extends JSONEntity> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);
                     if (existingProxyCollectionFieldValue!=null && existingProxyCollectionFieldValue.size()>0)
                         for (Object existingValue : existingProxyCollectionFieldValue)
                             if (existingValue!=null) //Avoid removed links
-                                proxyCollectionFieldValue.add((JSONdto) existingValue);
+                                proxyCollectionFieldValue.add((JSONEntity) existingValue);
                 }
                 //Set new value
                 methodGetSet.set.invoke(beanProxy,new LinkedList<>(proxyCollectionFieldValue));
@@ -274,7 +273,7 @@ public abstract class OrientDao {
         for (MethodGetSet methodGetSet : entityGetSet.get(beanClass))
             if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
                 empty = false;
-                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONdto) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
+                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
             } else if (overwrite)
                 nullFields.add(methodGetSet.set);
 
@@ -297,7 +296,7 @@ public abstract class OrientDao {
     }
 
 
-    private synchronized <T extends JSONdto> void initEntityRecursionInformation (Class<T> beanClass) throws NoSuchMethodException {
+    private synchronized <T extends JSONEntity> void initEntityRecursionInformation (Class<T> beanClass) throws NoSuchMethodException {
         Collection<MethodGetSet> standardGetSetCollection = new LinkedList<>();
         Collection<MethodGetSet> entityGetSetCollection = new LinkedList<>();
         Collection<MethodGetSet> entityCollectionGetSetCollection = new LinkedList<>();
@@ -305,18 +304,18 @@ public abstract class OrientDao {
         entityGetSet.put(beanClass,entityGetSetCollection);
         entityCollectionGetSet.put(beanClass,entityCollectionGetSetCollection);
 
-        for (Class<? extends JSONdto> c = beanClass; !c.equals(JSONdto.class); c = (Class<? extends JSONdto>) c.getSuperclass())
+        for (Class<? extends JSONEntity> c = beanClass; !c.equals(JSONEntity.class); c = (Class<? extends JSONEntity>) c.getSuperclass())
             for (Method getter : c.getDeclaredMethods())
                 if (getter.getName().startsWith("get") && !getter.getName().equals("getRID") && !getter.getName().equals("getORID")) {
                     Class returnClass = getter.getReturnType();
                     MethodGetSet getSet = new MethodGetSet(getter, beanClass.getMethod('s'+getter.getName().substring(1),returnClass));
                     if (Collection.class.isAssignableFrom(returnClass)) {
                         Class elementClass = (Class) ((ParameterizedType) getter.getGenericReturnType()).getActualTypeArguments()[0];
-                        if (JSONdto.class.isAssignableFrom(elementClass))
+                        if (JSONEntity.class.isAssignableFrom(elementClass))
                             entityCollectionGetSetCollection.add(getSet);
                         else
                             standardGetSetCollection.add(getSet);
-                    } else if (JSONdto.class.isAssignableFrom(returnClass))
+                    } else if (JSONEntity.class.isAssignableFrom(returnClass))
                         entityGetSetCollection.add(getSet);
                     else
                         standardGetSetCollection.add(getSet);

@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
+import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.templates.codeList.CodeList;
 import org.fao.fenix.d3s.msd.dao.CodeListDao;
 import org.fao.fenix.d3s.msd.services.spi.CodeLists;
@@ -24,17 +25,17 @@ public class CodeListsService implements CodeLists {
     }
 
     @Override
-    public CodeList insertCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception {
+    public CodeList insertCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
         return CodeList.getInstance(dao.insertCodeList(codeList));
     }
 
     @Override
-    public CodeList updateCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception {
+    public CodeList updateCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
         return CodeList.getInstance(dao.updateCodeList(codeList, true));
     }
 
     @Override
-    public CodeList appendCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception {
+    public CodeList appendCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
         return CodeList.getInstance(dao.updateCodeList(codeList, false));
     }
 }

@@ -1,9 +1,8 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
 import org.fao.fenix.commons.msd.dto.full.Code;
-import org.fao.fenix.commons.msd.dto.full.CodeList;
+import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.commons.msd.utils.DataUtils;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
@@ -14,7 +13,7 @@ import java.util.*;
 
 @Provider
 @Consumes("application/csv")
-public class CSVCodeListProvider extends CSVProvider<CodeList> {
+public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
 
     public enum CodeListFileStructure { tree, table }
 
@@ -31,12 +30,12 @@ public class CSVCodeListProvider extends CSVProvider<CodeList> {
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return aClass.equals(CodeList.class);
+        return aClass.equals(Resource.class);
     }
 
     @Override
-    protected CodeList read(MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
-        return new CodeList(metadata, createCodeListData(metadata,readStructure(structure),data) );
+    protected Resource<Code> read(MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
+        return new Resource(metadata, createCodeListData(metadata,readStructure(structure),data) );
     }
 
 

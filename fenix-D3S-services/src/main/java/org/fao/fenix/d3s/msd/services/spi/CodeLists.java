@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
+import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.templates.codeList.CodeList;
 import org.fao.fenix.commons.utils.PATCH;
 
@@ -13,16 +14,20 @@ import java.util.Date;
 public interface CodeLists {
 
     @GET
+    @Path("/full")
     public Collection<CodeList> getCodeLists(@QueryParam("from") Date from, @QueryParam("to") Date to) throws Exception;
     @GET
-    @Path("/{rid}")
+    @Path("/full/{rid}")
     public CodeList getCodeList(@PathParam("rid") String rid) throws Exception;
     @POST
-    public CodeList insertCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception;
+    @Path("/full")
+    public CodeList insertCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception;
     @PATCH
-    public CodeList updateCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception;
+    @Path("/full")
+    public CodeList updateCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception;
     @PUT
-    public CodeList appendCodeList(org.fao.fenix.commons.msd.dto.full.CodeList codeList) throws Exception;
+    @Path("/full")
+    public CodeList appendCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception;
     
     
 
