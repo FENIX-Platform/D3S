@@ -21,7 +21,7 @@ public class OrientConnectionWebFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         ODatabase connection = null;
         try {
-            if (((HttpServletRequest)servletRequest).getPathInfo().contains("msd"))
+            if (((HttpServletRequest)servletRequest).getRequestURI().contains("msd"))
                 connection = client.getODatabase(OrientDatabase.msd);
             else
                 connection = client.getDDatabase(OrientDatabase.msd);

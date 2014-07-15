@@ -1,0 +1,56 @@
+{
+    "metadata" : {
+        "uid" : "test1",
+        "title" : {
+            "EN" : "Test code list 1",
+            "IT" : "Code list di test 1"
+        },
+        "meContent" : {
+            "resourceRepresentationType" : "codelist",
+            "seCodeList" : {
+                "numberOfLevels" : 3,
+                "typeOfCodeList" : "tree"
+            }
+        }
+    },
+
+    "data" : [
+        {
+            "code" : "01",
+            "title" : { "EN" : "Code 01" },
+            "validityPeriod" : { "from" : 2010, "to" : 2014 },
+            "children" : [
+                {
+                    "code" : "0101",
+                    "title" : { "EN" : "Code 0101" }
+                },
+                {
+                    "code" : "0102",
+                    "title" : { "EN" : "Code 0102" },
+                    "children" : [
+                        {
+                            "code" : "010203",
+                            "title" : { "EN" : "Code 010203" }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code" : "02",
+            "title" : { "EN" : "Code 02" },
+            "validityPeriod" : { "from" : 2009, "to" : 2014 }
+        },
+        {
+            "code" : "03",
+            "title" : { "EN" : "Code 03" },
+            "validityPeriod" : { "from" : 2008, "to" : 2012 },
+            "children" : [
+                {
+                    "code" : "0301",
+                    "title" : { "EN" : "Code 0301" }
+                }
+            ]
+        }
+    ]
+}
