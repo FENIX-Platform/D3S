@@ -6,9 +6,9 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 
 public class DatabaseStandards {
-    private static ThreadLocal<ODatabase> connection = new ThreadLocal<>();
-    private static ThreadLocal<Page> paginationInfo = new ThreadLocal<>();
-    private static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
+    public static ThreadLocal<ODatabase> connection = new ThreadLocal<>();
+    public static ThreadLocal<Page> paginationInfo = new ThreadLocal<>();
+    public static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
 
 
     protected <T extends ODatabase> T getConnection() {

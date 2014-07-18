@@ -15,9 +15,6 @@ import java.util.Date;
 public interface CodeLists {
 
     @GET
-    @Path("/full")
-    public Collection<CodeList> getCodeLists(@QueryParam("from") Date from, @QueryParam("to") Date to) throws Exception;
-    @GET
     @Path("/full/{rid}")
     public CodeList getCodeList(@PathParam("rid") String rid) throws Exception;
     @POST

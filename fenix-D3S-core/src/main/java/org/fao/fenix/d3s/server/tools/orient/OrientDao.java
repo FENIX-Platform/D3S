@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
+import javassist.util.proxy.Proxy;
 
 import com.orientechnologies.orient.core.db.ODatabase;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
@@ -126,7 +127,9 @@ public abstract class OrientDao {
             throw new NoContentException("Illegal type '"+type+"' for the entity "+rid);
         }
     }
-    public <T extends JSONEntity> T loadBean (T bean) throws Exception { return (T)loadBean(bean.getORID()); }
+    public <T extends JSONEntity> T loadBean (T bean) throws Exception {
+        return (T)loadBean(bean.getORID());
+    }
     public Object loadBean (ORID orid) throws Exception {
         try {
             Object entity = orid != null ? ((OObjectDatabaseTx)getConnection()).load(orid) : null;
@@ -205,7 +208,7 @@ public abstract class OrientDao {
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
             Collection<T> beansBuffer = new LinkedList<>();
             for (T bean : beans)
-                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, (OObjectDatabaseTx)getConnection(), false));
+                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, connection, false));
 
             connection.commit();
             return beansBuffer;
@@ -218,15 +221,14 @@ public abstract class OrientDao {
             if (connection!=null)
                 connection.rollback();
             throw e;
-        } finally {
-            if (connection!=null)
-                connection.close();
         }
     }
     private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
         //Avoid cycle and useless proxy create/load
         if (bean==null)
             return null;
+        if (bean instanceof Proxy)
+            return bean;
         if (buffer!=null && buffer.containsKey(bean))
             return (T)buffer.get(bean);
 
@@ -240,7 +242,7 @@ public abstract class OrientDao {
         T beanProxy = orid!=null ? (T)connection.load(orid) : connection.newInstance(beanClass);
         if (beanProxy==null)
             throw new NoContentException("Cannot find bean '"+bean.getRID()+'\'');
-        if (buffer!=null)
+        if (buffer!=null && !embedded)
             buffer.put(bean,beanProxy);
 
         //Retrieve fields value and apply recursion
@@ -249,6 +251,20 @@ public abstract class OrientDao {
 
         Collection<? extends JSONEntity> collectionFieldValue;
         Object fieldValue;
+
+        for (MethodGetSet methodGetSet : standardGetSet.get(beanClass))
+            if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
+                empty = false;
+                methodGetSet.set.invoke(beanProxy, fieldValue);
+            } else if (overwrite)
+                nullFields.add(methodGetSet.set);
+
+        for (MethodGetSet methodGetSet : entityGetSet.get(beanClass))
+            if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
+                empty = false;
+                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
+            } else if (overwrite)
+                nullFields.add(methodGetSet.set);
 
         for (MethodGetSet methodGetSet : entityCollectionGetSet.get(beanClass))
             if ((collectionFieldValue = (Collection) methodGetSet.get.invoke(bean))!=null && collectionFieldValue.size()>0) {
@@ -268,20 +284,6 @@ public abstract class OrientDao {
                 //Set new value
                 methodGetSet.set.invoke(beanProxy,new LinkedList<>(proxyCollectionFieldValue));
             } else if (overwrite) //In overwrite mode maintain nullable fields for the last step
-                nullFields.add(methodGetSet.set);
-
-        for (MethodGetSet methodGetSet : entityGetSet.get(beanClass))
-            if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
-                empty = false;
-                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
-            } else if (overwrite)
-                nullFields.add(methodGetSet.set);
-
-        for (MethodGetSet methodGetSet : standardGetSet.get(beanClass))
-            if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
-                empty = false;
-                methodGetSet.set.invoke(beanProxy, fieldValue);
-            } else if (overwrite)
                 nullFields.add(methodGetSet.set);
 
         //Set null field values of non empty bean if in overwrite mode
