@@ -36,7 +36,7 @@ CREATE PROPERTY OjCodeList.codeList STRING;
 CREATE PROPERTY OjCodeList.version STRING;
 CREATE PROPERTY OjCodeList.code STRING;
 CREATE PROPERTY OjCodeList.title EMBEDDEDMAP STRING;
-CREATE PROPERTY OjCodeList.contactInfo LINK OjResponsibleParty;
+CREATE PROPERTY OjCodeList.contactInfo EMBEDDED OjResponsibleParty;
 CREATE PROPERTY OjCodeList.link STRING;
 
 CREATE PROPERTY OjMeasure.extent EMBEDDEDMAP STRING;
@@ -63,15 +63,15 @@ CREATE PROPERTY OjContact.contactInstruction STRING;
 CREATE PROPERTY OjCitation.documentKind STRING;
 CREATE PROPERTY OjCitation.title EMBEDDEDMAP STRING;
 CREATE PROPERTY OjCitation.date DATE;
-CREATE PROPERTY OjCitation.documentContact LINK OjResponsibleParty;
+CREATE PROPERTY OjCitation.documentContact EMBEDDED OjResponsibleParty;
 CREATE PROPERTY OjCitation.notes EMBEDDEDMAP STRING;
 CREATE PROPERTY OjCitation.link STRING;
-CREATE PROPERTY OjCitation.periodicity LINK OjCodeList;
+CREATE PROPERTY OjCitation.periodicity EMBEDDED OjCodeList;
 CREATE PROPERTY OjCitation.ISBN STRING;
 CREATE PROPERTY OjCitation.ISSN STRING;
 
 
-CREATE PROPERTY Code.codeList LINK MeIdentification;
+CREATE PROPERTY Code.codeList EMBEDDED MeIdentification;
 CREATE PROPERTY Code.code STRING;
 CREATE PROPERTY Code.level INTEGER;
 CREATE PROPERTY Code.title EMBEDDEDMAP STRING;
@@ -83,36 +83,37 @@ CREATE PROPERTY Code.relations LINKLIST Code;
 
 
 CREATE PROPERTY MeIdentification.uid STRING;
+CREATE PROPERTY MeIdentification.version STRING;
 CREATE PROPERTY MeIdentification.parentsIdentifier EMBEDDEDSET STRING;
-CREATE PROPERTY MeIdentification.languages LINKLIST OjCodeList;
+CREATE PROPERTY MeIdentification.languages EMBEDDEDLIST OjCodeList;
 CREATE PROPERTY MeIdentification.languageDetail EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.title EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.creationDate DATE;
-CREATE PROPERTY MeIdentification.characterSet LINK OjCodeList;
+CREATE PROPERTY MeIdentification.characterSet EMBEDDED OjCodeList;
 CREATE PROPERTY MeIdentification.metadataStandardName EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.metadataStandardVersion EMBEDDEDMAP STRING;
-CREATE PROPERTY MeIdentification.metadataLanguage LINKLIST OjCodeList;
-CREATE PROPERTY MeIdentification.contacts LINKLIST OjResponsibleParty;
+CREATE PROPERTY MeIdentification.metadataLanguage EMBEDDEDLIST OjCodeList;
+CREATE PROPERTY MeIdentification.contacts EMBEDDEDLIST OjResponsibleParty;
 CREATE PROPERTY MeIdentification.noDataValue STRING;
-CREATE PROPERTY MeIdentification.meContent LINK MeContent;
+CREATE PROPERTY MeIdentification.meContent EMBEDDED MeContent;
 
 
 CREATE PROPERTY MeContent.resourceRepresentationType STRING;
 CREATE PROPERTY MeContent.keyWords EMBEDDEDLIST STRING;
 CREATE PROPERTY MeContent.description EMBEDDEDMAP STRING;
-CREATE PROPERTY MeContent.seReferencePopulation LINK SeReferencePopulation;
-CREATE PROPERTY MeContent.seCoverage LINK SeCoverage;
-CREATE PROPERTY MeContent.seCodeList LINK SeCodeList;
+CREATE PROPERTY MeContent.seReferencePopulation EMBEDDED SeReferencePopulation;
+CREATE PROPERTY MeContent.seCoverage EMBEDDED SeCoverage;
+CREATE PROPERTY MeContent.seCodeList EMBEDDED SeCodeList;
 
 CREATE PROPERTY SeReferencePopulation.statisticalPopulation EMBEDDEDMAP STRING;
 CREATE PROPERTY SeReferencePopulation.statisticalUnit EMBEDDEDMAP STRING;
-CREATE PROPERTY SeReferencePopulation.referencePeriod LINK OjCodeList;
-CREATE PROPERTY SeReferencePopulation.referenceArea LINK OjCodeList;
+CREATE PROPERTY SeReferencePopulation.referencePeriod EMBEDDED OjCodeList;
+CREATE PROPERTY SeReferencePopulation.referenceArea EMBEDDED OjCodeList;
 
-CREATE PROPERTY SeCoverage.coverageSector LINKLIST OjCodeList;
+CREATE PROPERTY SeCoverage.coverageSector EMBEDDEDLIST OjCodeList;
 CREATE PROPERTY SeCoverage.coverageSectorDetails EMBEDDEDMAP STRING;
 CREATE PROPERTY SeCoverage.coverageTime EMBEDDED Period;
-CREATE PROPERTY SeCoverage.coverageGeographic LINKLIST OjCodeList;
+CREATE PROPERTY SeCoverage.coverageGeographic EMBEDDEDLIST OjCodeList;
 
 CREATE PROPERTY SeCodeList.numberOfLevels INTEGER;
 CREATE PROPERTY SeCodeList.typeOfCodeList STRING;

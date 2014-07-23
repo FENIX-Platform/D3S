@@ -1,23 +1,17 @@
-package org.fao.fenix.d3s.msd.services.rest.providers;
+package org.fao.fenix.d3s.msd.services.rest.providers.csvResources;
 
-import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.Provider;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Provider
-@Consumes("application/csv")
-public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
+public class CSVCodeListProvider {
 
     public enum CodeListFileStructure { tree, table }
 
-    class Structure {
+    static class Structure {
         SimpleDateFormat dateFormat;
         CodeListFileStructure fileBasicStructure;
         Integer[] codeColumnIndexes;
@@ -28,18 +22,12 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
     }
 
 
-    @Override
-    public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return aClass.equals(Resource.class);
-    }
-
-    @Override
-    protected Resource<Code> read(MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
+    public static Resource<Code> getResource(MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
         return new Resource(metadata, createCodeListData(metadata,readStructure(structure),data) );
     }
 
 
-    private Structure readStructure(Properties structureProperties) throws Exception {
+    private static Structure readStructure(Properties structureProperties) throws Exception {
         Structure structure = new Structure();
 
         //Mandatory structure informations
@@ -69,7 +57,7 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
 
 
 
-    private Collection<Code> createCodeListData(MeIdentification metadata, Structure structure, Iterable<String[]> data) throws Exception {
+    private static Collection<Code> createCodeListData(MeIdentification metadata, Structure structure, Iterable<String[]> data) throws Exception {
         Map<String,Code> loadedCodes = new HashMap<>();
         Map<String, Set<String>> codeParents = new HashMap<>();
         Collection<String> rootCodes = new LinkedList<>();
@@ -80,7 +68,7 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
                 rowCount++;
                 //Load code informations
                 String code=null, parent=null;
-                if (structure.fileBasicStructure==CodeListFileStructure.table) {
+                if (structure.fileBasicStructure== CodeListFileStructure.table) {
                     for (int i : structure.codeColumnIndexes)
                         if (row.length<=i)
                             throw new Exception ("Wrong structure for data row "+rowCount);
@@ -89,7 +77,7 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
                             code = row[i];
                         } else
                             break;
-                } else if (structure.fileBasicStructure==CodeListFileStructure.tree) {
+                } else if (structure.fileBasicStructure== CodeListFileStructure.tree) {
                     if (structure.codeColumnIndexes.length!=2 || row.length<=structure.codeColumnIndexes[0] || row.length<=structure.codeColumnIndexes[1])
                         throw new Exception ("Wrong structure for data row "+rowCount);
                     else {
@@ -141,11 +129,15 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
                 parentO.addChild(loadedCodes.get(code));
         }
 
-        //Set level informations
-        for (Code code : root)
-            setCodeLevel(0, code);
+        //checkOrphanCodes(root,loadedCodes);
 
-        //Check orphan codes
+        return root;
+    }
+
+
+
+    //Utils TODO find another algorithm
+    private static void checkOrphanCodes (Collection<Code> rootCodes, Map<String,Code> loadedCodes) throws Exception {
         Collection<Code> orphanCodes = new LinkedList<>();
         for (Code codeO : loadedCodes.values())
             if (!codeO.isChild() && !rootCodes.contains(codeO.getCode()))
@@ -157,17 +149,6 @@ public class CSVCodeListProvider extends CSVProvider<Resource<Code>> {
                 errorMessageBuffer.append('\n').append(codeO.getCode());
             throw new Exception(errorMessageBuffer.toString());
         }
-
-        return null;
-    }
-
-    private void setCodeLevel(int parentLevel, Code code) {
-        int level = Math.max(parentLevel+1, code.getLevel()!=null ? code.getLevel() : 1);
-        code.setLevel(level);
-        Collection<Code> children = code.getChildren();
-        if (children!=null)
-            for (Code child : children)
-                setCodeLevel(level,child);
     }
 
 }

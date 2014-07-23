@@ -16,6 +16,7 @@ public interface Resources {
     @Path("/{rid}")
     public ResourceProxy getResource(@PathParam("rid") String rid) throws Exception;
     @POST
+    @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
     public ResourceProxy insertResource(Resource resource) throws Exception;
     @PUT
     public ResourceProxy updateResource(Resource resource) throws Exception;

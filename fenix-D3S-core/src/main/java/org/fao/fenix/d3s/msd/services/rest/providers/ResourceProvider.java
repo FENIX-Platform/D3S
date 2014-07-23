@@ -41,9 +41,11 @@ public class ResourceProvider implements MessageBodyReader<Resource> {
             TypeReference resourceType = null;
             if (representationType!=null)
                 switch (representationType) {
-                    case codelist: resourceType = new TypeReference<Resource<Code>>() { }; break;
-
+                    case codelist:  resourceType = new TypeReference<Resource<Code>>() { }; break;
+                    case dataset:   resourceType = new TypeReference<Resource<Object[]>>() { }; break;
                 }
+            if (resourceType==null)
+                resourceType = new TypeReference<Resource<Object[]>>() { };
 
             return jacksonMapper.readValue(resourceNode, resourceType);
         } catch (Exception e) {
@@ -69,13 +71,5 @@ public class ResourceProvider implements MessageBodyReader<Resource> {
 
         return representationType;
     }
-
-    private String read(BufferedReader in) throws IOException {
-        StringBuilder buffer = new StringBuilder();
-        for (String row=in.readLine(); row!=null; row=in.readLine())
-            buffer.append(row).append('\n');
-        return buffer.toString();
-    }
-
 
 }
