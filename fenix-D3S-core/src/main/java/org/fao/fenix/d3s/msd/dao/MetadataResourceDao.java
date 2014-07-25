@@ -7,20 +7,20 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MetadataResourceDao extends ResourceDao<Code> {
+public class MetadataResourceDao extends ResourceDao {
 
     @Override
-    public Collection<Code> loadData(MeIdentification metadata) throws Exception {
+    public Collection loadData(MeIdentification metadata) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    protected Collection<Code> insertData(MeIdentification metadata, Collection<Code> data) throws Exception {
+    protected Collection insertData(MeIdentification metadata, Collection data) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    protected Collection<Code> updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
+    protected Collection updateData(MeIdentification metadata, Collection data, boolean overwrite) throws Exception {
         throw new UnsupportedOperationException();
     }
 }

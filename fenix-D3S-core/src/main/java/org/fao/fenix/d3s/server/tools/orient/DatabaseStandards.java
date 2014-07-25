@@ -5,7 +5,10 @@ import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class DatabaseStandards {
+    public static ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
     public static ThreadLocal<ODatabase> connection = new ThreadLocal<>();
     public static ThreadLocal<Page> paginationInfo = new ThreadLocal<>();
     public static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
@@ -39,4 +42,11 @@ public class DatabaseStandards {
         orderingInfo.set(o);
     }
 
+    public HttpServletRequest getRequest() {
+        return request.get();
+    }
+
+    public void setRequest(HttpServletRequest r) {
+        request.set(r);
+    }
 }

@@ -7,17 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.orientechnologies.orient.core.Orient;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
+import org.fao.fenix.d3s.msd.index.ResourceIndexManager;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
 
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class OrientServer {
@@ -26,6 +31,8 @@ public class OrientServer {
     private String serverConfig;
     private OrientStatus status = new OrientStatus();
     private OServer server;
+
+    @Inject private Instance<ORecordHook> triggersFactory;
 
 
     //FACTORY SUPPPORT
@@ -82,6 +89,8 @@ public class OrientServer {
         status.setInitialized(true);
 
         registerPersistentEntities();
+
+        registerTriggers();
 	}
 
     public void registerPersistentEntities() throws Exception {
@@ -107,6 +116,9 @@ public class OrientServer {
         }
     }
 
+    public void registerTriggers() throws Exception {
+        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceIndexManager.class).iterator().next());
+    }
 
 
     //DATABASE CONNECTION

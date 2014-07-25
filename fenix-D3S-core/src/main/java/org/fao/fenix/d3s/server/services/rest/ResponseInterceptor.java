@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.server.services.rest;
 
 
 import org.fao.fenix.commons.msd.dto.JSONEntity;
+import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 import org.fao.fenix.d3s.server.tools.orient.Page;
 
 import javax.annotation.Resource;
@@ -16,14 +17,15 @@ import java.util.Collection;
 
 @Provider
 public class ResponseInterceptor implements ContainerResponseFilter {
-    @Resource private HttpServletRequest httpRequest;
+    //@Resource private HttpServletRequest httpRequest;
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext, final ContainerResponseContext containerResponseContext) throws IOException {
+        HttpServletRequest httpRequest = DatabaseStandards.request.get();
         //Support standard POST services
         if (containerRequestContext.getMethod().equals("POST") && Response.Status.OK.equals(containerResponseContext.getStatusInfo())) {
             containerResponseContext.setStatus(Response.Status.CREATED.getStatusCode());
-            containerResponseContext.getHeaders().putSingle("Location", createGetPath(containerResponseContext.getEntity()));
+            containerResponseContext.getHeaders().putSingle("Location", createGetPath(containerResponseContext.getEntity(), httpRequest));
         }
         //Support void response services
         if (Response.Status.NO_CONTENT.equals(containerResponseContext.getStatusInfo()) && containerResponseContext.getEntityClass()==null)
@@ -33,12 +35,12 @@ public class ResponseInterceptor implements ContainerResponseFilter {
             containerResponseContext.setStatusInfo(Response.Status.NO_CONTENT);
         //Support paginated select
         if (containerRequestContext.getMethod().equals("GET") && Response.Status.OK.equals(containerResponseContext.getStatusInfo()) && httpRequest.getParameter("perPage")!=null)
-            containerResponseContext.getHeaders().putSingle("Location", createPagePath());
+            containerResponseContext.getHeaders().putSingle("Location", createPagePath(httpRequest));
     }
 
 
     //Utils
-    private String createGetPath(Object entity) {
+    private String createGetPath(Object entity, HttpServletRequest httpRequest) {
         String serviceURL = httpRequest.getRequestURL().toString();
         if (entity!=null && entity instanceof JSONEntity)
             return serviceURL+(serviceURL.endsWith("/")?"":'/')+((JSONEntity)entity).getRID();
@@ -46,7 +48,7 @@ public class ResponseInterceptor implements ContainerResponseFilter {
             return null;
     }
 
-    private String createPagePath() {
+    private String createPagePath(HttpServletRequest httpRequest) {
         Page pageInfo = new Page(httpRequest);
         return httpRequest.getRequestURL().toString()+'?'+"perPage="+pageInfo.perPage+"&page="+(pageInfo.page+1);
     }

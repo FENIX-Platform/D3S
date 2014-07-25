@@ -11,16 +11,28 @@ public abstract class ResourceDao<D> extends OrientDao {
     //LOAD RESOURCE
 
     public Resource<D> loadResource(String rid) throws Exception {
-        MeIdentification metadata = loadMetadata(rid);
+        return loadResource(loadMetadata(rid));
+    }
+    public Resource<D> loadResource(String uid, String version) throws Exception {
+        return loadResource(loadMetadata(uid, version));
+    }
+    private Resource<D> loadResource(MeIdentification metadata) throws Exception {
         return metadata!=null ? new Resource<>(metadata, loadData(metadata)) : null;
     }
 
     public MeIdentification loadMetadata(String rid) throws Exception {
         return loadBean(rid, MeIdentification.class);
     }
+    public MeIdentification loadMetadata(String uid, String version) throws Exception {
+        Collection<MeIdentification> resources = select(MeIdentification.class, "select from MeIdentification where index_uid = ?", uid+(version!=null ? version : ""));
+        return resources.size()>0 ? resources.iterator().next() : null;
+    }
 
     public Collection<D> loadData(String rid) throws Exception {
         return loadData(loadMetadata(rid));
+    }
+    public Collection<D> loadData(String uid, String version) throws Exception {
+        return loadData(loadMetadata(uid, version));
     }
 
     //STORE RESOURCE

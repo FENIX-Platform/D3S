@@ -25,12 +25,13 @@ public class OrientConnectionWebFilter implements Filter {
                 connection = client.getODatabase(OrientDatabase.msd);
             else
                 connection = client.getDDatabase(OrientDatabase.msd);
-            dbParameters.setConnection(connection);
         } catch (Exception ex) {
             throw new ServletException("Database connection error.", ex);
         }
 
         try {
+            dbParameters.setRequest((HttpServletRequest)servletRequest);
+            dbParameters.setConnection(connection);
             dbParameters.setOrderingInfo(new Order(servletRequest));
             dbParameters.setPaginationInfo(new Page(servletRequest));
 

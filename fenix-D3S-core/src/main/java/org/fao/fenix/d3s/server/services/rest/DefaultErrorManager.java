@@ -9,6 +9,8 @@ import javax.ws.rs.ext.Provider;
 public class DefaultErrorManager implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(Exception e) {
+        e.printStackTrace();
+
         if (e instanceof NoContentException)
             return Response.noContent().build();
         else if (e instanceof WebApplicationException)
