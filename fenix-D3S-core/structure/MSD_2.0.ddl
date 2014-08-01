@@ -32,7 +32,7 @@ CREATE CLASS Code;
 CREATE PROPERTY Period.from INTEGER;
 CREATE PROPERTY Period.to INTEGER;
 
-CREATE PROPERTY OjCodeList.linkedCodes LINKLIST Code;
+CREATE PROPERTY OjCodeList.linkedCodeList LINK MeIdentification;
 CREATE PROPERTY OjCodeList.codeList STRING;
 CREATE PROPERTY OjCodeList.version STRING;
 CREATE PROPERTY OjCodeList.codes EMBEDDEDLIST OjCode;
@@ -40,6 +40,7 @@ CREATE PROPERTY OjCodeList.title EMBEDDEDMAP STRING;
 CREATE PROPERTY OjCodeList.contactInfo EMBEDDED OjResponsibleParty;
 CREATE PROPERTY OjCodeList.link STRING;
 
+CREATE PROPERTY OjCode.linkedCode LINK Code;
 CREATE PROPERTY OjCode.code STRING;
 CREATE PROPERTY OjCode.title EMBEDDEDMAP STRING;
 
@@ -101,7 +102,6 @@ CREATE PROPERTY MeIdentification.contacts EMBEDDEDLIST OjResponsibleParty;
 CREATE PROPERTY MeIdentification.noDataValue STRING;
 CREATE PROPERTY MeIdentification.meContent EMBEDDED MeContent;
 
-
 CREATE PROPERTY MeContent.resourceRepresentationType STRING;
 CREATE PROPERTY MeContent.keyWords EMBEDDEDLIST STRING;
 CREATE PROPERTY MeContent.description EMBEDDEDMAP STRING;
@@ -122,6 +122,13 @@ CREATE PROPERTY SeCoverage.coverageGeographic EMBEDDEDLIST OjCodeList;
 CREATE PROPERTY SeCodeList.numberOfLevels INTEGER;
 CREATE PROPERTY SeCodeList.typeOfCodeList STRING;
 
+
+
+CREATE PROPERTY MeIdentification.index_id STRING;
+CREATE PROPERTY MeIdentification.index_meContent|resourceRepresentationType STRING;
+
+CREATE INDEX MeIdentification.index_id UNIQUE;
+CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQUE;
 
 
 DISCONNECT;

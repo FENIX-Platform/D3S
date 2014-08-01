@@ -23,7 +23,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
     @Override
     public Collection<Code> loadData(MeIdentification metadata) throws Exception {
-        return metadata!=null ? select(Code.class, "select from Code where codeList = ? and level = 1", metadata) : null;
+        return metadata!=null ? select(Code.class, "select from Code where codeList = ? and level = 1", metadata.getORID()) : null;
     }
 
     @Override
@@ -34,6 +34,12 @@ public class CodeListResourceDao extends ResourceDao<Code> {
     @Override
     protected Collection<Code> updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
         return data!=null ? saveCustomEntity(normalization(metadata, data),overwrite,true) : null;
+    }
+
+
+    //Codes selection
+    public Collection<Code> loadData(MeIdentification metadata, String[] codes) throws Exception {
+        return metadata!=null && codes!=null && codes.length>0 ? select(Code.class, "select from Code where codeList = ? and code in ?", metadata.getORID(), codes) : null;
     }
 
 

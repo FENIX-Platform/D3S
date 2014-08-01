@@ -11,7 +11,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import java.util.*;
 
 public abstract class DocumentTrigger extends OrientDao implements ORecordHook, ODatabaseLifecycleListener {
-
+    //ODatabaseLifecycleListener implementation
     @Override
     public void onUnregister() {
 
@@ -32,12 +32,13 @@ public abstract class DocumentTrigger extends OrientDao implements ORecordHook, 
 
     }
 
+    //ORecordHook implementation
     @Override
     public RESULT onTrigger(TYPE type, ORecord<?> oRecord) {
-        switch (type) {
-            case AFTER_CREATE: return onUpdate((ODocument)oRecord, getConnection(), ((ODocument) oRecord).getSchemaClass(), null);
-            case AFTER_UPDATE: return onUpdate((ODocument)oRecord, getConnection(), ((ODocument) oRecord).getSchemaClass(), new HashSet<>(Arrays.asList(((ODocument)oRecord).getDirtyFields())));
-            default: return RESULT.RECORD_NOT_CHANGED;
+        try {
+            return type==TYPE.AFTER_CREATE || type==TYPE.AFTER_UPDATE ? onUpdate((ODocument)oRecord, getConnection()) : RESULT.RECORD_NOT_CHANGED;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -49,6 +50,11 @@ public abstract class DocumentTrigger extends OrientDao implements ORecordHook, 
 
 
     //Specific trigger actions
-    protected abstract RESULT onUpdate(ODocument documentO, ODatabase connection, OClass classO, Set<String> updated);
+    protected abstract RESULT onUpdate(ODocument document, ODatabase connection) throws Exception;
 
+
+    //Utils
+    protected Set<String> getDirtyFields(ODocument document) {
+        return document!=null ? new HashSet<>(Arrays.asList((document).getDirtyFields())) : null;
+    }
 }

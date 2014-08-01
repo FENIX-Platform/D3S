@@ -24,7 +24,7 @@ public abstract class ResourceDao<D> extends OrientDao {
         return loadBean(rid, MeIdentification.class);
     }
     public MeIdentification loadMetadata(String uid, String version) throws Exception {
-        Collection<MeIdentification> resources = select(MeIdentification.class, "select from MeIdentification where index_uid = ?", uid+(version!=null ? version : ""));
+        Collection<MeIdentification> resources = select(MeIdentification.class, "select from MeIdentification where index_id = ?", uid+(version!=null ? version : ""));
         return resources.size()>0 ? resources.iterator().next() : null;
     }
 

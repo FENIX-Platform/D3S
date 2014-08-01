@@ -1,6 +1,7 @@
 {
     "metadata" : {
         "uid" : "test1",
+        "version" : "1.0",
         "title" : {
             "EN" : "Test code list 1",
             "IT" : "Code list di test 1"
@@ -9,6 +10,14 @@
             "resourceRepresentationType" : "codelist",
             "seCodeList" : {
                 "numberOfLevels" : 3,
+                "typeOfCodeList" : "tree"
+            },
+            "seReferencePopulation" : {
+                "referencePeriod" : {
+                    "codeList" : "test1",
+                    "version" : null,
+                    "codes" : [{"code" : "0101"}]
+                },
                 "typeOfCodeList" : "tree"
             }
         }

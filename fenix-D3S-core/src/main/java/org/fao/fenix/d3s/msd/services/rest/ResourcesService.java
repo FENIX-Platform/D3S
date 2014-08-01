@@ -117,6 +117,12 @@ public class ResourcesService implements Resources {
                         org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class,
                         org.fao.fenix.commons.msd.dto.templates.codeList.Code.class
                 );
+            case dataset:
+                return ResourceProxy.getInstance(
+                        resource,
+                        org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class,
+                        org.fao.fenix.commons.msd.dto.templates.codeList.Code.class
+                );
         }
         return null;
     }
