@@ -208,7 +208,7 @@ public abstract class OrientDao {
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
             Collection<T> beansBuffer = new LinkedList<>();
             for (T bean : beans)
-                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, connection, false));
+                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, connection, false, null));
 
             connection.commit();
             return beansBuffer;
@@ -223,7 +223,7 @@ public abstract class OrientDao {
             throw e;
         }
     }
-    private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
+    private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded, T embeddedBeanProxy) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
         //Avoid cycle and useless proxy create/load
         if (bean==null)
             return null;
@@ -239,7 +239,7 @@ public abstract class OrientDao {
 
         //Load/create proxy bean
         ORID orid = bean.getORID();
-        T beanProxy = orid!=null ? (T)connection.load(orid) : connection.newInstance(beanClass);
+        T beanProxy = embeddedBeanProxy!=null ? embeddedBeanProxy : ( orid!=null ? (T)connection.load(orid) : connection.newInstance(beanClass) );
         if (beanProxy==null)
             throw new NoContentException("Cannot find bean '"+bean.getRID()+'\'');
         if (buffer!=null && !embedded)
@@ -262,7 +262,8 @@ public abstract class OrientDao {
         for (MethodGetSet methodGetSet : entityGetSet.get(beanClass))
             if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
                 empty = false;
-                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
+                boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
+                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedField, (T)methodGetSet.get.invoke(beanProxy)));
             } else if (overwrite)
                 nullFields.add(methodGetSet.set);
 
@@ -271,8 +272,10 @@ public abstract class OrientDao {
                 //Collect new proxy entities
                 empty = false;
                 Collection<JSONEntity> proxyCollectionFieldValue = new HashSet<>();
-                for (JSONEntity elementValue : collectionFieldValue)
-                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedGetSet.get(methodGetSet.set)));
+                for (JSONEntity elementValue : collectionFieldValue) {
+                    boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
+                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, (T)methodGetSet.get.invoke(beanProxy)));
+                }
                 //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
                 if (!overwrite) {
                     Collection<? extends JSONEntity> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);

@@ -6,6 +6,7 @@ import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.CodeListResourceDao;
+import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
 import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.msd.dao.ResourceDao;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
@@ -81,11 +82,11 @@ public class ResourcesService implements Resources {
     }
 
     private ResourceDao getDao (RepresentationType representationType) {
-        ResourceDao dataDao = null;
         switch (representationType) {
-            case codelist: dataDao = daoFactory.select(CodeListResourceDao.class).iterator().next();
+            case codelist: return daoFactory.select(CodeListResourceDao.class).iterator().next();
+            case dataset: return daoFactory.select(DatasetResourceDao.class).iterator().next();
         }
-        return dataDao;
+        return null;
     }
 
     private Object getMetadataProxy(MeIdentification metadata) throws Exception {
@@ -96,6 +97,7 @@ public class ResourcesService implements Resources {
     private Class getMetadataProxyClass (RepresentationType representationType) {
         switch (representationType) {
             case codelist: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
+            case dataset: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
         }
         return null;
     }
@@ -121,7 +123,7 @@ public class ResourcesService implements Resources {
                 return ResourceProxy.getInstance(
                         resource,
                         org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class,
-                        org.fao.fenix.commons.msd.dto.templates.codeList.Code.class
+                        Object[].class
                 );
         }
         return null;

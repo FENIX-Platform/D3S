@@ -30,10 +30,10 @@ public interface Resources {
     @POST
     @Path("/metadata")
     public Object insertMetadata(MeIdentification metadata) throws Exception;
-    @PATCH
+    @PUT
     @Path("/metadata")
     public Object updateMetadata(MeIdentification metadata) throws Exception;
-    @PUT
+    @PATCH
     @Path("/metadata")
     public Object appendMetadata(MeIdentification metadata) throws Exception;
 

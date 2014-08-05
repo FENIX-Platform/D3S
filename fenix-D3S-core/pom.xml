@@ -61,14 +61,7 @@
             <version>1.0</version>
         </dependency>
 
-        <!-- Services level interface -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fenix-D3S-services</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-		<!-- Orient -->
+        <!-- Orient -->
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-graphdb</artifactId>
@@ -104,8 +97,22 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.3.174</version>
+            <version>1.4.180</version>
         </dependency>
 
-	</dependencies>
+        <!-- Services level interface -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fenix-D3S-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Default plugins -->
+        <dependency>
+            <groupId>org.fao.ess</groupId>
+            <artifactId>fenix-D3S-CountrySTAT</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 </project>
