@@ -5,6 +5,7 @@ import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public abstract class ResourceDao<D> extends OrientDao {
 
@@ -58,5 +59,76 @@ public abstract class ResourceDao<D> extends OrientDao {
     public abstract Collection<D> loadData(MeIdentification metadata) throws Exception;
     protected abstract Collection<D> insertData(MeIdentification metadata, Collection<D> data) throws Exception;
     protected abstract Collection<D> updateData(MeIdentification metadata, Collection<D> data, boolean overwrite) throws Exception;
+
+    //Utils
+    public <T> Collection<T> toList(final Iterator<T> iterator) {
+        return iterator==null ? null : new Collection<T>() {
+            @Override
+            public int size() {
+                return iterator.hasNext() ? Integer.MAX_VALUE : 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                System.out.println("isEmpty...");
+                return !iterator.hasNext();
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Iterator<T> iterator() {
+                return iterator;
+            }
+
+            @Override
+            public Object[] toArray() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public <T1> T1[] toArray(T1[] a) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean add(T t) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean containsAll(Collection<?> c) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean addAll(Collection<? extends T> c) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean removeAll(Collection<?> c) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean retainAll(Collection<?> c) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void clear() {
+                throw new UnsupportedOperationException();
+            }
+        };
+    }
 
 }

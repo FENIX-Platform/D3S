@@ -7,8 +7,8 @@
 
         "columns" : [
             {
-                "dimension" : {}, //Dimension
-                "dataTypes" : [""],
+                "subject" : {}, //Dimension
+                "dataType" : "",
 
                 "values" : [],
                 "domain": {
@@ -61,6 +61,7 @@ codeList:
 {
     "codeList":"",
     "version": "",
+    "codes" : ["","",""], //[{"code":"", "title" : { "EN":"", "FR":"" }}]
     "title" : {
         "EN":"",
         "FR":""

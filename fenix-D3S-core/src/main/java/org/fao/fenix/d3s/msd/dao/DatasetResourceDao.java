@@ -1,9 +1,8 @@
 package org.fao.fenix.d3s.msd.dao;
 
-import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
-import org.fao.fenix.d3s.wds.WDSDatasetDao;
+import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -18,13 +17,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot load data. DAO not found");
 
-            Iterator<Object[]> data = wdsDao.loadData(metadata);
-            if (data!=null) {
-                Collection<Object[]> buffer = new LinkedList<>();
-                while (data.hasNext())
-                    buffer.add(data.next());
-                return buffer;
-            }
+            return toList(wdsDao.loadData(metadata));
         }
 
         return null;
@@ -32,12 +25,20 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
     @Override
     protected Collection<Object[]> insertData(MeIdentification metadata, Collection<Object[]> data) throws Exception {
-        return data!=null ? null : null;
+        return updateData(metadata, data, true);
     }
 
     @Override
     protected Collection<Object[]> updateData(MeIdentification metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
-        return data!=null ? null : null;
+        if (metadata!=null) {
+            WDSDatasetDao wdsDao = getDao(metadata);
+            if (wdsDao==null)
+                throw new ClassNotFoundException("Cannot load data. DAO not found");
+
+            wdsDao.storeData(metadata, data.iterator(), overwrite);
+        }
+
+        return null;
     }
 
 

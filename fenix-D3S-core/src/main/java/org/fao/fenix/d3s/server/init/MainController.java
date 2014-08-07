@@ -6,6 +6,7 @@ package org.fao.fenix.d3s.server.init;
 import org.fao.fenix.d3s.server.tools.Properties;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.tools.rest.Server;
+import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.glassfish.embeddable.GlassFishException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,6 +25,7 @@ import java.util.Collections;
 @WebListener
 public class MainController implements ServletContextListener {
     @Inject private OrientServer orientClient;
+    @Inject private WDSDaoFactory wdsDaoFactory;
 
 
     //STANDALONE STARTUP
@@ -60,6 +62,7 @@ public class MainController implements ServletContextListener {
 
         try {
             //Init modules
+            wdsDaoFactory.init();
             //SearchStep.init(initParameters);
             //SearchOperation.init(initParameters);
             orientClient.init(initParameters);
@@ -101,5 +104,5 @@ public class MainController implements ServletContextListener {
         }
         return initParameters;
     }
-    public String getInitParameter(String key) { return initParameters.getProperty(key); }
+    public String getInitParameter(String key) throws Exception { return getInitParameters().getProperty(key); }
 }
