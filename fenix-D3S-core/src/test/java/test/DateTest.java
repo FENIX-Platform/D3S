@@ -1,7 +1,5 @@
 package test;
 
-import sun.util.resources.CalendarData_da;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

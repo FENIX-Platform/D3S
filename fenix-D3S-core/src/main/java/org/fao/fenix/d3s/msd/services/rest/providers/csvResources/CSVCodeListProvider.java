@@ -103,9 +103,9 @@ public class CSVCodeListProvider {
                 }
 
                 if (structure.startYearColumnIndex!=null && row.length>structure.startYearColumnIndex)
-                    try { codeObject.setFromDate(Integer.parseInt(row[structure.startYearColumnIndex])); } catch (Exception ex) { throw new Exception ("Wrong value for start year (row "+rowCount+")"); }
+                    try { codeObject.setFromDate(Long.parseLong(row[structure.startYearColumnIndex])); } catch (Exception ex) { throw new Exception ("Wrong value for start year (row "+rowCount+")"); }
                 if (structure.expireYearColumnIndex!=null && row.length>structure.expireYearColumnIndex)
-                    try { codeObject.setToDate(Integer.parseInt(row[structure.expireYearColumnIndex])); } catch (Exception ex) { throw new Exception ("Wrong value for expire year (row "+rowCount+")"); }
+                    try { codeObject.setToDate(Long.parseLong(row[structure.expireYearColumnIndex])); } catch (Exception ex) { throw new Exception ("Wrong value for expire year (row "+rowCount+")"); }
 
                 //Store temporary code informations
                 loadedCodes.put(code, codeObject);
