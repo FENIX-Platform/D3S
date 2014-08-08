@@ -175,9 +175,9 @@ public class DMStore extends OrientDao {
 			dmmain.field("uidParent", dm.getParentUid());
 		if (dm.getLanguage() != null)
 			dmmain.field("language", dm.getLanguage());
-		//description                                                    		if (dm.getWeightReferencePeriod() != null)
+		//description
+		if (dm.getWeightReferencePeriod() != null)
 			dmmain.field("weightReferencePeriod", new ODocument("CMPeriod").fields(dm.getWeightReferencePeriod().toMap()));
-
 		if (dm.getTitle() != null)
 			dmmain.field("title", dm.getTitle());
 		if (dm.getSummary() != null)

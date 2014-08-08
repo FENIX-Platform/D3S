@@ -26,19 +26,19 @@ public class StoreDM implements org.fao.fenix.d3s.msd.services.spi.StoreDM {
 		return store.newDatasetMetadata(dm);
 	}
 	@Override
-	public void updateDatasetMetadata(DM dm) throws Exception {
-		if (store.updateDatasetMetadata(dm,false)<=0)
-            throw new NoContentException("");
+	public Integer updateDatasetMetadata(DM dm) throws Exception {
+        int count = store.updateDatasetMetadata(dm,false);
+        return count<=0 ? null : count;
 	}
 	@Override
-	public void appendDatasetMetadata(DM dm) throws Exception {
-        if (store.updateDatasetMetadata(dm,true)<=0)
-            throw new NoContentException("");
+	public Integer appendDatasetMetadata(DM dm) throws Exception {
+        int count = store.updateDatasetMetadata(dm,true);
+        return count<=0 ? null : count;
 	}
 	@Override
-	public void deleteDatasetMetadata(String uid) throws Exception {
-        if (delete.deleteDatasetMetadata(uid)<=0)
-            throw new NoContentException("");
+	public Integer deleteDatasetMetadata(String uid) throws Exception {
+        int count = delete.deleteDatasetMetadata(uid);
+        return count<=0 ? null : count;
 	}
 	@Override
 	public void indexDatasetMetadata(String uid) throws Exception {

@@ -27,14 +27,14 @@ public interface StoreDM {
     public void indexDatasetsRebuild() throws Exception;
     @PUT
     @Path("dataset")
-    public void updateDatasetMetadata(DM dm) throws Exception;
+    public Integer updateDatasetMetadata(DM dm) throws Exception;
 	@PUT
 	@Path("dataset/append")
-	public void appendDatasetMetadata(DM dm) throws Exception;
+	public Integer appendDatasetMetadata(DM dm) throws Exception;
 	@DELETE
 	@Consumes()
 	@Path("dataset/{datasetUID}")
-	public void deleteDatasetMetadata(@PathParam("datasetUID") String uid) throws Exception;
+	public Integer deleteDatasetMetadata(@PathParam("datasetUID") String uid) throws Exception;
 	
 
 	//structure

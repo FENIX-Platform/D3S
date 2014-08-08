@@ -51,7 +51,7 @@ public class Store {
 
     public String newDatasetMetadata(DM dm) throws Exception {
         ODocument datasetO = dmStoreDAO.storeDatasetMetadata(dm);
-        return datasetO!=null ? OrientDao.toString(datasetO.getIdentity()) : null;
+        return datasetO!=null ? (String)datasetO.field("uid") : null;
     }
 
     public String newMetadataStructure(DMMeta mm) throws Exception {

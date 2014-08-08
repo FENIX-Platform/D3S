@@ -30,18 +30,18 @@ public class StoreDM extends Service implements org.fao.fenix.d3s.msd.services.s
     }
 
     @Override
-    public void updateDatasetMetadata(DM dm) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).updateDatasetMetadata(dm);
+    public Integer updateDatasetMetadata(DM dm) throws Exception {
+        return getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).updateDatasetMetadata(dm);
     }
 
     @Override
-    public void appendDatasetMetadata(DM dm) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).appendDatasetMetadata(dm);
+    public Integer appendDatasetMetadata(DM dm) throws Exception {
+        return getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).appendDatasetMetadata(dm);
     }
 
     @Override
-    public void deleteDatasetMetadata(String uid) throws Exception {
-        getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).deleteDatasetMetadata(uid);
+    public Integer deleteDatasetMetadata(String uid) throws Exception {
+        return getProxy(org.fao.fenix.d3s.msd.services.spi.StoreDM.class).deleteDatasetMetadata(uid);
     }
 
     @Override
