@@ -2,7 +2,7 @@
     "uid": "IVANO_Test1",
     "language": "EN",
     "title": { "EN": "Test vistual dataset Ivano" },
-    "creationDate": 1334872800000, "periodicity": "unknown",
+    "creationDate": 1334872800000,
     "dsd": {
         "contextSystem": {
             "name": "CountrySTAT"
@@ -29,7 +29,7 @@
                 "title": { "PT": "Cultura" },
                 "columnId": "dim_ITEM",
                 "dimension": { "name": "ITEM" },
-                "codeSystem": { "version": "1.0", "system": "Crops" }
+                "codeSystem": { "version": "1.0", "system": "CS_Prod_Trade" }
             },
             {
                 "values": ["8"],
