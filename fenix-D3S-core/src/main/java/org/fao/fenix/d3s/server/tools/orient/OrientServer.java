@@ -102,17 +102,6 @@ public class OrientServer {
                 connection.close();
         }
     }
-    public void registerPersistentEntity(Class<?> entityClass) {
-        OObjectDatabaseTx connection = null;
-        try {
-            connection = getODatabase(OrientDatabase.msd);
-            connection.setAutomaticSchemaGeneration(false);
-            connection.getEntityManager().registerEntityClass(entityClass);
-        } finally {
-            if (connection!=null)
-                connection.close();
-        }
-    }
 
     public void registerTriggers() throws Exception {
         Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
@@ -120,21 +109,10 @@ public class OrientServer {
 
 
     //DATABASE CONNECTION
-
-    private ODatabaseDocumentPool dPool = ODatabaseDocumentPool.global(10,300);
-    public ODatabaseDocumentTx getDDatabase(OrientDatabase database) {
-        return dPool.acquire(database.getURL(databaseFolderPath),"admin","admin");
-    }
-
     private OObjectDatabasePool oPool = OObjectDatabasePool.global(10,300);
     public OObjectDatabaseTx getODatabase(OrientDatabase database) {
         return oPool.acquire(database.getURL(databaseFolderPath),"admin","admin");
     }
-
-    public OrientGraph getGDatabase(OrientDatabase database) {
-        return new OrientGraph(database.getURL(databaseFolderPath),"admin","admin");
-    }
-
 
 
     //UTILS

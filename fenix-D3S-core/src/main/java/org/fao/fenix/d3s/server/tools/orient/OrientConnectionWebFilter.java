@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
-import com.orientechnologies.orient.core.db.ODatabase;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -19,12 +19,9 @@ public class OrientConnectionWebFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        ODatabase connection = null;
+        OObjectDatabaseTx connection = null;
         try {
-            if (((HttpServletRequest)servletRequest).getRequestURI().contains("msd"))
-                connection = client.getODatabase(OrientDatabase.msd);
-            else
-                connection = client.getDDatabase(OrientDatabase.msd);
+            connection = client.getODatabase(OrientDatabase.msd);
         } catch (Exception ex) {
             throw new ServletException("Database connection error.", ex);
         }

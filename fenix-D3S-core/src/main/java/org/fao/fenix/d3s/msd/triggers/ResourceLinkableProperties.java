@@ -5,12 +5,6 @@ public class ResourceLinkableProperties {
     private final static String[] ojCodeFields = new String[] {
         "meContent.seReferencePopulation.referencePeriod"
     };
-    private final static String[] ojCodeCollectionFields = new String[] {
-
-    };
-    private final static String[] ojSubjectFields = new String[] {
-
-    };
 
 
 
@@ -18,7 +12,4 @@ public class ResourceLinkableProperties {
         return ojCodeFields;
     }
 
-    public String[] getOjCodeCollectionFields() {
-        return ojCodeCollectionFields;
-    }
 }

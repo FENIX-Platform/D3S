@@ -1,28 +1,22 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 import com.orientechnologies.orient.core.db.ODatabase;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class DatabaseStandards {
     public static ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
-    public static ThreadLocal<ODatabase> connection = new ThreadLocal<>();
+    public static ThreadLocal<OObjectDatabaseTx> connection = new ThreadLocal<>();
     public static ThreadLocal<Page> paginationInfo = new ThreadLocal<>();
     public static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
 
 
-    protected <T extends ODatabase> T getConnection() {
-        try {
-            return (T) connection.get();
-        } catch (ClassCastException ex) {
-            return null;
-        }
+    public OObjectDatabaseTx getConnection() {
+        return connection.get();
     }
 
-    public void setConnection(ODatabase c) {
+    public void setConnection(OObjectDatabaseTx c) {
         connection.set(c);
     }
 

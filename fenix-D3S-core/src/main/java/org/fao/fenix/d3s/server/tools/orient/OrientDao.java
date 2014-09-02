@@ -26,7 +26,7 @@ public abstract class OrientDao {
     @Inject private DatabaseStandards dbParameters;
     @Inject private OrientServer client;
 
-    protected <T extends ODatabase> T getConnection() {
+    protected OObjectDatabaseTx getConnection() {
         return dbParameters.getConnection();
     }
 
@@ -99,7 +99,7 @@ public abstract class OrientDao {
         return select(query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
     }
     public synchronized List<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
-        return ((ODatabaseDocumentTx)getConnection()).query(getSelect(query, ODocument.class, ordering, paging), params);
+        return dbParameters.getConnection().getUnderlying().query(getSelect(query, ODocument.class, ordering, paging), params);
     }
     public synchronized <T> Collection<T> select(Class<T> type, String query, Object... params) throws Exception {
         return select(type, query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
@@ -118,7 +118,7 @@ public abstract class OrientDao {
         return load(JSONEntity.toRID(rid));
     }
     public ODocument load (ORID orid) throws Exception {
-        return ((ODatabaseDocumentTx)getConnection()).load(orid);
+        return dbParameters.getConnection().getUnderlying().load(orid);
     }
     public <T> T loadBean (String rid, Class<T> type) throws Exception {
         try {
@@ -146,7 +146,7 @@ public abstract class OrientDao {
         return ((OObjectDatabaseTx)getConnection()).browseClass(type);
     }
     public Iterable<ODocument> browse (String className) throws Exception {
-        final Iterator<ODocument> producerO = ((ODatabaseDocumentTx)dbParameters.getConnection()).browseClass(className).iterator();
+        final Iterator<ODocument> producerO = dbParameters.getConnection().getUnderlying().browseClass(className).iterator();
         return new Iterable<ODocument>() {
             @Override
             public Iterator<ODocument> iterator() {
@@ -163,7 +163,7 @@ public abstract class OrientDao {
         };
     }
     public long count (String className) throws Exception {
-        return ((ODatabaseDocumentTx)dbParameters.getConnection()).countClass(className);
+        return dbParameters.getConnection().getUnderlying().countClass(className);
     }
 
 
