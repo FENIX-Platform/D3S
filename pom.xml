@@ -21,8 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy.version>3.0.6.Final</resteasy.version>
-        <orient.version>1.7.7</orient.version>
-        <spring.version>3.2.5.RELEASE</spring.version>
+        <orient.version>1.7.8</orient.version>
         <jackson.version>1.9.13</jackson.version>
     </properties>
 

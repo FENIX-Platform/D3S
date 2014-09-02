@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.dao;
 
+import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
@@ -44,10 +45,11 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
 
     //Utils
-    //TODO
     private WDSDatasetDao getDao(MeIdentification metadata) throws Exception {
         try {
-            return (WDSDatasetDao) wdsFactory.getInstance("CountrySTAT");
+            DSD dsd = metadata!=null ? metadata.getDsd() : null;
+            String datasource = dsd!=null ? dsd.getDatasource() : null;
+            return datasource!=null ? (WDSDatasetDao) wdsFactory.getInstance(datasource) : null;
         } catch (ClassCastException ex) {
             return null;
         }

@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.wds.dataset;
 
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.DSDColumn;
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.wds.WDSDao;
 
@@ -56,7 +57,7 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
 
     @Override
     public Iterator<Object[]> loadData(MeIdentification resource) throws Exception {
-        final DatasetStructure structure = getDatasetStructure(resource);
+        final DatasetStructure structure = new DatasetStructure(resource);
         final Iterator<Object[]> rawData = loadData(resource,structure);
             return rawData==null | structure==null ? rawData : new Iterator<Object[]>() {
                 @Override
@@ -84,52 +85,9 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
     }
     @Override
     public void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite) throws Exception {
-        storeData(resource,data,overwrite,getDatasetStructure(resource));
+        storeData(resource,data,overwrite,new DatasetStructure(resource));
     }
 
 
-
-    //Utils
-    private DatasetStructure getDatasetStructure(MeIdentification metadata) {
-        if (metadata!=null) {
-            DSD dsd = metadata.getDsd();
-            if (dsd!=null) {
-                DSDColumn[] columns = dsd.getColumns();
-                if (columns!=null && columns.length>0) {
-                    StringBuilder queryBuffer = new StringBuilder();
-                    Collection<Integer> selectIndexes = new LinkedList<>();
-                    Collection<Integer> singleValuesIndexes = new LinkedList<>();
-                    Collection<DSDColumn> selectColumns = new LinkedList<>();
-                    Collection<Object> singleValues = new LinkedList<>();
-                    for (int i=0; i<columns.length; i++) {
-                        DSDColumn column = columns[i];
-                        if (Boolean.TRUE.equals(column.getVirtual())) {
-                            Object[] values = column.getValues();
-                            Object value = values!=null && values.length==1 ? values[0] : null;
-                            if (value!=null) {
-                                singleValuesIndexes.add(i);
-                                singleValues.add(value);
-                            }
-                        } else {
-                            selectIndexes.add(i);
-                            selectColumns.add(column);
-                            queryBuffer.append(',').append(column.getId());
-                        }
-                    }
-
-                    DatasetStructure datasetStructure = new DatasetStructure();
-                    datasetStructure.columns = columns;
-                    datasetStructure.selectColumnsQueryFields = queryBuffer.substring(1);
-                    datasetStructure.selectColumnsIndexes = selectIndexes.toArray(new Integer[selectIndexes.size()]);
-                    datasetStructure.selectColumns = selectColumns.toArray(new DSDColumn[selectColumns.size()]);
-                    datasetStructure.singleValuesIndexes = singleValuesIndexes.toArray(new Integer[singleValuesIndexes.size()]);
-                    datasetStructure.singleValues = singleValues.toArray(new Object[singleValues.size()]);
-
-                    return datasetStructure;
-                }
-            }
-        }
-        return null;
-    }
 
 }

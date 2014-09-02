@@ -12,7 +12,7 @@ import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
-import org.fao.fenix.d3s.msd.triggers.ResourceCodesManager;
+import org.fao.fenix.d3s.msd.triggers.ResourceLinksManager;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
 
 import com.orientechnologies.orient.server.OServer;
@@ -115,7 +115,7 @@ public class OrientServer {
     }
 
     public void registerTriggers() throws Exception {
-        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceCodesManager.class).iterator().next());
+        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
     }
 
 
