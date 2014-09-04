@@ -105,5 +105,13 @@
             <version>1.3.174</version>
         </dependency>
 
-	</dependencies>
+
+        <!-- External JDBC -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102-jdbc41</version>
+        </dependency>
+
+    </dependencies>
 </project>

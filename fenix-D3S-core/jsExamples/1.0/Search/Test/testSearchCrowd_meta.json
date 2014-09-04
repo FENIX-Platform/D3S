@@ -1,0 +1,132 @@
+{
+    "uid": "testSearchCrowd1", "language": "EN", "creationDate": 1377561600000, "dataType": "dataset", "sources": [{"id":"10_5"}], "provider": {"id":"10_0"},
+    "title": {
+    "EN": "Production quantity of Primary Crops"
+}, "supplemental": {
+    "EN": ""
+}, "geographicExtent": {
+    "systemKey": "GAUL",
+    "systemVersion": "1.0",
+    "code": "133"
+}, "coverageSectors": [
+    {
+        "systemKey": "FAOSTAT_CoveregeSectors",
+        "systemVersion": "1.0",
+        "code": "3"
+    }
+], "availability": {
+    "status": "toUpload"
+},
+    "dsd": {
+        "contextSystem": {"name":"crowdData"},
+        "datasource": {
+            "dao": "crowd"
+        },
+
+        "columns": [
+            {
+                "columnId": "city",
+                "dataType": "text",
+                "dimension": {
+                    "name":"CITY",
+                    "title": {
+                        "EN": "City"
+                    }
+                }
+            },
+            {
+                "columnId": "market",
+                "dataType": "text",
+                "dimension": {
+                    "name":"MARKET",
+                    "title": {
+                        "EN": "Market"
+                    }
+                }
+            },
+            {
+                "columnId": "vendor",
+                "dataType": "text",
+                "dimension": {
+                    "name":"VENDOR",
+                    "title": {
+                        "EN": "Vendor"
+                    }
+                }
+            },
+            {
+                "columnId": "unit",
+                "dataType": "text",
+                "dimension": {
+                    "name":"QUM",
+                    "title": {
+                        "EN": "Quantity unit of measure"
+                    }
+                }
+            },
+            {
+                "columnId": "currency",
+                "dataType": "text",
+                "dimension": {"name":"UM"},
+                "title": {
+                    "EN": "Currency"
+                }
+            },
+            {
+                "columnId": "commodity",
+                "dataType": "text",
+                "dimension": {"name":"ITEM"},
+                "title": {
+                    "EN": "Commodity"
+                }
+            },
+            {
+                "columnId": "variety",
+                "dataType": "text",
+                "dimension": {
+                    "name":"VARIETY",
+                    "title": {
+                        "EN": "Variety"
+                    }
+                }
+            },
+            {
+                "columnId": "date",
+                "dataType": "text",
+                "dimension": {
+                    "name":"DAY",
+                    "title": {
+                        "EN": "Date"
+                    }
+                }
+            },
+            {
+                "columnId": "time",
+                "dataType": "text",
+                "dimension": {"name":"TIME"},
+                "title": {
+                    "EN": "Time"
+                }
+            },
+            {
+                "columnId": "note",
+                "dataType": "text",
+                "dimension": {
+                    "name":"NOTE",
+                    "title": {
+                        "EN": "Notes"
+                    }
+                }
+            },
+            {
+                "columnId": "price",
+                "dataType": "number",
+                "dimension": {"name":"VALUE"},
+                "title": {
+                    "EN": "Price"
+                }
+            }
+        ]
+
+    }
+}

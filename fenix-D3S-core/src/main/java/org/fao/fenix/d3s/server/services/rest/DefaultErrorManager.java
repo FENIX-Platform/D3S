@@ -10,7 +10,9 @@ public class DefaultErrorManager implements ExceptionMapper<Exception> {
     public Response toResponse(Exception e) {
         if (e instanceof NoContentException)
             return Response.noContent().build();
-        else
+        else {
+            e.printStackTrace();
             return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 }

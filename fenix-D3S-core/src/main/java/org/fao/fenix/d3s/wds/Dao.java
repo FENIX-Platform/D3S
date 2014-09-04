@@ -22,11 +22,13 @@ import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.d3s.wds.impl.countryStat.CountryStatDAO;
+import org.fao.fenix.d3s.wds.impl.crowdDemo.MarioDao;
 
 public abstract class Dao extends SearchStep {
     private static Map<String,Class<? extends Dao>> daoMapping = new HashMap<>();
     static {
         daoMapping.put("CountrySTAT", CountryStatDAO.class);
+        daoMapping.put("CrowdDataDemo", MarioDao.class);
     }
 
     public static Class<? extends Dao> getDaoClass(String daoName) {
