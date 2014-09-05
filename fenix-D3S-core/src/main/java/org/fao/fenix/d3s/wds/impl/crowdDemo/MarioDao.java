@@ -11,9 +11,15 @@ import java.sql.Connection;
 public class MarioDao extends DBDao {
 
     private static String query =
-            "select city.name as city, (market.name||' ('||marketcode||')') as market, vendorCode as vendor, munit.name as unit, currency.name as currency, (commodity.name||' ('||commoditycode||')') as commodity, (variety.name||' ('||varietycode||')') as variety, date, fulldate as time, note, price " +
-            "from data, city, market, munit, currency, commodity, variety " +
-            "where data.citycode = city.code and marketcode = market.code and munitcode = munit.code and currencycode = currency.code and commoditycode = commodity.code and varietycode = variety.code";
+            "select city.name as city, (market.name||' ('||marketcode||')') as market, (vendor.name||' ('||vendorCode||')') as vendor, munit.name as unit, currency.name as currency, (commodity.name||' ('||commoditycode||')') as commodity, (variety.name||' ('||varietycode||')') as variety, date, fulldate as time, price " +
+            "from data " +
+            "left outer join city on (city.code = data.citycode) " +
+            "left outer join market on (market.code = data.marketcode) " +
+            "left outer join munit on (munit.code = data.munitcode) " +
+            "left outer join commodity on (commodity.code = data.commoditycode) " +
+            "left outer join variety on (variety.code = data.varietycode) " +
+            "left outer join vendor on (vendor.code = data.vendorCode) " +
+            "left outer join currency on (currency.code = data.currencycode)";
 
     @Override
     public void load(ResourceFilter filter, ODocument dataset) throws Exception {

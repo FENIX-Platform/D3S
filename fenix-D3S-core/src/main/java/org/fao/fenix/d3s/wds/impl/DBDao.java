@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public abstract class DBDao extends Dao {
@@ -33,7 +34,32 @@ public abstract class DBDao extends Dao {
         data = new Iterable<Object[]>() {
             @Override
             public Iterator<Object[]> iterator() {
-                return rowsIterator;
+                return new Iterator<Object[]>() {
+                    @Override
+                    public boolean hasNext() {
+                        return rowsIterator.hasNext();
+                    }
+
+                    @Override
+                    public Object[] next() {
+                        return appendVirtualColumnsValue(rowsIterator.next());
+                    }
+
+                    private Object[] appendVirtualColumnsValue (Object[] dataRow) {
+                        if (dataRow!=null) {
+                            Object[] row = new Object[dataRow.length + 1];
+                            for (int i = 0; i < dataRow.length; i++)
+                                row[i + 1] = dataRow[i];
+                            return row;
+                        } else
+                            return null;
+                    }
+
+                    @Override
+                    public void remove() {
+                        rowsIterator.remove();
+                    }
+                };
             }
         };
     }
