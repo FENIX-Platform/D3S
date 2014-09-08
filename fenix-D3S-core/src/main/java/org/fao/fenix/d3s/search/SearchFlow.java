@@ -17,17 +17,29 @@ public class SearchFlow {
 
     private long pid;
     private Collection<ODocument> involvedDatasets;
-	private Map<ODocument, ResourceFilter> encodedFilters = new HashMap<ODocument, ResourceFilter>();
-	private Map<ODocument,Map<String,ODocument>> columnsByDimension = new HashMap<ODocument, Map<String,ODocument>>();
-    private Map<String,Object> businessParameters = new HashMap<String, Object>();
-    private Map<String,OutputParameters> businessOutputParameters = new HashMap<String,OutputParameters>();
-    private Map<Code,ODocument> loadedCodes = new HashMap<Code, ODocument>();
-    private Map<CodeSystem,ODocument> loadedSystems = new HashMap<CodeSystem, ODocument>();
-    private Map<String,Object> attributes = new HashMap<String, Object>();
+	private Map<ODocument, ResourceFilter> encodedFilters;
+	private Map<ODocument,Map<String,ODocument>> columnsByDimension;
+    private Map<String,Object> businessParameters;
+    private Map<String,OutputParameters> businessOutputParameters;
+    private Map<Code,ODocument> loadedCodes;
+    private Map<CodeSystem,ODocument> loadedSystems;
+    private Map<String,Object> attributes;
 
 
-    SearchFlow() {
+    public SearchFlow () {
+        reset();
+    }
+
+    public void reset() {
         pid = Thread.currentThread().getId()+System.currentTimeMillis();
+        involvedDatasets = null;
+        encodedFilters = new HashMap<>();
+        columnsByDimension = new HashMap<>();
+        businessParameters = new HashMap<>();
+        businessOutputParameters = new HashMap<>();
+        loadedCodes = new HashMap<>();
+        loadedSystems = new HashMap<>();
+        attributes = new HashMap<>();
     }
 
 	//GET-SET
