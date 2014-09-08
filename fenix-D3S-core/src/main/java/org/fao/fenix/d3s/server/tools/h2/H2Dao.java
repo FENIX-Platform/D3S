@@ -29,7 +29,8 @@ public abstract class H2Dao {
 
     //Utils
     protected String createTemporaryTable(H2Database db, String baseName, DSDColumn[] structure, int[] sqlStructure) throws Exception {
-        String tableName = "TMP_"+baseName+'_'+System.currentTimeMillis();
+        UUID uid = UUID.randomUUID();
+        String tableName = "TMP_"+baseName+'_'+Math.abs(uid.getMostSignificantBits())+'_'+Math.abs(uid.getLeastSignificantBits());
 
         StringBuilder query = new StringBuilder("CREATE TABLE ").append(tableName).append(" (");
         for (int i=0; i<structure.length; i++) {

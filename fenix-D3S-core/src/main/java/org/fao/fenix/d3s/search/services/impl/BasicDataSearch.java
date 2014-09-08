@@ -46,7 +46,7 @@ public class BasicDataSearch extends SearchOperation {
         getFlow().setInvolvedDatasets(datasets);
 
 		//Select data from l2 cache
-        cacheL2.loadData(filter, datasets);
+        //cacheL2.loadData(filter, datasets);
 		if (!cacheL2.hasData()) {
             //Prepare datasets specific filters
             filterConverter.filter(filter,datasets);

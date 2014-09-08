@@ -194,11 +194,16 @@ public abstract class SearchOperation extends SearchStep {
 
         DM dm = null;
         Map<String, Collection<Object>> virtualDimensions = new HashMap<>();
+        Map<String, DSDDimension> originalDimensions = new HashMap<>();
         if (masterDataset!=null) {
             dm = dmConverter.toDM(masterDataset, false);
-            for (DSDColumn column : dm.getDsd().getColumns())
+            for (DSDColumn column : dm.getDsd().getColumns()) {
                 if ("INTERNAL".equals(column.getVirtualColumn()))
                     virtualDimensions.put(column.getDimension().getName(), column.getValues());
+                DSDDimension originalDimension = column.getDimension();
+                if (originalDimension!=null)
+                    originalDimensions.put(originalDimension.getName(), originalDimension);
+            }
         } else {
             dm = new DM();
             dm.setDataKind(DMDataKind.automated);
@@ -214,7 +219,7 @@ public abstract class SearchOperation extends SearchStep {
             for (int i=0; i<source.columnsNumber; i++) {
                 if (i!=source.valueIndex)
                     source.structure[i].setValues(distinct[i]);
-                DSDDimension dimension = dsdDao.loadDimension(source.structure[i].getColumnId());
+                DSDDimension dimension = originalDimensions.containsKey(source.structure[i].getColumnId()) ? originalDimensions.get(source.structure[i].getColumnId()) : dsdDao.loadDimension(source.structure[i].getColumnId());
                 source.structure[i].setDimension(dimension);
                 source.structure[i].setTitle(dimension.getTitle());
                 if (virtualDimensions.containsKey(source.structure[i].getColumnId())) {
