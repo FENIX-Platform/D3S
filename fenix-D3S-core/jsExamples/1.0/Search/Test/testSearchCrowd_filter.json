@@ -1,0 +1,18 @@
+{"filter": {
+    "types": ["dataset"],
+    "metadata": {
+        "uid": [
+            {
+                "enumeration": "MarketData"
+            }
+        ]
+    }
+}, "business": [
+    {
+        "properties": {
+            "metadata": true,
+            "distinct": true,
+            "label": true
+        }
+    }
+]}

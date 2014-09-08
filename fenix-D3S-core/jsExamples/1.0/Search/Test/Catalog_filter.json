@@ -1,6 +1,25 @@
 {"filter": {
     "types": [],
     "metadata": {
-        "unitOfMeasure":[{ "code" :{"code":"100","systemKey":"CS_Units", "systemVersion":"1.0"}}]
+        "region": [
+            {
+                "code": {
+                    "code": "42",
+                    "systemKey": "GAUL",
+                    "systemVersion": "1.0"
+                }
+            }
+        ]
+    },
+    "data": {
+        "INDICATOR": [
+            {
+                "code": {
+                    "code": "PD",
+                    "systemKey": "CS_Indicator",
+                    "systemVersion": "1.0"
+                }
+            }
+        ]
     }
 }, "business": []}
