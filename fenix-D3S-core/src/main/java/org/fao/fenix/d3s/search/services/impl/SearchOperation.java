@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.msd.dto.dsd.DSDColumn;
 import org.fao.fenix.commons.search.dto.Response;
 import org.fao.fenix.commons.search.dto.filter.*;
 import org.fao.fenix.commons.search.dto.resource.Resource;
@@ -192,9 +193,13 @@ public abstract class SearchOperation extends SearchStep {
         dsd.setEndDate(date);
 
         DM dm = null;
-        if (masterDataset!=null)
-            dm = dmConverter.toDM(masterDataset,false);
-        else {
+        Map<String, Collection<Object>> virtualDimensions = new HashMap<>();
+        if (masterDataset!=null) {
+            dm = dmConverter.toDM(masterDataset, false);
+            for (DSDColumn column : dm.getDsd().getColumns())
+                if ("INTERNAL".equals(column.getVirtualColumn()))
+                    virtualDimensions.put(column.getDimension().getName(), column.getValues());
+        } else {
             dm = new DM();
             dm.setDataKind(DMDataKind.automated);
             dm.setCopyright(DMCopyrightType.publicPolicy);
@@ -204,6 +209,7 @@ public abstract class SearchOperation extends SearchStep {
         dm.setDsd(dsd);
 
         //Define structure
+
         if (source.structure != null) {
             for (int i=0; i<source.columnsNumber; i++) {
                 if (i!=source.valueIndex)
@@ -211,6 +217,10 @@ public abstract class SearchOperation extends SearchStep {
                 DSDDimension dimension = dsdDao.loadDimension(source.structure[i].getColumnId());
                 source.structure[i].setDimension(dimension);
                 source.structure[i].setTitle(dimension.getTitle());
+                if (virtualDimensions.containsKey(source.structure[i].getColumnId())) {
+                    source.structure[i].setVirtualColumn("INTERNAL");
+                    source.structure[i].setValues(virtualDimensions.get(source.structure[i].getColumnId()));
+                }
             }
             dm.getDsd().setColumns(Arrays.asList(source.structure));
         }
