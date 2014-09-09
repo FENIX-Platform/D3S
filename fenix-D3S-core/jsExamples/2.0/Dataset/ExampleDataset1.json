@@ -5,7 +5,9 @@
         "title" : {
             "EN" : "Test dataset 1"
         },
-
+        "meContent" : {
+            "resourceRepresentationType": "dataset"
+        },
 
         "dsd" : {
             "contextSystem" : "",
@@ -16,64 +18,47 @@
                 {
                     "id" : "col_1",
                     "title" : {
-                        "EN" : "Column 1"
+                        "EN" : "Item"
                     },
-                "subject" : {
-                    "rid" : "25_0"
-                }
-private DataType dataType;
-
-private Object[] values;
-private DSDDomain domain;
-private String columnLink;
-
-private Boolean key;
-private Boolean transposed;
-private Boolean virtual;
-
+                    "subject" : "item",
+                    "dataType" : "code",
+                    "domain" : {
+                        "codes" : [
+                            {
+                                "codeList" : "test1",
+                                "version" : "1.0"
+                            }
+                        ]
+                    },
+                    "columnLink" : null,
+                    "key" : true,
+                    "transposed" : false,
+                    "virtual" : false,
+                    "values" : null
+                },
+                {
+                    "id" : "col_2",
+                    "title" : {
+                        "EN" : "Value"
+                    },
+                    "dataType" : "number",
+                    "subject" : "VALUE"
+                },
+                {
+                    "id" : "col_3",
+                    "title" : {
+                        "EN" : "Unit of measure"
+                    },
+                    "dataType" : "text",
+                    "subject" : "content.unitOfMeasure"
                 }
             ]
-
         }
     },
 
     "data" : [
-        {
-            "code" : "01",
-            "title" : { "EN" : "Code 01" },
-            "validityPeriod" : { "from" : 2010, "to" : 2014 },
-            "children" : [
-                {
-                    "code" : "0101",
-                    "title" : { "EN" : "Code 0101" }
-                },
-                {
-                    "code" : "0102",
-                    "title" : { "EN" : "Code 0102" },
-                    "children" : [
-                        {
-                            "code" : "010203",
-                            "title" : { "EN" : "Code 010203" }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "code" : "02",
-            "title" : { "EN" : "Code 02" },
-            "validityPeriod" : { "from" : 2009, "to" : 2014 }
-        },
-        {
-            "code" : "03",
-            "title" : { "EN" : "Code 03" },
-            "validityPeriod" : { "from" : 2008, "to" : 2012 },
-            "children" : [
-                {
-                    "code" : "0301",
-                    "title" : { "EN" : "Code 0301" }
-                }
-            ]
-        }
+        ["0101", 1530.12, "Kg"],
+        ["0102", 7.12, "T"],
+        ["0301", 1443700, "Kg"]
     ]
 }

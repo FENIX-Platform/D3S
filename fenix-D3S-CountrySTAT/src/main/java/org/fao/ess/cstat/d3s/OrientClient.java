@@ -15,9 +15,8 @@ public class OrientClient {
         this.psw = psw;
     }
 
-    private ODatabaseDocumentPool dPool = ODatabaseDocumentPool.global(10,300);
     public ODatabaseDocumentTx getConnection() {
-        return dPool.acquire(url,usr,psw);
+        return new ODatabaseDocumentTx(url).open(usr, psw);
     }
 
 }

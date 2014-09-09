@@ -274,7 +274,7 @@ public abstract class OrientDao {
                 Collection<JSONEntity> proxyCollectionFieldValue = new HashSet<>();
                 for (JSONEntity elementValue : collectionFieldValue) {
                     boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
-                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, (T)methodGetSet.get.invoke(beanProxy)));
+                    proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, null));
                 }
                 //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
                 if (!overwrite) {

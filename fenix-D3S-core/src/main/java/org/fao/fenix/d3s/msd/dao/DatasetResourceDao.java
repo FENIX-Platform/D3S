@@ -25,21 +25,19 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
     }
 
     @Override
-    protected Collection<Object[]> insertData(MeIdentification metadata, Collection<Object[]> data) throws Exception {
-        return updateData(metadata, data, true);
+    protected void insertData(MeIdentification metadata, Collection<Object[]> data) throws Exception {
+        updateData(metadata, data, true);
     }
 
     @Override
-    protected Collection<Object[]> updateData(MeIdentification metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
+    protected void updateData(MeIdentification metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
         if (metadata!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
-                throw new ClassNotFoundException("Cannot load data. DAO not found");
+                throw new ClassNotFoundException("Cannot store data. DAO not found");
 
             wdsDao.storeData(metadata, data.iterator(), overwrite);
         }
-
-        return null;
     }
 
 

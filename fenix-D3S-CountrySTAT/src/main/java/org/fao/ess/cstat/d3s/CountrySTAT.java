@@ -15,9 +15,7 @@ import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @ApplicationScoped
 public class CountrySTAT extends WDSDatasetDao {
@@ -124,12 +122,12 @@ public class CountrySTAT extends WDSDatasetDao {
                 connection.declareIntent(new OIntentMassiveInsert());
                 connection.begin();
                 connection.command(new OCommandSQL("delete from Dataset where datasetID = ?")).execute(datasetID);
-                ODocument rowO = new ODocument("Dataset");
-                for (Object[] row = data.next(); data.hasNext(); row = data.next()) {
-                    rowO.reset();
+                while (data.hasNext()) {
+                    Object[] row = data.next();
+                    ODocument rowO = new ODocument("Dataset");
                     rowO.field("datasetID", datasetID);
                     for (int i=0; i<structure.selectColumns.length; i++)
-                        rowO.field(structure.selectColumns[i].getId(), row[structure.singleValuesIndexes[i]]);
+                        rowO.field(structure.selectColumns[i].getId(), row[i]);
                     rowO.save();
                 }
                 connection.commit();
@@ -137,6 +135,7 @@ public class CountrySTAT extends WDSDatasetDao {
             } catch (Exception ex) {
                 if (connection!=null)
                     connection.rollback();
+                throw ex;
             } finally {
                 if (connection!=null)
                     connection.close();

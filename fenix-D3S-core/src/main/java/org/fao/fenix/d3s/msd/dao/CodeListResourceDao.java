@@ -27,13 +27,13 @@ public class CodeListResourceDao extends ResourceDao<Code> {
     }
 
     @Override
-    protected Collection<Code> insertData(MeIdentification metadata, Collection<Code> data) throws Exception {
-        return data!=null ? saveCustomEntity(normalization(metadata, data),false,true) : null;
+    protected void insertData(MeIdentification metadata, Collection<Code> data) throws Exception {
+        saveCustomEntity(normalization(metadata, data),false,true);
     }
 
     @Override
-    protected Collection<Code> updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
-        return data!=null ? saveCustomEntity(normalization(metadata, data),overwrite,true) : null;
+    protected void updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
+        saveCustomEntity(normalization(metadata, data),overwrite,true);
     }
 
 

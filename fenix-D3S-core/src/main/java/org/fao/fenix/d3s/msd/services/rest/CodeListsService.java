@@ -19,22 +19,23 @@ public class CodeListsService implements CodeLists {
 
     @Override
     public CodeList getCodeList(String rid) throws Exception {
-        return CodeList.getInstance(dao.loadResource(rid));
+        return null;//TODO remove service
+        // CodeList.getInstance(dao.loadResource(rid));
     }
 
     @Override
     public CodeList insertCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
-        return CodeList.getInstance(dao.insertResource(codeList));
+        return null;//CodeList.getInstance(dao.insertResource(codeList));
     }
 
     @Override
     public CodeList updateCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
-        return CodeList.getInstance(dao.updateResource(codeList, true));
+        return null;//CodeList.getInstance(dao.updateResource(codeList, true));
     }
 
     @Override
     public CodeList appendCodeList(Resource<org.fao.fenix.commons.msd.dto.full.Code> codeList) throws Exception {
-        return CodeList.getInstance(dao.updateResource(codeList, false));
+        return null;//CodeList.getInstance(dao.updateResource(codeList, false));
     }
 
 

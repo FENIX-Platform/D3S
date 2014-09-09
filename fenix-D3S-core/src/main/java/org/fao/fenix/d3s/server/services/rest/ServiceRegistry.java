@@ -9,7 +9,7 @@ import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
-@ApplicationPath("/V2")
+@ApplicationPath("/v2")
 public class ServiceRegistry extends ResourceConfig {
 
     public ServiceRegistry() {

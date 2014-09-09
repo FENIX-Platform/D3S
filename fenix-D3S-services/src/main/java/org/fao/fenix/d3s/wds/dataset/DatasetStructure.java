@@ -12,34 +12,34 @@ public class DatasetStructure {
 
     public DatasetStructure() { }
     public DatasetStructure(MeIdentification metadata) {
-        DSD dsd = metadata!=null ? metadata.getDsd() : null;
-        DSDColumn[] columns = dsd!=null && dsd instanceof DSDDataset ? ((DSDDataset)dsd).getColumns() : null;
-        if (columns!=null && columns.length>0) {
+        DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
+        Collection<DSDColumn> columns = dsd!=null ? dsd.getColumns() : null;
+        if (columns!=null && columns.size()>0) {
             StringBuilder queryBuffer = new StringBuilder();
             Collection<Integer> selectIndexes = new LinkedList<>();
             Collection<Integer> keyIndexes = new LinkedList<>();
             Collection<Integer> singleValuesIndexes = new LinkedList<>();
             Collection<DSDColumn> selectColumns = new LinkedList<>();
             Collection<Object> singleValues = new LinkedList<>();
-            for (int i = 0; i < columns.length; i++) {
-                DSDColumn column = columns[i];
+            int columnIndex = 0;
+            for (DSDColumn column : columns) {
                 if (Boolean.TRUE.equals(column.getVirtual())) {
                     Object[] values = column.getValues();
                     Object value = values != null && values.length == 1 ? values[0] : null;
                     if (value != null) {
-                        singleValuesIndexes.add(i);
+                        singleValuesIndexes.add(columnIndex++);
                         singleValues.add(value);
                     }
                 } else {
-                    selectIndexes.add(i);
                     if (Boolean.TRUE.equals(column.getKey()))
-                        keyIndexes.add(i);
+                        keyIndexes.add(columnIndex);
+                    selectIndexes.add(columnIndex++);
                     selectColumns.add(column);
                     queryBuffer.append(',').append(column.getId());
                 }
             }
 
-            this.columns = columns;
+            this.columns = columns.toArray(new DSDColumn[columns.size()]);
             this.selectColumnsQueryFields = queryBuffer.substring(1);
             this.selectColumnsIndexes = selectIndexes.toArray(new Integer[selectIndexes.size()]);
             this.keyColumnsIndexes = keyIndexes.toArray(new Integer[keyIndexes.size()]);

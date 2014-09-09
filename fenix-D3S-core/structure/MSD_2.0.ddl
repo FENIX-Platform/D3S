@@ -135,7 +135,7 @@ CREATE PROPERTY MeIdentification.metadataLanguage EMBEDDEDLIST OjCodeList;
 CREATE PROPERTY MeIdentification.contacts EMBEDDEDLIST OjResponsibleParty;
 CREATE PROPERTY MeIdentification.noDataValue STRING;
 CREATE PROPERTY MeIdentification.meContent EMBEDDED MeContent;
-CREATE PROPERTY MeIdentification.dsd LINK DSD;
+CREATE PROPERTY MeIdentification.dsd LINK DSDDataset;
 
 CREATE PROPERTY MeContent.resourceRepresentationType STRING;
 CREATE PROPERTY MeContent.keyWords EMBEDDEDLIST STRING;
