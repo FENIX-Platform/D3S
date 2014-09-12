@@ -38,7 +38,6 @@ public class BasicMetadataSearch extends SearchOperation {
 	}
 
     protected Collection<ODocument> search(ResourceFilter filter) throws Exception {
-        getFlow().reset();
         Collection<ODocument> datasets = mainFilter.filter(filter, null);
         return datasets;
     }

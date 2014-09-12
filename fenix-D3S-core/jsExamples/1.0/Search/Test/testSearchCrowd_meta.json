@@ -1,13 +1,13 @@
 {
     "uid": "MarketData", "language": "EN", "creationDate": 1377561600000, "dataType": "dataset", "sources": [{"id":"10_5"}], "provider": {"id":"10_0"},
     "title": {
-    "EN": "Market prices in Burkina"
+    "EN": "Market prices in Kenya"
 }, "supplemental": {
     "EN": ""
 }, "geographicExtent": {
     "systemKey": "GAUL",
     "systemVersion": "1.0",
-    "code": "42"
+    "code": "133"
 }, "coverageSectors": [
     {
         "systemKey": "FAOSTAT_CoveregeSectors",

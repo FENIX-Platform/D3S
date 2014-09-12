@@ -224,7 +224,8 @@ public abstract class SearchOperation extends SearchStep {
                 source.structure[i].setTitle(dimension.getTitle());
                 if (virtualDimensions.containsKey(source.structure[i].getColumnId())) {
                     source.structure[i].setVirtualColumn("INTERNAL");
-                    source.structure[i].setValues(virtualDimensions.get(source.structure[i].getColumnId()));
+                    if (distinct[i]==null || distinct[i].size()==0)
+                        source.structure[i].setValues(virtualDimensions.get(source.structure[i].getColumnId()));
                 }
             }
             dm.getDsd().setColumns(Arrays.asList(source.structure));
