@@ -7,32 +7,31 @@
 
         "columns" : [
             {
-                "subject" : {}, //Dimension
-                "dataType" : "",
+                "subject" : "", //Subject name
+                "dataType" : "", //data type code
 
-                "values" : [],
+                "values" : [], //column distinct
                 "domain": {
-                    "codes" : [ { }], //code & codeList,
-                    "customCodes" : [], //customCodes
-                    "enumeration" : "",
-                    "period" : {"from":"" , "to":"" } // "from" and "to" fields datatype is the column dataType
+                    "codes" : [ { }], //codes & codeLists,
+                    "enumeration" : [""], //text enumeration
+                    "period" : {"from":000 , "to":000 } // "from" and "to" fields are numbers
                 },
 
-                "columnLink" : "",
+                "columnLink" : "", //subject name or ID of the column referenced by this column
 
-                "key" : true,
+                "key" : true,  //the column is a key into this table
 
-                "transposed" : true,
+                "transposed" : true, //transposed by default
 
-                "virtual":true,
+                "virtual":true, //the column doesn't exists in the source database
 
 
-                "id" : "",
-                "title" : {
+                "id" : "", //source internal column id
+                "title" : { //column default title
                     "EN":"",
                     "FR":""
                 },
-                "supplemental" : {
+                "supplemental" : { //notes
                     "EN":"",
                     "FR":""
                 }
@@ -45,14 +44,6 @@
 
 
 
-Dimension {
-    link : "",
-    uid : "",
-    title : {
-        "EN":"",
-        "FR":""
-    }
-}
 
 
 dataTypes
