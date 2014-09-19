@@ -1,0 +1,197 @@
+ME_Identification
+	uid	free text (no multilingual)
+	version	free text (no multilingual)
+	language	<OJ_CodeList>
+	languageDetails	free text
+	title	free text
+	creationDate	date
+	characterSet	OJ_CodeList
+	parentIdentifiers	sequence<free text (no multilingual)>
+	metadataStandardName	free text (no multilingual)
+	metadataStandardVersion	free text (no multilingual)
+	metadataLanguage	<OJ_CodeList>
+	contacts	sequence<OJ_ResponsibleParty>
+	noDataValue	free text (no multilingual)
+
+	ME_Content
+		resourceRepresentationType	MultipleChoice
+		keywords	sequence<free text (No multilingual)>
+		description	free text
+		statisticalConceptsDefinitions	free text
+		SE_ReferencePopulation		
+			statisticalPopulation	free text
+			statisticalUnit	free text
+			referencePeriod	OJ_CodeList
+			referenceArea	OJ_CodeList
+		SE_Coverage		
+			coverageSectors	<OJ_CodeList>
+			coverageSectorsDetails	free text
+			coverageTime	period
+			coverageGeographic	<OJ_CodeList>
+		SE_CodeList		
+			numberOfLevels	integer
+			typeOfCodeList	MultipleChoice
+
+	ME_InstitutionalMandate
+		legalActsAgreements	free text
+		institutionalMandateDataSharing	free text
+
+	ME_StatisticalProcessing
+		SE_DataSource
+			SE_PrimaryDataCollection		
+				dataCollector	OJ_ResponsibleParty
+				typeOfCollection	OJ_CodeList
+				sampligProcedure	free text
+				dataCollection	free text
+				collectionPeriodicity	OJ_CodeList
+			SE_SecondaryDataCollection		
+				originOfCollectedData	OJ_CodeList
+				organization	OJ_CodeList
+				rawDataDescription	free text
+		SE_DataCompilation
+			missingData	free text
+			weights	free text
+			aggregationProcessing	free text
+			aggregationFormula	free text (no multilingual)
+			dataAdjustment	OJ_CodeList
+			dataAdjustmentDetails	free text
+			indexType	free text
+			basePeriod	date
+		SE_DataValidation		
+			dataValidationIntermediate	free text
+			dataValidationOutput	free text
+			dataValidationSource	free text
+
+	ME_DataQuality
+		qualityManagement	free text
+		qualityAssessment	free text
+		qualityAssurance	free text
+		SE_Accuracy		
+			accuracyNonSampling	free text
+			accuracySampling	free text
+		SE_DataRevision		
+			revisionPolicy	free text
+			revisionPractice	free text
+		SE_Relevance		
+			userNeeds	free text
+			userSatisfaction	free text
+			completeness	free text
+			completenessPercentage	real
+		SE_Comparability		
+			comparabilityGeographical	free text
+			comparabilityTime	free text
+			coherenceIntern	free text
+		SE_TimelinessPunctuality
+			timeliness	free text
+			punctuality	free text
+
+
+	ME_Accessibility
+		SE_DataDissemination
+			SE_Distribution
+				onlineResource	free text (no multilingual)
+				disseminationFormat	sequence<free text> (no multilingual)
+			SE_ReleasePolicy
+				releaseCalendar	free text
+				releaseCalendarAccess	free text (no multilingual)
+				disseminationPeriodicity	OJ_CodeList
+				embargoTime	period
+		SE_Clarity		
+			clarity	free text
+			metadataCompletenessRate	integer
+		SE_Confidentiality		
+			confidentialityPolicy	free text
+			confidentialityDataTreatment	free text
+			confidentialityStatus	OJ_CodeList
+
+	ME_Maintenance
+		maintenanceAgency	free text
+		SE_Update		
+			updateDate	date
+			updatePeriodicity	OJ_CodeList
+		SE_MetadataMaintenance		
+			metadataLastCertified	date
+			metadataLastPosted	date
+			metadataLastUpdate	date
+
+	ME_Documents
+		document	OJ_Citation
+		attachments	sequence<OJ_Citation>
+		referenceEntity	multipleChoice
+		referenceElement	multipleChoice
+
+	ME_ResourceStructure
+		sequence<SE_ResourceDimensions>		
+			dimensionName	free text
+			dimensionType	multipleChoice
+			dimensionSubject	OJ_CodeList
+			dimensionContent	OJ_CodeList-free text-number
+			dimensionMU	OJ_Measure
+		sequence<SE_ResourceRecords>
+			recordID	free text (No multilingual)
+			originOfCollectedValue	OJ_CodeList
+			creationDate	date
+			dataReliabilityQualifier	free text
+			dataReliabilityIndicator	real
+			confidentialityStatus	multipleChoice
+			observationStatus	OJ_CodeList 
+			remarks	free text  
+
+	ME_SpatialRepresentation
+		layerType	multipleChoice
+		typeOfProduct	OJ_CodeList
+		noDataValue	free text (no multilingual)
+		SE_BoundingBox		
+			Xmin	real
+			Xmax	real
+			Ymin	real
+			Ymax	real
+			SE_GridSpatialRepresentation		
+				numberOfDimensions	integer
+				axisDimensionProperties	OJ_Axis
+				cellGeometry	multipleChoice
+				cellOfOrigin	multipleChoice
+				XYposition	multipleChoice
+			SE_VectorSpatialRepresentation		
+				topologyLevel	OJ_CodeList
+				geometricObjects	multipleChoice
+
+	ME_ReferenceSystem
+		referenceSystemIdentifier	free text (no multilingual)
+		referenceSystemName	free text
+		referenceSystemAuthority	OJ_ResponsibleParty
+		SE_Projection
+			projection	OJ_CodeList
+			projectionName	free text
+			SE_ProjectionParameters
+				zone	integer
+				standardParallel	real
+				longitudeOfCentralMeridian	real
+				latitudeOfProjectionOrigin	real
+				falseEasting	real
+				falseNorthing	real
+				falseEastingNorthingUnits	OJ_Measure
+				scaleFactorAtEquator	real
+				heightOfProspectivePointAboveSurface	real
+				longitudeOfProjectionCenter	real
+				latitudeOfProjectionCenter	real
+				scaleFactorAtCenterLine	real
+				straightVerticalLongitudeFromPole	real
+				scaleFactorAtProjectionOrigin	real
+				SE_ObliqueLineAzimuth
+					azimuthAngle	real
+					azimuthMeasurePointLongitude	real
+				SE_ObliqueLinePoint
+					obliqueLineLatitude	real
+					obliqueLineLongitude	real
+		SE_Ellipsoid
+			ellipsoid	OJ_CodeList
+			ellipsoidName	free text
+			SE_EllipsoidParameters
+				semiMajorAxis	number
+				axisUnits	OJ_Measure
+				denominatorOfFlatteringRatio	real
+		SE_Datum
+			datum	OJ_CodeList
+			datumName	free text
+
