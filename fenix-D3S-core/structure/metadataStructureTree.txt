@@ -195,3 +195,100 @@ ME_Identification
 			datum	OJ_CodeList
 			datumName	free text
 
+
+
+
+OJ_Axis.axisName
+	row
+	column
+	vertical
+	time
+
+OJ_Citation.documentKind
+	scientificPaper
+	mothodologicalNotes
+	legalDocument
+	handbook
+	guidelines
+	adHocPress
+	news
+	website
+	other
+
+OJ_ResponsibleParty.role
+	resourceProvider
+	custodian
+	owner
+	user
+	distributor
+	originator
+	pointOfContact
+	principalInvestigator
+	processor
+	pubblisher
+	agency
+	coordinator
+	other
+
+ME_Content.resourceRepresentationType
+	dataset
+	document
+	geographic
+	codelist
+	other
+
+ME_Content.SE_CodeList.typeOfCodeList
+	list
+	tree
+	balancedTree
+	orientedGraph
+
+
+ME_Documents.referenceEntity
+	ME_Identification
+	ME_Content
+	ME_InstitutionalMandate
+	ME_Comparability
+	ME_StatisticalProcessing
+	ME_DataQuality
+	ME_Accessibility
+	ME_Maintenance
+	ME_Documents
+	ME_ResourceDimensions
+	ME_SpatialRepresentation
+	ME_ReferenceSystem
+
+ME_Documents.referenceElement
+??? >> lasciare il campo di tipo testo
+
+ME_ResourceStructure.SE_ResourceDimensions.dimensionType
+	free text
+	coded
+	number
+
+ME_ResourceStructure.SE_ResourceRecords.confidentialityStatus
+	public
+	shared
+	restricted
+
+ME_SpatialRepresentation.layerType
+	vector
+	raster
+
+ME_SpatialRepresentation.SE_GridSpatialRepresentation.cellGeometry
+	point
+	area
+
+ME_SpatialRepresentation.SE_GridSpatialRepresentation.cellOfOrigin
+	LowerLeft
+	UpperLeft
+
+ME_SpatialRepresentation.SE_GridSpatialRepresentation.XYposition
+	centre
+	corner
+
+ME_SpatialRepresentation.SE_VectorSpatialRepresentation.geometricObjects
+	curve
+	point
+	solid
+	surface

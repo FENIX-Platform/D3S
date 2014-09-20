@@ -84,6 +84,9 @@ CREATE CLASS DSDDomain;
 CREATE PROPERTY Period.from LONG;
 CREATE PROPERTY Period.to LONG;
 
+CREATE PROPERTY OjPeriod.from DATE;
+CREATE PROPERTY OjPeriod.to DATE;
+
 CREATE PROPERTY OjCodeList.linkedCodeList LINK MeIdentification;
 CREATE PROPERTY OjCodeList.IDcodeList STRING;
 CREATE PROPERTY OjCodeList.version STRING;
@@ -114,8 +117,8 @@ CREATE PROPERTY OjResponsibleParty.contactInfo EMBEDDED OjContact;
 CREATE PROPERTY OjContact.phone STRING;
 CREATE PROPERTY OjContact.address STRING;
 CREATE PROPERTY OjContact.emailAddress STRING;
-CREATE PROPERTY OjContact.hoursOfService STRING;
-CREATE PROPERTY OjContact.contactInstruction STRING;
+CREATE PROPERTY OjContact.hoursOfService EMBEDDEDMAP STRING;
+CREATE PROPERTY OjContact.contactInstruction EMBEDDEDMAP STRING;
 
 CREATE PROPERTY OjCitation.documentKind STRING;
 CREATE PROPERTY OjCitation.title EMBEDDEDMAP STRING;
@@ -210,7 +213,7 @@ CREATE PROPERTY MeIdentification.meAccessibility EMBEDDED MeAccessibility;
       CREATE PROPERTY SeDistribution.releaseCalendar EMBEDDEDMAP STRING;
       CREATE PROPERTY SeDistribution.releaseCalendarAccess STRING;
       CREATE PROPERTY SeDistribution.disseminationPeriodicity EMBEDDED OjCodeList;
-      CREATE PROPERTY SeDistribution.embargoTime EMBEDDED Period;
+      CREATE PROPERTY SeDistribution.embargoTime EMBEDDED OjPeriod;
   CREATE PROPERTY MeAccessibility.seClarity EMBEDDED SeClarity;
     CREATE PROPERTY SeClarity.clarity EMBEDDEDMAP STRING;
     CREATE PROPERTY SeClarity.metadataCompletenessRate INTEGER;
@@ -231,7 +234,7 @@ CREATE PROPERTY MeIdentification.meContent EMBEDDED MeContent;
   CREATE PROPERTY MeContent.seCoverage EMBEDDED SeCoverage;
     CREATE PROPERTY SeCoverage.coverageSectors EMBEDDED OjCodeList;
     CREATE PROPERTY SeCoverage.coverageSectorsDetails EMBEDDEDMAP STRING;
-    CREATE PROPERTY SeCoverage.coverageTime EMBEDDED Period;
+    CREATE PROPERTY SeCoverage.coverageTime EMBEDDED OjPeriod;
     CREATE PROPERTY SeCoverage.coverageGeographic EMBEDDED OjCodeList;
   CREATE PROPERTY MeContent.seCodeList EMBEDDED SeCodeList;
     CREATE PROPERTY SeCodeList.numberOfLevels INTEGER;
