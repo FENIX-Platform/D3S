@@ -14,6 +14,7 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.NoContentException;
 import java.util.Collection;
 
@@ -53,12 +54,14 @@ public class ResourcesService implements Resources {
 
     //METADATA
     @Override
-    public Object getMetadata(String rid) throws Exception {
-        return getMetadataProxy(loadMetadata(rid,null));
+    public Object getMetadata(String rid, @QueryParam("full") Boolean full) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
+        return Boolean.TRUE.equals(full) ? metadata : getMetadataProxy(metadata);
     }
     @Override
-    public Object getMetadataByUID(String uid, String version) throws Exception {
-        return getMetadataProxy(loadMetadata(uid, version));
+    public Object getMetadataByUID(String uid, String version, @QueryParam("full") Boolean full) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
+        return Boolean.TRUE.equals(full) ? metadata : getMetadataProxy(metadata);
     }
 
     @Override

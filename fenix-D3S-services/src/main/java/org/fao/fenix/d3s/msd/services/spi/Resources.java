@@ -29,10 +29,10 @@ public interface Resources {
 
     @GET
     @Path("/metadata/{rid}")
-    public Object getMetadata(@PathParam("rid") String rid) throws Exception;
+    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") Boolean full) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") Boolean full) throws Exception;
     @POST
     @Path("/metadata")
     public MeIdentification insertMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
