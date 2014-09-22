@@ -54,7 +54,7 @@ public class ResourceLinksManager extends DocumentTrigger {
     }
     private void linkCodes(ODocument ojCodeDocument) throws Exception {
         if (ojCodeDocument!=null) {
-            MeIdentification resource = codeListDao.loadMetadata((String) ojCodeDocument.field("codeList"), (String) ojCodeDocument.field("version"));
+            MeIdentification resource = codeListDao.loadMetadata((String) ojCodeDocument.field("IDcodeList"), (String) ojCodeDocument.field("version"));
             if (resource != null) {
                 ojCodeDocument.field("linkedCodeList", resource.getORID());
 

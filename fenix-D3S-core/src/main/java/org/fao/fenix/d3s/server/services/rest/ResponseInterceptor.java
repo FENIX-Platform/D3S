@@ -31,7 +31,7 @@ public class ResponseInterceptor implements ContainerResponseFilter {
         if (Response.Status.NO_CONTENT.equals(containerResponseContext.getStatusInfo()) && containerResponseContext.getEntityClass()==null)
             containerResponseContext.setStatusInfo(Response.Status.OK);
         //Support empty collections
-        if (Collection.class.isAssignableFrom(containerResponseContext.getEntityClass()) && ((Collection)containerResponseContext.getEntity()).size()==0)
+        if (containerResponseContext.getEntityClass()!=null && Collection.class.isAssignableFrom(containerResponseContext.getEntityClass()) && ((Collection)containerResponseContext.getEntity()).size()==0)
             containerResponseContext.setStatusInfo(Response.Status.NO_CONTENT);
         //Support paginated select
         if (containerRequestContext.getMethod().equals("GET") && Response.Status.OK.equals(containerResponseContext.getStatusInfo()) && httpRequest.getParameter("perPage")!=null)

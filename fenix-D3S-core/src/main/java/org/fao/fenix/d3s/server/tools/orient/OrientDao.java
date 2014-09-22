@@ -26,7 +26,7 @@ public abstract class OrientDao {
     @Inject private DatabaseStandards dbParameters;
     @Inject private OrientServer client;
 
-    protected OObjectDatabaseTx getConnection() {
+    public OObjectDatabaseTx getConnection() {
         return dbParameters.getConnection();
     }
 

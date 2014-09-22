@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.services.rest;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
@@ -28,12 +29,12 @@ public class ResourcesService implements Resources {
 
     @Override
     public ResourceProxy getResource(String rid) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null, false);
         return getResourceProxy(new Resource(metadata, getData(metadata)));
     }
     @Override
     public ResourceProxy getResourceByUID(String uid, String version) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid,version);
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid,version, false);
         return getResourceProxy(new Resource(metadata, getData(metadata)));
     }
 
@@ -54,14 +55,14 @@ public class ResourcesService implements Resources {
 
     //METADATA
     @Override
-    public Object getMetadata(String rid, @QueryParam("full") Boolean full) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
-        return Boolean.TRUE.equals(full) ? metadata : getMetadataProxy(metadata);
+    public Object getMetadata(String rid, boolean full) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null,full);
+        return full ? metadata : getMetadataProxy(metadata);
     }
     @Override
-    public Object getMetadataByUID(String uid, String version, @QueryParam("full") Boolean full) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        return Boolean.TRUE.equals(full) ? metadata : getMetadataProxy(metadata);
+    public Object getMetadataByUID(String uid, String version, boolean full) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version, full);
+        return full ? metadata : getMetadataProxy(metadata);
     }
 
     @Override
@@ -83,11 +84,11 @@ public class ResourcesService implements Resources {
 
     @Override
     public Collection getData(String rid) throws Exception {
-        return getData(loadMetadata(rid,null));
+        return getData(loadMetadata(rid,null, false));
     }
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
-        return getData(loadMetadata(uid, version));
+        return getData(loadMetadata(uid, version, false));
     }
 
 
@@ -95,10 +96,17 @@ public class ResourcesService implements Resources {
 
 
     //Utils
-    private org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception {
+    private org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version, boolean full) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadata(id, version);
         if (metadata==null)
             throw new NoContentException("Cannot find resource (id: "+id+(version!=null ? '-'+version : "")+')');
+
+        if (full) {
+            DSDDataset dsd = metadata.getDsd();
+            metadata = metadataDao.getConnection().detachAll(metadata,true);
+            metadata.setDsd(dsd);
+        }
+
         return metadata;
     }
 

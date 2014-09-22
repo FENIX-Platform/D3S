@@ -41,7 +41,7 @@ ME_Identification
 			SE_PrimaryDataCollection		
 				dataCollector	OJ_ResponsibleParty
 				typeOfCollection	OJ_CodeList
-				sampligProcedure	free text
+				samplingProcedure	free text
 				dataCollection	free text
 				collectionPeriodicity	OJ_CodeList
 			SE_SecondaryDataCollection		

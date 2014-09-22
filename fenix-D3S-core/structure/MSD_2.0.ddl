@@ -348,7 +348,7 @@ CREATE PROPERTY MeIdentification.meStatisticalProcessing EMBEDDED MeStatisticalP
     CREATE PROPERTY SeDataSource.sePrimaryDataCollection EMBEDDED SePrimaryDataCollection;
       CREATE PROPERTY SePrimaryDataCollection.dataCollector EMBEDDED OjResponsibleParty;
       CREATE PROPERTY SePrimaryDataCollection.typeOfCollection EMBEDDED OjCodeList;
-      CREATE PROPERTY SePrimaryDataCollection.sampligProcedure EMBEDDEDMAP STRING;
+      CREATE PROPERTY SePrimaryDataCollection.samplingProcedure EMBEDDEDMAP STRING;
       CREATE PROPERTY SePrimaryDataCollection.dataCollection EMBEDDEDMAP STRING;
       CREATE PROPERTY SePrimaryDataCollection.collectionPeriodicity EMBEDDED OjCodeList;
     CREATE PROPERTY SeDataSource.seSecondaryDataCollection EMBEDDED SeSecondaryDataCollection;

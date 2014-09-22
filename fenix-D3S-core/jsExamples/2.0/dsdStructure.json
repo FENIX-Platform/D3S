@@ -50,7 +50,7 @@ dataTypes
 
 codeList:
 {
-    "codeList":"",
+    "IDcodeList":"",
     "version": "",
     "codes" : ["","",""], //[{"code":"", "title" : { "EN":"", "FR":"" }}]
     "title" : {
@@ -61,7 +61,7 @@ codeList:
 
 code:
 {
-    "codeList":"",
+    "IDcodeList":"",
     "version": "",
     "code": "",
     "title" : {
