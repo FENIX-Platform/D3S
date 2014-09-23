@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
-import org.fao.fenix.commons.msd.dto.templates.standard.DSDColumnSubject;
+import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumnSubject;
 import org.fao.fenix.commons.utils.PATCH;
 
 import javax.ws.rs.*;

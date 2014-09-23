@@ -15,10 +15,10 @@ public interface Resources {
 
     @GET
     @Path("/rid/{rid}")
-    public ResourceProxy getResource(@PathParam("rid") String rid) throws Exception;
+    public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @GET
     @Path("/{uid}/{version}")
-    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @POST
     @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
     public MeIdentification insertResource(Resource resource) throws Exception;
@@ -30,10 +30,10 @@ public interface Resources {
 
     @GET
     @Path("/metadata/rid/{rid}")
-    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full) throws Exception;
+    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @POST
     @Path("/metadata")
     public MeIdentification insertMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;

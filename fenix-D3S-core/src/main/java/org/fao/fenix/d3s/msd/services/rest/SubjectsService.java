@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
-import org.fao.fenix.commons.msd.dto.templates.standard.DSDColumnSubject;
+import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumnSubject;
 import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Subjects;
 
