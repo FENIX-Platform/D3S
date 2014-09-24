@@ -17,6 +17,9 @@ public interface Resources {
     @Path("/rid/{rid}")
     public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @GET
+    @Path("/uid/{uid}")
+    public ResourceProxy getResourceByUID(@PathParam("uid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    @GET
     @Path("/{uid}/{version}")
     public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @POST
@@ -31,6 +34,9 @@ public interface Resources {
     @GET
     @Path("/metadata/rid/{rid}")
     public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    @GET
+    @Path("/metadata/uid/{uid}")
+    public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
     public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
@@ -68,6 +74,9 @@ public interface Resources {
     @GET
     @Path("/data/rid/{rid}")
     public Object getData(@PathParam("rid") String rid) throws Exception;
+    @GET
+    @Path("/data/uid/{uid}")
+    public Object getDataByUID(@PathParam("uid") String uid) throws Exception;
     @GET
     @Path("/data/{uid}/{version}")
     public Object getDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;

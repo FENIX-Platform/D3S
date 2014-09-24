@@ -22,6 +22,7 @@ public class CountrySTAT extends WDSDatasetDao {
     @Inject private OrientClient dbClient;
     private boolean initialized = false;
 
+    @Override
     public boolean init() {
         return !initialized;
     }
@@ -29,6 +30,7 @@ public class CountrySTAT extends WDSDatasetDao {
     public void init(Map<String, String> properties) throws Exception {
         if (!initialized)
             dbClient.init(properties.get("url"),properties.get("usr"),properties.get("psw"));
+        initialized = true;
     }
 
 

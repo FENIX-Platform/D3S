@@ -4,6 +4,7 @@ import com.orientechnologies.orient.core.id.ORID;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
@@ -18,6 +19,7 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.NoContentException;
@@ -36,6 +38,12 @@ public class ResourcesService implements Resources {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
         return metadata!=null ? getResourceProxy(metadata, getData(metadata), full, dsd) : null;
     }
+
+    @Override
+    public ResourceProxy getResourceByUID(String uid, boolean full, boolean dsd) throws Exception {
+        return getResourceByUID(uid, null, full, dsd);
+    }
+
     @Override
     public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
@@ -63,6 +71,12 @@ public class ResourcesService implements Resources {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
         return getMetadataProxy(metadata, full, dsd);
     }
+
+    @Override
+    public Object getMetadataByUID(String uid, boolean full, boolean dsd) throws Exception {
+        return getMetadataByUID(uid, null, full, dsd);
+    }
+
     @Override
     public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
@@ -90,6 +104,12 @@ public class ResourcesService implements Resources {
     public Collection getData(String rid) throws Exception {
         return getData(loadMetadata(rid,null));
     }
+
+    @Override
+    public Object getDataByUID(String uid) throws Exception {
+        return getDataByUID(uid, null);
+    }
+
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
         return getData(loadMetadata(uid, version));

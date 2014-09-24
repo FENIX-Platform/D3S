@@ -7,6 +7,7 @@ import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class DatasetStructure {
 
@@ -24,8 +25,8 @@ public class DatasetStructure {
             int columnIndex = 0;
             for (DSDColumn column : columns) {
                 if (Boolean.TRUE.equals(column.getVirtual())) {
-                    Object[] values = column.getValues();
-                    Object value = values != null && values.length == 1 ? values[0] : null;
+                    Collection values = column.getValues()!=null && Collection.class.isAssignableFrom(column.getValues().getClass()) ? (Collection)column.getValues() : null;
+                    Object value = values != null && values.size() == 1 ? values.iterator().next() : null;
                     if (value != null) {
                         singleValuesIndexes.add(columnIndex++);
                         singleValues.add(value);

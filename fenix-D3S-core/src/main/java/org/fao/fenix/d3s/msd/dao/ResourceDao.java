@@ -2,6 +2,8 @@ package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.full.DSDColumn;
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
