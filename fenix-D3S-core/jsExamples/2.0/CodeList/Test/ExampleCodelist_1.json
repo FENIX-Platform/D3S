@@ -14,7 +14,7 @@
             },
             "seReferencePopulation" : {
                 "referencePeriod" : {
-                    "IDcodeList" : "test1",
+                    "idCodeList" : "test1",
                     "version" : null,
                     "codes" : [{"code" : "0101"}]
                 },

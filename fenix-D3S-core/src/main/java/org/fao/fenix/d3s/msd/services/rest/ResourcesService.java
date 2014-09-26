@@ -1,11 +1,13 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
-import com.orientechnologies.orient.core.id.ORID;
+import com.orientechnologies.orient.object.enhancement.OObjectProxyMethodHandler;
+import javassist.util.proxy.Proxy;
+import javassist.util.proxy.ProxyFactory;
+import javassist.util.proxy.ProxyObject;
+import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
@@ -19,9 +21,7 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.NoContentException;
 import java.util.Collection;
 
@@ -98,6 +98,24 @@ public class ResourcesService implements Resources {
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, false), MeIdentification.class);
     }
 
+    //DSD only
+
+    @Override
+    public Object getDsd(String rid) throws Exception {
+        Object metadata = metadataDao.loadBean(JSONEntity.toRID(rid));
+        return metadata!=null ? ResponseBeanFactory.getInstance(metadata, getDSDProxyClass(metadata)) : null;
+    }
+
+    @Override
+    public <T extends DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
+        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, true), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+    }
+
+    @Override
+    public <T extends DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
+        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, false), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+    }
+
     //DATA
 
     @Override
@@ -126,20 +144,7 @@ public class ResourcesService implements Resources {
             throw new NoContentException("Cannot find resource (id: "+id+(version!=null ? '-'+version : "")+')');
         return metadata;
     }
-    /*
-    private org.fao.fenix.commons.msd.dto.full.MeIdentification fullMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean includeDsd) throws Exception {
-        DSD dsd = null;
-        String metadataRID = metadata.getRID();
-        String dsdRID = (dsd=metadata.getDsd())!=null ? dsd.getRID() : null;
 
-        metadata = metadataDao.getConnection().detachAll(metadata,true);
-        metadata.setRID(metadataRID);
-        if (!includeDsd) {
-            metadata.setDsd(dsdRID!=null ? new DSDDataset(dsdRID) : null);
-        }
-        return metadata;
-    }
-    */
     private Collection getData (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao!=null ? dataDao.loadData(metadata) : null;
@@ -172,8 +177,13 @@ public class ResourcesService implements Resources {
     }
 
     private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd) {
-        if (full)
-            return dsd ? org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentification.class : org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentification.class;
+        if (full && dsd)
+            return org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentification.class;
+        else if (full)
+            return org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentification.class;
+        else if (dsd)
+            return org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentificationDSDOnly.class;
+
         switch (representationType) {
             case codelist: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
             case dataset: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
@@ -197,5 +207,13 @@ public class ResourcesService implements Resources {
     }
 
 
+    private Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD> getDSDProxyClass(Object entity) {
+        if (entity!=null) {
+            String className = entity instanceof ProxyObject ? ((OObjectProxyMethodHandler) ProxyFactory.getHandler((Proxy) entity)).getDoc().getClassName() : entity.getClass().getSimpleName();
+            if (org.fao.fenix.commons.msd.dto.templates.dsd.DSDDataset.class.getSimpleName().equals(className))
+                return org.fao.fenix.commons.msd.dto.templates.dsd.DSDDataset.class;
+        }
+        return null;
+    }
 
 }

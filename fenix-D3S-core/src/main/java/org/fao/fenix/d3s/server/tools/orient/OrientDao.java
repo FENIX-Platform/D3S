@@ -132,7 +132,7 @@ public abstract class OrientDao {
     }
     public Object loadBean (ORID orid) throws Exception {
         try {
-            Object entity = orid != null ? ((OObjectDatabaseTx)getConnection()).load(orid) : null;
+            Object entity = orid != null ? getConnection().load(orid) : null;
             if (entity == null)
                 throw new NoContentException(JSONEntity.toString(orid));
             return entity;
@@ -271,7 +271,7 @@ public abstract class OrientDao {
             if ((collectionFieldValue = (Collection) methodGetSet.get.invoke(bean))!=null && collectionFieldValue.size()>0) {
                 //Collect new proxy entities
                 empty = false;
-                Collection<JSONEntity> proxyCollectionFieldValue = new HashSet<>();
+                Collection<JSONEntity> proxyCollectionFieldValue = new LinkedHashSet<>();
                 for (JSONEntity elementValue : collectionFieldValue) {
                     boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
                     proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, null));

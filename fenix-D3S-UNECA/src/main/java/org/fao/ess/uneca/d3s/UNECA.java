@@ -1,5 +1,6 @@
 package org.fao.ess.uneca.d3s;
 
+import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.DatabaseUtils;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
@@ -46,7 +47,7 @@ public class UNECA extends WDSDatasetDao {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("select \"Domain_Code\",\"Topic_Code\",\"AreaCode\",\"DimensionA_Code\",\"DimensionB_Code\",\"DimensionC_Code\",\"Indicator_Code\",\"UnitCode\",\"Time\",\"Value\",\"MajorDatasourceid\",\"DataStatustype\",\"BaseYear\",\"Note\" FROM data WHERE \"Metadata_ID\" = ?");
+            PreparedStatement statement = connection.prepareStatement(buildQuery(resource));
             statement.setString(1,resource.getUid());
 
             return getConsumerIterator(databaseUtils.getDataIterator(statement.executeQuery()), connection);
@@ -60,6 +61,16 @@ public class UNECA extends WDSDatasetDao {
     @Override
     protected void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
         throw new UnsupportedOperationException();
+    }
+
+    //Utils
+    private String buildQuery(MeIdentification resource) {
+        StringBuilder select = new StringBuilder();
+
+        for (DSDColumn column : resource.getDsd().getColumns())
+            select.append(",\"").append(column.getId()).append('"');
+
+        return "select "+select.substring(1)+" FROM data WHERE \"Metadata_ID\" = ?";
     }
 
 }

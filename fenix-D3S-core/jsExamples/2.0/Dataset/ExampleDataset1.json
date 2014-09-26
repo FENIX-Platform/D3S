@@ -25,7 +25,7 @@
                     "domain" : {
                         "codes" : [
                             {
-                                "IDcodeList" : "test1",
+                                "idCodeList" : "test1",
                                 "version" : "1.0"
                             }
                         ]
