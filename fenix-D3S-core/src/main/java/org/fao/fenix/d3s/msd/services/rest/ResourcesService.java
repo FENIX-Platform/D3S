@@ -65,6 +65,24 @@ public class ResourcesService implements Resources {
         return resource.getMetadata()!=null ? ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class) : null;
     }
 
+    @Override
+    public void deleteResource(String rid) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
+        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    }
+
+    @Override
+    public void deleteResourceByUID(String uid) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, null);
+        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    }
+
+    @Override
+    public void deleteResourceByUID(String uid, String version) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
+        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    }
+
     //METADATA
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd) throws Exception {
@@ -96,6 +114,25 @@ public class ResourcesService implements Resources {
     @Override
     public MeIdentification appendMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, false), MeIdentification.class);
+    }
+
+    @Override
+    public void deleteMetadata(String rid) throws Exception {
+        if (!metadataDao.deleteMetadata(rid,null))
+            throw new NoContentException("Cannot find resource (id: "+rid+')');
+
+    }
+
+    @Override
+    public void deleteMetadataByUID(String uid) throws Exception {
+        if (!metadataDao.deleteMetadata(uid,null))
+            throw new NoContentException("Cannot find resource (id: "+uid+')');
+    }
+
+    @Override
+    public void deleteMetadataByUID(String uid, String version) throws Exception {
+        if (!metadataDao.deleteMetadata(uid,version))
+            throw new NoContentException("Cannot find resource (id: "+uid+" - version: "+version+')');
     }
 
     //DSD only
@@ -133,8 +170,23 @@ public class ResourcesService implements Resources {
         return getData(loadMetadata(uid, version));
     }
 
+    @Override
+    public void deleteData(String rid) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
+        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    }
 
+    @Override
+    public void deleteDataByUID(String uid) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, null);
+        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    }
 
+    @Override
+    public void deleteDataByUID(String uid, String version) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
+        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    }
 
 
     //Utils

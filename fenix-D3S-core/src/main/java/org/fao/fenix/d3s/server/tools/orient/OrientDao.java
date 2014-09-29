@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
+
+import com.orientechnologies.orient.core.sql.OCommandSQL;
 import javassist.util.proxy.Proxy;
 
 import com.orientechnologies.orient.core.db.ODatabase;
@@ -73,6 +75,10 @@ public abstract class OrientDao {
 		return count;
 	}
 
+    public synchronized int command(String query, Object ... params) throws Exception {
+        return getConnection().command(new OCommandSQL(query)).execute(params);
+    }
+
     //LOAD UTILS
     private static Map<String,OSQLSynchQuery> queries = new TreeMap<>();
 
@@ -106,7 +112,7 @@ public abstract class OrientDao {
     }
     public synchronized <T> Collection<T> select(Class<T> type, String query, Order ordering, Page paging, Object... params) throws Exception {
         try {
-            return (Collection<T>) ((OObjectDatabaseTx)getConnection()).query(getSelect(query, type, ordering, paging), params);
+            return (Collection<T>) getConnection().query(getSelect(query, type, ordering, paging), params);
         } catch (OSerializationException ex) {
             client.registerPersistentEntities();
             return select(type,query,ordering,paging,params);

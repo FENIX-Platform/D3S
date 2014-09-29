@@ -13,6 +13,7 @@ public abstract class WDSDao<T> {
     //Load and store specific DAO operations
     public abstract T loadData(MeIdentification resource) throws Exception;
     public abstract void storeData(MeIdentification resource, T data, boolean overwrite) throws Exception;
+    public abstract void deleteData(MeIdentification resource) throws Exception;
 
 
 

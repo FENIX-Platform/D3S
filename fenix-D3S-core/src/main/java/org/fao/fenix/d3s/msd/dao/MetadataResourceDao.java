@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.dao;
 
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.util.Collection;
@@ -20,4 +21,10 @@ public class MetadataResourceDao extends ResourceDao {
     protected void updateData(MeIdentification metadata, Collection data, boolean overwrite) throws Exception {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void deleteData(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
 }

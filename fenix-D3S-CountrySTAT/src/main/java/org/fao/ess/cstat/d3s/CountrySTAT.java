@@ -146,6 +146,27 @@ public class CountrySTAT extends WDSDatasetDao {
         }
     }
 
+    @Override
+    public void deleteData(MeIdentification resource) throws Exception {
+        String datasetID = resource!=null ? resource.getUid() : null;
+        if (datasetID!=null) {
+
+            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentTx connection = dbClient.getConnection();
+            if (connection == null)
+                throw new Exception("Cannot connect to CountrySTAT database");
+
+            try {
+                connection.command(new OCommandSQL("delete from Dataset where datasetID = ?")).execute(datasetID);
+            } finally {
+                if (connection != null)
+                    connection.close();
+                ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
+            }
+        }
+    }
+
+
 }
 
 
@@ -153,45 +174,3 @@ public class CountrySTAT extends WDSDatasetDao {
 
 
 
-/*
-
-    @Override
-    public Iterator<Object[]> loadData(MeIdentification resource, DatasetStructure datasetStructure) throws Exception {
-        ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
-
-        try {
-            ODatabaseDocumentTx connection = dbClient.getConnection();
-            if (connection != null) {
-                final String[] ids = new String[] {"ITEM", "TIME", "VALUE", "FLAG"};
-
-                final Iterator<ODocument> data = (Iterator<ODocument>)connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ?"), "233CPD010").iterator();
-
-                return getConsumerIterator(new Iterator<Object[]>() {
-                    String[] fields = ids;
-                    @Override
-                    public boolean hasNext() {
-                        return data.hasNext();
-                    }
-
-                    @Override
-                    public Object[] next() {
-                        ODocument record = data.next();
-                        Object[] result = new Object[fields.length];
-                        for (int i=0; i<result.length; i++)
-                            result[i] = record.field(fields[i]);
-                        return result;
-                    }
-
-                    @Override
-                    public void remove() {
-                        data.remove();
-                    }
-                }, ODatabaseRecordThreadLocal.INSTANCE.get(), originalConnection);
-            } else
-                return null;
-        } finally {
-            ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
-        }
-    }
-
- */

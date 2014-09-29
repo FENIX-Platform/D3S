@@ -40,6 +40,16 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
         }
     }
 
+    @Override
+    public void deleteData(MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            WDSDatasetDao wdsDao = getDao(metadata);
+            if (wdsDao==null)
+                throw new ClassNotFoundException("Cannot store data. DAO not found");
+
+            wdsDao.deleteData(metadata);
+        }
+    }
 
 
     //Utils

@@ -63,6 +63,11 @@ public class UNECA extends WDSDatasetDao {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void deleteData(MeIdentification resource) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
     //Utils
     private String buildQuery(MeIdentification resource) {
         StringBuilder select = new StringBuilder();

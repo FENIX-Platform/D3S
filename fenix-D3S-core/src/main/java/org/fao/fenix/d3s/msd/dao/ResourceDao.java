@@ -59,11 +59,47 @@ public abstract class ResourceDao<D> extends OrientDao {
         return metadata;
     }
 
+    //DELETE RESOURCE
+    public boolean deleteMetadata(String id, String version) throws Exception {
+        MeIdentification metadata = loadMetadata(id,version);
+        if (metadata!=null)
+            deleteMetadata(metadata);
+        return metadata!=null;
+    }
+
+    public boolean deleteResource (String id, String version) throws Exception {
+        MeIdentification metadata = loadMetadata(id,version);
+
+        if (metadata!=null) {
+            deleteData(metadata);
+            deleteMetadata(metadata);
+        }
+        return metadata!=null;
+    }
+
+    public void deleteResource (MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            deleteData(metadata);
+            deleteMetadata(metadata);
+        }
+    }
+
+    public void deleteMetadata(MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            DSDDataset dsd = metadata.getDsd();
+            if (dsd != null)
+                getConnection().delete(dsd);
+            getConnection().delete(metadata);
+        }
+    }
+
+
     //DATA LOAD AND STORE
 
     public abstract Collection<D> loadData(MeIdentification metadata) throws Exception;
     protected abstract void insertData(MeIdentification metadata, Collection<D> data) throws Exception;
     protected abstract void updateData(MeIdentification metadata, Collection<D> data, boolean overwrite) throws Exception;
+    public abstract void deleteData(MeIdentification metadata) throws Exception;
 
     //Utils
     Pattern ridPattern = Pattern.compile("^\\d+_\\d+$");

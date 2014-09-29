@@ -105,8 +105,8 @@ public class OrientServer {
     }
 
     public void registerTriggers() throws Exception {
-//        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
-//        Orient.instance().addDbLifecycleListener(triggersFactory.select(DSDDatasetLinksManager.class).iterator().next());
+        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
+        Orient.instance().addDbLifecycleListener(triggersFactory.select(DSDDatasetLinksManager.class).iterator().next());
     }
 
 

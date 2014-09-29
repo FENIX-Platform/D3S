@@ -45,8 +45,14 @@ public class CodeListResourceDao extends ResourceDao<Code> {
         return metadata!=null && codes!=null && codes.length>0 ? select(Code.class, "select from Code where codeList = ? and code in ?", metadata.getORID(), codes) : null;
     }
 
-    public Collection<Code> deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {
-        return metadata!=null && codes!=null && codes.size()>0 ? select(Code.class, "delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : null;
+    public int deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {
+        return metadata!=null && codes!=null && codes.size()>0 ? command("delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : 0;
+    }
+
+    @Override
+    public void deleteData(MeIdentification metadata) throws Exception {
+        if (metadata!=null)
+            command("delete from Code where codeList = ?", metadata.getORID());
     }
 
 
