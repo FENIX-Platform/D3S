@@ -37,7 +37,7 @@ public abstract class LinksManager extends DocumentTrigger {
                 if (codesO != null && codesO.size() > 0)
                     for (ODocument codeO : codesO)
                         if (codeO.field("code") != null) {
-                            Collection<Code> code = codeListDao.loadData(resource, new String[]{(String)codeO.field("code")});
+                            Collection<Code> code = codeListDao.loadData(resource, null, new String[]{(String)codeO.field("code")});
                             if (code!=null && code.size()>0)
                                 codeO.field("linkedCode", code.iterator().next().getORID());
                             //else

@@ -1,0 +1,103 @@
+{
+    "uid": "ANZSIC",
+    "version": "2006",
+    "language": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": null
+    },
+    "languageDetail": null,
+    "title": {
+        "EN": "Australian and New Zealand Standard Industrial Classification"
+    },
+    "creationDate": null,
+    "characterSet": {
+        "codes": [
+            {
+                "code": "106"
+            }
+        ],
+        "idCodeList": "IANA_CharacterSet",
+        "version": "last updated 2013-12-20"
+    },
+
+    "parentIdentifiers": null,
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": null
+    },
+
+    "contacts": [
+        {
+            "organisation": {
+                "EN": "Australian Bureau of Statistics"
+            },
+            "organisationUnit": null,
+            "name": null,
+            "position": null,
+            "role": "distributor",
+            "contactInfo": {
+                "phone ": null,
+                "address": null,
+                "emailAddress": null,
+                "hoursOfService": null,
+                "contactIntruction": null
+            }
+        }
+    ],
+    "noDataValue": null,
+
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keyWords": [
+            {
+                "EN": "sector"
+            }
+        ],
+        "description": null,
+        "statisticalConceptsDefinitions": null,
+        "seCoverage": {
+            "coverageSectors": [
+                {
+                    "codes": [
+                        {
+                            "code": "06"
+                        }
+                    ],
+                    "idCodeList": "FENIX_Subjects",
+                    "version": "1.0"
+                }
+            ]
+            "seCodeList": {
+                "numberOfLevels": 4,
+                "typeOfCodeList": "tree"
+            }
+        },
+        "meAccessibility": {
+            "onlineDatabase": "http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1292.0.55.0022006?OpenDocument",
+            "disseminationFormat": ["excel", "word"],
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+
+
+        }
+    }
+}

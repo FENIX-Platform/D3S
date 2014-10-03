@@ -5,6 +5,7 @@ import com.orientechnologies.orient.core.storage.ORecordDuplicatedException;
 import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
+import java.io.BufferedReader;
 import java.util.*;
 
 public class CodeListResourceDao extends ResourceDao<Code> {
@@ -41,8 +42,22 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
 
     //Codes selection
-    public Collection<Code> loadData(MeIdentification metadata, String[] codes) throws Exception {
-        return metadata!=null && codes!=null && codes.length>0 ? select(Code.class, "select from Code where codeList = ? and code in ?", metadata.getORID(), codes) : null;
+    public Collection<Code> loadData(MeIdentification metadata, Integer level, String ... codes) throws Exception {
+        if (level==null && (codes==null || codes.length>0))
+            return loadData(metadata);
+
+        Collection<Object> params = new LinkedList<>();
+        params.add(metadata.getORID());
+        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
+        if (level!=null) {
+            query.append(" and level = ?");
+            params.add(level);
+        }
+        if (codes!=null && codes.length>0) {
+            query.append(" and code in ?");
+            params.add(codes);
+        }
+        return select(Code.class, query.toString(), params.toArray());
     }
 
     public int deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {

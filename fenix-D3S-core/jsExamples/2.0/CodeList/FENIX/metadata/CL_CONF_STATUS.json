@@ -1,0 +1,79 @@
+{
+	"uid":"CL_CONF_STATUS",
+	"version": "1.0",
+	"language": {
+		"codes": [{"code": "eng"}],
+		"idCodeList": "ISO639-2",
+		"version": null
+	},
+
+	"languageDetails": null,
+	"title": {"EN": "Confidentiality codelist"},
+	"creationDate": null,
+	"characterSet": {
+		"codes": [{"code": "106"}],
+		"idCodeList": "IANA_CharacterSet",
+		"version": "last updated 2013-12-20"
+	},
+
+	"parentIdentifiers":null,
+	"metadataStandardName": "FENIX metadata",
+	"metadataStandardVersion": "1.0",
+	"metadataLanguage": {
+		"codes": [{"code": "eng"}],
+		"idCodeList": "ISO639-2",
+		"version": null
+	},
+
+	"contacts": 	[
+	               {"organisation": {"EN":"SDMX"},
+				    "organisationUnit": "ESS",
+					"name":null,
+					"position":null,
+					"role": "distributor",
+					"contactInfo":{	"phone " :null,
+									"address":null,	
+									"emailAddress": null,
+									"hoursOfService": "hostmaster@registry.sdmx.org",
+									"contactIntruction":null
+									}
+					}
+					],
+	"noDataValue":null,
+
+	"meContent":{
+		"resourceRepresentationType": "codelist",
+		"keywords": null,
+		"description": null,
+		"statisticalConceptsDefinitions":null,
+		"seCoverage" : {
+			"coverageSectors" : [
+				{
+					"codes": [{"code": "0402"}],
+					"idCodeList": "FENIX Subjects",
+					"version": "1.0"
+				}
+			]
+		},
+		"seCodeList": {
+			"numberOfLevels": 1,
+			"typeOfCodeList": "list"
+		}
+	},
+
+	"meAccessibility": {
+		"seDataDissemination" : {
+			"seDistribution" : {
+				"onlineDatabase": "https://registry.sdmx.org/content.html#",
+				"disseminationFormat": "XML"
+			}
+		},
+		"seConfidentiality" : {
+			"confidentialityStatus": {
+				"codes":[{"code": "F"}],
+				"idCodeList": "CL_CONF_STATUS",
+				"version": "1.0"
+			}			
+		}
+	}
+}

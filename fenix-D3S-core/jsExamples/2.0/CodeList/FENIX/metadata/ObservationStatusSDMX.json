@@ -1,0 +1,94 @@
+{
+    "uid": "CL_OBS_STATUS",
+    "version": "1.1",
+    "language": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": null
+    },
+
+    "languageDetail": null,
+    "title": "Observation Status (SDMX)",
+    "creationDate": null,
+    "characterSet": {
+        "codes": [
+            {
+                "code": "106"
+            }
+        ],
+        "idCodeList": "IANA_CharacterSet",
+        "version": "last updated 2013-12-20"
+    },
+    "parentIdentifier": null,
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": null
+    },
+
+    "contacts": {
+        "organisation": null,
+        "organisationUnit": null,
+        "name": null,
+        "position": null,
+        "role": "owner",
+        "contactInfo": {
+            "phone ": null,
+            "address": null,
+            "emailAddress": "secretariat@sdmx.org",
+            "hoursOfService": null,
+            "contactIntruction": null
+        }
+    },
+    "noDataValue": null,
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keywords": null,
+        "description": null,
+        "statisticalConceptsDefinitions": null,
+        "seCoverage": {
+            "coverageSectors": [
+                {
+                    "codes": [
+                        {
+                            "code": "0401"
+                        }
+                    ],
+                    "idCodeList": "FENIX Subjects",
+                    "version": "1.0"
+                }
+            ]
+        },
+        "seCodelist": {
+            "numberOfLevels": 1,
+            "typeOfCodeList": "tree"
+        },
+        "meAccessibility": {
+            "onlineDatabase": "https://registry.sdmx.org/content.html",
+            "disseminationFormat": "XML",
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+        }
+    }
+}
+
+
+
+

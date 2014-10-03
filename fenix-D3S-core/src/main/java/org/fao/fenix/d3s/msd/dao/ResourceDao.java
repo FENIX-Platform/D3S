@@ -13,6 +13,7 @@ import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import javax.ws.rs.core.NoContentException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<D> extends OrientDao {
@@ -35,6 +36,10 @@ public abstract class ResourceDao<D> extends OrientDao {
     //STORE RESOURCE
 
     public MeIdentification insertMetadata (MeIdentification metadata) throws Exception {
+        if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
+            UUID uid = UUID.randomUUID();
+            metadata.setUid("D3S_"+uid.getMostSignificantBits()+uid.getLeastSignificantBits());
+        }
         return metadata!=null ? newCustomEntity(metadata) : null;
     }
     public MeIdentification updateMetadata (MeIdentification metadata, boolean overwrite) throws Exception {

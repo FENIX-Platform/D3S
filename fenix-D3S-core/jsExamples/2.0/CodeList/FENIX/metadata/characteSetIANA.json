@@ -1,0 +1,69 @@
+{
+"uid":"IANAcharacterSet",
+"version":"1.1",
+"language":{
+		"codes": [{"code": "eng"}],
+		"idCodeList": "ISO639-2",
+		"version": null
+	},
+"languageDetail":"null",
+"title": {"EN":"Internet Assigned Numbers Authoruty codelist"},
+"creationDate": "null",
+"characterSet": {
+		"codes": [{"code": "106"}],
+		"idCodeList": "IANA_CharacterSet",
+		"version": "last updated 2013-12-20"
+	},
+"parentIdentifier":"null",
+"metadataStandardName": "FENIX metadata",
+"metadataStandardVersion": "1.0",
+"metadataLanguage": {
+		"codes": [{"code": "eng"}],
+		"idCodeList": "ISO639-2",
+		"version": null
+	},
+"contacts": [{
+				"organisation": "IANA",
+				"organisationUnit":"null",
+				"name":"null",
+				"position":"null",
+				"role": "distributor",
+				"contactInfo":{	"phone " :"+1-310-301-5800",
+								"address":"Internet Assigned Numbers Authority, 12025 Waterfront Drive, Suite 300, Los Angeles CA 90094, USA ",	
+								"emailAddress": "iana@iana.org",
+								"hoursOfService":"null",
+								"contactIntruction":"null"
+								}
+			}
+			],
+"noDataValue":"null",
+
+
+"meContent":{
+"resourceRepresentationType": "codelist",
+"keyWords": "null",
+"description": "null",
+"statisticalConceptsDefinitions":"null",
+"seCoverage" : {
+			"coverageSectors" : [
+				{
+					"codes": [{"code": "08"}],
+					"idCodeList": "FENIX_Subjects",
+					"version": "1.0"
+				}
+			]
+		},
+
+"numberOfLevels": 1,
+"typeOfCodeList": "list"
+},
+"meAccessibility":	{   "onlineDatabase": "https://registry.sdmx.org/content.html#",
+						"disseminationFormat": "XML",
+						"confidentialityStatus": {
+				"codes":[{"code": "F"}],
+				"idCodeList": "CL_CONF_STATUS",
+				"version": "1.0"
+			}
+					}
+}
+
