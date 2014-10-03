@@ -170,7 +170,7 @@
                 "values" : { "codes" : [
                     {   "idCodeList" : "UNECA_DataSource", "version" : "test",
                         "codes" : [
-                            {"code" : "4", "label" : {"EN" : "FAO"}}
+                            {"code" : "4"}
                         ]
                     } ]
                 }

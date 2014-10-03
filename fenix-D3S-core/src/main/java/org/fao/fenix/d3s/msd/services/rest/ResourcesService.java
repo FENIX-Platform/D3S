@@ -135,6 +135,12 @@ public class ResourcesService implements Resources {
             throw new NoContentException("Cannot find resource (id: "+uid+" - version: "+version+')');
     }
 
+    @Override
+    public void restoreLinks() throws Exception {
+        metadataDao.restoreLinks();
+    }
+
+
     //DSD only
 
     @Override

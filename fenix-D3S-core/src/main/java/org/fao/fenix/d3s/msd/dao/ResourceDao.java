@@ -1,5 +1,8 @@
 package org.fao.fenix.d3s.msd.dao;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.DSDColumn;
@@ -175,6 +178,26 @@ public abstract class ResourceDao<D> extends OrientDao {
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+
+    //Restore links
+    public void restoreLinks() throws Exception {
+        ODatabaseDocument connection = getConnection().getUnderlying();
+        //Restore resources
+        Iterator<ODocument> resources = connection.browseClass("MeIdentification");
+        while (resources.hasNext()) {
+            ODocument resource = resources.next();
+            resource.field("uid",resource.field("uid"));
+            resource.save();
+        }
+        //Restore dataset DSD
+        resources = connection.browseClass("DSD");
+        while (resources.hasNext()) {
+            ODocument resource = resources.next();
+            resource.field("datasource", resource.field("datasource"), OType.STRING);
+            connection.save(resource);
+        }
     }
 
 }
