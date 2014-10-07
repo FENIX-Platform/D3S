@@ -1,5 +1,7 @@
-﻿{
+
+{
     "uid": "M49",
+	"version": null,
     "language": {
         "codes": [
             {
@@ -12,15 +14,15 @@
 
     "languageDetails": null,
     "title": {
-        "EN": "International Standard Industrial Classification of All Economic Activities"
+        "EN": "Composition of macro geographical (continental) regions, geographical sub-regions, and selected economic and other groupings"
     },
     "creationDate": null,
     "characterSet": {
-        "codes": {
-            "code": "utf8"
-        },
+        "codes": [{
+            "code": "106"
+        }],
         "idCodeList": "IANAcharacterSet",
-        "version": "1.1"
+        "version": null
     },
 
     "parentIdentifiers": null,
@@ -39,16 +41,16 @@
     "contacts": [
         {
             "organization": {
-                "EN": "United Nations Statistics Division"
+                "EN": "United Nations Statistical Division"
             },
             "organizationUnit": null,
             "name": null,
             "position": null,
-            "role": "owner",
+            "role": "distributor",
             "contactInfo": {
-                "phone ": null,
-                "address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",
-                "emailAddress": "chl@un.org",
+                "phone ": "+1 212 963 0623",
+                "address": "Statistical Service Branch Statistical DIvision United Nations, Room DC2-16 ",
+                "emailAddress": "statistics@un.org",
                 "hoursOfService": null,
                 "contactIntruction": null
             }
@@ -58,11 +60,11 @@
 
     "meContent": {
         "resourceRepresentationType": "codelist",
-        "keywords": ["sector", "commodity"],
+        "keywords": ["geographic names"],
         "description": null,
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
-            "coverageSectors": [
+            "coverageSectors":
                 {
                     "codes": [
                         {
@@ -72,19 +74,18 @@
                     "idCodeList": "FENIX_Subjects",
                     "version": "1.0"
                 }
-            ]
         },
         "seCodeList"  : {
-            "numberOfLevels": 4,
-            "typeOfCodeList": "tree"
+            "numberOfLevels": 1,
+            "typeOfCodeList": "list"
         }
 
     },
     "meAccessibility": {
         "seDataDissemination" : {
             "seDistribution" : {
-                "onlineResource": "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=27",
-                "disseminationFormat": ["excel", "pdf", "MS Access"]
+                "onlineResource": "http://millenniumindicators.un.org/unsd/methods/m49/m49regin.htm#africa",
+                "disseminationFormat": null
             }
         },
 
@@ -108,7 +109,7 @@
 csvSeparator=@
 structure=tree
 dateFormat=dd/mm/yyyy
-codeColumnsIndex=1
+codeColumnsIndex=1,2
 titleColumnIndex_EN=3
 
 

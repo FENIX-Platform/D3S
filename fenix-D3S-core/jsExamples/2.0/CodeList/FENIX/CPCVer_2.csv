@@ -1,90 +1,116 @@
 {
-"meIdentification": {
-"uid":"CPC",
-"version":"2",
-"language":{
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
-"languageDetail":null,
-"title": {"EN": "Central Product Classification "},
-"creationDate": null,
-"characterSet": {
-		"codes": [{"code": "106"}],
-		"idCodeList": "IANA_CharacterSet",
-		"version": "last updated 2013-12-20"
-	},
-			
-"parentIdentifier":null,
-"metadataStandardName": "FENIX metadata",
-"metadataStandardVersion": "1.0",
-"metadataLanguage": {
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
+    "uid": "CPC",
+	"version": "Ver.2",
+    "language": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
+    "languageDetails": null,
+    "title": {
+        "EN": "Central Product Classification "
+    },
+    "creationDate": null,
+    "characterSet": {
+        "codes": [{
+            "code": "106"
+        }],
+        "idCodeList": "IANAcharacterSet",
+        "version": null
+    },
 
+    "parentIdentifiers": null,
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
-"contacts": {
-				"organisation": "United Nations Statistics Division",
-				"organisationUnit":null,
-				"name":null,
-				"position":null,
-				"role": "owner",
-				"contactInfo":{	"phone " :null,
-				"address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",	
-				"emailAddress": "chl@un.org",
-				"hoursOfService":null,
-				"contactIntruction":null
-					      }
-	},
-"noDataValue":null,
-
-"meContent":{
-"resourceRepresentationType": "codelist",
-"keyWords": null,
-"description": null,
-"statisticalConceptsDefinitions":null,
-
-
-
-"seCoverage" : {
-			"coverageSectors" : [
-				{
-					"codes": [{"code": "06"}],
-					"idCodeList": "FENIX_Subjects",
-					"version": "1.0"
-				}
-			]
-		},
-
-"numberOfLevels": 5,
-"typeOfCodeList": "tree"
+    "contacts": [
+        {
+            "organization": {
+                "EN": "OECD"
             },
-			
-			
-		
-"meAccessibility":	{   "onlineDatabase": "https://unstats.un.org/unsd/cr/registry/cpc-2.asp",
-						"disseminationFormat": ["txt","pdf"],
-						"confidentialityStatus": {
-				"codes":[{"code": "F"}],
-				"idCodeList": "CL_CONF_STATUS",
-				"version": "1.0"
-			}
+            "organizationUnit": null,
+            "name": null,
+            "position": null,
+            "role": "distributor",
+            "contactInfo": {
+                "phone ": null,
+                "address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",
+                "emailAddress": "chl@un.org",
+                "hoursOfService": null,
+                "contactIntruction": null
+            }
+        }
+    ],
+    "noDataValue": null,
+
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keywords": ["commodity", "product"],
+        "description": null,
+        "statisticalConceptsDefinitions": null,
+        "seCoverage": {
+            "coverageSectors":
+                {
+                    "codes": [
+                        {
+                            "code": "0601"
+                        }
+                    ],
+                    "idCodeList": "FENIX_Subjects",
+                    "version": "1.0"
+                }
+        },
+        "seCodeList"  : {
+            "numberOfLevels": 5,
+            "typeOfCodeList": "tree"
+        }
+
+    },
+    "meAccessibility": {
+        "seDataDissemination" : {
+            "seDistribution" : {
+                "onlineResource": "https://unstats.un.org/unsd/cr/registry/cpc-2.asp",
+                "disseminationFormat": ["txt","pdf"]
+            }
+        },
+
+        "seConfidentiality" : {
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+        }
+
+
+    }
 }
-}}
-
-
-
 
 --structure--
 csvSeparator=@
 structure=tree
 dateFormat=dd/mm/yyyy
-codeColumnsIndex=1
+codeColumnsIndex=1,2
 titleColumnIndex_EN=3
+
 
 
 --data--
@@ -473,12 +499,12 @@ titleColumnIndex_EN=3
 161@1611@Natural calcium phosphates, natural aluminium calcium phosphates and phosphatic chalk
 1611@16110@Natural calcium phosphates, natural aluminium calcium phosphates and phosphatic chalk
 161@1612@Unroasted iron pyrites
-1613@16120@Unroasted iron pyrites
+1612@16120@Unroasted iron pyrites
 161@1619@Other chemical minerals
 1619@16190@Other chemical minerals
 16@162@Salt and pure sodium chloride; sea water
 162@1620@Salt and pure sodium chloride; sea water
-1630@16200@Salt and pure sodium chloride; sea water
+1620@16200@Salt and pure sodium chloride; sea water
 16@163@Precious and semi-precious stones; pumice stone; emery; natural abrasives; other minerals
 163@1631@Precious stones (including diamonds, but not industrial diamonds) and semi-precious stones, unworked or simply sawn or roughly shaped
 1631@16310@Precious stones (including diamonds, but not industrial diamonds) and semi-precious stones, unworked or simply sawn or roughly shaped
@@ -1611,7 +1637,7 @@ titleColumnIndex_EN=3
 376@3769@Other worked monumental or building stone and articles thereof; other artificially coloured granules, chippings and powder of natural stone; articles of agglomerated slate
 3769@37690@Other worked monumental or building stone and articles thereof; other artificially coloured granules, chippings and powder of natural stone; articles of agglomerated slate
 37@379@Other non-metallic mineral products n.e.c.
-379@3791Millstones, grindstones, grinding wheels and the like, without frameworks, for working stones, and parts thereof, of natural stone, of agglomerated natural or artificial abrasives, or of ceramics; natural or artificial abrasive powder or grain, on a base of textile, paper or other material
+379@3791@Millstones, grindstones, grinding wheels and the like, without frameworks, for working stones, and parts thereof, of natural stone, of agglomerated natural or artificial abrasives, or of ceramics; natural or artificial abrasive powder or grain, on a base of textile, paper or other material
 3791@37910@Millstones, grindstones, grinding wheels and the like, without frameworks, for working stones, and parts thereof, of natural stone, of agglomerated natural or artificial abrasives, or of ceramics; natural or artificial abrasive powder or grain, on a base of textile, paper or other material
 379@3792@Fabricated asbestos fibres; mixtures with a basis of asbestos or with a basis of asbestos and magnesium carbonate; articles of such mixtures, or of asbestos
 3792@37920@Fabricated asbestos fibres; mixtures with a basis of asbestos or with a basis of asbestos and magnesium carbonate; articles of such mixtures, or of asbestos
@@ -3358,7 +3384,9 @@ titleColumnIndex_EN=3
 6729@67290@Other storage and warehousing services
 67@673@Supporting services for railway transport
 673@6730@Supporting services for railway transport
+673@6731@Railway pushing or towing services
 6731@67310@Railway pushing or towing services
+673@6739@Other supporting services for railway transport
 6739@67390@Other supporting services for railway transport
 67@674@Supporting services for road transport
 674@6741@Bus station services

@@ -125,6 +125,8 @@ public class CSVCodeListProvider {
             root.add(loadedCodes.get(rootCode));
         for (Map.Entry<String,Set<String>> parentEntry : codeParents.entrySet()) {
             Code parentO = loadedCodes.get(parentEntry.getKey());
+            if (parentO==null)
+                throw new Exception("Cannot find parent code '"+parentEntry.getKey()+"'");
             for (String code : parentEntry.getValue())
                 parentO.addChild(loadedCodes.get(code));
         }

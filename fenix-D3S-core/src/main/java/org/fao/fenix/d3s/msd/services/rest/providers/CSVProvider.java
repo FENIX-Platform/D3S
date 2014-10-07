@@ -21,7 +21,8 @@ public abstract class CSVProvider<T>  implements MessageBodyReader<T> {
         StringBuilder buffer = new StringBuilder();
         for (String row=in.readLine(); row!=null && !row.trim().equals(placeHolder); row=in.readLine())
             buffer.append(row).append('\n');
-        return buffer.toString();
+        //Remove BOM character if it exists
+        return buffer.length()>0 && buffer.charAt(0) == 65279 ? buffer.substring(1) : buffer.toString();
     }
 
     private MeIdentification readMetadata (String source) throws Exception {

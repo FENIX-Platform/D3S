@@ -1,5 +1,5 @@
 {
-    "uid": "FAOSTAT_OriginData",
+    "uid": "GAUL_ReferenceArea",
 	"version": "1.0",
     "language": {
         "codes": [
@@ -13,7 +13,7 @@
 
     "languageDetails": null,
     "title": {
-        "EN": "Origin of collected data"
+        "EN": "GAUL reference area"
     },
     "creationDate": null,
     "characterSet": {
@@ -42,14 +42,16 @@
             "organization": {
                 "EN": "FAO"
             },
-            "organizationUnit": {"EN":"ESS"},
-            "name": null,
+            "organizationUnit": {
+                "EN": "ESS"
+            },
+            "name": "Fabio Grita",
             "position": null,
-            "role": "distributor",
+            "role": "coordinator",
             "contactInfo": {
-                "phone ": null,
-                "address": null,
-                "emailAddress": null,
+                "phone ": "0039 06 57054262",
+                "address": "FAO-HQ, Viale delle Terme di Caracalla, 00153 Roma",
+                "emailAddress": "fabio.grita@fao.org",
                 "hoursOfService": null,
                 "contactIntruction": null
             }
@@ -59,7 +61,7 @@
 
     "meContent": {
         "resourceRepresentationType": "codelist",
-        "keywords": null,
+        "keywords": ["sector", "reference","area","mapping unit"],
         "description": null,
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
@@ -67,7 +69,7 @@
                 {
                     "codes": [
                         {
-                            "code": "10"
+                            "code": "0203"
                         }
                     ],
                     "idCodeList": "FENIX_Subjects",
@@ -99,11 +101,38 @@
                 "version": "1.0"
             }
         }
+		},
+		"seDocuments": [{
+			"document": {
+				"documentKind": "methodologicalNotes",
+				"title": "The Global Administrative Unit Layers (GAUL)",
+				"date": "2006-12-20",
+				"documentContact":{
+            "organization": {
+                "EN": "FAO"
+            },
+            "organizationUnit": {
+                "EN": "ESS"
+            },
+            "name": "Fabio Grita",
+            "position": null,
+            "role": "director",
+            "contactInfo": {
+                "phone ": "0039 06 57054262",
+                "address": "FAO-HQ, Viale delle Terme di Caracalla, 00153 Roma",
+                "emailAddress": "fabio.grita@fao.org",
+                "hoursOfService": null,
+                "contactIntruction": null
+            }
+        },
+				"link": "http://www.fao.org/giews/english/shortnews/GAUL1.pdf"
 
+						}	
+						
+					}]
 
-    }
+    
 }
-
 
 --structure--
 csvSeparator=@
@@ -116,12 +145,6 @@ titleColumnIndex_EN=3
 
 --data--
 
-@A@Other IOs
-@B@Industry associations
-@C@Universities, research centers
-@D@Consultants
-@E@Newspapers, magazines
-@F@Interviews
-@G@Other sources and mixture of data source
-
-
+@ADM0@International or country boundaries.
+@ADM1@First level administrative boundaries
+@ADM2@Second level administrative boundaries. 

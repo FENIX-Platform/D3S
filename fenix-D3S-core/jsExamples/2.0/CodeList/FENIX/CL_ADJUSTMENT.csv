@@ -1,6 +1,6 @@
 {
-    "uid": "SDMX_CL_ORGANISATION",
-    "version": "1.1",
+    "uid": "CL_ADJUSTMENT",
+	"version": "1.1",
     "language": {
         "codes": [
             {
@@ -8,22 +8,20 @@
             }
         ],
         "idCodeList": "ISO639-2",
-        "version": null
+        "version": "1998"
     },
 
     "languageDetails": null,
     "title": {
-        "EN": "Compiling organisation code list"
+        "EN": "Adjustment code list (ESTAT)"
     },
     "creationDate": null,
     "characterSet": {
-        "codes": [
-            {
-                "code": "106"
-            }
-        ],
-        "idCodeList": "IANA_CharacterSet",
-        "version": "last updated 2013-12-20"
+        "codes": [{
+            "code": "106"
+        }],
+        "idCodeList": "IANAcharacterSet",
+        "version": null
     },
 
     "parentIdentifiers": null,
@@ -36,15 +34,15 @@
             }
         ],
         "idCodeList": "ISO639-2",
-        "version": null
+        "version": "1998"
     },
 
     "contacts": [
         {
-            "organisation": {
+            "organization": {
                 "EN": "SDMX"
             },
-            "organisationUnit": null,
+            "organizationUnit": null,
             "name": null,
             "position": null,
             "role": "distributor",
@@ -61,36 +59,36 @@
 
     "meContent": {
         "resourceRepresentationType": "codelist",
-        "keywords": null,
+        "keywords": ["processing", "adjustments"],
         "description": null,
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
-            "coverageSectors": [
+            "coverageSectors":
                 {
                     "codes": [
                         {
-                            "code": "10"
+                            "code": "09"
                         }
                     ],
-                    "idCodeList": "FENIX Subjects",
-                    "version": "0.1"
+                    "idCodeList": "FENIX_Subjects",
+                    "version": "1.0"
                 }
-            ]
         },
-        "seCodeList": {
+        "seCodeList"  : {
             "numberOfLevels": 1,
             "typeOfCodeList": "list"
         }
-    },
 
+    },
     "meAccessibility": {
-        "seDataDissemination": {
-            "seDistribution": {
-                "onlineDatabase": "https://registry.sdmx.org/content.html#",
-                "disseminationFormat": "XML"
+        "seDataDissemination" : {
+            "seDistribution" : {
+                "onlineResource": "https://registry.sdmx.org/content.html#",
+                "disseminationFormat": ["XML"]
             }
         },
-        "seConfidentiality": {
+
+        "seConfidentiality" : {
             "confidentialityStatus": {
                 "codes": [
                     {
@@ -101,5 +99,29 @@
                 "version": "1.0"
             }
         }
+
+
     }
 }
+
+--structure--
+csvSeparator=@
+structure=tree
+dateFormat=dd/mm/yyyy
+codeColumnsIndex=1,2
+titleColumnIndex_EN=3
+
+
+
+--data--
+
+@C@Trend-cycle data, working day adjusted, not seasonally adjusted
+@N@Neither seasonally nor working day adjusted
+@S@Seasonally adjusted, not working day adjusted
+@T@Trend
+@W@Working day adjusted, not seasonally adjusted
+@X@Seasonal factors
+@Y@Working day and seasonally adjusted
+@M@Combined seasonal and calendar factors
+@R@Trend cycle data, not working day adjusted
+@_Z@Not applicable

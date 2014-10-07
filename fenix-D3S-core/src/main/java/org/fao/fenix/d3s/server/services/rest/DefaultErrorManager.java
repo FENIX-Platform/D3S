@@ -14,9 +14,10 @@ public class DefaultErrorManager implements ExceptionMapper<Exception> {
 
         if (e instanceof NoContentException)
             return Response.noContent().entity("").build();
-        else if (e instanceof WebApplicationException)
-            return e.getCause()!=null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
-        else {
+        else if (e instanceof WebApplicationException) {
+            e.printStackTrace();
+            return e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
+        } else {
             e.printStackTrace();
             return Response.serverError().entity(e.getMessage()).build();
         }

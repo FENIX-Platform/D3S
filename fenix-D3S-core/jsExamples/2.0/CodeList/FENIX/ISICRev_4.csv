@@ -1,98 +1,120 @@
+
 {
-"meIdentification": {
-"uid":"ISIC",
-"version": "Rev.4",
-"language":{
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
+    "uid": "ISIC",
+	"version": "Rev.4",
+    "language": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
-"languageDetail": null,
-"title":{"EN": "International Standard Industrial Classification of All Economic Activities"},
-"creationDate": null,
-"characterSet": {
-		"codes": [{"code": "106"}],
-		"idCodeList": "IANA_CharacterSet",
-		"version": "last updated 2013-12-20"
-	},
+    "languageDetails": null,
+    "title": {
+        "EN": "International Standard Industrial Classification of All Economic Activities"
+    },
+    "creationDate": null,
+    "characterSet": {
+        "codes": [{
+            "code": "106"
+        }],
+        "idCodeList": "IANAcharacterSet",
+        "version": null
+    },
 
-"parentIdentifier":null,
-"metadataStandardName": "FENIX metadata",
-"metadataStandardVersion": "1.0",
-"metadataLanguage": {
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
+    "parentIdentifiers": null,
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
-"contacts": [{
-				"organisation": "United Nations Statistics Division",
-				"organisationUnit":null,
-				"name":null,
-				"position":null,
-				"role": "owner",
-				"contactInfo":{	"phone " :null,
-				"address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",	
-				"emailAddress": "chl@un.org",
-				"hoursOfService":null,
-				"contactIntruction":null
-							}
-			}
-			],
-"noDataValue":null,
+    "contacts": [
+        {
+            "organization": {
+                "EN": "United Nations Statistics Division"
+            },
+            "organizationUnit": null,
+            "name": null,
+            "position": null,
+            "role": "distributor",
+            "contactInfo": {
+                "phone ": null,
+                "address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",
+                "emailAddress": "chl@un.org",
+                "hoursOfService": null,
+                "contactIntruction": null
+            }
+        }
+    ],
+    "noDataValue": null,
 
-"meContent":{
-"resourceRepresentationType": "codelist",
-"keyWords": "sector, commodity",
-"description": null,
-"statisticalConceptsDefinitions":null,
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keywords": ["sector", "commodity"],
+        "description": null,
+        "statisticalConceptsDefinitions": null,
+        "seCoverage": {
+            "coverageSectors":
+                {
+                    "codes": [
+                        {
+                            "code": "06"
+                        }
+                    ],
+                    "idCodeList": "FENIX_Subjects",
+                    "version": "1.0"
+                }
+        },
+        "seCodeList"  : {
+            "numberOfLevels": 4,
+            "typeOfCodeList": "tree"
+        }
 
-"seCoverage" : {
-			"coverageSectors" : [
-				{
-					"codes": [{"code": "06"}],
-					"idCodeList": "FENIX Subjects",
-					"version": "1.0"
-				}
-			]
-		},
+    },
+    "meAccessibility": {
+        "seDataDissemination" : {
+            "seDistribution" : {
+                "onlineResource": null,
+                "disseminationFormat": null
+            }
+        },
+
+        "seConfidentiality" : {
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+        }
 
 
-"numberOfLevels": 4,
-"typeOfCodeList": "tree
-},
-"meAccessibility":	{   "onlineDatabase": "http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=27",
-						"disseminationFormat": ["excel","pdf", "MS Access"],
-						"confidentialityStatus": {
-				"codes":[{"code": "F"}],
-				"idCodeList": "CL_CONF_STATUS",
-				"version": "1.0"
-			}
-						
-						
-						
-						
-						
-					}
-}}
+    }
+}
 
 --structure--
 csvSeparator=@
 structure=tree
 dateFormat=dd/mm/yyyy
-codeColumnsIndex=1
+codeColumnsIndex=1,2
 titleColumnIndex_EN=3
 
 
 
-
-
-
-
-
-
-@Code Value@Code Description
+--data--
 @A@Agriculture, forestry and fishing
 A@A01@Crop and animal production, hunting and related service activities
 A01@A011@Growing of non-perennial crops
@@ -117,12 +139,12 @@ A01@A013@Plant propagation
 A013@A0130@Plant propagation
 A01@A014@Animal production
 A014@A0141@Raising of cattle and buffaloes
-A015@A0142@Raising of horses and other equines
-A016@A0143@Raising of camels and camelids
-A017@A0144@Raising of sheep and goats
-A018@A0145@Raising of swine/pigs
-A019@A0146@Raising of poultry
-A020@A0149@Raising of other animals
+A014@A0142@Raising of horses and other equines
+A014@A0143@Raising of camels and camelids
+A014@A0144@Raising of sheep and goats
+A014@A0145@Raising of swine/pigs
+A014@A0146@Raising of poultry
+A014@A0149@Raising of other animals
 A01@A015@Mixed farming
 A015@A0150@Mixed farming
 A01@A016@Support activities to agriculture and post-harvest crop activities

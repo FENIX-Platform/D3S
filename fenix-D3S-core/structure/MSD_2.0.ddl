@@ -384,5 +384,7 @@ CREATE PROPERTY MeIdentification.index_meContent|resourceRepresentationType STRI
 CREATE INDEX MeIdentification.index_id UNIQUE;
 CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQUE;
 
+CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
+
 
 DISCONNECT;

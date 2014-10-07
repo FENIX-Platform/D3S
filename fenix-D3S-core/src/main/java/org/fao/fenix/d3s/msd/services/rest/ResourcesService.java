@@ -86,8 +86,7 @@ public class ResourcesService implements Resources {
     //METADATA
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
-        return getMetadataProxy(metadata, full, dsd);
+        return getMetadataProxy(loadMetadata(rid,null), full, dsd);
     }
 
     @Override
@@ -97,8 +96,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        return getMetadataProxy(metadata, full, dsd);
+        return getMetadataProxy(loadMetadata(uid, version), full, dsd);
     }
 
     @Override
@@ -163,17 +161,19 @@ public class ResourcesService implements Resources {
 
     @Override
     public Collection getData(String rid) throws Exception {
-        return getData(loadMetadata(rid,null));
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid,null);
+        return getDataProxy(metadata, getData(metadata));
     }
 
     @Override
-    public Object getDataByUID(String uid) throws Exception {
+    public Collection getDataByUID(String uid) throws Exception {
         return getDataByUID(uid, null);
     }
 
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
-        return getData(loadMetadata(uid, version));
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
+        return getDataProxy(metadata, getData(metadata));
     }
 
     @Override
@@ -213,12 +213,16 @@ public class ResourcesService implements Resources {
         return metadataProxyClass!=null ? ResponseBeanFactory.getInstance(metadata, metadataProxyClass) : null;
     }
 
+    private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data) throws Exception {
+        Class dataProxyClass = getTemplateDataClass(loadRepresentationType(metadata));
+        return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
+    }
+
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, boolean full, boolean dsd) throws Exception {
         RepresentationType type = loadRepresentationType(metadata);
         return new ResourceProxy(
                 ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd)),
-                data,
-                getTemplateDataClass(type)
+                data, getTemplateDataClass(type)
         );
     }
 
@@ -234,6 +238,14 @@ public class ResourcesService implements Resources {
         return representationType;
     }
 
+    private ResourceDao getDao (RepresentationType representationType) {
+        switch (representationType) {
+            case codelist: return daoFactory.select(CodeListResourceDao.class).iterator().next();
+            case dataset: return daoFactory.select(DatasetResourceDao.class).iterator().next();
+        }
+        return null;
+    }
+
     private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd) {
         if (full && dsd)
             return org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentification.class;
@@ -245,14 +257,6 @@ public class ResourcesService implements Resources {
         switch (representationType) {
             case codelist: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
             case dataset: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
-        }
-        return null;
-    }
-
-    private ResourceDao getDao (RepresentationType representationType) {
-        switch (representationType) {
-            case codelist: return daoFactory.select(CodeListResourceDao.class).iterator().next();
-            case dataset: return daoFactory.select(DatasetResourceDao.class).iterator().next();
         }
         return null;
     }

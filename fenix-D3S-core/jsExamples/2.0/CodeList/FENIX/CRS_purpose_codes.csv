@@ -1,86 +1,119 @@
 {
-"meIdentification": {
-"uid":"CRS purpose codes",
-"version": null,
-"language": {
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
-"languageDetail": null,
-"title": {"EN":"CRS purpose codes"},
-"creationDate": null,
-"characterSet": {
-		"codes": [{"code": "106"}],
-		"idCodeList": "IANA_CharacterSet",
-		"version": "last updated 2013-12-20"
-	},
+    "uid": "CRS_purpose_codes",
+	"version": null,
+    "language": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
-	"parentIdentifiers":null,
-	"metadataStandardName": "FENIX metadata",
-	"metadataStandardVersion": "1.0",
-	"metadataLanguage": {
-		"codes": [{"code": "eng"}],
-		"idCodeList": "ISO639-2",
-		"version": null
-	},
+    "languageDetails": null,
+    "title": {
+        "EN": "Purpose Codes: sector classification"
+    },
+    "creationDate": null,
+    "characterSet": {
+        "codes": [{
+            "code": "106"
+        }],
+        "idCodeList": "IANAcharacterSet",
+        "version": null
+    },
 
-"contacts": [{
-				"organisation": {"EN":"OECD"},
-				"organisationUnit":{"EN":"CDC-DAC"},
-				"name":null,
-				"position":null,
-				"role": "distributor",
-				"contactInfo":{	"phone " :"+33 1 45 24 82 00",
-								"address":"OECD - 2, rue André Pascal - 75775 Paris Cedex 16 - France",	
-								"emailAddress": null,
-								"hoursOfService":null,
-								"contactIntruction":null
-							}
-			}
-			],
-"noDataValue":null,
+    "parentIdentifiers": null,
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
 
-"meContent":{
-"resourceRepresentationType": "codelist",
-"keyWords": [{"EN":"sector"}],
-"description": null,
-"statisticalConceptsDefinitions":null,
-"seCoverage" : {
-			"coverageSectors" : [
-				{
-					"codes": [{"code": "06"}],
-					"idCodeList": "FENIX_Subjects",
-					"version": "1.0"
-				}
-			]
-		},
-"seCodeList":	{
-				"numberOfLevels": 2,
-				"typeOfCodeList": "tree"
-				}
-			},
-"meAccessibility":	{   "onlineDatabase": "http://www.oecd.org/dac/stats/purposecodessectorclassification.htm",
-						"disseminationFormat": ["excel","word"],
-						"confidentialityStatus":{
-				"codes":[{"code": "F"}],
-				"idCodeList": "CL_CONF_STATUS",
-				"version": "1.0"
-			}
-						
-						
-						
-						
-						
-					}
-}}
+    "contacts": [
+        {
+            "organization": {
+                "EN": "OECD"
+            },
+            "organizationUnit": {"EN":"CDC-DAC"},
+            "name": null,
+            "position": null,
+            "role": "distributor",
+            "contactInfo": {
+                "phone ": "+33 1 45 24 82 00",
+                "address": "OECD - 2, rue André Pascal - 75775 Paris Cedex 16 - France",	
+                "emailAddress": null,
+                "hoursOfService": null,
+                "contactIntruction": null
+            }
+        }
+    ],
+    "noDataValue": null,
+
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keywords": ["activity", "sector"],
+        "description": null,
+        "statisticalConceptsDefinitions": null,
+        "seCoverage": {
+            "coverageSectors":
+                {
+                    "codes": [
+                        {
+                            "code": "06"
+                        }
+                    ],
+                    "idCodeList": "FENIX_Subjects",
+                    "version": "1.0"
+                }
+        },
+        "seCodeList"  : {
+            "numberOfLevels": 2,
+            "typeOfCodeList": "tree"
+        }
+
+    },
+    "meAccessibility": {
+        "seDataDissemination" : {
+            "seDistribution" : {
+                "onlineResource": "https://unstats.un.org/unsd/cr/registry/cpc-2.asp",
+                "disseminationFormat": ["txt","pdf"]
+            }
+        },
+
+        "seConfidentiality" : {
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+        }
+
+
+    }
+}
 
 --structure--
 csvSeparator=@
 structure=tree
 dateFormat=dd/mm/yyyy
-codeColumnsIndex=1
+codeColumnsIndex=1,2
 titleColumnIndex_EN=3
+
+
+
+--data--
 
 
 
@@ -208,7 +241,6 @@ titleColumnIndex_EN=3
 311@31120@Agricultural development
 311@31130@Agricultural land resources
 311@31140@Agricultural water resources
-311@@
 311@31150@Agricultural inputs
 311@31161@Food crop production
 311@31162@Industrial crops/export crops
@@ -254,7 +286,7 @@ titleColumnIndex_EN=3
 321@32171@Engineering
 321@32172@Transport equipment industry
 321@32182@Technological research and development
-322@@MINERAL RESOURCES AND MINING
+@322@MINERAL RESOURCES AND MINING
 322@32210@Mineral/mining policy and administrative management
 322@32220@Mineral prospection and exploration
 322@32261@Coal
@@ -309,7 +341,7 @@ titleColumnIndex_EN=3
 600@60062@Other debt swap
 600@60063@Debt buy-back
 @700@HUMANITARIAN AID 
-720@@Emergency Response
+@720@Emergency Response
 720@72010@Material relief assistance and services 
 720@72040@Emergency food aid
 720@72050@Relief co-ordination; protection and support services 
