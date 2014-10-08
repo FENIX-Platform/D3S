@@ -24,7 +24,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
     @Override
     public Collection<Code> loadData(MeIdentification metadata) throws Exception {
-        return loadData(metadata,null);
+        return loadData(metadata,1);
     }
 
     @Override
@@ -45,13 +45,15 @@ public class CodeListResourceDao extends ResourceDao<Code> {
     public Collection<Code> loadData(MeIdentification metadata, Integer level, String ... codes) throws Exception {
         if (metadata==null)
             return null;
-        level = level!=null && level>0 ? level : 1;
 
-        StringBuilder query = new StringBuilder("select from Code where codeList = ? and level = ?");
+        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
         Collection<Object> params = new LinkedList<>();
         params.add(metadata.getORID());
-        params.add(level);
 
+        if (level!=null && level>0) {
+            query.append(" and level = ?");
+            params.add(level);
+        }
         if (codes!=null && codes.length>0) {
             query.append(codes.length==1 ? " and code = ?" : " and code in ?");
             params.add(codes.length==1 ? codes[0] : codes);
