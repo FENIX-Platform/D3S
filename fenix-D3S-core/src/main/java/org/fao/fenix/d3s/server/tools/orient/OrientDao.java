@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import javassist.util.proxy.Proxy;
 
@@ -80,37 +81,29 @@ public abstract class OrientDao {
     }
 
     //LOAD UTILS
-    private static Map<String,OSQLSynchQuery> queries = new TreeMap<>();
-
     private <T> OSQLSynchQuery<T> getSelect(String query, Class<T> type, Order ordering, Page paging) {
         if (ordering!=null)
             query += ordering.toSQL();
         if (paging!=null)
             query += paging.toSQL();
 
-        OSQLSynchQuery queryO = queries.get(type.getSimpleName()+query);
-        if (queryO==null)
-            queries.put(type.getSimpleName()+query, queryO = createSelect(query,type));
-
-        queryO.reset();
-        queryO.resetPagination();
-
-        return queryO;
+        return createSelect(query,type);
     }
+
     public <T> OSQLSynchQuery<T> createSelect(String query, Class<T> type) {
         return new OSQLSynchQuery<>(query);
     }
 
-    public synchronized Collection<ODocument> select(String query, Object... params) throws Exception {
+    public Collection<ODocument> select(String query, Object... params) throws Exception {
         return select(query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
     }
-    public synchronized List<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
+    public List<ODocument> select(String query, Order ordering, Page paging, Object... params) throws Exception {
         return dbParameters.getConnection().getUnderlying().query(getSelect(query, ODocument.class, ordering, paging), params);
     }
-    public synchronized <T> Collection<T> select(Class<T> type, String query, Object... params) throws Exception {
+    public <T> Collection<T> select(Class<T> type, String query, Object... params) throws Exception {
         return select(type, query, dbParameters.getOrderingInfo(), dbParameters.getPaginationInfo(), params);
     }
-    public synchronized <T> Collection<T> select(Class<T> type, String query, Order ordering, Page paging, Object... params) throws Exception {
+    public <T> Collection<T> select(Class<T> type, String query, Order ordering, Page paging, Object... params) throws Exception {
         try {
             return (Collection<T>) getConnection().query(getSelect(query, type, ordering, paging), params);
         } catch (OSerializationException ex) {
@@ -209,6 +202,7 @@ public abstract class OrientDao {
         OObjectDatabaseTx connection = null;
         try {
             connection = getConnection();
+            connection.declareIntent(new OIntentMassiveInsert());
             connection.begin();
 
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
@@ -227,6 +221,8 @@ public abstract class OrientDao {
             if (connection!=null)
                 connection.rollback();
             throw e;
+        } finally {
+            connection.declareIntent(null);
         }
     }
     private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded, T embeddedBeanProxy) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {

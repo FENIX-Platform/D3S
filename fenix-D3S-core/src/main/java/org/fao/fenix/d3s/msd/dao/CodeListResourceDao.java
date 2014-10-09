@@ -47,18 +47,25 @@ public class CodeListResourceDao extends ResourceDao<Code> {
             return null;
 
         StringBuilder query = new StringBuilder("select from Code where codeList = ?");
-        Collection<Object> params = new LinkedList<>();
-        params.add(metadata.getORID());
+        ORID metadataORid = metadata.getORID();
 
-        if (level!=null && level>0) {
-            query.append(" and level = ?");
-            params.add(level);
-        }
         if (codes!=null && codes.length>0) {
-            query.append(codes.length==1 ? " and code = ?" : " and code in ?");
-            params.add(codes.length==1 ? codes[0] : codes);
-        }
-        return select(Code.class, query.toString(), params.toArray());
+            Collection<Code> result = new LinkedList<>();
+            if (level!=null && level>0) {
+                query.append(" and level = ? and code = ?");
+                for (String code : codes)
+                    result.addAll(select(Code.class, query.toString(), metadataORid, level, code));
+            } else {
+                query.append(" and code = ?");
+                for (String code : codes)
+                    result.addAll(select(Code.class, query.toString(), metadataORid, code));
+            }
+            return result;
+        } else if (level!=null && level>0) {
+            query.append(" and level = ?");
+            return select(Code.class, query.toString(), metadataORid, level);
+        } else
+            return select(Code.class, query.toString(), metadataORid);
     }
 
     public int deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {

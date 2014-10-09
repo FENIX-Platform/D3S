@@ -1,0 +1,89 @@
+{
+    "uid": "HS",
+    "version": "1992",
+    "language": {
+        "codes": [
+            { "code": "eng" }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
+
+    "title": {
+        "EN": "HS 1992"
+    },
+    "characterSet": {
+        "codes": [{
+            "code": "106"
+        }],
+        "idCodeList": "IANAcharacterSet"
+    },
+
+    "metadataStandardName": "FENIX metadata",
+    "metadataStandardVersion": "1.0",
+    "metadataLanguage": {
+        "codes": [
+            {
+                "code": "eng"
+            }
+        ],
+        "idCodeList": "ISO639-2",
+        "version": "1998"
+    },
+
+    "contacts": [
+        {
+            "organization": {
+                "EN": "FAO"
+            },
+            "organizationUnit": {
+                "EN": "ESS"
+            },
+            "name": "Fabio Grita",
+            "role": "coordinator",
+            "contactInfo": {
+                "phone ": "0039 06 57054262",
+                "address": "FAO-HQ, Viale delle Terme di Caracalla, 00153 Roma",
+                "emailAddress": "fabio.grita@fao.org",
+            }
+        }
+    ],
+
+    "meContent": {
+        "resourceRepresentationType": "codelist",
+        "keywords": ["hs", "harmonized","1992","item", "items", "code", "codes" ],
+        "description": {
+            "EN": "Harmonized System published in 1992"
+        },
+        "seCoverage": {
+            "coverageSectors":
+            {
+                "codes": [
+                    {
+                        "code": "06"
+                    }
+                ],
+                "idCodeList": "FENIX_Subjects",
+                "version": "1.0"
+            }
+        },
+        "seCodeList"  : {
+            "numberOfLevels": 4,
+            "typeOfCodeList": "tree"
+        }
+    },
+
+    "meAccessibility": {
+        "seConfidentiality" : {
+            "confidentialityStatus": {
+                "codes": [
+                    {
+                        "code": "F"
+                    }
+                ],
+                "idCodeList": "CL_CONF_STATUS",
+                "version": "1.0"
+            }
+        }
+    }
+}
