@@ -15,6 +15,7 @@ public class DSDDatasetLinksManager extends LinksManager {
                 "columns.domain.codes",
                 "columns.values.codes"
             );
+            document.save();
             return RESULT.RECORD_CHANGED; //Return changed status
         } else
             return RESULT.RECORD_NOT_CHANGED;

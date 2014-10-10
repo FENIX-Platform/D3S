@@ -17,10 +17,11 @@ public class ResourceIndexManager extends LinksManager {
                 String uid = document.field("uid");
                 String version = document.field("version");
                 document.field("index_id", (uid!=null ? uid : "")+(version!=null ? version : ""));
-            }
 
-            return RESULT.RECORD_CHANGED; //Return changed status
-        } else
-            return RESULT.RECORD_NOT_CHANGED;
+                document.save();
+                return RESULT.RECORD_CHANGED; //Return changed status
+            }
+        }
+        return RESULT.RECORD_NOT_CHANGED;
     }
 }
