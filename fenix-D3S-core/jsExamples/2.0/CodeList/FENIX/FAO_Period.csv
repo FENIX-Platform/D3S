@@ -116,14 +116,14 @@ titleColumnIndex_EN=3
 --data--
 
 
-@1@second
-@2@minute
-@3@hour
-@4@day
-@5@week
-@6@month
-@7@quarter
-@8@semester
-@9@year
-@10@fiscal year
-@11@decay
+@1@Second
+@2@Minute
+@3@Hour
+@4@Day
+@5@Week
+@6@Month
+@7@Quarter
+@8@Semester
+@9@Year
+@10@Fiscal year
+@11@Decay

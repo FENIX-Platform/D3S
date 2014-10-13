@@ -4,7 +4,7 @@ import javax.servlet.ServletRequest;
 
 public class Page {
     public int skip = 0;
-    public int length = 100; //Default result maximum size
+    public int length = 100000; //Default result maximum size
 
     public int page = 1;
     public int perPage = -1;
