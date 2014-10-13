@@ -21,9 +21,12 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 @Path("msd/resources")
 public class ResourcesService implements Resources {
@@ -83,7 +86,9 @@ public class ResourcesService implements Resources {
         getDao(loadRepresentationType(metadata)).deleteResource(metadata);
     }
 
+
     //METADATA
+
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd) throws Exception {
         return getMetadataProxy(loadMetadata(rid,null), full, dsd);

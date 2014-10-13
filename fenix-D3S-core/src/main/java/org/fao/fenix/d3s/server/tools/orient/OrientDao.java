@@ -142,7 +142,7 @@ public abstract class OrientDao {
     }
 
     public <T> Iterator<T> browse(Class<T> type) throws Exception {
-        return ((OObjectDatabaseTx)getConnection()).browseClass(type);
+        return getConnection().browseClass(type);
     }
     public Iterable<ODocument> browse (String className) throws Exception {
         final Iterator<ODocument> producerO = dbParameters.getConnection().getUnderlying().browseClass(className).iterator();
