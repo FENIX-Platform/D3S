@@ -12,12 +12,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public interface Codes {
 
     @PUT
     @Path("/filter")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Collection<Code> getCodes(CodesFilter filter) throws Exception;
 
 }

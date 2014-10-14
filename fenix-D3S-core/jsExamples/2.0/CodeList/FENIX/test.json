@@ -1,24 +1,30 @@
 {
-    "uid": "HS",
-    "version": "1992",
+    "uid": "CPC",
+    "version": "Ver.2",
     "language": {
         "codes": [
-            { "code": "eng" }
+            {
+                "code": "eng"
+            }
         ],
         "idCodeList": "ISO639-2",
         "version": "1998"
     },
 
+    "languageDetails": null,
     "title": {
-        "EN": "HS 1992"
+        "EN": "Central Product Classification 2"
     },
+    "creationDate": null,
     "characterSet": {
         "codes": [{
             "code": "106"
         }],
-        "idCodeList": "IANAcharacterSet"
+        "idCodeList": "IANAcharacterSet",
+        "version": null
     },
 
+    "parentIdentifiers": null,
     "metadataStandardName": "FENIX metadata",
     "metadataStandardVersion": "1.0",
     "metadataLanguage": {
@@ -34,33 +40,34 @@
     "contacts": [
         {
             "organization": {
-                "EN": "FAO"
+                "EN": "OECD"
             },
-            "organizationUnit": {
-                "EN": "ESS"
-            },
-            "name": "Fabio Grita",
-            "role": "coordinator",
+            "organizationUnit": null,
+            "name": null,
+            "position": null,
+            "role": "distributor",
             "contactInfo": {
-                "phone ": "0039 06 57054262",
-                "address": "FAO-HQ, Viale delle Terme di Caracalla, 00153 Roma",
-                "emailAddress": "fabio.grita@fao.org",
+                "phone ": null,
+                "address": "Director, Statistics Division, United Nations, New York, NY 10017, United States of America",
+                "emailAddress": "chl@un.org",
+                "hoursOfService": null,
+                "contactIntruction": null
             }
         }
     ],
+    "noDataValue": null,
 
     "meContent": {
         "resourceRepresentationType": "codelist",
-        "keywords": ["hs", "harmonized","1992","item", "items", "code", "codes" ],
-        "description": {
-            "EN": "Harmonized System published in 1992"
-        },
+        "keywords": ["commodity", "product"],
+        "description": null,
+        "statisticalConceptsDefinitions": null,
         "seCoverage": {
             "coverageSectors":
             {
                 "codes": [
                     {
-                        "code": "06"
+                        "code": "0601"
                     }
                 ],
                 "idCodeList": "FENIX_Subjects",
@@ -68,12 +75,19 @@
             }
         },
         "seCodeList"  : {
-            "numberOfLevels": 4,
+            "numberOfLevels": 5,
             "typeOfCodeList": "tree"
         }
-    },
 
+    },
     "meAccessibility": {
+        "seDataDissemination" : {
+            "seDistribution" : {
+                "onlineResource": "https://unstats.un.org/unsd/cr/registry/cpc-2.asp",
+                "disseminationFormat": ["txt","pdf"]
+            }
+        },
+
         "seConfidentiality" : {
             "confidentialityStatus": {
                 "codes": [
@@ -85,5 +99,7 @@
                 "version": "1.0"
             }
         }
+
+
     }
 }

@@ -29,7 +29,7 @@ public abstract class DocumentTrigger extends OrientDao implements ORecordHook, 
 
     @Override
     public void onClose(ODatabase oDatabase) {
-
+        ((ODatabaseComplex<?>)oDatabase).unregisterHook(this);
     }
 
     //ORecordHook implementation

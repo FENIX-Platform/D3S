@@ -1,9 +1,9 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.record.impl.ODocument;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 
 @Provider
@@ -34,14 +36,15 @@ public class DSDProvider <T extends DSD> implements MessageBodyReader<T> {
     public T readFrom(Class<T> resourceClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try {
             ObjectMapper jacksonMapper = new ObjectMapper();
-            JsonNode resourceNode = jacksonMapper.readTree(inputStream);
+            String content = readContent(inputStream);
+            JsonNode resourceNode = jacksonMapper.readTree(content);
             String dsdClassName = getDSDClassName(resourceNode);
 
             TypeReference resourceType = null;
             if (DSDDataset.class.getSimpleName().equals(dsdClassName))
                 resourceType = new TypeReference<DSDDataset>(){};
 
-            return resourceType!=null ? (T)jacksonMapper.readValue(resourceNode, resourceType) : null;
+            return resourceType!=null ? (T)jacksonMapper.readValue(content, resourceType) : null;
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }
@@ -50,8 +53,15 @@ public class DSDProvider <T extends DSD> implements MessageBodyReader<T> {
 
     //Utils
     private String getDSDClassName(JsonNode metadataNode) {
-        String rid = metadataNode!=null ? metadataNode.path("rid").getTextValue() : null;
+        String rid = metadataNode!=null ? metadataNode.path("rid").textValue() : null;
         ODocument metadataO = rid!=null ? (ODocument)DatabaseStandards.connection.get().getUnderlying().load(JSONEntity.toRID(rid)) : null;
         return metadataO!=null ? metadataO.getClassName() : null;
     }
+
+    private String readContent(InputStream inputStream) {
+        try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name()).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        }
+    }
+
 }

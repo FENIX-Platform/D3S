@@ -4,13 +4,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public interface Enumerations {
 
     @GET
     @Path("/{enumeration}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public Map<String, Map<String,String>> getEnumeration(@PathParam("enumeration") String enumName) throws Exception;
     @GET
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public Object getAvailableEnumerations(@QueryParam("full") @DefaultValue("false") boolean full) throws Exception;
 }

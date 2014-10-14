@@ -202,7 +202,6 @@ public abstract class OrientDao {
         OObjectDatabaseTx connection = null;
         try {
             connection = getConnection();
-            connection.declareIntent(new OIntentMassiveInsert());
             connection.begin();
 
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
@@ -221,8 +220,6 @@ public abstract class OrientDao {
             if (connection!=null)
                 connection.rollback();
             throw e;
-        } finally {
-            connection.declareIntent(null);
         }
     }
     private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded, T embeddedBeanProxy) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {

@@ -1,15 +1,17 @@
 package org.fao.fenix.d3s.server.services.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 @Provider
+@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DefaultJsonOptions implements ContextResolver<ObjectMapper> {
 
@@ -17,9 +19,9 @@ public class DefaultJsonOptions implements ContextResolver<ObjectMapper> {
 
     public DefaultJsonOptions() {
         mapper = new ObjectMapper();
-        mapper.enable(Feature.INDENT_OUTPUT);
-        mapper.disable(Feature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     @Override
