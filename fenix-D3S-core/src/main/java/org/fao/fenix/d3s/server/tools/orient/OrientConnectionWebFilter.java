@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName="OrientConnectionManager", urlPatterns={"/*"})
+@WebFilter(filterName="OrientConnectionManager", urlPatterns={"/v2/*"})
 public class OrientConnectionWebFilter implements Filter {
     @Inject OrientServer client;
     @Inject DatabaseStandards dbParameters;

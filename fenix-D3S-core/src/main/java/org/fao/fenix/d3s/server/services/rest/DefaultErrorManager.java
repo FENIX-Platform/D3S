@@ -8,9 +8,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Provider
-public class DefaultErrorManager implements ExceptionMapper<Exception> {
+public class DefaultErrorManager implements ExceptionMapper<Throwable> {
     @Override
-    public Response toResponse(Exception e) {
+    public Response toResponse(Throwable e) {
 
         if (e instanceof NoContentException)
             return Response.noContent().entity("").build();

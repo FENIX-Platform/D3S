@@ -123,7 +123,6 @@ public class ResourcesService implements Resources {
     public void deleteMetadata(String rid) throws Exception {
         if (!metadataDao.deleteMetadata(rid,null))
             throw new NoContentException("Cannot find resource (id: "+rid+')');
-
     }
 
     @Override

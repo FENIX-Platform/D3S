@@ -65,6 +65,8 @@ public class Server implements Runnable {
                 application.addClassPath(library);
         if (targetClassesFolder.exists())
             application.addClassPath(targetClassesFolder);
+
+
     }
 
 

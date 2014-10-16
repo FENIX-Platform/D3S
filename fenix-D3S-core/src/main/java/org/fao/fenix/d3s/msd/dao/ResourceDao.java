@@ -38,7 +38,7 @@ public abstract class ResourceDao<D> extends OrientDao {
     public MeIdentification insertMetadata (MeIdentification metadata) throws Exception {
         if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
             UUID uid = UUID.randomUUID();
-            metadata.setUid("D3S_"+uid.getMostSignificantBits()+uid.getLeastSignificantBits());
+            metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
         return metadata!=null ? newCustomEntity(metadata) : null;
     }
