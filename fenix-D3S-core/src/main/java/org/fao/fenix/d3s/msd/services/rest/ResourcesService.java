@@ -69,21 +69,18 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public void deleteResource(String rid) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
-        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    public String deleteResource(String rid) throws Exception {
+        return deleteResource(loadMetadata(rid, null));
     }
 
     @Override
-    public void deleteResourceByUID(String uid) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, null);
-        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    public String deleteResourceByUID(String uid) throws Exception {
+        return deleteResource(loadMetadata(uid, null));
     }
 
     @Override
-    public void deleteResourceByUID(String uid, String version) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+    public String deleteResourceByUID(String uid, String version) throws Exception {
+        return deleteResource(loadMetadata(uid, version));
     }
 
 
@@ -120,21 +117,18 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public void deleteMetadata(String rid) throws Exception {
-        if (!metadataDao.deleteMetadata(rid,null))
-            throw new NoContentException("Cannot find resource (id: "+rid+')');
+    public String deleteMetadata(String rid) throws Exception {
+        return metadataDao.deleteMetadata(rid,null) ? "" : null;
     }
 
     @Override
-    public void deleteMetadataByUID(String uid) throws Exception {
-        if (!metadataDao.deleteMetadata(uid,null))
-            throw new NoContentException("Cannot find resource (id: "+uid+')');
+    public String deleteMetadataByUID(String uid) throws Exception {
+        return metadataDao.deleteMetadata(uid,null) ? "" : null;
     }
 
     @Override
-    public void deleteMetadataByUID(String uid, String version) throws Exception {
-        if (!metadataDao.deleteMetadata(uid,version))
-            throw new NoContentException("Cannot find resource (id: "+uid+" - version: "+version+')');
+    public String deleteMetadataByUID(String uid, String version) throws Exception {
+        return metadataDao.deleteMetadata(uid,version) ? "" : null;
     }
 
     @Override
@@ -181,22 +175,20 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public void deleteData(String rid) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
-        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    public String deleteData(String rid) throws Exception {
+        return deleteData(loadMetadata(rid, null));
     }
 
     @Override
-    public void deleteDataByUID(String uid) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, null);
-        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    public String deleteDataByUID(String uid) throws Exception {
+        return deleteData(loadMetadata(uid, null));
     }
 
     @Override
-    public void deleteDataByUID(String uid, String version) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        getDao(loadRepresentationType(metadata)).deleteData(metadata);
+    public String deleteDataByUID(String uid, String version) throws Exception {
+        return deleteData(loadMetadata(uid, null));
     }
+
 
 
     //Utils
@@ -281,5 +273,23 @@ public class ResourcesService implements Resources {
         }
         return null;
     }
+
+
+    private String deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            getDao(loadRepresentationType(metadata)).deleteData(metadata);
+            return "";
+        } else
+            return null;
+    }
+
+    private String deleteResource(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+            return "";
+        } else
+            return null;
+    }
+
 
 }

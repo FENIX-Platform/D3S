@@ -27,9 +27,6 @@ public class ResponseInterceptor implements ContainerResponseFilter {
             containerResponseContext.setStatus(Response.Status.CREATED.getStatusCode());
             containerResponseContext.getHeaders().putSingle("Location", createGetPath(containerResponseContext.getEntity(), httpRequest));
         }
-        //Support void response services
-        if (Response.Status.NO_CONTENT.equals(containerResponseContext.getStatusInfo()) && containerResponseContext.getEntityClass()==null)
-            containerResponseContext.setStatusInfo(Response.Status.OK);
         //Support empty collections
         if (containerResponseContext.getEntityClass()!=null && Collection.class.isAssignableFrom(containerResponseContext.getEntityClass()) && ((Collection)containerResponseContext.getEntity()).size()==0)
             containerResponseContext.setStatusInfo(Response.Status.NO_CONTENT);

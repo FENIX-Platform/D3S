@@ -5,9 +5,11 @@ import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
+import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.msd.services.rest.providers.CSVProvider;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
@@ -18,7 +20,7 @@ import java.util.*;
 @Provider
 @Consumes("application/csv")
 public class CSVResourceProvider extends CSVProvider<Resource> {
-
+    @Inject MetadataResourceDao dao;
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
@@ -32,17 +34,21 @@ public class CSVResourceProvider extends CSVProvider<Resource> {
             switch (resourceType) {
                 case codelist: return CSVCodeListProvider.getResource(metadata, structure, data);
             }
-        return null;
+        return new Resource<>();
     }
 
 
     //Utils
-    private RepresentationType getRepresentationType(MeIdentification metadata) {
+    private RepresentationType getRepresentationType(MeIdentification metadata) throws Exception {
         RepresentationType representationType = metadata!=null && metadata.getMeContent()!=null ? metadata.getMeContent().getResourceRepresentationType() : null;
 
-        if (representationType==null && metadata!=null && metadata.getORID()!=null) {
-            metadata = ((OObjectDatabaseTx) DatabaseStandards.connection.get()).load(metadata.getORID());
-            representationType = metadata!=null ? metadata.getMeContent().getResourceRepresentationType() : null;
+        if (representationType==null && metadata!=null) {
+            //Load metadata
+            MeIdentification storedMetadata = dao.loadMetadata(metadata.getRID(), null);
+            if (storedMetadata == null)
+                storedMetadata = dao.loadMetadata(metadata.getUid(), metadata.getVersion());
+            //Recalculate representation type
+            representationType = storedMetadata!=null ? storedMetadata.getMeContent().getResourceRepresentationType() : null;
         }
 
         return representationType;

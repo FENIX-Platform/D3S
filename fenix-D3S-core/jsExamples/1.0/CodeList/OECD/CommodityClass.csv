@@ -4,6 +4,7 @@ structure=table
 dateFormat=dd/mm/yyyy
 codeColumnsIndex=1
 titleColumnIndex_EN=2
+descriptionColumnIndex_EN=3
 
 #metadata
 name=OECD_CommodityClass
@@ -16,10 +17,10 @@ sharingPolicy=publicPolicy
 
 --data--
 
-6;Biodiesel
-7;Biofuel
-5;Ethanol
-3;Maize
+6;Biodiesel;jsdgfjsdbfjkdgbfjh
+7;Biofuel;
+5;Ethanol;
+3;Maize;
 9;Maize + Rice
 10;Maize + Soybeans
 2;Rice
