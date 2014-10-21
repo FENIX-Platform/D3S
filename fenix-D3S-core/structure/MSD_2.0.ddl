@@ -331,10 +331,10 @@ CREATE PROPERTY MeIdentification.meSpatialRepresentation EMBEDDED MeSpatialRepre
   CREATE PROPERTY MeSpatialRepresentation.typeOfProduct EMBEDDED OjCodeList;
   CREATE PROPERTY MeSpatialRepresentation.noDataValue STRING;
   CREATE PROPERTY MeSpatialRepresentation.seBoundingBox EMBEDDED SeBoundingBox;
-    CREATE PROPERTY SeBoundingBox.xMin DOUBLE;
-    CREATE PROPERTY SeBoundingBox.xMax DOUBLE;
-    CREATE PROPERTY SeBoundingBox.yMin DOUBLE;
-    CREATE PROPERTY SeBoundingBox.yMax DOUBLE;
+    CREATE PROPERTY SeBoundingBox.xmin DOUBLE;
+    CREATE PROPERTY SeBoundingBox.xmax DOUBLE;
+    CREATE PROPERTY SeBoundingBox.ymin DOUBLE;
+    CREATE PROPERTY SeBoundingBox.ymax DOUBLE;
     CREATE PROPERTY SeBoundingBox.seGridSpatialRepresentation EMBEDDED SeGridSpatialRepresentation;
       CREATE PROPERTY SeGridSpatialRepresentation.numberOfDimensions INTEGER;
       CREATE PROPERTY SeGridSpatialRepresentation.axisDimensionProperties EMBEDDED OjAxis;
