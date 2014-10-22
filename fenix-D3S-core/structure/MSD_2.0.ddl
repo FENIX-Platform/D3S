@@ -109,7 +109,7 @@ CREATE PROPERTY OjMeasure.conversionToStandard DOUBLE;
 
 CREATE PROPERTY OjResponsibleParty.organization EMBEDDEDMAP STRING;
 CREATE PROPERTY OjResponsibleParty.organizationUnit EMBEDDEDMAP STRING;
-CREATE PROPERTY OjResponsibleParty.name STRING;
+CREATE PROPERTY OjResponsibleParty.pointOfContact STRING;
 CREATE PROPERTY OjResponsibleParty.position EMBEDDEDMAP STRING;
 CREATE PROPERTY OjResponsibleParty.role STRING;
 CREATE PROPERTY OjResponsibleParty.specify EMBEDDEDMAP STRING;
@@ -200,7 +200,6 @@ CREATE PROPERTY MeIdentification.noDataValue STRING;
 
 CREATE PROPERTY MeIdentification.meDocuments EMBEDDEDLIST MeDocuments;
   CREATE PROPERTY MeDocuments.document EMBEDDED OjCitation;
-  CREATE PROPERTY MeDocuments.attachments EMBEDDEDLIST OjCitation;
   CREATE PROPERTY MeDocuments.referenceEntity STRING;
   CREATE PROPERTY MeDocuments.referenceElement STRING;
 CREATE PROPERTY MeIdentification.meInstitutionalMandate EMBEDDED MeInstitutionalMandate;
@@ -356,6 +355,7 @@ CREATE PROPERTY MeIdentification.meStatisticalProcessing EMBEDDED MeStatisticalP
       CREATE PROPERTY SeSecondaryDataCollection.originOfCollectedData EMBEDDED OjCodeList;
       CREATE PROPERTY SeSecondaryDataCollection.organization EMBEDDED OjCodeList;
       CREATE PROPERTY SeSecondaryDataCollection.rawDataDescription EMBEDDEDMAP STRING;
+      CREATE PROPERTY SeSecondaryDataCollection.dataCollection EMBEDDEDMAP STRING;
   CREATE PROPERTY MeStatisticalProcessing.seDataCompilation EMBEDDED SeDataCompilation;
     CREATE PROPERTY SeDataCompilation.missingData EMBEDDEDMAP STRING;
     CREATE PROPERTY SeDataCompilation.weights EMBEDDEDMAP STRING;

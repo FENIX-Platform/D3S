@@ -1,6 +1,5 @@
 package org.fao.ess.cstat.d3s;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 
 import javax.enterprise.context.ApplicationScoped;
