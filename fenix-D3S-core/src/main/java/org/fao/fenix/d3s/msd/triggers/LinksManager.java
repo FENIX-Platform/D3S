@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public abstract class LinksManager extends DocumentTrigger {
-    @Inject private CodeListResourceDao codeListDao;
+    @Inject protected CodeListResourceDao codeListDao;
 
 
     //Logic

@@ -12,6 +12,7 @@ import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
+import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.msd.triggers.DSDDatasetLinksManager;
 import org.fao.fenix.d3s.msd.triggers.ResourceIndexManager;
 import org.fao.fenix.d3s.msd.triggers.ResourceLinksManager;
@@ -106,9 +107,19 @@ public class OrientServer {
     }
 
     public void registerTriggers() throws Exception {
+        OObjectDatabaseTx connection = null;
+        try {
+            connection = getODatabase(OrientDatabase.msd);
+            ResourceIndexManager.init(connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName()));
+        } finally {
+            if (connection!=null)
+                connection.close();
+        }
+
+
         Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceIndexManager.class).iterator().next());
-        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
-        Orient.instance().addDbLifecycleListener(triggersFactory.select(DSDDatasetLinksManager.class).iterator().next());
+//        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
+//        Orient.instance().addDbLifecycleListener(triggersFactory.select(DSDDatasetLinksManager.class).iterator().next());
     }
 
 

@@ -36,10 +36,8 @@ public class ResourceLinksManager extends LinksManager {
                 "meStatisticalProcessing.seDataSource.seSecondaryDataCollection.organization",
                 "meStatisticalProcessing.seDataCompilation.dataAdjustment"
             ); //Codes linking
-            document.save();
-            return RESULT.RECORD_CHANGED; //Return changed status
-        } else
-            return RESULT.RECORD_NOT_CHANGED;
+        }
+        return RESULT.RECORD_CHANGED;
     }
 
 

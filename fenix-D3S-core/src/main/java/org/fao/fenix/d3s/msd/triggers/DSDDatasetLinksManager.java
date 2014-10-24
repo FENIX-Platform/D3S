@@ -12,13 +12,11 @@ public class DSDDatasetLinksManager extends LinksManager {
     protected RESULT onUpdate(ODocument document, ODatabase connection) throws Exception {
         if (document!=null && "DSDDataset".equals(document.getClassName())) {
             linkCodes(document,
-                "columns.domain.codes",
-                "columns.values.codes"
+                    "columns.domain.codes",
+                    "columns.values.codes"
             );
-            document.save();
-            return RESULT.RECORD_CHANGED; //Return changed status
-        } else
-            return RESULT.RECORD_NOT_CHANGED;
+        }
+        return RESULT.RECORD_CHANGED;
     }
 
 }
