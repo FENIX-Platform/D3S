@@ -6,6 +6,7 @@ import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
@@ -13,10 +14,7 @@ import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
-import org.fao.fenix.d3s.msd.dao.CodeListResourceDao;
-import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
-import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
-import org.fao.fenix.d3s.msd.dao.ResourceDao;
+import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
@@ -32,6 +30,7 @@ import java.util.LinkedList;
 public class ResourcesService implements Resources {
     @Inject private Instance<ResourceDao> daoFactory;
     @Inject private MetadataResourceDao metadataDao;
+    @Inject private FilterResourceDao filterResourceDao;
 
 
     //RESOURCES
@@ -155,6 +154,11 @@ public class ResourcesService implements Resources {
         return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, false), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
+    @Override
+    public void deleteDsd(String rid) throws Exception {
+        //TODO
+    }
+
     //DATA
 
     @Override
@@ -189,6 +193,10 @@ public class ResourcesService implements Resources {
         return deleteData(loadMetadata(uid, null));
     }
 
+    @Override
+    public Collection<MeIdentification> findMetadata(ResourceFilter filter) throws Exception {
+        return ResponseBeanFactory.getInstances(filterResourceDao.filter(filter), MeIdentification.class);
+    }
 
 
     //Utils

@@ -9,6 +9,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 
 @ApplicationScoped
@@ -17,11 +18,11 @@ public class ResourceIndexManager extends LinksManager {
     @Inject DSDDatasetLinksManager dsdDatasetLinksManager;
 
     private final static String[] indexedFields = new String[]{
+            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
             "uid",
             "version",
             "meContent.resourceRepresentationType",
-            "meContent.seCoverage.coverageSectors",
-            "meStatisticalProcessing.seDataCompilation.aggregationProcessing"
+            "meContent.seCoverage.coverageSectors"
     };
 
     //INIT
@@ -29,7 +30,9 @@ public class ResourceIndexManager extends LinksManager {
     private static FieldType[] fieldTypes = null;
     private enum FieldType {
         OjCodeList,OjCodeListCollection,
-        OjPeriod,OjPeriodCollection,
+        OjPeriod,
+        date,
+        enumeration,
         other
     }
 
@@ -51,6 +54,13 @@ public class ResourceIndexManager extends LinksManager {
                     case LINKSET:
                         fieldTypes[i] = linkedClass!=null ? FieldType.valueOf(linkedClass.getName()+"Collection") : null;
                         break;
+                    case DATE:
+                    case DATETIME:
+                        fieldTypes[i] = FieldType.date;
+                        break;
+                    case STRING:
+                        fieldTypes[i] = FieldType.enumeration;
+                        break;
                     default:
                         fieldTypes[i] = FieldType.other;
                 }
@@ -69,19 +79,37 @@ public class ResourceIndexManager extends LinksManager {
 
         if (document!=null && "MeIdentification".equals(document.getClassName())) {
             //Indexing standard properties
-            OType fieldType;
-            for (String fieldName : indexedFields)
-                switch (fieldType=document.fieldType("uid")) {
-                    case STRING:
-                        document.field("index."+fieldName, document.field(fieldName), fieldType);
+            FieldType fieldType;
+            String fieldName;
+            for (int i=0; i<indexedFields.length; i++) {
+                Collection fieldValues = getFields(document,fieldName = indexedFields[i]);
+                switch (fieldType = fieldTypes[i]) {
+                    case enumeration:
+                        document.field("index." + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
                         break;
-                    case EMBEDDED:
-                        ODocument embeddedDocument = document.field(fieldName);
-                        if (embeddedDocument!=null) {
-                                document.getSchemaClass().getProperty(fieldName).getLinkedClass();
+                    case OjPeriod:
+                        ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
+                        if (periodO!=null) {
+                            document.field("index." + fieldName + ".from", (Date)periodO.field("from"), OType.DATE);
+                            document.field("index." + fieldName + ".to", (Date)periodO.field("to"), OType.DATE);
                         }
-
+                        break;
+                    case date:
+                        Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
+                        if (date!=null) {
+                            document.field("index." + fieldName + ".from", date, OType.DATE);
+                            document.field("index." + fieldName + ".to", date, OType.DATE);
+                        }
+                    case OjCodeList:
+                    case OjCodeListCollection:
+                        Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
+                        document.field("index." + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
+                        break;
+                    case other:
+                        System.out.println("Undefined index type for "+fieldName);
+                        break;
                 }
+            }
         }
         //Save changes
         document.save();
@@ -109,6 +137,7 @@ public class ResourceIndexManager extends LinksManager {
         return property;
     }
 
+    //OJCodelist codes extraction
     private Collection<String> getCodes(Collection<ODocument> ojCodelistCollectionO) throws Exception {
         Collection<String> codes = new LinkedList<>();
         if (ojCodelistCollectionO!=null)
@@ -119,18 +148,33 @@ public class ResourceIndexManager extends LinksManager {
     private Collection<String> getCodes(ODocument ojCodelistO) throws Exception {
         Collection<String> codes = new LinkedList<>();
         if (ojCodelistO!=null) {
-            ODocument resourceO = ojCodelistO.field("linkedCodeList");
-            Collection<ODocument> ojCodes = ojCodelistO.field("codes");
-            if (resourceO!=null) {
-
+            String uid = ojCodelistO.field("idCodeList");
+            String version = ojCodelistO.field("version");
+            String codeListID = uid!=null ? (uid + version!=null ? '|'+version : "") : null;
+            if (codeListID!=null) {
+                Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
+                if (ojCodesO!=null && ojCodesO.size()>0)
+                    for (ODocument ojCodeO : ojCodesO) {
+                        ODocument linkedCodeO = ojCodeO.field("linkedCode");
+                        if (linkedCodeO!=null)
+                            addParentsToo(linkedCodeO, codes, codeListID);
+                        else {
+                            String code = ojCodeO.field("code");
+                            if (code != null)
+                                codes.add(codeListID + '|' + code);
+                        }
+                    }
+                codes.add(codeListID);
             }
-            //MeIdentification resource = codeListDao.loadMetadata((String) ojCodelistO.field("idCodeList"), (String) ojCodelistO.field("version"));
-
         }
         return codes;
     }
-    private void addParents(ODocument code, Collection<String> codes, String prefix) {
-
+    private void addParentsToo(ODocument code, Collection<String> codes, String codeListID) {
+        codes.add(codeListID + '|' + code.field("code"));
+        Collection<ODocument> parents = code.field("parents");
+        if (parents!=null)
+            for (ODocument parent : parents)
+                addParentsToo(parent, codes, codeListID);
     }
 
 

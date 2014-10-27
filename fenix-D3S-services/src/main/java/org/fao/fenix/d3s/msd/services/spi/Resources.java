@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.templates.identification.DSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
@@ -102,6 +103,9 @@ public interface Resources {
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> DSD appendDsd(T metadata) throws Exception;
+    @DELETE
+    @Path("/dsd/{rid}")
+    public void deleteDsd(@PathParam("rid") String rid) throws Exception;
 
 
     @GET
@@ -125,4 +129,12 @@ public interface Resources {
     @DELETE
     @Path("/data/{uid}/{version}")
     public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+
+    @POST
+    @Path("/find")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<MeIdentification> findMetadata(ResourceFilter filter) throws Exception;
+
 }

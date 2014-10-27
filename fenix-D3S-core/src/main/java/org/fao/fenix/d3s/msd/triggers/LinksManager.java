@@ -56,16 +56,16 @@ public abstract class LinksManager extends DocumentTrigger {
 
     //Utils
 
-    private Collection<ODocument> getFields(ODocument root, String path) {
+    protected Collection getFields(ODocument root, String path) {
         return root!=null && path!=null ? getFields(root,path.split("\\."),-1,new LinkedList<ODocument>()) : null;
     }
-    private Collection<ODocument> getFields(Object field, String[] path, int index, Collection<ODocument> fields) {
+    private Collection getFields(Object field, String[] path, int index, Collection fields) {
         if (field instanceof Collection)
             for (Object fieldElement : ((Collection)field))
                 getFields(fieldElement, path, index, fields);
-        else if (field!=null && field instanceof ODocument)
+        else if (field!=null)
             if (++index==path.length)
-                fields.add((ODocument)field);
+                fields.add(field);
             else
                 getFields(((ODocument)field).field(path[index]), path, index, fields);
 
