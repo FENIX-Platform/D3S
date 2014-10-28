@@ -1,5 +1,5 @@
 {
-    "uid": "D3S_61058574613567069778091684593199812149_test5",
+    "uid": "D3S_61058574613567069778091684593199812149_test8",
     "version": null,
     "language": {
         "codes": [
@@ -60,7 +60,7 @@
     "meSpatialRepresentation": {
         "isRoot": false,
         "seBoundingBox": {
-            "xmin": 10,
+            "xmin": 15,
             "xmax": 20,
             "ymin": 30,
             "ymax": 40,

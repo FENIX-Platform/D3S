@@ -102,7 +102,7 @@ public class FilterResourceDao extends ResourceDao {
         if (codesFilter!=null) {
             String uid = codesFilter.getUid();
             String version = codesFilter.getVersion();
-            String codeListID = uid!=null ? (uid + version!=null ? '|'+version : "") : null;
+            String codeListID = uid!=null ? uid + (version!=null ? '|'+version : "") : null;
             if (codeListID!=null) {
                 Collection<String> filterCodes = codesFilter.getCodes();
                 if (filterCodes!=null && filterCodes.size()>0)

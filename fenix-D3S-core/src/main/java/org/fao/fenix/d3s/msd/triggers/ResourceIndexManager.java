@@ -92,8 +92,8 @@ public class ResourceIndexManager extends LinksManager {
                     case OjPeriod:
                         ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
                         if (periodO!=null) {
-                            document.field("index|" + fieldName + "|from", (Date)periodO.field("from"), OType.DATE);
-                            document.field("index|" + fieldName + "|to", (Date)periodO.field("to"), OType.DATE);
+                            document.field("index|" + fieldName + "|from", periodO.field("from"), OType.DATE);
+                            document.field("index|" + fieldName + "|to", periodO.field("to"), OType.DATE);
                         }
                         break;
                     case date:

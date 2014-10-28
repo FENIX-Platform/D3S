@@ -36,7 +36,12 @@ public abstract class OrientDao {
 
 
 	//DELETE UTILS
-
+    public boolean delete (String rid) throws Exception  {
+        ODocument document = load(rid);
+        if (document!=null)
+            document.delete();
+        return document!=null;
+    }
     protected int deleteGraphInclude (ODocument document, String[] boundary) { return deleteGraph(document, Arrays.asList(boundary)); }
 	protected int deleteGraphInclude (ODocument document, Collection<String> boundary) { return deleteGraph(document, boundary!=null ? new HashSet<>(boundary) : new HashSet<String>(), new TreeSet<ORID>(),true); }
 	protected int deleteGraph (ODocument document, String[] boundary) { return deleteGraph(document, Arrays.asList(boundary)); }

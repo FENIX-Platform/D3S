@@ -87,7 +87,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd) throws Exception {
-        return getMetadataProxy(loadMetadata(rid,null), full, dsd);
+        return getMetadataProxy(loadMetadata(rid, null), full, dsd);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public void deleteDsd(String rid) throws Exception {
-        //TODO
+        metadataDao.delete(rid);
     }
 
     //DATA
@@ -194,8 +194,18 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public Collection<MeIdentification> findMetadata(ResourceFilter filter) throws Exception {
-        return ResponseBeanFactory.getInstances(filterResourceDao.filter(filter), MeIdentification.class);
+    public Collection findMetadata(ResourceFilter filter, boolean full, boolean dsd) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter);
+        if (resources!=null && resources.size()>0) {
+            if (full || dsd) {
+                Collection result = new LinkedList();
+                for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
+                    result.add(getMetadataProxy(resource, full, dsd));
+                return result;
+            } else
+                return ResponseBeanFactory.getInstances(resources, MeIdentification.class);
+        } else
+            return null;
     }
 
 
