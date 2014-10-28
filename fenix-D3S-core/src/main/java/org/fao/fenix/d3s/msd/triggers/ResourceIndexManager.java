@@ -22,7 +22,8 @@ public class ResourceIndexManager extends LinksManager {
             "uid",
             "version",
             "meContent.resourceRepresentationType",
-            "meContent.seCoverage.coverageSectors"
+            "meContent.seCoverage.coverageSectors",
+            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel"
     };
 
     //INIT
@@ -77,40 +78,40 @@ public class ResourceIndexManager extends LinksManager {
         resourceLinksManager.onUpdate(document, connection);
         dsdDatasetLinksManager.onUpdate(document, connection);
 
-        if (document!=null && "MeIdentification".equals(document.getClassName())) {
-            //Indexing standard properties
-            FieldType fieldType;
-            String fieldName;
-            for (int i=0; i<indexedFields.length; i++) {
-                Collection fieldValues = getFields(document,fieldName = indexedFields[i]);
-                switch (fieldType = fieldTypes[i]) {
+        if (document!=null && "MeIdentification".equals(document.getClassName()))
+
+            for (int i=0; i<indexedFields.length; i++) {            //Indexing standard properties
+                String fieldName = indexedFields[i].replace('.','|');
+                FieldType fieldType = fieldTypes[i];
+                Collection fieldValues = getFields(document,indexedFields[i]);
+
+                switch (fieldType) {
                     case enumeration:
-                        document.field("index." + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
+                        document.field("index|" + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
                         break;
                     case OjPeriod:
                         ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
                         if (periodO!=null) {
-                            document.field("index." + fieldName + ".from", (Date)periodO.field("from"), OType.DATE);
-                            document.field("index." + fieldName + ".to", (Date)periodO.field("to"), OType.DATE);
+                            document.field("index|" + fieldName + "|from", (Date)periodO.field("from"), OType.DATE);
+                            document.field("index|" + fieldName + "|to", (Date)periodO.field("to"), OType.DATE);
                         }
                         break;
                     case date:
                         Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
                         if (date!=null) {
-                            document.field("index." + fieldName + ".from", date, OType.DATE);
-                            document.field("index." + fieldName + ".to", date, OType.DATE);
+                            document.field("index|" + fieldName + "|from", date, OType.DATE);
+                            document.field("index|" + fieldName + "|to", date, OType.DATE);
                         }
                     case OjCodeList:
                     case OjCodeListCollection:
                         Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
-                        document.field("index." + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
+                        document.field("index|" + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
                         break;
                     case other:
                         System.out.println("Undefined index type for "+fieldName);
                         break;
                 }
             }
-        }
         //Save changes
         document.save();
         return RESULT.RECORD_CHANGED;
@@ -150,7 +151,7 @@ public class ResourceIndexManager extends LinksManager {
         if (ojCodelistO!=null) {
             String uid = ojCodelistO.field("idCodeList");
             String version = ojCodelistO.field("version");
-            String codeListID = uid!=null ? (uid + version!=null ? '|'+version : "") : null;
+            String codeListID = uid!=null ? uid + (version!=null ? '|'+version : "") : null;
             if (codeListID!=null) {
                 Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
                 if (ojCodesO!=null && ojCodesO.size()>0)

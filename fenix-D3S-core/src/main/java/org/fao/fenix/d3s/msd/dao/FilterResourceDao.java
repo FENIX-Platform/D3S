@@ -50,7 +50,7 @@ public class FilterResourceDao extends ResourceDao {
         StringBuilder queryFilter = new StringBuilder();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
-                String fieldName = "index."+filterEntry.getKey();
+                String fieldName = ("index."+filterEntry.getKey()).replace('.','|');
                 FieldFilter fieldFilter = filterEntry.getValue();
                 if (fieldFilter!=null) {
                     switch (fieldFilter.getFilterType()) {
@@ -79,11 +79,11 @@ public class FilterResourceDao extends ResourceDao {
                             queryFilter.append(" AND (");
                             for (TimeFilter time : fieldFilter.time) {
                                 if (time.from!=null) {
-                                    queryFilter.append(fieldName).append(".to >= ? OR ");
+                                    queryFilter.append(fieldName).append("|to >= ? OR ");
                                     params.add(time.from);
                                 }
                                 if (time.to!=null) {
-                                    queryFilter.append(fieldName).append(".from <= ? OR ");
+                                    queryFilter.append(fieldName).append("|from <= ? OR ");
                                     params.add(time.to);
                                 }
                             }
