@@ -9,6 +9,7 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.msd.dto.full.OjResponsibleParty;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
@@ -22,9 +23,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 @Path("msd/resources")
 public class ResourcesService implements Resources {
@@ -308,6 +307,25 @@ public class ResourcesService implements Resources {
         } else
             return null;
     }
+
+
+
+    public static void main (String ... args) {
+        try {
+            org.fao.fenix.commons.msd.dto.full.MeIdentification data = new org.fao.fenix.commons.msd.dto.full.MeIdentification();
+            data.setUid("test");
+            data.setLanguageDetails(new HashMap<String, String>());
+            data.setContacts(new LinkedList<OjResponsibleParty>());
+            System.out.println(data.isIdentification());
+            Map<String,String> label = new HashMap<>();
+            label.put("EN", "Test 1");
+            data.setLanguageDetails(label);
+            System.out.println(data.isIdentification());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 
 }

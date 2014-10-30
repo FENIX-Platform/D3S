@@ -120,7 +120,37 @@ public interface Resources {
     @Path("/data/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public Object getDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
-    @DELETE
+/*    @PUT
+    @Path("/data/rid/{rid}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification updateData(@PathParam("rid") String rid, Collection data) throws Exception;
+    @PUT
+    @Path("/data/uid/{uid}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification updateDataByUid(@PathParam("uid") String uid, Collection data) throws Exception;
+    @PUT
+    @Path("/data/{uid}/{version}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification updateDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
+    @PATCH
+    @Path("/data/rid/{rid}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification appendData(@PathParam("rid") String rid, Collection data) throws Exception;
+    @PATCH
+    @Path("/data/uid/{uid}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification appendDataByUid(@PathParam("uid") String uid, Collection data) throws Exception;
+    @PATCH
+    @Path("/data/{uid}/{version}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MeIdentification appendDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
+*/    @DELETE
     @Path("/data/rid/{rid}")
     public String deleteData(@PathParam("rid") String rid) throws Exception;
     @DELETE
