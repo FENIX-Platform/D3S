@@ -8,6 +8,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -84,6 +85,7 @@ public class ResourceIndexManager extends LinksManager {
                 String fieldName = indexedFields[i].replace('.','|');
                 FieldType fieldType = fieldTypes[i];
                 Collection fieldValues = getFields(document,indexedFields[i]);
+                Long[] period;
 
                 switch (fieldType) {
                     case enumeration:
@@ -91,17 +93,15 @@ public class ResourceIndexManager extends LinksManager {
                         break;
                     case OjPeriod:
                         ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
-                        if (periodO!=null) {
-                            document.field("index|" + fieldName + "|from", periodO.field("from"), OType.DATE);
-                            document.field("index|" + fieldName + "|to", periodO.field("to"), OType.DATE);
-                        }
+                        period = datePeriodToPeriod((Date)periodO.field("from"), (Date)periodO.field("to"));
+                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
                         break;
                     case date:
                         Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
-                        if (date!=null) {
-                            document.field("index|" + fieldName + "|from", date, OType.DATE);
-                            document.field("index|" + fieldName + "|to", date, OType.DATE);
-                        }
+                        period = dateToPeriod(date);
+                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
                     case OjCodeList:
                     case OjCodeListCollection:
                         Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
@@ -120,7 +120,29 @@ public class ResourceIndexManager extends LinksManager {
 
 
 
+
+
     //Utils
+
+    SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyyMMdd000000");
+    private static Long maxSecond = 99991231235959l;
+    private static Long minSecond = 10000101000000l;
+
+    private Long[] dateToPeriod (Date date) {
+        Long[] period = new Long[2];
+        period[0] = date!=null ? new Long(dayFormatter.format(date)) : null;
+        period[1] = period[0]!=null ? period[0] + 235959 : null;
+        return period;
+    }
+    private Long[] datePeriodToPeriod(Date from, Date to) {
+        Long[] period = new Long[2];
+        period[0] = from!=null ? dateToPeriod(from)[0] : minSecond;
+        period[1] = to!=null ? dateToPeriod(to)[1] : maxSecond;
+        return period;
+    }
+
+
+
 
     private static OProperty getProperty(OClass classO, String[] propertyName) {
         OProperty property = null;

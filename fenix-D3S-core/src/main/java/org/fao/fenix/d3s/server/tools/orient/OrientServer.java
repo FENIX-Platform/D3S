@@ -110,6 +110,7 @@ public class OrientServer {
         OObjectDatabaseTx connection = null;
         try {
             connection = getODatabase(OrientDatabase.msd);
+            ResourceLinksManager.init(connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName()));
             ResourceIndexManager.init(connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName()));
         } finally {
             if (connection!=null)

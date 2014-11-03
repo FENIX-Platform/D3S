@@ -24,12 +24,16 @@ public abstract class ResourceDao<D> extends OrientDao {
         return isRID(id,version) ? loadBean(id, MeIdentification.class) : loadMetadataByUID(id,version);
     }
     public MeIdentification loadMetadataByUID(String uid, String version) throws Exception {
+        if (uid==null)
+            return null;
         Collection<MeIdentification> resources = version==null ?
                 select(MeIdentification.class, "select from MeIdentification where index|uid = ?", null, null, uid) :
                 select(MeIdentification.class, "select from MeIdentification where index|uid = ? and index|version = ?", null, null, uid, version);
         return resources.size()>0 ? resources.iterator().next() : null;
     }
     public ODocument loadMetadataOByUID(String uid, String version) throws Exception {
+        if (uid==null)
+            return null;
         Collection<ODocument> resources =  version==null ?
                 select("select from MeIdentification where index|uid = ?", null, null, uid) :
                 select("select from MeIdentification where index|uid = ? and index|version = ?", null, null, uid, version);
