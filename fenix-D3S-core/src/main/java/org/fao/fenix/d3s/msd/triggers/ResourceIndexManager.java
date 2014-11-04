@@ -5,13 +5,12 @@ import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.msd.dto.type.ResponsiblePartyRole;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.*;
 
 @ApplicationScoped
 public class ResourceIndexManager extends LinksManager {
@@ -24,7 +23,8 @@ public class ResourceIndexManager extends LinksManager {
             "version",
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
-            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel"
+            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
+            "contacts"
     };
 
     //INIT
@@ -32,6 +32,7 @@ public class ResourceIndexManager extends LinksManager {
     private static FieldType[] fieldTypes = null;
     private enum FieldType {
         OjCodeList,OjCodeListCollection,
+        OjResponsibleParty,OjResponsiblePartyCollection,
         OjPeriod,
         date,
         enumeration,
@@ -107,6 +108,11 @@ public class ResourceIndexManager extends LinksManager {
                         Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
                         document.field("index|" + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
                         break;
+                    case OjResponsibleParty:
+                    case OjResponsiblePartyCollection:
+                        for (Map.Entry<String, Collection<String>> contactEntry : getContacts(fieldValues).entrySet())
+                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.EMBEDDEDLIST, OType.STRING);
+                        break;
                     case other:
                         System.out.println("Undefined index type for "+fieldName);
                         break;
@@ -116,9 +122,6 @@ public class ResourceIndexManager extends LinksManager {
         document.save();
         return RESULT.RECORD_CHANGED;
     }
-
-
-
 
 
 
@@ -200,5 +203,51 @@ public class ResourceIndexManager extends LinksManager {
                 addParentsToo(parent, codes, codeListID);
     }
 
+
+    //OJResponsibleParty label extraction
+
+    private Map<String, Collection<String>> getContacts(Collection<ODocument> ojResponsiblePartyCollection) throws Exception {
+        Map<String, Collection<String>> contactsMap = new HashMap<>();
+        for (ResponsiblePartyRole contactType : ResponsiblePartyRole.values())
+            contactsMap.put(contactType.toString(), null);
+
+        if (ojResponsiblePartyCollection!=null)
+            for (ODocument ojResponsiblePartyO : ojResponsiblePartyCollection) {
+                String contact = getContact(ojResponsiblePartyO);
+                if (contact!=null) {
+                    String contactType = ojResponsiblePartyO.field("role");
+                    if (contactType!=null) {
+                        Collection<String> contacts = contactsMap.get(contactType);
+                        if (contacts==null)
+                            contactsMap.put(contactType, contacts=new LinkedList<>());
+                        contacts.add(contact);
+                    }
+                }
+            }
+        return contactsMap;
+    }
+    private String getContact(ODocument ojResponsiblePartyO) throws Exception {
+        StringBuilder buffer = new StringBuilder();
+        if (ojResponsiblePartyO!=null) {
+
+            String pointOfContact = ojResponsiblePartyO.field("pointOfContact");
+            if (pointOfContact!=null)
+                buffer.append(' ').append(pointOfContact);
+
+            appendLabel(buffer, (Map<String,String>)ojResponsiblePartyO.field("organization"));
+            appendLabel(buffer, (Map<String,String>)ojResponsiblePartyO.field("organizationUnit"));
+            appendLabel(buffer, (Map<String,String>)ojResponsiblePartyO.field("position"));
+            appendLabel(buffer, (Map<String, String>) ojResponsiblePartyO.field("specify"));
+        }
+
+        String contact = buffer.toString().trim();
+        return contact.length()>0 ? contact : null;
+    }
+    private void appendLabel (StringBuilder buffer, Map<String, String> label) {
+        if (label!=null)
+            for (String labelValue : label.values())
+                if (labelValue!=null)
+                    buffer.append(' ').append(labelValue);
+    }
 
 }
