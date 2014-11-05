@@ -1,17 +1,13 @@
 package org.fao.fenix.d3s.msd.dao;
 
-import org.fao.fenix.commons.msd.dto.data.CodesFilter;
-import org.fao.fenix.commons.msd.dto.data.FieldFilter;
-import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
-import org.fao.fenix.commons.msd.dto.data.TimeFilter;
-import org.fao.fenix.commons.msd.dto.full.Code;
+import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
+import org.fao.fenix.commons.find.dto.condition.ConditionTime;
+import org.fao.fenix.commons.find.dto.filter.*;
+import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class FilterResourceDao extends ResourceDao {
     @Inject CodeListResourceDao codeListResourceDao;
@@ -40,79 +36,115 @@ public class FilterResourceDao extends ResourceDao {
 
 
     public Collection<MeIdentification> filter (ResourceFilter filter) throws Exception {
-        Collection params = new LinkedList();
-        String query = createQuery(filter, params);
+        Collection<Object> params = new LinkedList<>();
+        String query = createQuery(normalizedFilter(filter), params);
         return query!=null ? select(MeIdentification.class, query, params.toArray()) : null;
     }
 
 
-    private String createQuery (ResourceFilter filter, Collection params) throws Exception {
+    //TODO Da isolare in un plugin apposito
+    private String createQuery (Collection<ConditionFilter> filter, Collection<Object> params) throws Exception {
         StringBuilder queryFilter = new StringBuilder();
+        for (ConditionFilter filterCondition : filter) {
+            switch (filterCondition.filterType) {
+                case code:
+                    params.addAll(filterCondition.values);
+                    queryFilter.append(" AND (");
+                    for (int i=0, l=filterCondition.values.size(); i<l; i++)
+                        queryFilter.append(filterCondition.fieldName).append(" CONTAINS ? OR ");
+                    queryFilter.setLength(queryFilter.length()-4);
+                    queryFilter.append(')');
+                    break;
+                case contact:
+                    params.addAll(filterCondition.values);
+                    queryFilter.append(" AND ").append(filterCondition.fieldName).append(" LUCENE ?");
+                    break;
+                case enumeration:
+                    params.addAll(filterCondition.values);
+                    queryFilter.append(" AND (");
+                    for (int i=0, l=filterCondition.values.size(); i<l; i++)
+                        queryFilter.append(filterCondition.fieldName).append(" = ? OR ");
+                    queryFilter.setLength(queryFilter.length()-4);
+                    queryFilter.append(')');
+                    break;
+                case time:
+                    queryFilter.append(" AND (");
+                    for (Object timeObject : filterCondition.values) {
+                        ConditionTime time = (ConditionTime)timeObject;
+                        if (time.from!=null) {
+                            queryFilter.append(filterCondition.fieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
+                            params.add(time.from);
+                        }
+                        if (time.to!=null) {
+                            queryFilter.append(filterCondition.fieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
+                            params.add(time.to);
+                        }
+                    }
+                    queryFilter.setLength(queryFilter.length()-4);
+                    queryFilter.append(')');
+                default:
+            }
+        }
+        return "SELECT FROM MeIdentification" + (queryFilter.length()>0 ? " WHERE " + queryFilter.substring(4) : "");
+    }
+
+
+
+    //Utils
+    private Collection<ConditionFilter> normalizedFilter(ResourceFilter filter) throws Exception {
+        Collection<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
                 String fieldName = ("index."+filterEntry.getKey()).replace('.','|');
                 FieldFilter fieldFilter = filterEntry.getValue();
-                if (fieldFilter!=null) {
-                    switch (fieldFilter.getFilterType()) {
+                FieldFilterType filterType = fieldFilter!=null ? fieldFilter.getFilterType() : null;
+
+                if (filterType!=null) {
+                    switch (filterType) {
                         case code:
-                            Collection<String> codes = new LinkedList<>();
+                            Collection<Object> codes = new LinkedList<>();
                             for (CodesFilter codesFilter : fieldFilter.codes)
                                 codes.addAll(getFilterCodes(codesFilter));
-                            if (codes.size()>0) {
-                                params.addAll(codes);
-                                queryFilter.append(" AND (");
-                                for (int i=0, l=codes.size(); i<l; i++)
-                                    queryFilter.append(fieldName).append(" CONTAINS ? OR ");
-                                queryFilter.setLength(queryFilter.length()-4);
-                                queryFilter.append(')');
+                            if (codes.size()>0)
+                                normalizedFilter.add(new ConditionFilter(fieldName, filterType, codes));
+                            break;
+                        case contact:
+                            Map<String, String> contactsFilter = new HashMap<>();
+                            for (ContactFilter contactFilter : fieldFilter.contacts) {
+                                String contactText = contactsFilter.get(contactFilter.role);
+                                contactsFilter.put(contactFilter.role, (contactText==null ? "" : contactText+' ') + contactFilter.text);
                             }
+                            for (Map.Entry<String, String> contactsFilterEntry : contactsFilter.entrySet())
+                                normalizedFilter.add(new ConditionFilter(fieldName+'|'+contactsFilterEntry.getKey(), filterType, Arrays.asList((Object)contactsFilterEntry.getValue())));
                             break;
                         case enumeration:
-                            params.addAll(fieldFilter.enumeration);
-                            queryFilter.append(" AND (");
-                            for (int i=0, l=fieldFilter.enumeration.size(); i<l; i++)
-                                queryFilter.append(fieldName).append(" = ? OR ");
-                            queryFilter.setLength(queryFilter.length()-4);
-                            queryFilter.append(')');
+                            Collection<Object> enumeration = new LinkedList<>();
+                            enumeration.addAll(fieldFilter.enumeration);
+                            normalizedFilter.add(new ConditionFilter(fieldName, filterType, enumeration));
                             break;
                         case time:
-                            queryFilter.append(" AND (");
-                            for (TimeFilter time : fieldFilter.time) {
-                                if (time.from!=null) {
-                                    queryFilter.append(fieldName).append("|to >= ? OR ");
-                                    params.add(time.from);
-                                }
-                                if (time.to!=null) {
-                                    queryFilter.append(fieldName).append("|from <= ? OR ");
-                                    params.add(time.to);
-                                }
-                            }
-                            queryFilter.setLength(queryFilter.length()-4);
-                            queryFilter.append(')');
+                            Collection<Object> timeFilters = new LinkedList<>();
+                            timeFilters.addAll(fieldFilter.time);
+                            normalizedFilter.add(new ConditionFilter(fieldName, filterType, timeFilters));
                         default:
                     }
                 }
             }
-
-        return "SELECT FROM MeIdentification" + (queryFilter.length()>0 ? " WHERE " + queryFilter.substring(4) : ""); //TODO
+        return normalizedFilter;
     }
 
     private Collection<String> getFilterCodes(CodesFilter codesFilter) throws Exception {
         Collection<String> codes = new LinkedList<>();
-        if (codesFilter!=null) {
-            String uid = codesFilter.getUid();
-            String version = codesFilter.getVersion();
-            String codeListID = uid!=null ? uid + (version!=null ? '|'+version : "") : null;
-            if (codeListID!=null) {
-                Collection<String> filterCodes = codesFilter.getCodes();
-                if (filterCodes!=null && filterCodes.size()>0)
-                    for (String filterCode : filterCodes)
-                        codes.add(codeListID+'|'+filterCode);
-                else
-                    codes.add(codeListID);
-                    //TODO support level and levels parameters
-            }
-        }
+        String codeListID = codesFilter!=null && codesFilter.uid!=null ? codesFilter.uid + (codesFilter.version!=null ? '|'+codesFilter.version : "") : null;
+
+        if (codeListID!=null)
+            if (codesFilter.codes!=null && codesFilter.codes.size()>0)
+                for (String filterCode : codesFilter.codes)
+                    codes.add(codeListID+'|'+filterCode);
+            else
+                codes.add(codeListID);
+            //TODO support level and levels parameters
+
         return codes;
     }
 }

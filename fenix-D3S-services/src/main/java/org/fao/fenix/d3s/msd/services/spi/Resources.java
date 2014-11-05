@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
+import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.templates.identification.DSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;

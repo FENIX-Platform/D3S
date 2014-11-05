@@ -24,7 +24,8 @@ public class ResourceIndexManager extends LinksManager {
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
-            "contacts"
+            "contacts",
+            "dsd.contextSystem"
     };
 
     //INIT
@@ -111,7 +112,7 @@ public class ResourceIndexManager extends LinksManager {
                     case OjResponsibleParty:
                     case OjResponsiblePartyCollection:
                         for (Map.Entry<String, String> contactEntry : getContacts(fieldValues).entrySet())
-                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValueOType.STRING);
+                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.STRING);
                         break;
                     case other:
                         System.out.println("Undefined index type for "+fieldName);

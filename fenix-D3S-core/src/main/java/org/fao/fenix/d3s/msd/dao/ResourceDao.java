@@ -1,11 +1,9 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
@@ -51,13 +49,13 @@ public abstract class ResourceDao<D> extends OrientDao {
         return metadata!=null ? newCustomEntity(metadata) : null;
     }
     public MeIdentification updateMetadata (MeIdentification metadata, boolean overwrite) throws Exception {
-        if (metadata!=null && !metadata.isIdentification()) {
+        if (metadata!=null) {
             if (metadata.getRID()==null) {
                 ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
                 metadata.setORID(metadataO!=null ? metadataO.getIdentity() : null);
             }
             if (metadata.getRID()!=null)
-                return saveCustomEntity(metadata,overwrite);
+                return  metadata.isIdentificationOnly() ? loadMetadata(metadata.getRID(), null) : saveCustomEntity(metadata,overwrite);
         }
         throw new NoContentException("Cannot find bean. Resource icdentification is mandatory to execute update operation.");
     }

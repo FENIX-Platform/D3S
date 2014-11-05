@@ -6,7 +6,7 @@ import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.data.ResourceFilter;
+import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.OjResponsibleParty;
@@ -20,7 +20,6 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
@@ -316,11 +315,11 @@ public class ResourcesService implements Resources {
             data.setUid("test");
             data.setLanguageDetails(new HashMap<String, String>());
             data.setContacts(new LinkedList<OjResponsibleParty>());
-            System.out.println(data.isIdentification());
+            System.out.println(data.isIdentificationOnly());
             Map<String,String> label = new HashMap<>();
             label.put("EN", "Test 1");
             data.setLanguageDetails(label);
-            System.out.println(data.isIdentification());
+            System.out.println(data.isIdentificationOnly());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
