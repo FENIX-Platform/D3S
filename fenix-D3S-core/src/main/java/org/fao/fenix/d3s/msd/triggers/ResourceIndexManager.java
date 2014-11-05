@@ -110,8 +110,8 @@ public class ResourceIndexManager extends LinksManager {
                         break;
                     case OjResponsibleParty:
                     case OjResponsiblePartyCollection:
-                        for (Map.Entry<String, Collection<String>> contactEntry : getContacts(fieldValues).entrySet())
-                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.EMBEDDEDLIST, OType.STRING);
+                        for (Map.Entry<String, String> contactEntry : getContacts(fieldValues).entrySet())
+                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValueOType.STRING);
                         break;
                     case other:
                         System.out.println("Undefined index type for "+fieldName);
@@ -206,22 +206,18 @@ public class ResourceIndexManager extends LinksManager {
 
     //OJResponsibleParty label extraction
 
-    private Map<String, Collection<String>> getContacts(Collection<ODocument> ojResponsiblePartyCollection) throws Exception {
-        Map<String, Collection<String>> contactsMap = new HashMap<>();
+    private Map<String, String> getContacts(Collection<ODocument> ojResponsiblePartyCollection) throws Exception {
+        Map<String, String> contactsMap = new HashMap<>();
         for (ResponsiblePartyRole contactType : ResponsiblePartyRole.values())
             contactsMap.put(contactType.toString(), null);
 
         if (ojResponsiblePartyCollection!=null)
             for (ODocument ojResponsiblePartyO : ojResponsiblePartyCollection) {
-                String contact = getContact(ojResponsiblePartyO);
+                String contactType = ojResponsiblePartyO.field("role");
+                String contact = contactType!=null ? getContact(ojResponsiblePartyO) : null;
                 if (contact!=null) {
-                    String contactType = ojResponsiblePartyO.field("role");
-                    if (contactType!=null) {
-                        Collection<String> contacts = contactsMap.get(contactType);
-                        if (contacts==null)
-                            contactsMap.put(contactType, contacts=new LinkedList<>());
-                        contacts.add(contact);
-                    }
+                    String contacts = contactsMap.get(contactType);
+                    contactsMap.put(contactType, contacts!=null ? contacts+' '+contact : contact);
                 }
             }
         return contactsMap;
