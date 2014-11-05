@@ -7,11 +7,13 @@ import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.record.ORecord;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 
+import javax.inject.Inject;
 import java.util.*;
 
 public abstract class DocumentTrigger extends OrientDao implements ORecordHook, ODatabaseLifecycleListener {
-    //ODatabaseLifecycleListener implementation
+
     @Override
     public void onUnregister() {
 
@@ -35,10 +37,20 @@ public abstract class DocumentTrigger extends OrientDao implements ORecordHook, 
     //ORecordHook implementation
     @Override
     public RESULT onTrigger(TYPE type, ORecord<?> oRecord) {
+        OObjectDatabaseTx localConnection = null;
         try {
-            return type==TYPE.AFTER_CREATE || type==TYPE.AFTER_UPDATE ? onUpdate((ODocument)oRecord, getConnection()) : RESULT.RECORD_NOT_CHANGED;
+            OObjectDatabaseTx connection = getConnection();
+            if (connection==null)
+                dbParameters.setConnection(connection = localConnection = client.getODatabase(OrientDatabase.msd));
+
+            return type==TYPE.AFTER_CREATE || type==TYPE.AFTER_UPDATE ? onUpdate((ODocument)oRecord, connection) : RESULT.RECORD_NOT_CHANGED;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            if (localConnection!=null) {
+                localConnection.close();
+                dbParameters.setConnection(null);
+            }
         }
     }
 

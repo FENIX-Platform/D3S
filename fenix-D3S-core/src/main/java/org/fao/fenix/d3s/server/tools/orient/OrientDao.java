@@ -26,8 +26,8 @@ import javax.persistence.Embedded;
 import javax.ws.rs.core.NoContentException;
 
 public abstract class OrientDao {
-    @Inject private DatabaseStandards dbParameters;
-    @Inject private OrientServer client;
+    @Inject protected DatabaseStandards dbParameters;
+    @Inject protected OrientServer client;
 
     public OObjectDatabaseTx getConnection() {
         return dbParameters.getConnection();
