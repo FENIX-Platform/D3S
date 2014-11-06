@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface Codes {
 
-    @PUT
+    @POST
     @Path("/filter")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
