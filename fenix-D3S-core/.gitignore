@@ -1,0 +1,8 @@
+/target/
+/.idea/
+/database/
+/*.iml
+/work/
+/backup/
+/database_2.0/
+/database_1.0/
