@@ -20,12 +20,12 @@ public class ResourceIndexManager extends LinksManager {
     private final static String[] indexedFields = new String[]{
             //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
             "uid",
+            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
+            "meContent.seCoverage.coverageSectors",
+            "dsd.contextSystem",
             "version",
             "meContent.resourceRepresentationType",
-            "meContent.seCoverage.coverageSectors",
-            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
             "contacts",
-            "dsd.contextSystem"
     };
 
     //INIT
@@ -111,7 +111,7 @@ public class ResourceIndexManager extends LinksManager {
                         break;
                     case OjResponsibleParty:
                     case OjResponsiblePartyCollection:
-                        for (Map.Entry<String, String> contactEntry : getContacts(fieldValues).entrySet())
+                        for (Map.Entry<String, String> contactEntry : ((Map<String,String>)getContacts(fieldValues)).entrySet())
                             document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.STRING);
                         break;
                     case other:

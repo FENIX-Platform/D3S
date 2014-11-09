@@ -192,8 +192,8 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public Collection findMetadata(ResourceFilter filter, boolean full, boolean dsd) throws Exception {
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter);
+    public Collection findMetadata(ResourceFilter filter, String businessName, boolean full, boolean dsd) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
         if (resources!=null && resources.size()>0) {
             if (full || dsd) {
                 Collection result = new LinkedList();

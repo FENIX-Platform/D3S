@@ -1,16 +1,21 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
-import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.find.query.StandardIntersectQueryBuilder;
+import org.fao.fenix.d3s.find.query.StandardQueryBuilder;
+import org.fao.fenix.d3s.find.query.QueryBuilder;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
 
 public class FilterResourceDao extends ResourceDao {
-    @Inject CodeListResourceDao codeListResourceDao;
+    @Inject private CodeListResourceDao codeListResourceDao;
+    @Inject private Instance<QueryBuilder> queryBuilders;
+    private static String queryBuildersPackage = QueryBuilder.class.getPackage().getName()+'.';
 
 
     @Override
@@ -35,58 +40,19 @@ public class FilterResourceDao extends ResourceDao {
 
 
 
-    public Collection<MeIdentification> filter (ResourceFilter filter) throws Exception {
+    public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
         Collection<Object> params = new LinkedList<>();
-        String query = createQuery(normalizedFilter(filter), params);
+        Class<? extends QueryBuilder> businessClass = null;
+        try {
+            businessClass = businessName!=null ? (Class<? extends QueryBuilder>) Class.forName(queryBuildersPackage+businessName) : StandardIntersectQueryBuilder.class;
+        } catch (Exception ex) {
+            throw new Exception("Cannot find specified filtering logic: "+businessName);
+        }
+
+        String query = ((QueryBuilder) queryBuilders.select(businessClass)).createQuery(normalizedFilter(filter), params);
         return query!=null ? select(MeIdentification.class, query, params.toArray()) : null;
     }
 
-
-    //TODO Da isolare in un plugin apposito
-    private String createQuery (Collection<ConditionFilter> filter, Collection<Object> params) throws Exception {
-        StringBuilder queryFilter = new StringBuilder();
-        for (ConditionFilter filterCondition : filter) {
-            switch (filterCondition.filterType) {
-                case code:
-                    params.addAll(filterCondition.values);
-                    queryFilter.append(" AND (");
-                    for (int i=0, l=filterCondition.values.size(); i<l; i++)
-                        queryFilter.append(filterCondition.fieldName).append(" CONTAINS ? OR ");
-                    queryFilter.setLength(queryFilter.length()-4);
-                    queryFilter.append(')');
-                    break;
-                case contact:
-                    params.addAll(filterCondition.values);
-                    queryFilter.append(" AND ").append(filterCondition.fieldName).append(" LUCENE ?");
-                    break;
-                case enumeration:
-                    params.addAll(filterCondition.values);
-                    queryFilter.append(" AND (");
-                    for (int i=0, l=filterCondition.values.size(); i<l; i++)
-                        queryFilter.append(filterCondition.fieldName).append(" = ? OR ");
-                    queryFilter.setLength(queryFilter.length()-4);
-                    queryFilter.append(')');
-                    break;
-                case time:
-                    queryFilter.append(" AND (");
-                    for (Object timeObject : filterCondition.values) {
-                        ConditionTime time = (ConditionTime)timeObject;
-                        if (time.from!=null) {
-                            queryFilter.append(filterCondition.fieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
-                            params.add(time.from);
-                        }
-                        if (time.to!=null) {
-                            queryFilter.append(filterCondition.fieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
-                            params.add(time.to);
-                        }
-                    }
-                    queryFilter.setLength(queryFilter.length()-4);
-                    queryFilter.append(')');
-                default:
-            }
-        }
-        return "SELECT FROM MeIdentification" + (queryFilter.length()>0 ? " WHERE " + queryFilter.substring(4) : "");
-    }
 
 
 
