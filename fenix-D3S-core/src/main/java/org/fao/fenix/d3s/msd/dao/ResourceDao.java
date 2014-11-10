@@ -199,14 +199,14 @@ public abstract class ResourceDao<D> extends OrientDao {
         Iterator<ODocument> resources = connection.browseClass("MeIdentification");
         while (resources.hasNext()) {
             ODocument resource = resources.next();
-            resource.field("uid",resource.field("uid"));
-            resource.save();
+            resource.setDirty();
+            connection.save(resource);
         }
         //Restore dataset DSD
         resources = connection.browseClass("DSD");
         while (resources.hasNext()) {
             ODocument resource = resources.next();
-            resource.field("datasource", resource.field("datasource"), OType.STRING);
+            resource.setDirty();
             connection.save(resource);
         }
     }

@@ -6,18 +6,21 @@ import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+@ApplicationScoped
 public class ResourceLinksManager extends LinksManager {
 
-    private static String[] ojCodeListFields;
+    private String[] ojCodeListFields;
 
 
     //INIT
-    public static void init(OClass meIdentityClassO) {
+    @Override
+    public void init(OClass meIdentityClassO) {
         Collection<String> ojCodeListFieldsList = new HashSet<>();
 
         if (meIdentityClassO!=null)
@@ -26,7 +29,7 @@ public class ResourceLinksManager extends LinksManager {
         ojCodeListFields = ojCodeListFieldsList.toArray(new String[ojCodeListFieldsList.size()]);
     }
 
-    private static void appendOjCodelistFields (OClass classO, Collection<String> ojCodeListFieldsList, String prefix) {
+    private void appendOjCodelistFields (OClass classO, Collection<String> ojCodeListFieldsList, String prefix) {
         for (OProperty property : classO.properties()) {
             OType propertyType = property.getType();
             if (propertyType==OType.EMBEDDED || propertyType==OType.EMBEDDEDLIST || propertyType==OType.EMBEDDEDSET) {

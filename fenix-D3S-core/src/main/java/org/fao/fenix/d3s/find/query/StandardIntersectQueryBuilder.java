@@ -14,22 +14,29 @@ public class StandardIntersectQueryBuilder implements QueryBuilder {
         StringBuilder queryIntersect = new StringBuilder();
         StringBuilder queryFilter = new StringBuilder();
         StringBuilder queryFilterTime = new StringBuilder();
-        int index=0;
+        int index=0,l;
         for (ConditionFilter filterCondition : filter) {
             String operator = null;
             switch (filterCondition.filterType) {
                 case code: operator = "CONTAINS"; break;
                 case contact: operator = "LUCENE"; break;
+                case id:
                 case enumeration: operator = "="; break;
                 default:
             }
             if (operator!=null) {
                 params.addAll(filterCondition.values);
-                for (int i=0, l=filterCondition.values.size(); i<l; i++) {
+                l=filterCondition.values.size();
+                StringBuilder queryUnion = new StringBuilder();
+                for (int i=0; i<l; i++) {
                     String letName = "$q"+index++;
-                    queryFilter.append(", ").append(letName).append(" = (SELECT FROM MeIdentification WHERE ").append(filterCondition.fieldName).append(' ').append(operator).append(" ?)");
-                    queryIntersect.append(" ,").append(letName);
+                    queryFilter.append(", ").append(letName).append(" = (SELECT FROM MeIdentification WHERE ").append(filterCondition.fieldName).append(' ').append(operator).append(" ?)\n");
+                    queryUnion.append(" ,").append(letName);
                 }
+                if (l>1) //Create a union
+                    queryIntersect.append(" , UNION (").append(queryUnion.substring(2)).append(')');
+                else
+                    queryIntersect.append(queryUnion.toString());
             }
         }
         for (ConditionFilter filterCondition : filter) {

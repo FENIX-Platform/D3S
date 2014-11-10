@@ -25,6 +25,7 @@ public class StandardQueryBuilder implements QueryBuilder {
                     params.addAll(filterCondition.values);
                     queryFilter.append(" AND ").append(filterCondition.fieldName).append(" LUCENE ?");
                     break;
+                case id:
                 case enumeration:
                     params.addAll(filterCondition.values);
                     queryFilter.append(" AND (");

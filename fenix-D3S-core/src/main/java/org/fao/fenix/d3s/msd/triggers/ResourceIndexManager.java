@@ -1,11 +1,15 @@
 package org.fao.fenix.d3s.msd.triggers;
 
+import com.orientechnologies.lucene.OLuceneIndexType;
 import com.orientechnologies.orient.core.db.ODatabase;
+import com.orientechnologies.orient.core.index.OIndex;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.type.ResponsiblePartyRole;
+import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
+import org.fao.fenix.d3s.msd.dao.ResourceDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,51 +32,6 @@ public class ResourceIndexManager extends LinksManager {
             "contacts",
     };
 
-    //INIT
-
-    private static FieldType[] fieldTypes = null;
-    private enum FieldType {
-        OjCodeList,OjCodeListCollection,
-        OjResponsibleParty,OjResponsiblePartyCollection,
-        OjPeriod,
-        date,
-        enumeration,
-        other
-    }
-
-    public static void init(OClass meIdentityClassO) {
-        fieldTypes = new FieldType[indexedFields.length];
-        for (int i=0; i<indexedFields.length; i++) {
-            OProperty property = getProperty(meIdentityClassO, indexedFields[i].split("\\."));
-            if (property!=null) {
-                OType type = property.getType();
-                OClass linkedClass = property.getLinkedClass();
-                switch (type) {
-                    case EMBEDDED:
-                    case LINK:
-                        fieldTypes[i] = linkedClass!=null ? FieldType.valueOf(linkedClass.getName()) : null;
-                        break;
-                    case EMBEDDEDLIST:
-                    case EMBEDDEDSET:
-                    case LINKLIST:
-                    case LINKSET:
-                        fieldTypes[i] = linkedClass!=null ? FieldType.valueOf(linkedClass.getName()+"Collection") : null;
-                        break;
-                    case DATE:
-                    case DATETIME:
-                        fieldTypes[i] = FieldType.date;
-                        break;
-                    case STRING:
-                        fieldTypes[i] = FieldType.enumeration;
-                        break;
-                    default:
-                        fieldTypes[i] = FieldType.other;
-                }
-            }
-        }
-
-    }
-
 
     //LOGIC
 
@@ -81,6 +40,13 @@ public class ResourceIndexManager extends LinksManager {
         resourceLinksManager.onUpdate(document, connection);
         dsdDatasetLinksManager.onUpdate(document, connection);
 
+        //ID
+        String uid = document.field("uid");
+        String version = document.field("version");
+        if (uid!=null)
+            document.field("index|id", uid + (version!=null && !version.trim().equals("")? '|'+version : ""));
+
+        //Other standard fields
         if (document!=null && "MeIdentification".equals(document.getClassName()))
 
             for (int i=0; i<indexedFields.length; i++) {            //Indexing standard properties
@@ -126,6 +92,105 @@ public class ResourceIndexManager extends LinksManager {
 
 
 
+
+    //INIT
+
+    private FieldType[] fieldTypes = null;
+    private enum FieldType {
+        OjCodeList,OjCodeListCollection,
+        OjResponsibleParty,OjResponsiblePartyCollection,
+        OjPeriod,
+        date,
+        enumeration,
+        other
+    }
+
+    @Override
+    public void init(OClass meIdentityClassO) throws Exception {
+        setFieldTypes(meIdentityClassO);
+        createPropertiesIndex(meIdentityClassO);
+    }
+
+    private void setFieldTypes(OClass meIdentityClassO) {
+        fieldTypes = new FieldType[indexedFields.length];
+        for (int i=0; i<indexedFields.length; i++) {
+            OProperty property = getProperty(meIdentityClassO, indexedFields[i].split("\\."));
+            if (property!=null) {
+                OType type = property.getType();
+                OClass linkedClass = property.getLinkedClass();
+                switch (type) {
+                    case EMBEDDED:
+                    case LINK:
+                        fieldTypes[i] = linkedClass!=null ? FieldType.valueOf(linkedClass.getName()) : null;
+                        break;
+                    case EMBEDDEDLIST:
+                    case EMBEDDEDSET:
+                    case LINKLIST:
+                    case LINKSET:
+                        fieldTypes[i] = linkedClass!=null ? FieldType.valueOf(linkedClass.getName()+"Collection") : null;
+                        break;
+                    case DATE:
+                    case DATETIME:
+                        fieldTypes[i] = FieldType.date;
+                        break;
+                    case STRING:
+                        fieldTypes[i] = FieldType.enumeration;
+                        break;
+                    default:
+                        fieldTypes[i] = FieldType.other;
+                }
+            }
+        }
+
+    }
+
+    public void createPropertiesIndex(OClass meIdentityClassO) {
+        createPropertyIndex(meIdentityClassO, "index|id", OType.STRING, null, OClass.INDEX_TYPE.UNIQUE_HASH_INDEX);
+
+        for (int i=0; i<indexedFields.length; i++) {
+            String fieldName = indexedFields[i].replace('.','|');
+            switch (fieldTypes[i]) {
+                case enumeration:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName, OType.STRING, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjPeriod:
+                case date:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName + "|from", OType.LONG, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName + "|to", OType.LONG, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjCodeList:
+                case OjCodeListCollection:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName, OType.EMBEDDEDLIST, OType.STRING, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjResponsibleParty:
+                case OjResponsiblePartyCollection:
+                    for (ResponsiblePartyRole role : ResponsiblePartyRole.values())
+                        createPropertyIndex(meIdentityClassO, "index|" + fieldName + '|' + role, OType.STRING, null, OClass.INDEX_TYPE.FULLTEXT);
+                    break;
+                case other:
+                    System.out.println("Undefined index type for "+fieldName);
+                    break;
+            }
+        }
+    }
+    private void createPropertyIndex(OClass meIdentityClassO, String fieldName, OType type, OType linkedType, OClass.INDEX_TYPE indexType) {
+        OProperty property = meIdentityClassO.getProperty(fieldName);
+        if (property==null)
+            meIdentityClassO.createProperty(fieldName,type,linkedType);
+        if (indexType!=null) {
+            OIndex index = meIdentityClassO.getClassIndex("MeIdentification."+fieldName);
+            if (index==null)
+                if (indexType==OClass.INDEX_TYPE.FULLTEXT)
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName, "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
+                else
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName, indexType, fieldName);
+
+        }
+    }
+
+
+
+
     //Utils
 
     SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyyMMdd000000");
@@ -148,7 +213,7 @@ public class ResourceIndexManager extends LinksManager {
 
 
 
-    private static OProperty getProperty(OClass classO, String[] propertyName) {
+    private OProperty getProperty(OClass classO, String[] propertyName) {
         OProperty property = null;
         for (int i=0; i<propertyName.length; i++) {
             property = classO.getProperty(propertyName[i]);

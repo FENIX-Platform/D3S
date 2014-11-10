@@ -1,5 +1,8 @@
 {
     "meContent.resourceRepresentationType" : {
-        "enumeration" : ["codelist"]
+        "enumeration" : ["codelist", "dataset"]
+    },
+    "id" : {
+        "ids" : [{"uid":"dan2"}]
     }
 }

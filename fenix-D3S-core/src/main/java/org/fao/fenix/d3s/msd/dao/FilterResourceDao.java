@@ -67,6 +67,13 @@ public class FilterResourceDao extends ResourceDao {
 
                 if (filterType!=null) {
                     switch (filterType) {
+                        case id:
+                            Collection<Object> ids = new LinkedList<>();
+                            for (IdFilter idFilter : fieldFilter.ids)
+                                if (idFilter.uid!=null)
+                                    ids.add(idFilter.uid + (idFilter.version!=null && !idFilter.version.trim().equals("")? '|'+idFilter.version : ""));
+                            if (ids.size()>0)
+                                normalizedFilter.add(new ConditionFilter(fieldName, filterType, ids));
                         case code:
                             Collection<Object> codes = new LinkedList<>();
                             for (CodesFilter codesFilter : fieldFilter.codes)

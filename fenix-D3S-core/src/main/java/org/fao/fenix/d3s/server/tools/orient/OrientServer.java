@@ -9,11 +9,13 @@ import com.orientechnologies.orient.core.Orient;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.core.hook.ORecordHook;
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.msd.triggers.DSDDatasetLinksManager;
+import org.fao.fenix.d3s.msd.triggers.LinksManager;
 import org.fao.fenix.d3s.msd.triggers.ResourceIndexManager;
 import org.fao.fenix.d3s.msd.triggers.ResourceLinksManager;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
@@ -34,6 +36,7 @@ public class OrientServer {
     private OServer server;
 
     @Inject private Instance<ORecordHook> triggersFactory;
+    @Inject private DatabaseStandards dbParameters;
 
 
     //FACTORY SUPPPORT
@@ -107,20 +110,28 @@ public class OrientServer {
     }
 
     public void registerTriggers() throws Exception {
+
         OObjectDatabaseTx connection = null;
         try {
-            connection = getODatabase(OrientDatabase.msd);
-            ResourceLinksManager.init(connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName()));
-            ResourceIndexManager.init(connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName()));
+            dbParameters.setConnection(connection = getODatabase(OrientDatabase.msd));
+            OClass meIdentificationClassO = connection.getMetadata().getSchema().getClass(MeIdentification.class.getSimpleName());
+
+            LinksManager[] triggers = new LinksManager[]{
+                    triggersFactory.select(DSDDatasetLinksManager.class).iterator().next(),
+                    triggersFactory.select(ResourceLinksManager.class).iterator().next(),
+                    triggersFactory.select(ResourceIndexManager.class).iterator().next(),
+            };
+
+            Orient.instance().addDbLifecycleListener(triggers[2]); //TODO all triggers will be added when Orient will support trigger order
+            for (LinksManager trigger : triggers)
+                trigger.init(meIdentificationClassO);
+
         } finally {
             if (connection!=null)
                 connection.close();
         }
 
 
-        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceIndexManager.class).iterator().next());
-//        Orient.instance().addDbLifecycleListener(triggersFactory.select(ResourceLinksManager.class).iterator().next());
-//        Orient.instance().addDbLifecycleListener(triggersFactory.select(DSDDatasetLinksManager.class).iterator().next());
     }
 
 

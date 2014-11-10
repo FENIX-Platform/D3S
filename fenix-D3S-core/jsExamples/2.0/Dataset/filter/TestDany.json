@@ -1,0 +1,23 @@
+{
+    "dsd" : {
+        "columns" : [
+            {
+                "values" : {
+                    "codes" : [
+                        {
+                            "idCodeList" : "GAUL",
+                            "version" : "2014",
+                            "codes" : [
+                                { "code" : "233" },
+                                { "code" : "234" },
+                                { "code" : "235" },
+                                { "code" : "236" }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+
+    }
+}
