@@ -20,14 +20,13 @@ public class BadRequestErrorManager  implements Filter {
         try {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception ex) {
-            System.out.print("eccolo...");
             ex.printStackTrace();
         }
 
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         int status = response.getStatus();
         if (status==HttpServletResponse.SC_BAD_REQUEST)
-            System.out.print("eccolo...");
+            System.out.print("Bad request error on request: "+servletRequest);
     }
 
     @Override

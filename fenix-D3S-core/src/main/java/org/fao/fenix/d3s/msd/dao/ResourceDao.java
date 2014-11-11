@@ -130,7 +130,6 @@ public abstract class ResourceDao<D> extends OrientDao {
 
             @Override
             public boolean isEmpty() {
-                System.out.println("isEmpty...");
                 return !iterator.hasNext();
             }
 

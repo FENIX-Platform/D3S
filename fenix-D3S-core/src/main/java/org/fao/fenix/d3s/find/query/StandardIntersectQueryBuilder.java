@@ -9,6 +9,22 @@ import java.util.Collection;
 //Standard query builder algorithm with intersection between field's values
 public class StandardIntersectQueryBuilder implements QueryBuilder {
 
+    private String createUnion(int index, int length, String fieldName, String operator) {
+        StringBuilder queryUnion = new StringBuilder();
+        StringBuilder queryFilter = new StringBuilder();
+
+        for (int i=0; i<length; i++) {
+            String letName = "$q"+index++;
+            queryFilter.append(", ").append(letName).append(" = (SELECT FROM MeIdentification WHERE ").append(fieldName).append(' ').append(operator).append(" ?)");
+            queryUnion.append(",").append(letName);
+        }
+
+        if (length==1)
+            return queryFilter.toString();
+        else
+            return ", $q"+index+" = (SELECT FROM MeIdentification WHERE @rid IN ( SELECT UNIONALL("+queryUnion.substring(1)+") LET "+queryFilter.substring(2) + " ))";
+    }
+
     @Override
     public String createQuery(Collection<ConditionFilter> filter, Collection<Object> params) throws Exception {
         StringBuilder queryIntersect = new StringBuilder();
@@ -26,17 +42,11 @@ public class StandardIntersectQueryBuilder implements QueryBuilder {
             }
             if (operator!=null) {
                 params.addAll(filterCondition.values);
-                l=filterCondition.values.size();
-                StringBuilder queryUnion = new StringBuilder();
-                for (int i=0; i<l; i++) {
-                    String letName = "$q"+index++;
-                    queryFilter.append(", ").append(letName).append(" = (SELECT FROM MeIdentification WHERE ").append(filterCondition.fieldName).append(' ').append(operator).append(" ?)\n");
-                    queryUnion.append(" ,").append(letName);
-                }
-                if (l>1) //Create a union
-                    queryIntersect.append(" , UNION (").append(queryUnion.substring(2)).append(')');
-                else
-                    queryIntersect.append(queryUnion.toString());
+                String queryUnion = createUnion(index,l=filterCondition.values.size(),filterCondition.fieldName,operator);
+
+                index += l>1 ? l : 0;
+                queryIntersect.append(",").append("$q"+index++);
+                queryFilter.append(queryUnion);
             }
         }
         for (ConditionFilter filterCondition : filter) {
@@ -58,7 +68,7 @@ public class StandardIntersectQueryBuilder implements QueryBuilder {
             }
         }
 
-        String query = queryIntersect.length()>0 ? "SELECT FROM ( SELECT INTERSECT (" + queryIntersect.substring(2) + ") LET " + queryFilter.substring(2) + " )" : "SELECT FROM MeIdentification";
-        return query + (queryFilterTime.length() > 0 ? " WHERE " + queryFilterTime.substring(4) : "");
+        String query = queryIntersect.length()>0 ? "SELECT FROM MeIdentification WHERE @rid IN ( SELECT INTERSECT(" + queryIntersect.substring(1) + ") LET " + queryFilter.substring(2) + " )" : "SELECT FROM MeIdentification";
+        return query + (queryFilterTime.length() > 0 ? queryFilterTime : "");
     }
 }

@@ -3,6 +3,6 @@
         "enumeration" : ["codelist", "dataset"]
     },
     "id" : {
-        "ids" : [{"uid":"dan2"}]
+        "ids" : [{"uid":"dan2", "version":"1.0"}]
     }
 }

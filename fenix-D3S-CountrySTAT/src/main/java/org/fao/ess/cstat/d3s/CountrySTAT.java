@@ -53,7 +53,7 @@ public class CountrySTAT extends WDSDatasetDao {
         try {
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection != null && structure.selectColumns!=null) {
-                final Iterator<ODocument> data = (Iterator<ODocument>)connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ?"), resource.getUid()).iterator();
+                final Iterator<ODocument> data = (Iterator<ODocument>)connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), resource.getUid()).iterator();
                 final String[] ids = new String[structure.selectColumns.length];
                 for (int i=0; i<ids.length; i++)
                     ids[i] = structure.selectColumns[i].getId();

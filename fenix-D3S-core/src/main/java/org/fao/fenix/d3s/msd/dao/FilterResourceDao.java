@@ -41,7 +41,7 @@ public class FilterResourceDao extends ResourceDao {
 
 
     public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
-        Collection<Object> params = new LinkedList<>();
+/*        Collection<Object> params = new LinkedList<>();
         Class<? extends QueryBuilder> businessClass = null;
         try {
             businessClass = businessName!=null ? (Class<? extends QueryBuilder>) Class.forName(queryBuildersPackage+businessName) : StandardIntersectQueryBuilder.class;
@@ -49,8 +49,9 @@ public class FilterResourceDao extends ResourceDao {
             throw new Exception("Cannot find specified filtering logic: "+businessName);
         }
 
-        String query = ((QueryBuilder) queryBuilders.select(businessClass)).createQuery(normalizedFilter(filter), params);
+        String query = queryBuilders.select(businessClass).iterator().next().createQuery(normalizedFilter(filter), params);
         return query!=null ? select(MeIdentification.class, query, params.toArray()) : null;
+*/        return select(MeIdentification.class, "SELECT FROM MeIdentification WHERE @rid IN ( SELECT INTERSECT($q0,$q3) LET $q0 = (SELECT FROM MeIdentification WHERE index|id = 'dan2|1.0'), $q3 = (SELECT FROM MeIdentification WHERE @rid IN ( SELECT UNIONALL($q1,$q2) LET $q1 = (SELECT FROM MeIdentification WHERE index|meContent|resourceRepresentationType = 'codelist'), $q2 = (SELECT FROM MeIdentification WHERE index|meContent|resourceRepresentationType = 'dataset') )) )");
     }
 
 
@@ -74,6 +75,7 @@ public class FilterResourceDao extends ResourceDao {
                                     ids.add(idFilter.uid + (idFilter.version!=null && !idFilter.version.trim().equals("")? '|'+idFilter.version : ""));
                             if (ids.size()>0)
                                 normalizedFilter.add(new ConditionFilter(fieldName, filterType, ids));
+                            break;
                         case code:
                             Collection<Object> codes = new LinkedList<>();
                             for (CodesFilter codesFilter : fieldFilter.codes)
