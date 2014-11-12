@@ -1,6 +1,6 @@
 {
-    "uid": "ECO_UM",
-    "version": null,
+    "uid": "ECO_AgeRange",
+	"version": null,
     "language": {
         "codes": [
             {
@@ -13,7 +13,7 @@
 
     "languageDetails": null,
     "title": {
-        "EN": "Unit of measure codelist"
+        "EN": "ECO Age-range"
     },
     "creationDate": null,
     "characterSet": {
@@ -40,7 +40,7 @@
     "contacts": [
         {
             "organization": {
-                "EN": "FAO"
+                "EN": "ECO"
             },
             "organizationUnit": null,
             "name": null,
@@ -59,7 +59,7 @@
 
     "meContent": {
         "resourceRepresentationType": "codelist",
-        "keywords": ["unit of measure","measure", "unit"],
+        "keywords": ["age range"],
         "description": null,
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
@@ -67,11 +67,11 @@
                 {
                     "codes": [
                         {
-                            "code": "05"
+                            "code": null
                         }
                     ],
-                    "idCodeList": "FENIX_Subjects",
-                    "version": "1.0"
+                    "idCodeList": null,
+                    "version": null
                 }
         },
         "seCodeList"  : {
@@ -103,6 +103,7 @@
 
     }
 }
+
 --structure--
 csvSeparator=@
 structure=tree
@@ -114,56 +115,12 @@ titleColumnIndex_EN=3
 
 --data--
 
-@1@tonnes per 1000 Ha
-@2@tonnes of nutrients per 1000 Ha
-@3@tonnes of nutrients
-@4@tonnes of active ingredients
-@5@tonnes CO2/ha
-@6@tonnes C/ha
-@7@tonnes
-@8@per 100 square km of land area
-@9@millions
-@10@million kcal
-@11@million kWh
-@12@m3
-@13@kg
-@15@kcal/capita/day
-@16@index
-@17@g/kWh
-@18@g/capita/day
-@21@g CH4/m2
-@22@g CH4/kg dry matter
-@23@g
-@24@degrees
-@25@USD million
-@26@USD
-@27@Terajoule
-@28@SLC
-@29@PPP
-@30@No/Ha
-@31@No/An
-@32@No
-@35@LCU million
-@36@LCU
-@37@Kg/TJ
-@38@Kg of nutrients
-@39@Kg CH4/head
-@40@Kg
-@41@Int. $
-@43@I$ per person
-@44@Hg/Mt
-@45@Hg/Ha
-@46@Hg/An
-@47@Hg
-@48@Head
-@49@Ha
-@50@Gigagrams
-@52@100Mg/An
-@53@1000 tonnes
-@54@1000 US$
-@55@1000 No
-@56@1000 Int. $
-@57@1000 Head
-@58@1000 Ha
-@59@1,000$
-@60@Liter
+@1@0-1 year
+@2@2-3 years
+@3@4-5 years
+@4@6-7 years
+@5@8-9 year
+@6@more than 10 years
+
+
+

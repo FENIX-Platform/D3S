@@ -1,8 +1,22 @@
 {
     "meContent.resourceRepresentationType" : {
-        "enumeration" : ["codelist", "dataset"]
+        "enumeration" : ["codelist"]
     },
-    "id" : {
-        "ids" : [{"uid":"dan2", "version":"1.0"}]
+    "contacts" : {
+        "contacts" : [
+            {
+                "role" : "distributor",
+                "text" : "SDMX FENIX"
+            }
+        ]
+    },
+    "meAccessibility.seConfidentiality.confidentialityStatus" : {
+        "codes" : [
+            {
+                "uid" : "CL_CONF_STATUS",
+                "version" : "1.0",
+                "codes" : ["F"]
+            }
+        ]
     }
 }

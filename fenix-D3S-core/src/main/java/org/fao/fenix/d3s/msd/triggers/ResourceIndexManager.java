@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.msd.triggers;
 
-import com.orientechnologies.lucene.OLuceneIndexType;
 import com.orientechnologies.orient.core.db.ODatabase;
 import com.orientechnologies.orient.core.index.OIndex;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
@@ -8,8 +7,6 @@ import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.type.ResponsiblePartyRole;
-import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
-import org.fao.fenix.d3s.msd.dao.ResourceDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,14 +19,18 @@ public class ResourceIndexManager extends LinksManager {
     @Inject DSDDatasetLinksManager dsdDatasetLinksManager;
 
     private final static String[] indexedFields = new String[]{
-            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
             "uid",
-            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
-            "meContent.seCoverage.coverageSectors",
-            "dsd.contextSystem",
             "version",
+            "dsd.contextSystem",
             "meContent.resourceRepresentationType",
+            "meContent.seCoverage.coverageSectors",
+            "meContent.seCoverage.coverageGeographic",
+            "meContent.seReferencePopulation.referencePeriod",
+            "meContent.seReferencePopulation.referenceArea",
             "contacts",
+            "meAccessibility.seConfidentiality.confidentialityStatus",
+            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
+            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
     };
 
 
