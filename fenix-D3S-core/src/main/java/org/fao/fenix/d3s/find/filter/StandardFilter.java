@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.find.query;
+package org.fao.fenix.d3s.find.filter;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
@@ -6,10 +6,10 @@ import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import java.util.Collection;
 
 //Standard query builder algorithm with 'and' between fields and 'or' between field's values
-public class StandardQueryBuilder implements QueryBuilder {
+public class StandardFilter extends Filter {
 
     @Override
-    public String createQuery(Collection<ConditionFilter> filter, Collection<Object> params) throws Exception {
+    protected String createQuery(Collection<Object> params, ConditionFilter ... filter) throws Exception {
         StringBuilder queryFilter = new StringBuilder();
         for (ConditionFilter filterCondition : filter) {
             switch (filterCondition.filterType) {
@@ -54,4 +54,5 @@ public class StandardQueryBuilder implements QueryBuilder {
         }
         return "SELECT FROM MeIdentification" + (queryFilter.length()>0 ? " WHERE " + queryFilter.substring(4) : "");
     }
+
 }

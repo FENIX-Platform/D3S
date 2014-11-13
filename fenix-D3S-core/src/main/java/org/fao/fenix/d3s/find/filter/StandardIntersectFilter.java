@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.find.query;
+package org.fao.fenix.d3s.find.filter;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
@@ -7,7 +7,7 @@ import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import java.util.Collection;
 
 //Standard query builder algorithm with intersection between field's values
-public class StandardIntersectQueryBuilder implements QueryBuilder {
+public class StandardIntersectFilter extends Filter {
 
     private String createUnion(int index, Collection<Object> params, String fieldName, String operator) {
         StringBuilder queryUnion = new StringBuilder();
@@ -26,7 +26,7 @@ public class StandardIntersectQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public String createQuery(Collection<ConditionFilter> filter, Collection<Object> params) throws Exception {
+    public String createQuery(Collection<Object> params, ConditionFilter ... filter) throws Exception {
         StringBuilder queryIntersect = new StringBuilder();
         StringBuilder queryFilter = new StringBuilder();
         StringBuilder queryFilterTime = new StringBuilder();
@@ -41,7 +41,7 @@ public class StandardIntersectQueryBuilder implements QueryBuilder {
                 default:
             }
             if (operator!=null) {
-                queryFilter.append(createUnion(index,filterCondition.values,filterCondition.fieldName,operator));
+                queryFilter.append(createUnion(index, filterCondition.values, filterCondition.fieldName, operator));
 
                 int valuesCount = filterCondition.values.size();
                 index += valuesCount>1 ? valuesCount : 0;

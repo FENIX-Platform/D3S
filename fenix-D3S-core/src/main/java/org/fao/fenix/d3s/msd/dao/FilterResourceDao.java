@@ -4,9 +4,8 @@ import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.find.query.StandardIntersectQueryBuilder;
-import org.fao.fenix.d3s.find.query.StandardQueryBuilder;
-import org.fao.fenix.d3s.find.query.QueryBuilder;
+import org.fao.fenix.d3s.find.filter.StandardIntersectFilter;
+import org.fao.fenix.d3s.find.filter.Filter;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -14,8 +13,8 @@ import java.util.*;
 
 public class FilterResourceDao extends ResourceDao {
     @Inject private CodeListResourceDao codeListResourceDao;
-    @Inject private Instance<QueryBuilder> queryBuilders;
-    private static String queryBuildersPackage = QueryBuilder.class.getPackage().getName()+'.';
+    @Inject private Instance<Filter> queryBuilders;
+    private static String queryBuildersPackage = Filter.class.getPackage().getName()+'.';
 
 
     @Override
@@ -41,23 +40,22 @@ public class FilterResourceDao extends ResourceDao {
 
 
     public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
-        Collection<Object> params = new LinkedList<>();
-        Class<? extends QueryBuilder> businessClass = null;
         try {
-            businessClass = businessName!=null ? (Class<? extends QueryBuilder>) Class.forName(queryBuildersPackage+businessName) : StandardIntersectQueryBuilder.class;
-        } catch (Exception ex) {
-            throw new Exception("Cannot find specified filtering logic: "+businessName);
+            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardIntersectFilter.class;
+            Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
+            return resources.size()>0 ? resources : null;
+        } catch (ClassNotFoundException ex) {
+            throw new Exception("Cannot find specified filtering logic implementation class: "+queryBuildersPackage+businessName);
+        } catch (ClassCastException ex){
+            throw new Exception("Filtering logic class must extend class "+Filter.class.getName());
         }
-
-        String query = queryBuilders.select(businessClass).iterator().next().createQuery(normalizedFilter(filter), params);
-        return query!=null ? select(MeIdentification.class, query, params.toArray()) : null;
     }
 
 
 
 
     //Utils
-    private Collection<ConditionFilter> normalizedFilter(ResourceFilter filter) throws Exception {
+    private ConditionFilter[] normalizedFilter(ResourceFilter filter) throws Exception {
         Collection<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
@@ -104,7 +102,7 @@ public class FilterResourceDao extends ResourceDao {
                     }
                 }
             }
-        return normalizedFilter;
+        return normalizedFilter.toArray(new ConditionFilter[normalizedFilter.size()]);
     }
 
     private Collection<String> getFilterCodes(CodesFilter codesFilter) throws Exception {
