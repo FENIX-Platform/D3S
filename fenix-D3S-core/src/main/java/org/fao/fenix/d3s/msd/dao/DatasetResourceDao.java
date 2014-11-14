@@ -13,7 +13,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
     @Override
     public Collection<Object[]> loadData(MeIdentification metadata) throws Exception {
-        if (metadata!=null) {
+        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot load data. DAO not found");
@@ -26,12 +26,13 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
     @Override
     protected void insertData(MeIdentification metadata, Collection<Object[]> data) throws Exception {
-        updateData(metadata, data, true);
+        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null)
+            updateData(metadata, data, true);
     }
 
     @Override
     protected void updateData(MeIdentification metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
-        if (metadata!=null) {
+        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
@@ -42,7 +43,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
     @Override
     public void deleteData(MeIdentification metadata) throws Exception {
-        if (metadata!=null) {
+        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");

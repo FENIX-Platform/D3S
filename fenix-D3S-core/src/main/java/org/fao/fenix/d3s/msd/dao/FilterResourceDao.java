@@ -6,6 +6,7 @@ import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.find.filter.StandardIntersectFilter;
 import org.fao.fenix.d3s.find.filter.Filter;
+import org.fao.fenix.d3s.find.filter.StandardRetainFilter;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public class FilterResourceDao extends ResourceDao {
 
     public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
         try {
-            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardIntersectFilter.class;
+            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardRetainFilter.class;
             Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
             return resources.size()>0 ? resources : null;
         } catch (ClassNotFoundException ex) {
