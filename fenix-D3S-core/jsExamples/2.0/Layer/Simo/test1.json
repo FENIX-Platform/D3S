@@ -1,0 +1,26 @@
+{
+  "uid" : "fenix:gaul0",
+
+  "creationDate": 1416221596000,
+  "meContent": {
+    "resourceRepresentationType": "geographic",
+    "seCoverage": {
+      "coverageSectors": {
+        "codeList": "Products",
+        "codes": [{"code": "Cultivation Organic Soils"}]
+      },
+      "coverageTime": {
+        "to": 949276800000,
+        "from": 946684800000
+      }
+    }
+  },
+  "meStatisticalProcessing": {
+*    "seDataCompilation": {"aggregationProcessing": {"EN" : "none"}} ???
+  },
+  "meSpatialRepresentation": {
+    "seDefaultStyle": {"name": "ghg_cultivation_organic_soils_cropland"},
+    "layerType": "vector"
+  },
+  "title": {"EN": "Cultivation Organic Soils - Croplands"}
+}
