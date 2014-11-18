@@ -1,9 +1,9 @@
-package org.fao.fenix.d3s.find.filter;
+package org.fao.fenix.d3s.find.filter.impl;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
-import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.find.filter.Filter;
 
 import java.util.*;
 
@@ -29,18 +29,18 @@ public class StandardRetainFilter extends Filter {
 
         switch (filter.filterType) {
             case code:
-                query.append(filter.fieldName).append(" CONTAINS ?");
+                query.append(filter.indexedFieldName).append(" CONTAINS ?");
                 for (Object value : filter.values)
                     resources.addAll(select(MeIdentification.class, query.toString(), value));
                 break;
             case contact:
-                query.append(filter.fieldName).append(" LUCENE ?");
+                query.append(filter.indexedFieldName).append(" LUCENE ?");
                 for (Object value : filter.values)
                     resources.addAll(select(MeIdentification.class, query.toString(), value));
                 break;
             case id:
             case enumeration:
-                query.append(filter.fieldName).append(" = ?");
+                query.append(filter.indexedFieldName).append(" = ?");
                 for (Object value : filter.values)
                     resources.addAll(select(MeIdentification.class, query.toString(), value));
                 break;
@@ -50,11 +50,11 @@ public class StandardRetainFilter extends Filter {
                     StringBuilder timeQuery = new StringBuilder();
                     Collection<Object> params = new LinkedList<>();
                     if (time.from!=null) {
-                        timeQuery.append(filter.fieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
+                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
                         params.add(time.from);
                     }
                     if (time.to!=null) {
-                        timeQuery.append(filter.fieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
+                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
                         params.add(time.to);
                     }
 

@@ -6,6 +6,7 @@ import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.msd.dto.type.ResponsiblePartyRole;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -32,6 +33,7 @@ public class ResourceIndexManager extends LinksManager {
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
             //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
     };
+
 
 
     //LOGIC
@@ -106,8 +108,13 @@ public class ResourceIndexManager extends LinksManager {
         other
     }
 
+    private Map<String,Integer> indexedFieldsIndex = new HashMap<>();
+
     @Override
     public void init(OClass meIdentityClassO) throws Exception {
+        for (int i=0; i<indexedFields.length;i++)
+            indexedFieldsIndex.put(indexedFields[i],i);
+
         setFieldTypes(meIdentityClassO);
         createPropertiesIndex(meIdentityClassO);
     }
@@ -145,6 +152,7 @@ public class ResourceIndexManager extends LinksManager {
 
     }
 
+    //Create single properties index
     public void createPropertiesIndex(OClass meIdentityClassO) {
         createPropertyIndex(meIdentityClassO, "index|id", OType.STRING, null, OClass.INDEX_TYPE.UNIQUE_HASH_INDEX);
 
@@ -189,11 +197,20 @@ public class ResourceIndexManager extends LinksManager {
         }
     }
 
+    //Create multiple properties index
+    public void createMultiplePropertiesIndex(OClass meIdentityClassO) {
 
+    }
 
 
     //Utils
+    public Map<String, Integer> getIndexedFieldsIndex() {
+        return indexedFieldsIndex;
+    }
 
+
+
+    //Internal usage
     SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyyMMdd000000");
     private static Long maxSecond = 99991231235959l;
     private static Long minSecond = 10000101000000l;
@@ -243,8 +260,8 @@ public class ResourceIndexManager extends LinksManager {
         if (ojCodelistO!=null) {
             String uid = ojCodelistO.field("idCodeList");
             String version = ojCodelistO.field("version");
-            String codeListID = uid!=null ? uid + (version!=null ? '|'+version : "") : null;
-            if (codeListID!=null) {
+            if (uid!=null) {
+                String codeListID = uid + '|' + (version!=null ? version : "");
                 Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
                 if (ojCodesO!=null && ojCodesO.size()>0)
                     for (ODocument ojCodeO : ojCodesO) {

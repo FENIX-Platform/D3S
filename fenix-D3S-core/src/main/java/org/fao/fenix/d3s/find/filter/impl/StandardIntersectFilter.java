@@ -1,8 +1,9 @@
-package org.fao.fenix.d3s.find.filter;
+package org.fao.fenix.d3s.find.filter.impl;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
+import org.fao.fenix.d3s.find.filter.Filter;
 
 import java.util.Collection;
 
@@ -41,7 +42,7 @@ public class StandardIntersectFilter extends Filter {
                 default:
             }
             if (operator!=null) {
-                queryFilter.append(createUnion(index, filterCondition.values, filterCondition.fieldName, operator));
+                queryFilter.append(createUnion(index, filterCondition.values, filterCondition.indexedFieldName, operator));
 
                 int valuesCount = filterCondition.values.size();
                 index += valuesCount>1 ? valuesCount : 0;
@@ -54,9 +55,9 @@ public class StandardIntersectFilter extends Filter {
                 for (Object timeObject : filterCondition.values) {
                     ConditionTime time = (ConditionTime) timeObject;
                     if (time.from != null)
-                        queryFilterTime.append(filterCondition.fieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ").append(time.from).append(" OR ");
+                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ").append(time.from).append(" OR ");
                     if (time.to != null)
-                        queryFilterTime.append(filterCondition.fieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ").append(time.to).append(" OR ");
+                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ").append(time.to).append(" OR ");
                 }
                 queryFilterTime.setLength(queryFilter.length() - 4);
                 queryFilterTime.append(')');
