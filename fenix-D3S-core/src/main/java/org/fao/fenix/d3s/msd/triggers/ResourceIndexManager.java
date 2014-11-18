@@ -1,10 +1,12 @@
 package org.fao.fenix.d3s.msd.triggers;
 
 import com.orientechnologies.orient.core.db.ODatabase;
+import com.orientechnologies.orient.core.index.OIndex;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OProperty;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.msd.dto.type.ResponsiblePartyRole;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,19 +20,85 @@ public class ResourceIndexManager extends LinksManager {
     @Inject DSDDatasetLinksManager dsdDatasetLinksManager;
 
     private final static String[] indexedFields = new String[]{
-            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
             "uid",
             "version",
+            "dsd.contextSystem",
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
-            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
+            "meContent.seCoverage.coverageGeographic",
+            "meContent.seReferencePopulation.referencePeriod",
+            "meContent.seReferencePopulation.referenceArea",
             "contacts",
-            "dsd.contextSystem"
+            "meAccessibility.seConfidentiality.confidentialityStatus",
+            "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
+            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
     };
+
+
+
+    //LOGIC
+
+    @Override
+    protected RESULT onUpdate(ODocument document, ODatabase connection) throws Exception {
+        resourceLinksManager.onUpdate(document, connection);
+        dsdDatasetLinksManager.onUpdate(document, connection);
+
+        //ID
+        String uid = document.field("uid");
+        String version = document.field("version");
+        if (uid!=null)
+            document.field("index|id", uid + (version!=null && !version.trim().equals("")? '|'+version : ""));
+
+        //Other standard fields
+        if (document!=null && "MeIdentification".equals(document.getClassName()))
+
+            for (int i=0; i<indexedFields.length; i++) {            //Indexing standard properties
+                String fieldName = indexedFields[i].replace('.','|');
+                FieldType fieldType = fieldTypes[i];
+                Collection fieldValues = getFields(document,indexedFields[i]);
+                Long[] period;
+
+                switch (fieldType) {
+                    case enumeration:
+                        document.field("index|" + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
+                        break;
+                    case OjPeriod:
+                        ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
+                        period = datePeriodToPeriod((Date)periodO.field("from"), (Date)periodO.field("to"));
+                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        break;
+                    case date:
+                        Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
+                        period = dateToPeriod(date);
+                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                    case OjCodeList:
+                    case OjCodeListCollection:
+                        Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
+                        document.field("index|" + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
+                        break;
+                    case OjResponsibleParty:
+                    case OjResponsiblePartyCollection:
+                        for (Map.Entry<String, String> contactEntry : ((Map<String,String>)getContacts(fieldValues)).entrySet())
+                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.STRING);
+                        break;
+                    case other:
+                        System.out.println("Undefined index type for "+fieldName);
+                        break;
+                }
+            }
+        //Save changes
+        document.save();
+        return RESULT.RECORD_CHANGED;
+    }
+
+
+
 
     //INIT
 
-    private static FieldType[] fieldTypes = null;
+    private FieldType[] fieldTypes = null;
     private enum FieldType {
         OjCodeList,OjCodeListCollection,
         OjResponsibleParty,OjResponsiblePartyCollection,
@@ -40,7 +108,18 @@ public class ResourceIndexManager extends LinksManager {
         other
     }
 
-    public static void init(OClass meIdentityClassO) {
+    private Map<String,Integer> indexedFieldsIndex = new HashMap<>();
+
+    @Override
+    public void init(OClass meIdentityClassO) throws Exception {
+        for (int i=0; i<indexedFields.length;i++)
+            indexedFieldsIndex.put(indexedFields[i],i);
+
+        setFieldTypes(meIdentityClassO);
+        createPropertiesIndex(meIdentityClassO);
+    }
+
+    private void setFieldTypes(OClass meIdentityClassO) {
         fieldTypes = new FieldType[indexedFields.length];
         for (int i=0; i<indexedFields.length; i++) {
             OProperty property = getProperty(meIdentityClassO, indexedFields[i].split("\\."));
@@ -73,61 +152,65 @@ public class ResourceIndexManager extends LinksManager {
 
     }
 
+    //Create single properties index
+    public void createPropertiesIndex(OClass meIdentityClassO) {
+        createPropertyIndex(meIdentityClassO, "index|id", OType.STRING, null, OClass.INDEX_TYPE.UNIQUE_HASH_INDEX);
 
-    //LOGIC
-
-    @Override
-    protected RESULT onUpdate(ODocument document, ODatabase connection) throws Exception {
-        resourceLinksManager.onUpdate(document, connection);
-        dsdDatasetLinksManager.onUpdate(document, connection);
-
-        if (document!=null && "MeIdentification".equals(document.getClassName()))
-
-            for (int i=0; i<indexedFields.length; i++) {            //Indexing standard properties
-                String fieldName = indexedFields[i].replace('.','|');
-                FieldType fieldType = fieldTypes[i];
-                Collection fieldValues = getFields(document,indexedFields[i]);
-                Long[] period;
-
-                switch (fieldType) {
-                    case enumeration:
-                        document.field("index|" + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
-                        break;
-                    case OjPeriod:
-                        ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
-                        period = datePeriodToPeriod((Date)periodO.field("from"), (Date)periodO.field("to"));
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
-                        break;
-                    case date:
-                        Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
-                        period = dateToPeriod(date);
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
-                    case OjCodeList:
-                    case OjCodeListCollection:
-                        Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
-                        document.field("index|" + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
-                        break;
-                    case OjResponsibleParty:
-                    case OjResponsiblePartyCollection:
-                        for (Map.Entry<String, String> contactEntry : getContacts(fieldValues).entrySet())
-                            document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.STRING);
-                        break;
-                    case other:
-                        System.out.println("Undefined index type for "+fieldName);
-                        break;
-                }
+        for (int i=0; i<indexedFields.length; i++) {
+            String fieldName = indexedFields[i].replace('.','|');
+            switch (fieldTypes[i]) {
+                case enumeration:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName, OType.STRING, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjPeriod:
+                case date:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName + "|from", OType.LONG, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName + "|to", OType.LONG, null, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjCodeList:
+                case OjCodeListCollection:
+                    createPropertyIndex(meIdentityClassO, "index|" + fieldName, OType.EMBEDDEDLIST, OType.STRING, OClass.INDEX_TYPE.NOTUNIQUE_HASH_INDEX);
+                    break;
+                case OjResponsibleParty:
+                case OjResponsiblePartyCollection:
+                    for (ResponsiblePartyRole role : ResponsiblePartyRole.values())
+                        createPropertyIndex(meIdentityClassO, "index|" + fieldName + '|' + role, OType.STRING, null, OClass.INDEX_TYPE.FULLTEXT);
+                    break;
+                case other:
+                    System.out.println("Undefined index type for "+fieldName);
+                    break;
             }
-        //Save changes
-        document.save();
-        return RESULT.RECORD_CHANGED;
+        }
+    }
+    private void createPropertyIndex(OClass meIdentityClassO, String fieldName, OType type, OType linkedType, OClass.INDEX_TYPE indexType) {
+        OProperty property = meIdentityClassO.getProperty(fieldName);
+        if (property==null)
+            meIdentityClassO.createProperty(fieldName,type,linkedType);
+        if (indexType!=null) {
+            OIndex index = meIdentityClassO.getClassIndex("MeIdentification."+fieldName);
+            if (index==null)
+                if (indexType==OClass.INDEX_TYPE.FULLTEXT)
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName, "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
+                else
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName, indexType, fieldName);
+
+        }
+    }
+
+    //Create multiple properties index
+    public void createMultiplePropertiesIndex(OClass meIdentityClassO) {
+
+    }
+
+
+    //Utils
+    public Map<String, Integer> getIndexedFieldsIndex() {
+        return indexedFieldsIndex;
     }
 
 
 
-    //Utils
-
+    //Internal usage
     SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyyMMdd000000");
     private static Long maxSecond = 99991231235959l;
     private static Long minSecond = 10000101000000l;
@@ -148,7 +231,7 @@ public class ResourceIndexManager extends LinksManager {
 
 
 
-    private static OProperty getProperty(OClass classO, String[] propertyName) {
+    private OProperty getProperty(OClass classO, String[] propertyName) {
         OProperty property = null;
         for (int i=0; i<propertyName.length; i++) {
             property = classO.getProperty(propertyName[i]);
@@ -177,8 +260,8 @@ public class ResourceIndexManager extends LinksManager {
         if (ojCodelistO!=null) {
             String uid = ojCodelistO.field("idCodeList");
             String version = ojCodelistO.field("version");
-            String codeListID = uid!=null ? uid + (version!=null ? '|'+version : "") : null;
-            if (codeListID!=null) {
+            if (uid!=null) {
+                String codeListID = uid + '|' + (version!=null ? version : "");
                 Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
                 if (ojCodesO!=null && ojCodesO.size()>0)
                     for (ODocument ojCodeO : ojCodesO) {

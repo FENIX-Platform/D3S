@@ -1,8 +1,7 @@
-/target/
 /.idea/
-/database/
-/*.iml
-/work/
 /backup/
-/database_2.0/
+/database/
 /database_1.0/
+/target/
+/work/
+*.iml

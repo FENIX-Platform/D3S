@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.triggers;
 
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.full.Code;
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 public abstract class LinksManager extends DocumentTrigger {
     @Inject protected CodeListResourceDao codeListDao;
 
+    public abstract void init(OClass meIdentityClassO) throws Exception;
 
     //Logic
 

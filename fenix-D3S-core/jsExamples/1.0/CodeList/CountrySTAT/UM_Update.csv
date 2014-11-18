@@ -17,7 +17,5 @@ version=1.0
 --data--
 
 
-
-;1000;10<sup><small>9</small></sup> m<sup><small>3</small></sup>/an;10<sup><small>9</small></sup> m<sup><small>3</small></sup>/an;10<sup><small>9</small></sup> m<sup><small>3</small></sup>/an;10<sup><small>9</small></sup> m<sup><small>3</small></sup>/an
-;1001;metros cúbicos;cubic meters;mètres cubes;metros cúbicos
-;1002;moeda local por tonelada;local currency by ton;monnaie locale par tonne;moneda local por tonelada
+;1003;Centímetro;Centimeter;Centimètre;Centímetro
+;1004;Metro cúbico/segundo;Cubic meter/second;Mètre cube/seconde;Metro cúbico/segundo

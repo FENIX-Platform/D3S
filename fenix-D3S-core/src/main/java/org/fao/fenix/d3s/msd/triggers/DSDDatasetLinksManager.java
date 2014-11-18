@@ -1,10 +1,13 @@
 package org.fao.fenix.d3s.msd.triggers;
 
 import com.orientechnologies.orient.core.db.ODatabase;
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Collection;
 
+@ApplicationScoped
 public class DSDDatasetLinksManager extends LinksManager {
 
 
@@ -19,4 +22,11 @@ public class DSDDatasetLinksManager extends LinksManager {
         return RESULT.RECORD_CHANGED;
     }
 
+
+    //INIT
+
+    @Override
+    public void init(OClass meIdentityClassO) throws Exception {
+
+    }
 }
