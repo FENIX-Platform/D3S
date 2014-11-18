@@ -309,22 +309,6 @@ public class ResourcesService implements Resources {
 
 
 
-    public static void main (String ... args) {
-        try {
-            org.fao.fenix.commons.msd.dto.full.MeIdentification data = new org.fao.fenix.commons.msd.dto.full.MeIdentification();
-            data.setUid("test");
-            data.setLanguageDetails(new HashMap<String, String>());
-            data.setContacts(new LinkedList<OjResponsibleParty>());
-            System.out.println(data.isIdentificationOnly());
-            Map<String,String> label = new HashMap<>();
-            label.put("EN", "Test 1");
-            data.setLanguageDetails(label);
-            System.out.println(data.isIdentificationOnly());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
 
 
 }

@@ -4,6 +4,7 @@ import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
@@ -100,7 +101,7 @@ public abstract class ResourceDao<D> extends OrientDao {
 
     public void deleteMetadata(MeIdentification metadata) throws Exception {
         if (metadata!=null) {
-            DSDDataset dsd = metadata.getDsd();
+            DSD dsd = metadata.getDsd();
             if (dsd != null)
                 getConnection().delete(dsd);
             getConnection().delete(metadata);

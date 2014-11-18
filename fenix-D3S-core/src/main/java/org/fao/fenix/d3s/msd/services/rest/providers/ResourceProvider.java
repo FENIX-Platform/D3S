@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
@@ -8,7 +7,6 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
@@ -41,19 +39,14 @@ public class ResourceProvider implements MessageBodyReader<Resource> {
         try {
             ObjectMapper jacksonMapper = new ObjectMapper();
             String content = readContent(inputStream);
-            JsonNode resourceNode = jacksonMapper.readTree(content);
 
-            RepresentationType representationType = getRepresentationType(resourceNode.get("metadata"));
-            TypeReference resourceType = null;
-            if (representationType!=null)
-                switch (representationType) {
-                    case codelist:  resourceType = new TypeReference<Resource<Code>>() { }; break;
-                    case dataset:   resourceType = new TypeReference<Resource<Object[]>>() { }; break;
-                }
-            if (resourceType==null)
-                resourceType = new TypeReference<Resource<Object[]>>() { };
-
-            return jacksonMapper.readValue(content, resourceType);
+            switch (getRepresentationType(jacksonMapper.readTree(content).get("metadata"))) {
+                case codelist:      return jacksonMapper.readValue(content, org.fao.fenix.commons.msd.dto.data.codelist.Resource.class);
+                case dataset:       return jacksonMapper.readValue(content, org.fao.fenix.commons.msd.dto.data.dataset.Resource.class);
+                case geographic:    return jacksonMapper.readValue(content, org.fao.fenix.commons.msd.dto.data.geographic.Resource.class);
+                case document:      return jacksonMapper.readValue(content, org.fao.fenix.commons.msd.dto.data.document.Resource.class);
+                default: return null;
+            }
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }
@@ -61,7 +54,7 @@ public class ResourceProvider implements MessageBodyReader<Resource> {
 
 
     //Utils
-    private RepresentationType getRepresentationType(JsonNode metadataNode) {
+    protected RepresentationType getRepresentationType(JsonNode metadataNode) {
         String representationTypeLabel = metadataNode!=null ? metadataNode.path("meContent").path("resourceRepresentationType").textValue() : null;
 
         if (representationTypeLabel==null) {
@@ -81,7 +74,7 @@ public class ResourceProvider implements MessageBodyReader<Resource> {
             representationTypeLabel = metadataO!=null ? (String)metadataO.field("meContent.resourceRepresentationType") : null;
         }
 
-        return representationTypeLabel!=null ? RepresentationType.valueOf(representationTypeLabel) : null;
+        return representationTypeLabel!=null ? RepresentationType.valueOf(representationTypeLabel) : RepresentationType.dataset;
     }
 
     private String readContent(InputStream inputStream) {

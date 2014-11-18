@@ -39,12 +39,9 @@ public class DSDProvider <T extends DSD> implements MessageBodyReader<T> {
             String content = readContent(inputStream);
             JsonNode resourceNode = jacksonMapper.readTree(content);
             String dsdClassName = getDSDClassName(resourceNode);
+            Class dsdClass = dsdClassName!=null ? Class.forName(DSD.class.getPackage().getName()+'.'+dsdClassName) : null;
 
-            TypeReference resourceType = null;
-            if (DSDDataset.class.getSimpleName().equals(dsdClassName))
-                resourceType = new TypeReference<DSDDataset>(){};
-
-            return resourceType!=null ? (T)jacksonMapper.readValue(content, resourceType) : null;
+            return dsdClass!=null ? (T)jacksonMapper.readValue(content, dsdClass) : null;
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }

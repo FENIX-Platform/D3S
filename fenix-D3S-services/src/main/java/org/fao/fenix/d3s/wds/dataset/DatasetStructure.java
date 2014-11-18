@@ -1,13 +1,11 @@
 package org.fao.fenix.d3s.wds.dataset;
 
-import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 public class DatasetStructure {
 

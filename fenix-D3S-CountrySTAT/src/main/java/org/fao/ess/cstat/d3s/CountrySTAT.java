@@ -8,8 +8,7 @@ import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 

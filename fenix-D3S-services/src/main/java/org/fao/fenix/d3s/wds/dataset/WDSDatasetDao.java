@@ -1,15 +1,9 @@
 package org.fao.fenix.d3s.wds.dataset;
 
-import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.d3s.wds.WDSDao;
 
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
 
@@ -55,11 +49,13 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
 
     protected abstract Iterator<Object[]> loadData (MeIdentification resource, DatasetStructure structure) throws Exception;
     protected abstract void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception;
+    protected abstract void deleteData(MeIdentification resource) throws Exception;
+
 
     @Override
-    public Iterator<Object[]> loadData(MeIdentification resource) throws Exception {
-        final DatasetStructure structure = new DatasetStructure(resource);
-        final Iterator<Object[]> rawData = loadData(resource,structure);
+    public Iterator<Object[]> loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource) throws Exception {
+        final DatasetStructure structure = new DatasetStructure((MeIdentification)resource);
+        final Iterator<Object[]> rawData = loadData((MeIdentification)resource,structure);
             return rawData==null | structure==null ? rawData : new Iterator<Object[]>() {
                 @Override
                 public boolean hasNext() {
@@ -84,11 +80,16 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
                 }
             };
     }
+
     @Override
-    public void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite) throws Exception {
-        storeData(resource,data,overwrite,new DatasetStructure(resource));
+    public void storeData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource, Iterator<Object[]> data, boolean overwrite) throws Exception {
+        storeData((MeIdentification)resource,data,overwrite,new DatasetStructure((MeIdentification)resource));
     }
 
+    @Override
+    public void deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource) throws Exception {
+        deleteData((MeIdentification)resource);
+    }
 
 
 }
