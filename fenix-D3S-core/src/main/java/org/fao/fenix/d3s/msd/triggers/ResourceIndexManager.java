@@ -23,6 +23,8 @@ public class ResourceIndexManager extends LinksManager {
             "uid",
             "version",
             "dsd.contextSystem",
+//            "dsd.workspace",
+//            "dsd.layerName",
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
             "meContent.seCoverage.coverageGeographic",
@@ -31,7 +33,7 @@ public class ResourceIndexManager extends LinksManager {
             "contacts",
             "meAccessibility.seConfidentiality.confidentialityStatus",
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
-            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
+            "meSpatialRepresentation.processing",
     };
 
 

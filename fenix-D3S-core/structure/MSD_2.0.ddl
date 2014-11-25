@@ -73,6 +73,9 @@ CREATE CLASS Code;
 
 CREATE CLASS DSD;
 CREATE CLASS DSDDataset EXTENDS DSD;
+CREATE CLASS DSDGeographic EXTENDS DSD;
+CREATE CLASS DSDCodelist EXTENDS DSD;
+CREATE CLASS DSDDocument EXTENDS DSD;
 CREATE CLASS DSDAggregationRule;
 CREATE CLASS DSDColumn;
 CREATE CLASS DSDColumnSubject;
@@ -144,6 +147,9 @@ CREATE PROPERTY DSDColumnSubject.title EMBEDDEDMAP STRING;
 
 CREATE PROPERTY DSD.contextSystem STRING;
 CREATE PROPERTY DSD.datasource STRING;
+
+CREATE PROPERTY DSDGeographic.workspace STRING;
+CREATE PROPERTY DSDGeographic.layerName STRING;
 
 CREATE PROPERTY DSDDataset.aggregationRules LINKLIST DSDAggregationRule;
 CREATE PROPERTY DSDDataset.columns EMBEDDEDLIST DSDColumn;
@@ -327,6 +333,7 @@ CREATE PROPERTY MeIdentification.meReferenceSystem EMBEDDED MeReferenceSystem;
     CREATE PROPERTY SeDatum.datumName EMBEDDEDMAP STRING;
 CREATE PROPERTY MeIdentification.meSpatialRepresentation EMBEDDED MeSpatialRepresentation;
   CREATE PROPERTY MeSpatialRepresentation.layerType STRING;
+  CREATE PROPERTY MeSpatialRepresentation.processing EMBEDDED OjCodeList;
   CREATE PROPERTY MeSpatialRepresentation.typeOfProduct EMBEDDED OjCodeList;
   CREATE PROPERTY MeSpatialRepresentation.noDataValue STRING;
   CREATE PROPERTY MeSpatialRepresentation.seBoundingBox EMBEDDED SeBoundingBox;
@@ -353,7 +360,7 @@ CREATE PROPERTY MeIdentification.meStatisticalProcessing EMBEDDED MeStatisticalP
       CREATE PROPERTY SePrimaryDataCollection.collectionPeriodicity EMBEDDED OjCodeList;
     CREATE PROPERTY SeDataSource.seSecondaryDataCollection EMBEDDED SeSecondaryDataCollection;
       CREATE PROPERTY SeSecondaryDataCollection.originOfCollectedData EMBEDDED OjCodeList;
-      CREATE PROPERTY SeSecondaryDataCollection.organization EMBEDDED OjCodeList;
+      CREATE PROPERTY SeSecondaryDataCollection.organization EMBEDDEDMAP STRING;
       CREATE PROPERTY SeSecondaryDataCollection.rawDataDescription EMBEDDEDMAP STRING;
       CREATE PROPERTY SeSecondaryDataCollection.dataCollection EMBEDDEDMAP STRING;
   CREATE PROPERTY MeStatisticalProcessing.seDataCompilation EMBEDDED SeDataCompilation;
@@ -386,5 +393,6 @@ CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQ
 
 CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
 
+CREATE INDEX DSDGeographic.workspace|layerName UNIQUE;
 
 DISCONNECT;

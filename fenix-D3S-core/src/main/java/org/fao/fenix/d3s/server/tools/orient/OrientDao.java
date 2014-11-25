@@ -277,8 +277,8 @@ public abstract class OrientDao {
                 Collection<JSONEntity> proxyCollectionFieldValue = embeddedField ? new LinkedList<JSONEntity>() : new LinkedHashSet<JSONEntity>();
                 for (JSONEntity elementValue : collectionFieldValue)
                     proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, null));
-                //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
-                if (!overwrite) {
+                //With links in append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
+                if (!overwrite && !embeddedField) {
                     Collection<? extends JSONEntity> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);
                     if (existingProxyCollectionFieldValue!=null && existingProxyCollectionFieldValue.size()>0)
                         for (Object existingValue : existingProxyCollectionFieldValue)
