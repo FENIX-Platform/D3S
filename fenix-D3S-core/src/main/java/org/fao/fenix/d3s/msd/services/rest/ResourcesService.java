@@ -9,11 +9,13 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.OjResponsibleParty;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
+import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSDFull;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
+import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSD;
+import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSDOnly;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
@@ -258,19 +260,26 @@ public class ResourcesService implements Resources {
         return null;
     }
 
-    private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd) {
+    private static final String standardTemplatesBasePackage = "org.fao.fenix.commons.msd.dto.templates.standardDsd";
+    private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd) throws ClassNotFoundException {
+        String templateClassName = null;
         if (full && dsd)
-            return org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentification.class;
+            templateClassName = MeIdentificationDSDFull.class.getSimpleName();
         else if (full)
-            return org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentification.class;
+            templateClassName = MeIdentificationDSD.class.getSimpleName();
         else if (dsd)
-            return org.fao.fenix.commons.msd.dto.templates.dsd.MeIdentificationDSDOnly.class;
+            templateClassName = MeIdentificationDSDOnly.class.getSimpleName();
+
+        if (templateClassName!=null)
+            return Class.forName(standardTemplatesBasePackage+'.' + representationType + '.' + templateClassName);
 
         switch (representationType) {
             case codelist: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
             case dataset: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
+            case document: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
+            case geographic: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
+            default: return null;
         }
-        return null;
     }
 
     private Class<? extends ResponseHandler> getTemplateDataClass (RepresentationType representationType) {
@@ -281,11 +290,10 @@ public class ResourcesService implements Resources {
     }
 
 
-    private Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD> getDSDProxyClass(Object entity) {
+    private Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD> getDSDProxyClass(Object entity) throws ClassNotFoundException {
         if (entity!=null) {
             String className = entity instanceof ProxyObject ? ((OObjectProxyMethodHandler) ProxyFactory.getHandler((Proxy) entity)).getDoc().getClassName() : entity.getClass().getSimpleName();
-            if (org.fao.fenix.commons.msd.dto.templates.dsd.DSDDataset.class.getSimpleName().equals(className))
-                return org.fao.fenix.commons.msd.dto.templates.dsd.DSDDataset.class;
+            return (Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD>) Class.forName(org.fao.fenix.commons.msd.dto.templates.dsd.DSD.class.getPackage().getName()+'.'+className);
         }
         return null;
     }

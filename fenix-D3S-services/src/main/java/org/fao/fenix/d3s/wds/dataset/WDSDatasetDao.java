@@ -1,6 +1,8 @@
 package org.fao.fenix.d3s.wds.dataset;
 
 import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
+import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
+import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
 import org.fao.fenix.d3s.wds.WDSDao;
 
 import java.util.Iterator;
@@ -47,15 +49,16 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
 
     //Usage of metadata summary
 
-    protected abstract Iterator<Object[]> loadData (MeIdentification resource, DatasetStructure structure) throws Exception;
-    protected abstract void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception;
-    protected abstract void deleteData(MeIdentification resource) throws Exception;
+    protected abstract Iterator<Object[]> loadData (MeIdentificationDSDFull resource, DatasetStructure structure) throws Exception;
+    protected abstract void storeData(MeIdentificationDSDFull resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception;
+    protected abstract void deleteData(MeIdentificationDSDFull resource) throws Exception;
 
 
     @Override
     public Iterator<Object[]> loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource) throws Exception {
-        final DatasetStructure structure = new DatasetStructure((MeIdentification)resource);
-        final Iterator<Object[]> rawData = loadData((MeIdentification)resource,structure);
+        MeIdentificationDSDFull metadata = ResponseBeanFactory.getInstance(resource, MeIdentificationDSDFull.class);
+        final DatasetStructure structure = new DatasetStructure(metadata);
+        final Iterator<Object[]> rawData = loadData(metadata,structure);
             return rawData==null | structure==null ? rawData : new Iterator<Object[]>() {
                 @Override
                 public boolean hasNext() {
@@ -83,12 +86,14 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
 
     @Override
     public void storeData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource, Iterator<Object[]> data, boolean overwrite) throws Exception {
-        storeData((MeIdentification)resource,data,overwrite,new DatasetStructure((MeIdentification)resource));
+        MeIdentificationDSDFull metadata = ResponseBeanFactory.getInstance(resource, MeIdentificationDSDFull.class);
+        storeData(metadata,data,overwrite,new DatasetStructure(metadata));
     }
 
     @Override
     public void deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification resource) throws Exception {
-        deleteData((MeIdentification)resource);
+        MeIdentificationDSDFull metadata = ResponseBeanFactory.getInstance(resource, MeIdentificationDSDFull.class);
+        deleteData(metadata);
     }
 
 

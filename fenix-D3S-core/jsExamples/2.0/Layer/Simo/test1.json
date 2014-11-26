@@ -1,5 +1,6 @@
 {
   "uid": "fenix_gaul0",
+  "version" : "1.0",
   "creationDate": 1416221596000,
   "meContent": {
     "resourceRepresentationType": "geographic",
@@ -21,7 +22,6 @@
       "version" : "1.0",
       "codes": [{"code": "AVG_MONTHLY"}]
     },
-    "seDefaultStyle": {"name": "ghg_cultivation_organic_soils_cropland"},
     "layerType": "vector"
   },
   "title": {"EN": "Cultivation Organic Soils - Croplands"},
@@ -29,6 +29,6 @@
   "dsd" : {
     "contextSystem" : "FENIX",
     "workspace" : "FENIX",
-    "layerName" : "gaul0"
+    "layerName" : "gaul0|1.0"
   }
 }

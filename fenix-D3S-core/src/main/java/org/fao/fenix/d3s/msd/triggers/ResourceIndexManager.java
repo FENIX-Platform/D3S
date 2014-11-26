@@ -34,6 +34,7 @@ public class ResourceIndexManager extends LinksManager {
             "meAccessibility.seConfidentiality.confidentialityStatus",
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
             "meSpatialRepresentation.processing",
+            "meSpatialRepresentation.layerType",
     };
 
 

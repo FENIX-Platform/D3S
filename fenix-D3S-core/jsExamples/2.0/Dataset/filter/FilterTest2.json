@@ -1,22 +1,5 @@
 {
-    "meContent.resourceRepresentationType" : {
-        "enumeration" : ["codelist"]
-    },
-    "contacts" : {
-        "contacts" : [
-            {
-                "role" : "distributor",
-                "text" : "SDMX FAO"
-            }
-        ]
-    },
-    "meAccessibility.seConfidentiality.confidentialityStatus" : {
-        "codes" : [
-            {
-                "uid" : "CL_CONF_STATUS",
-                "version" : "1.0",
-                "codes" : ["F"]
-            }
-        ]
+    "dsd.contextSystem" : {
+        "enumeration" : ["UNECA", "FENIX"]
     }
 }
