@@ -1,5 +1,11 @@
 {
     "dsd.contextSystem" : {
-        "enumeration" : ["UNECA", "FENIX"]
+        "enumeration": [
+            "UNECA",
+            "FENIX"
+        ]
+    },
+    "meContent.resourceRepresentationType" : {
+        "enumeration" : ["dataset"]
     }
 }
