@@ -24,11 +24,24 @@
     },
     "layerType": "vector"
   },
+  "meReferenceSystem" : {
+    "seProjection" : {
+      "projection" : {
+        "idCodeList": "mapProjections",
+        "version" : "1.0",
+        "codes": [{"code": "3857"}]
+      }
+    }
+  },
   "title": {"EN": "Cultivation Organic Soils - Croplands"},
 
   "dsd" : {
     "contextSystem" : "FENIX",
     "workspace" : "FENIX",
-    "layerName" : "gaul0|1.0"
+    "layerName" : "gaul0|1.0",
+    "contextExtension" : {
+         "distribution" : [ {"uid" : "", "version" : ""}]
+    }
   }
 }
+

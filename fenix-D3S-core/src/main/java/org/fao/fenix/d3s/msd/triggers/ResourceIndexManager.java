@@ -35,6 +35,7 @@ public class ResourceIndexManager extends LinksManager {
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
             "meSpatialRepresentation.processing",
             "meSpatialRepresentation.layerType",
+            "meReferenceSystem.seProjection.projection"
     };
 
 
