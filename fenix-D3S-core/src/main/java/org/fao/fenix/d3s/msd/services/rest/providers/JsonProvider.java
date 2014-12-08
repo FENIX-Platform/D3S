@@ -54,7 +54,7 @@ public abstract class JsonProvider {
     protected RepresentationType getRepresentationType(String source, String metadataField) throws Exception {
         JsonNode metadataNode = source!=null ? jacksonMapper.readTree(source) : null;
         if (metadataField!=null && metadataNode!=null)
-            for (String field : metadataField.split("."))
+            for (String field : metadataField.split("\\."))
                 metadataNode = metadataNode.get(field);
 
         String representationTypeLabel = metadataNode!=null ? metadataNode.path("meContent").path("resourceRepresentationType").textValue() : null;
