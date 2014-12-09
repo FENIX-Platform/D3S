@@ -12,7 +12,7 @@ public class StandardRetainFilter extends Filter {
 
     @Override
     public Collection<MeIdentification> filter(ConditionFilter ... filter) throws Exception {
-        Collection<MeIdentification> resources = new HashSet<>();
+        Collection<MeIdentification> resources = new LinkedHashSet<>();
 
         if (filter.length>0)
             resources.addAll(filter(filter[0]));
@@ -24,7 +24,7 @@ public class StandardRetainFilter extends Filter {
     }
 
     private Collection<MeIdentification> filter(ConditionFilter filter) throws Exception  {
-        Collection<MeIdentification> resources = new HashSet<>();
+        Collection<MeIdentification> resources = new LinkedHashSet<>();
         StringBuilder query = new StringBuilder("SELECT FROM MeIdentification WHERE ");
 
         switch (filter.filterType) {

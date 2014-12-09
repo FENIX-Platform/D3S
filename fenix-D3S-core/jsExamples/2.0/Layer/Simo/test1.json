@@ -1,5 +1,5 @@
 {
-  "uid": "fenix_gaul0",
+  "uid": "fenix_gaul3",
   "version" : "1.0",
   "creationDate": 1416221596000,
   "meContent": {
@@ -11,8 +11,8 @@
         "codes": [{"code": "MODIS_LAND_COVER"}]
       },
       "coverageTime": {
-        "to": 949276800000,
-        "from": 946684800000
+        "to": 969276800000,
+        "from": 966684800000
       }
     }
   },

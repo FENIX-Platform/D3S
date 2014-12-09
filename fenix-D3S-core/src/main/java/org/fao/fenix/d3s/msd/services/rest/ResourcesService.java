@@ -6,7 +6,7 @@ import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
@@ -194,7 +194,7 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public Collection findMetadata(ResourceFilter filter, String businessName, boolean full, boolean dsd) throws Exception {
+    public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
         if (resources!=null && resources.size()>0) {
             if (full || dsd) {

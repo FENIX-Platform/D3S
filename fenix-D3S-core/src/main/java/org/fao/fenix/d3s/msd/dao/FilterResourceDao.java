@@ -39,7 +39,7 @@ public class FilterResourceDao extends ResourceDao {
 
 
 
-    public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {
         try {
             Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardRetainFilter.class;
             Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
@@ -55,7 +55,7 @@ public class FilterResourceDao extends ResourceDao {
 
 
     //Utils
-    private ConditionFilter[] normalizedFilter(ResourceFilter filter) throws Exception {
+    private ConditionFilter[] normalizedFilter(StandardFilter filter) throws Exception {
         Collection<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {

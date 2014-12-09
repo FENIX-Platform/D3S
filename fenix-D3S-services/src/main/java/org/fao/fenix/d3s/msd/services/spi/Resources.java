@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.templates.identification.DSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
@@ -165,6 +165,6 @@ public interface Resources {
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection findMetadata(ResourceFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
 
 }
