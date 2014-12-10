@@ -124,14 +124,22 @@ public class CountrySTAT extends WDSDatasetDao {
                 connection.declareIntent(new OIntentMassiveInsert());
                 connection.begin();
                 connection.command(new OCommandSQL("delete from Dataset where datasetID = ?")).execute(datasetID);
-                while (data.hasNext()) {
+                Collection<Integer> rowsError = new LinkedList<>();
+                for (int rowIndex=1; data.hasNext(); rowIndex++) {
                     Object[] row = data.next();
                     ODocument rowO = new ODocument("Dataset");
                     rowO.field("datasetID", datasetID);
-                    for (int i=0; i<structure.selectColumns.length; i++)
-                        rowO.field(structure.selectColumns[i].getId(), row[i]);
-                    rowO.save();
+                    try {
+                        for (int i = 0; i < structure.selectColumns.length; i++)
+                            rowO.field(structure.selectColumns[i].getId(), row[i]);
+                        rowO.save();
+                    } catch (Exception ex) {
+                        rowsError.add(rowIndex);
+                    }
                 }
+                if (rowsError.size()>0)
+                    throw new Exception("Row insert error on rows:"+toPointList(rowsError));
+
                 connection.commit();
 
             } catch (Exception ex) {
@@ -144,6 +152,13 @@ public class CountrySTAT extends WDSDatasetDao {
                 ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
             }
         }
+    }
+
+    private String toPointList(Collection<Integer> list) {
+        StringBuilder buffer = new StringBuilder();
+        for (Integer text : list)
+            buffer.append("\n- ").append(text);
+        return buffer.toString();
     }
 
     @Override

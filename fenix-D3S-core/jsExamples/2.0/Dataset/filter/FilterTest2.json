@@ -1,8 +1,7 @@
 {
     "dsd.contextSystem" : {
         "enumeration": [
-            "UNECA",
-            "FENIX"
+            "AFO"
         ]
     },
     "meContent.resourceRepresentationType" : {
