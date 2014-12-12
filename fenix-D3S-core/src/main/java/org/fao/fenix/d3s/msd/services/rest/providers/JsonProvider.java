@@ -69,7 +69,7 @@ public abstract class JsonProvider {
             if (rid!=null)
                 metadataO = connection.load(JSONEntity.toRID(rid));
             else if (uid!=null) {
-                List<ODocument> metadataOList = connection.query(new OSQLSynchQuery<MeIdentification>("select from MeIdentification where index_id = ?"), uid + (version != null ? version : ""));
+                List<ODocument> metadataOList = connection.query(new OSQLSynchQuery<MeIdentification>("select from MeIdentification where index|id = ?"), uid + (version != null ? '|'+version : ""));
                 metadataO = metadataOList!=null && !metadataOList.isEmpty() ? metadataOList.iterator().next() : null;
             }
 
