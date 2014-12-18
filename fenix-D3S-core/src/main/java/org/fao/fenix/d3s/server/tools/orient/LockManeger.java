@@ -35,7 +35,7 @@ public class LockManeger extends HttpServlet implements ORecordHook {
     }
 
     @Override
-    public RESULT onTrigger(TYPE type, ORecord<?> oRecord) {
+    public RESULT onTrigger(TYPE type, ORecord oRecord) {
         return lock && (type==TYPE.BEFORE_CREATE || type==TYPE.BEFORE_DELETE || type==TYPE.BEFORE_UPDATE) ? RESULT.SKIP : RESULT.RECORD_NOT_CHANGED;
     }
 

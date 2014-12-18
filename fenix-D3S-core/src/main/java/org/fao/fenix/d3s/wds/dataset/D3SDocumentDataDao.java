@@ -1,9 +1,9 @@
 package org.fao.fenix.d3s.wds.dataset;
 
 
+import com.orientechnologies.orient.core.db.ODatabaseDocumentInternal;
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
 import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
@@ -34,19 +34,19 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
 
     @Override
     public void consume(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[0]);
+        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[0]);
     }
 
     @Override
     public void consumed(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[1]);
-        ((ODatabaseRecord)args[0]).close();
+        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[1]);
+        ((ODatabaseDocumentInternal)args[0]).close();
     }
 
 
     @Override
     public Iterator<Object[]> loadData(MeIdentificationDSDFull resource, DatasetStructure structure) throws Exception {
-        ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+        ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
 
         try {
             ODatabaseDocumentTx connection = dbClient.getConnection();
@@ -89,7 +89,7 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (data!=null && data.hasNext() && datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to D3S database");
@@ -164,7 +164,7 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to D3S database");

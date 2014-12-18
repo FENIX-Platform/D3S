@@ -1,5 +1,5 @@
 {
-    "uid": "FENIX_GeographicalSectors",
-    "version": "1.0",
-    "codes" : ["MODIS"]
+    "uid": "GAUL",
+    "version": "2014",
+    "levels" : 1
 }

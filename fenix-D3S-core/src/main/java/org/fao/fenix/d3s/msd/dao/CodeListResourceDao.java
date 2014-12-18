@@ -143,7 +143,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
                 ORID existingOrid = buffer[0].put(code.getCode(), code.getORID());
                 //Check code entity duplication TODO check if it is really possible
                 if (existingOrid!=null && !existingOrid.equals(code.getORID()))
-                    throw new ORecordDuplicatedException("Code '"+code.getCode()+"' entity is duplicated into database: "+code.getORID()+" - "+existingOrid);
+                    throw new ORecordDuplicatedException("Code '"+code.getCode()+"' entity is duplicated into database",code.getORID());
                 //Apply recursion
                 getCodeListRids(code.getChildren(), buffer);
             }

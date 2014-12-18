@@ -3,6 +3,9 @@ package test.orient;
 import java.util.Collection;
 import java.util.Date;
 
+import com.orientechnologies.orient.core.db.ODatabaseDocumentInternal;
+import com.orientechnologies.orient.core.db.ODatabaseInternal;
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
@@ -10,7 +13,6 @@ import org.junit.Test;
 
 import com.orientechnologies.orient.core.Orient;
 import com.orientechnologies.orient.core.db.ODatabase;
-import com.orientechnologies.orient.core.db.ODatabaseComplex;
 import com.orientechnologies.orient.core.db.ODatabaseLifecycleListener;
 import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.core.record.ORecord;
@@ -47,7 +49,7 @@ public class OrientObjectTestHook {
         }
 
         @Override
-        public RESULT onTrigger(TYPE iType, ORecord<?> iRecord) {
+        public RESULT onTrigger(TYPE iType, ORecord iRecord) {
             return RESULT.RECORD_NOT_CHANGED;
         }
 
@@ -57,18 +59,33 @@ public class OrientObjectTestHook {
         }
 
         @Override
-        public void onCreate(ODatabase iDatabase) {
-            ((ODatabaseComplex<?>) iDatabase).registerHook(this);
+        public PRIORITY getPriority() {
+            return PRIORITY.REGULAR;
         }
 
         @Override
-        public void onOpen(ODatabase iDatabase) {
-            ((ODatabaseComplex<?>) iDatabase).registerHook(this);
+        public void onCreate(ODatabaseInternal iDatabase) {
+            iDatabase.registerHook(this);
         }
 
         @Override
-        public void onClose(ODatabase iDatabase) {
-            ((ODatabaseComplex<?>) iDatabase).unregisterHook(this);
+        public void onOpen(ODatabaseInternal iDatabase) {
+            iDatabase.registerHook(this);
+        }
+
+        @Override
+        public void onClose(ODatabaseInternal iDatabase) {
+            iDatabase.unregisterHook(this);
+        }
+
+        @Override
+        public void onCreateClass(ODatabaseInternal oDatabaseInternal, OClass oClass) {
+
+        }
+
+        @Override
+        public void onDropClass(ODatabaseInternal oDatabaseInternal, OClass oClass) {
+
         }
     }
 

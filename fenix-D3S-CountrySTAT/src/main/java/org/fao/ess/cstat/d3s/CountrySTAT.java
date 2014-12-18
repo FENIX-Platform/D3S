@@ -1,14 +1,13 @@
 package org.fao.ess.cstat.d3s;
 
 
+import com.orientechnologies.orient.core.db.ODatabaseDocumentInternal;
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
 import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
@@ -36,19 +35,19 @@ public class CountrySTAT extends WDSDatasetDao {
 
     @Override
     public void consume(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[0]);
+        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[0]);
     }
 
     @Override
     public void consumed(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[1]);
-        ((ODatabaseRecord)args[0]).close();
+        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[1]);
+        ((ODatabaseDocumentInternal)args[0]).close();
     }
 
 
     @Override
     public Iterator<Object[]> loadData(MeIdentificationDSDFull resource, DatasetStructure structure) throws Exception {
-        ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+        ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
 
         try {
             ODatabaseDocumentTx connection = dbClient.getConnection();
@@ -91,7 +90,7 @@ public class CountrySTAT extends WDSDatasetDao {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (data!=null && data.hasNext() && datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to CountrySTAT database");
@@ -166,7 +165,7 @@ public class CountrySTAT extends WDSDatasetDao {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to CountrySTAT database");

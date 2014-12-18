@@ -1,0 +1,7 @@
+$request_method$request_uri$request_body
+e.g.
+POST/d3s/msd/codes/filter?dsd=true&full=true{
+    "uid": "GAUL",
+    "version": "2014",
+    "levels" : 1
+}
