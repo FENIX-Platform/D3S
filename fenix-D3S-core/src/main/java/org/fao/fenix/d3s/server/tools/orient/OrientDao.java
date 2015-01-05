@@ -17,7 +17,8 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.utils.Order;
+import org.fao.fenix.commons.utils.Page;
 
 import javax.inject.Inject;
 import javax.persistence.Embedded;
@@ -86,9 +87,9 @@ public abstract class OrientDao {
     //LOAD UTILS
     private <T> OSQLSynchQuery<T> getSelect(String query, Class<T> type, Order ordering, Page paging) {
         if (ordering!=null)
-            query += ordering.toSQL();
+            query += ordering.toOrientSQL();
         if (paging!=null)
-            query += paging.toSQL();
+            query += paging.toOrientSQL();
 
         return createSelect(query,type);
     }
@@ -166,6 +167,13 @@ public abstract class OrientDao {
     }
     public long count (String className) throws Exception {
         return dbParameters.getConnection().getUnderlying().countClass(className);
+    }
+
+    public Order getOrder() {
+        return dbParameters.getOrderingInfo();
+    }
+    public Page getPage() {
+        return dbParameters.getPaginationInfo()
     }
 
 

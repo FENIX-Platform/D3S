@@ -1,6 +1,8 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import org.fao.fenix.commons.utils.Order;
+import org.fao.fenix.commons.utils.Page;
 
 import javax.inject.Inject;
 import javax.servlet.*;

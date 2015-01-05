@@ -16,12 +16,18 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
     @Override
     public Collection<Object[]> loadData(MeIdentification metadata) throws Exception {
-        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
+        if (metadata!=null && metadata.getDsd()!=null) {
+            CacheManager cache = getCurrentCacheManager();
             WDSDatasetDao wdsDao = getDao(metadata);
-            if (wdsDao==null)
-                throw new ClassNotFoundException("Cannot load data. DAO not found");
 
-            return toList(wdsDao.loadData(metadata));
+            Iterator<Object[]> data = cache!=null ? cache.load(metadata, getOrder(), getPage()) : null;
+            if (data==null) {
+                if (wdsDao == null)
+                    throw new ClassNotFoundException("Cannot load data. DAO not found");
+                data = wdsDao.loadData(metadata);
+            }
+
+            return toList(data);
         }
 
         return null;
@@ -57,11 +63,11 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
 
     //Dataset cache manager injection management
-    private String cacheManagerClassName;
+    private static String cacheManagerClassName;
     @Inject private CacheManagerFactory cacheManagerPluginFactory;
 
     public void init(String cacheManagerClassName) throws Exception {
-        this.cacheManagerClassName = cacheManagerClassName;
+        DatasetResourceDao.cacheManagerClassName = cacheManagerClassName;
     }
 
     private CacheManager getCurrentCacheManager() {
@@ -75,12 +81,12 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
 
     //Utils
-    private WDSDatasetDao getDao(MeIdentification metadata) throws Exception {
+    private WDSDatasetDao getDao(MeIdentification metadata) {
         try {
             DSD dsd = metadata!=null ? metadata.getDsd() : null;
             String datasource = dsd!=null ? dsd.getDatasource() : null;
             return datasource!=null ? (WDSDatasetDao) wdsFactory.getInstance(datasource) : null;
-        } catch (ClassCastException ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
