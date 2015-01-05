@@ -2,6 +2,8 @@ package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -10,6 +12,7 @@ import java.util.*;
 
 public class DatasetResourceDao extends ResourceDao<Object[]> {
     @Inject private WDSDaoFactory wdsFactory;
+
 
     @Override
     public Collection<Object[]> loadData(MeIdentification metadata) throws Exception {
@@ -51,6 +54,24 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
             wdsDao.deleteData(metadata);
         }
     }
+
+
+    //Dataset cache manager injection management
+    private String cacheManagerClassName;
+    @Inject private CacheManagerFactory cacheManagerPluginFactory;
+
+    public void init(String cacheManagerClassName) throws Exception {
+        this.cacheManagerClassName = cacheManagerClassName;
+    }
+
+    private CacheManager getCurrentCacheManager() {
+        try {
+            return cacheManagerPluginFactory.getInstance(cacheManagerClassName);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
 
 
     //Utils

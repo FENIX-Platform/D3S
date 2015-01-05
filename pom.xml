@@ -13,6 +13,7 @@
     <modules>
         <module>fenix-D3S-services</module>
         <module>fenix-D3S-client</module>
+        <module>fenix-D3S-cache</module>
         <module>fenix-D3S-CountrySTAT</module>
         <module>fenix-D3S-UNECA</module>
         <module>fenix-D3S-core</module>
