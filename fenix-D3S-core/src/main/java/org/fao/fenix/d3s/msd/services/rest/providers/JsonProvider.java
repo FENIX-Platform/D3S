@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
@@ -9,7 +10,7 @@ import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.tinkerpop.gremlin.Tokens;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.commons.utils.CSVReader;
 import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
@@ -33,18 +34,16 @@ public abstract class JsonProvider {
     private ObjectMapper jacksonMapper = new ObjectMapper();
 
     //Utils
-    protected <T> T decode(String source, Class<T> baseClass, RepresentationType type) throws Exception {
-        StringBuilder className = new StringBuilder("org.fao.fenix.commons.msd.dto.data.");
-        switch (type) {
-            case codelist:      className.append("codelist."); break;
-            case dataset:       className.append("dataset."); break;
-            case geographic:    className.append("geographic."); break;
-            case document:      className.append("document."); break;
+    protected <T> T decode(String source, Class<T> baseClass, RepresentationType resourceType) throws Exception {
+        JavaType type = null;
+        switch (resourceType) {
+            case codelist:      type = jacksonMapper.getTypeFactory().constructParametricType(baseClass, DSDCodelist.class, Code.class); break;
+            case dataset:       type = jacksonMapper.getTypeFactory().constructParametricType(baseClass, DSDDataset.class, Object[].class); break;
+            case geographic:    type = jacksonMapper.getTypeFactory().constructParametricType(baseClass, DSDGeographic.class, Object.class); break;
+            case document:      type = jacksonMapper.getTypeFactory().constructParametricType(baseClass, DSDDocument.class, Object.class); break;
             default: return null;
         }
-        className.append(baseClass.getSimpleName());
-
-        return (T)decode(source, Class.forName(className.toString()));
+        return (T)jacksonMapper.readValue(source, type);
     }
 
     protected <T> T decode(String source, Class<T> beanClass) throws Exception {

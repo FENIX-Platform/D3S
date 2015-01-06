@@ -25,7 +25,7 @@ public class CSVResourceProvider extends CSVProvider<Resource> {
     @Override
     protected Resource read(RepresentationType resourceType, MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
         switch (resourceType) {
-            case codelist: return CSVCodeListProvider.getResource((org.fao.fenix.commons.msd.dto.data.codelist.MeIdentification) metadata, structure, data);
+            case codelist: return CSVCodeListProvider.getResource(metadata, structure, data);
             case dataset: return null;
             case geographic: return null;
             case document: return null;

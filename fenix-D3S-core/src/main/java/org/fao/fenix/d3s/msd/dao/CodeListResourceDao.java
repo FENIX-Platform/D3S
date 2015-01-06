@@ -3,12 +3,13 @@ package org.fao.fenix.d3s.msd.dao;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.storage.ORecordDuplicatedException;
 import org.fao.fenix.commons.msd.dto.full.Code;
+import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.io.BufferedReader;
 import java.util.*;
 
-public class CodeListResourceDao extends ResourceDao<Code> {
+public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 /*
     public Collection<Resource<Code>> getCodeLists() throws Exception {
         Collection<Resource<Code>> codeLists = new LinkedList<>();
@@ -23,17 +24,17 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
 
     @Override
-    public Collection<Code> loadData(MeIdentification metadata) throws Exception {
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata) throws Exception {
         return loadData(metadata,1);
     }
 
     @Override
-    protected void insertData(MeIdentification metadata, Collection<Code> data) throws Exception {
+    protected void insertData(MeIdentification<DSDCodelist> metadata, Collection<Code> data) throws Exception {
         saveCustomEntity(normalization(metadata, data, null, null),false,true);
     }
 
     @Override
-    protected void updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
+    protected void updateData(MeIdentification<DSDCodelist> metadata, Collection<Code> data, boolean overwrite) throws Exception {
         Collection<String> toDelete = overwrite ? new LinkedList<String>() : null;
         saveCustomEntity(normalization(metadata, data, loadData(metadata), toDelete),overwrite,true);
         deleteData(metadata, toDelete);
@@ -42,7 +43,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
 
     //Codes selection
-    public Collection<Code> loadData(MeIdentification metadata, Integer level, String ... codes) throws Exception {
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, Integer level, String ... codes) throws Exception {
         if (metadata==null)
             return null;
 
@@ -68,19 +69,19 @@ public class CodeListResourceDao extends ResourceDao<Code> {
             return select(Code.class, query.toString(), metadataORid);
     }
 
-    public int deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {
+    public int deleteData(MeIdentification<DSDCodelist> metadata, Collection<String> codes) throws Exception {
         return metadata!=null && codes!=null && codes.size()>0 ? command("delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : 0;
     }
 
     @Override
-    public void deleteData(MeIdentification metadata) throws Exception {
+    public void deleteData(MeIdentification<DSDCodelist> metadata) throws Exception {
         if (metadata!=null)
             command("delete from Code where codeList = ?", metadata.getORID());
     }
 
 
     //Utils
-    private Collection<Code> normalization (MeIdentification codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete) throws Exception {
+    private Collection<Code> normalization (MeIdentification<DSDCodelist> codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete) throws Exception {
         Map<String,ORID> existingORIDs = getCodeListRids(existingCodeList);
         Map<String,Code> visitedNodes = new HashMap<>();
         codeList = normalization(codeListResource, codeList, null, visitedNodes, existingORIDs);
@@ -93,7 +94,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
         return codeList;
     }
 
-    private Collection<Code> normalization(MeIdentification codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs) throws Exception {
+    private Collection<Code> normalization(MeIdentification<DSDCodelist> codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs) throws Exception {
         if (codes!=null) {
             Collection<Code> buffer = new LinkedList<>();
 

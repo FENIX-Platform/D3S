@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.wds.dataset;
 
-import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
 import org.fao.fenix.d3s.wds.WDSDao;
@@ -79,7 +78,7 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
                             row[structure.singleValuesIndexes[i]] = structure.singleValues[i];
                         return row;
                     } else
-                        return rawRow;
+                        return null;
                 }
             };
     }

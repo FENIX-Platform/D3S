@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
@@ -10,12 +11,12 @@ import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 import javax.inject.Inject;
 import java.util.*;
 
-public class DatasetResourceDao extends ResourceDao<Object[]> {
+public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     @Inject private WDSDaoFactory wdsFactory;
 
 
     @Override
-    public Collection<Object[]> loadData(MeIdentification metadata) throws Exception {
+    public Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata) throws Exception {
         if (metadata!=null && metadata.getDsd()!=null) {
             CacheManager cache = getCurrentCacheManager();
             WDSDatasetDao wdsDao = getDao(metadata);
@@ -34,13 +35,13 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
     }
 
     @Override
-    protected void insertData(MeIdentification metadata, Collection<Object[]> data) throws Exception {
+    protected void insertData(MeIdentification<DSDDataset> metadata, Collection<Object[]> data) throws Exception {
         if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null)
             updateData(metadata, data, true);
     }
 
     @Override
-    protected void updateData(MeIdentification metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
+    protected void updateData(MeIdentification<DSDDataset> metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
         if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
@@ -51,7 +52,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
     }
 
     @Override
-    public void deleteData(MeIdentification metadata) throws Exception {
+    public void deleteData(MeIdentification<DSDDataset> metadata) throws Exception {
         if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
@@ -70,7 +71,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
         DatasetResourceDao.cacheManagerClassName = cacheManagerClassName;
     }
 
-    private CacheManager getCurrentCacheManager() {
+    private CacheManager<DSDDataset,Object[]> getCurrentCacheManager() {
         try {
             return cacheManagerPluginFactory.getInstance(cacheManagerClassName);
         } catch (Exception ex) {
@@ -81,7 +82,7 @@ public class DatasetResourceDao extends ResourceDao<Object[]> {
 
 
     //Utils
-    private WDSDatasetDao getDao(MeIdentification metadata) {
+    private WDSDatasetDao getDao(MeIdentification<DSDDataset> metadata) {
         try {
             DSD dsd = metadata!=null ? metadata.getDsd() : null;
             String datasource = dsd!=null ? dsd.getDatasource() : null;

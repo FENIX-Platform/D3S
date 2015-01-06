@@ -2,15 +2,26 @@ package org.fao.fenix.d3s.cache.dto;
 
 import java.util.Date;
 
-public class LoadStatus {
+public class StoreStatus {
     public enum Status {
-        unavailable, refresh, ready, loading
+        ready, loading, incomplete
     }
 
     private Status status;
     private Integer count;
     private Date lastUpdate;
+    private Date timeout;
 
+
+    public StoreStatus() {
+    }
+
+    public StoreStatus(Status status, Integer count, Date lastUpdate, Date timeout) {
+        this.status = status;
+        this.count = count;
+        this.lastUpdate = lastUpdate;
+        this.timeout = timeout;
+    }
 
     public Status getStatus() {
         return status;
@@ -34,5 +45,13 @@ public class LoadStatus {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public Date getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Date timeout) {
+        this.timeout = timeout;
     }
 }

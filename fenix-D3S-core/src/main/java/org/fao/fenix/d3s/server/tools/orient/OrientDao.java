@@ -173,7 +173,7 @@ public abstract class OrientDao {
         return dbParameters.getOrderingInfo();
     }
     public Page getPage() {
-        return dbParameters.getPaginationInfo()
+        return dbParameters.getPaginationInfo();
     }
 
 

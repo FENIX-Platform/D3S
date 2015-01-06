@@ -1,6 +1,5 @@
 package org.fao.ess.uneca.d3s;
 
-import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumn;
 import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
 import org.fao.fenix.commons.utils.DatabaseUtils;
