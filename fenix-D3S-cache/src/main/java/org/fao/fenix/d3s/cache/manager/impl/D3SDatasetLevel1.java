@@ -20,6 +20,8 @@ import java.util.Iterator;
 @ApplicationScoped
 public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
+    private static final int SOTRE_PAGE_SIZE = 1000;
+
     private boolean initialized = false;
     @Inject private H2DatasetDefaultStorage storage;
     @Inject private DefaultCacheFilter filterManager;
@@ -60,6 +62,11 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public StoreStatus status(MeIdentification<DSDDataset> metadata) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Integer size(MeIdentification<DSDDataset> metadata) throws Exception {
         return null;
     }
 

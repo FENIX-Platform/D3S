@@ -69,11 +69,18 @@ public interface CacheManager<M extends DSD, D> {
     /**
      * Retrieve the store status of the specified resource data.
      * @param metadata Referenced resource metadata.
-     * @return Store status.
+     * @return Store status. Null if resource don't exists.
      * @throws Exception
      */
     public StoreStatus status(MeIdentification<M> metadata) throws Exception;
 
+    /**
+     * Retrive the resource's data block size. The unit depends on the kind of data stored into the cache (e.g. the number of rows for a dataset or the number of codes for a codelist).
+     * @param metadata Referenced resource metadata.
+     * @return Data block size. Null if resource don't exists.
+     * @throws Exception
+     */
+    public Integer size(MeIdentification<M> metadata) throws Exception;
 
     /**
      * This method store/append/overwrite new resource data filtering existing resources data. The execution is asynchronous and the 'status' function can be used to know the status.
