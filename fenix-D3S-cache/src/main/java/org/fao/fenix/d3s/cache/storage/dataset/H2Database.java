@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.cache.tools.h2;
+package org.fao.fenix.d3s.cache.storage.dataset;
 
 import org.fao.fenix.d3s.cache.tools.Server;
 import org.h2.jdbcx.JdbcConnectionPool;
@@ -11,26 +11,31 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-public abstract class H2Database {
+public abstract class H2Database implements DatasetStorage {
+    private boolean initialized = false;
     private JdbcConnectionPool pool;
 
     //STARTUP FLOW
+    @Override
     public void open() throws Exception {
-        Map<String,String> initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                Server.CONFIG_FOLDER_PATH+"storage.properties",
-                "/org/fao/fenix/config/storage.properties"
-        ).toMap(getStoragePropertiesPrefix());
+        if (!initialized) {
+            Map<String, String> initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
+                    Server.CONFIG_FOLDER_PATH + "storage.properties",
+                    "/org/fao/fenix/config/storage.properties"
+            ).toMap(getStoragePropertiesPrefix());
 
-        initPool(
-                initProperties.get("url"),
-                initProperties.get("usr"),
-                initProperties.get("psw"),
-                Integer.parseInt(initProperties.containsKey("max") ? initProperties.get("max") : "0")
-        );
+            initPool(
+                    initProperties.get("url"),
+                    initProperties.get("usr"),
+                    initProperties.get("psw"),
+                    Integer.parseInt(initProperties.containsKey("max") ? initProperties.get("max") : "0")
+            );
 
-        runScript(initProperties.get("ddl"), getConnection());
-        runScript(initProperties.get("dml"), getConnection());
+            runScript(initProperties.get("ddl"), getConnection());
+            runScript(initProperties.get("dml"), getConnection());
 
+            initialized = true;
+        }
     }
 
     private void initPool(String url, String usr, String psw, int maxConnections) {
@@ -47,6 +52,7 @@ public abstract class H2Database {
 
 
     //SHUTDOWN FLOW
+    @Override
     public void close() {
         pool.dispose();
     }

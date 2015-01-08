@@ -4,6 +4,9 @@ package org.fao.fenix.d3s.server.init;
 //import org.fao.fenix.d3s.search.SearchStep;
 //import org.fao.fenix.d3s.search.services.impl.SearchOperation;
 import org.fao.fenix.commons.utils.Properties;
+import org.fao.fenix.d3s.cache.D3SCache;
+import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
+import org.fao.fenix.d3s.cache.tools.CacheServers;
 import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.tools.rest.Server;
@@ -21,12 +24,16 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebListener
 public class MainController implements ServletContextListener {
     @Inject private OrientServer orientClient;
     @Inject private WDSDaoFactory wdsDaoFactory;
-    @Inject private DatasetResourceDao datasetResourceDao;
+    @Inject private CacheManagerFactory cacheManagerFactory;
+    @Inject private CacheServers cacheServersManager;
+
 
 
 
@@ -70,8 +77,14 @@ public class MainController implements ServletContextListener {
             orientClient.init(initParameters);
             //Startup modules
             orientClient.startServer();
+
             //Connect cache plugins
-            datasetResourceDao.init(initParameters.getProperty("cache.dataset.plugin"));
+            try {
+                initCache();
+            } catch (Exception ex) {
+                System.err.println("Cache initialization exception: " + ex.getMessage());
+                ex.printStackTrace(System.err);
+            }
 
 
         } catch (Exception e) {
@@ -94,6 +107,20 @@ public class MainController implements ServletContextListener {
     public void shutdown() throws Exception {
         orientClient.stopServer();
         Server.stop();
+    }
+
+
+    //CACHE MANAGEMENT
+    private void initCache() throws Exception {
+        //Cache servers startup
+        cacheServersManager.startup();
+
+        //Init cache manager factory alias
+        for (D3SCache cache : D3SCache.values()) {
+            String pluginClassName = initParameters.getProperty("cache."+cache.name()+".plugin");
+            if (pluginClassName!=null)
+                cacheManagerFactory.addAlias(cache.getAlias(), pluginClassName);
+        }
     }
 
 

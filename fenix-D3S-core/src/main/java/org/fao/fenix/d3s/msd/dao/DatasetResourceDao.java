@@ -3,8 +3,9 @@ package org.fao.fenix.d3s.msd.dao;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.cache.CacheFactory;
+import org.fao.fenix.d3s.cache.D3SCache;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
-import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -13,12 +14,13 @@ import java.util.*;
 
 public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     @Inject private WDSDaoFactory wdsFactory;
+    @Inject private CacheFactory cacheManagerFactory;
 
 
     @Override
     public Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata) throws Exception {
         if (metadata!=null && metadata.getDsd()!=null) {
-            CacheManager cache = getCurrentCacheManager();
+            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
             WDSDatasetDao wdsDao = getDao(metadata);
 
             Iterator<Object[]> data = cache!=null ? cache.load(metadata, getOrder(), getPage()) : null;
@@ -62,22 +64,6 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         }
     }
 
-
-    //Dataset cache manager injection management
-    private static String cacheManagerClassName;
-    @Inject private CacheManagerFactory cacheManagerPluginFactory;
-
-    public void init(String cacheManagerClassName) throws Exception {
-        DatasetResourceDao.cacheManagerClassName = cacheManagerClassName;
-    }
-
-    private CacheManager<DSDDataset,Object[]> getCurrentCacheManager() {
-        try {
-            return cacheManagerPluginFactory.getInstance(cacheManagerClassName);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
 
 
 

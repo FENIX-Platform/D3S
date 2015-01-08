@@ -11,7 +11,7 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.datasetFilter.impl.DefaultCacheFilter;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
-import org.fao.fenix.d3s.cache.storage.impl.H2DatasetDefaultStorage;
+import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ import java.util.Iterator;
 @ApplicationScoped
 public class D3PDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
-    @Inject private H2DatasetDefaultStorage storage;
+    @Inject private DefaultStorage storage;
     @Inject private DefaultCacheFilter filterManager;
 
 
@@ -56,6 +56,11 @@ public class D3PDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public StoreStatus status(MeIdentification<DSDDataset> metadata) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Integer size(MeIdentification<DSDDataset> metadata) throws Exception {
         return null;
     }
 

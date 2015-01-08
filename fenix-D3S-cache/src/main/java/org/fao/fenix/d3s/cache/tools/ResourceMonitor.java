@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Singleton
 public class ResourceMonitor {
-    public enum Operation { startRead, startWrite, stepWrite, stopWrite }
+    public enum Operation { startRead, startWrite, stepWrite, stopWrite, delete }
 
     private Map<String,Integer> resourcesSize = new HashMap<>();
 
@@ -27,6 +27,11 @@ public class ResourceMonitor {
             case startRead:
                 for (Integer currentSize = resourcesSize.get(resourceId); currentSize!=null && (ordering || size<=0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
                     wait();
+                break;
+            case delete:
+                while (resourcesSize.get(resourceId)!=null)
+                    wait();
+                break;
         }
     }
 

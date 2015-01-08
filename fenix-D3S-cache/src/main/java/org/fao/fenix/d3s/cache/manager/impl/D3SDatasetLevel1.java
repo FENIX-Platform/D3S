@@ -10,7 +10,7 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.datasetFilter.impl.DefaultCacheFilter;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
-import org.fao.fenix.d3s.cache.storage.impl.H2DatasetDefaultStorage;
+import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,7 +23,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     private static final int SOTRE_PAGE_SIZE = 1000;
 
     private boolean initialized = false;
-    @Inject private H2DatasetDefaultStorage storage;
+    @Inject private DefaultStorage storage;
     @Inject private DefaultCacheFilter filterManager;
 
 

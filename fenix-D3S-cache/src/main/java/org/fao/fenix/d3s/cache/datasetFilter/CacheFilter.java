@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.cache.datasetFilter;
 
-import org.fao.fenix.d3s.cache.storage.DatasetStorage;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 
 public abstract class CacheFilter {
 
