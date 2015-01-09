@@ -269,7 +269,12 @@ public class ResourceIndexManager extends LinksManager {
                 Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
                 if (ojCodesO!=null && ojCodesO.size()>0)
                     for (ODocument ojCodeO : ojCodesO) {
-                        ODocument linkedCodeO = ojCodeO.field("linkedCode");
+                        ODocument linkedCodeO = null;
+                        try {
+                            linkedCodeO = ojCodeO.field("linkedCode");
+                        } catch (ClassCastException ex) {
+                            ojCodeO.field("linkedCode",null,OType.LINK); //if linked code is a broken link the field method returns an ORID object
+                        }
                         if (linkedCodeO!=null)
                             addParentsToo(linkedCodeO, codes, codeListID);
                         else {
