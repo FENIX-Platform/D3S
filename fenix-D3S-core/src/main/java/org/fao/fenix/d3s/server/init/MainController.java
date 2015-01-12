@@ -82,7 +82,7 @@ public class MainController implements ServletContextListener {
             try {
                 initCache();
             } catch (Exception ex) {
-                System.err.println("Cache initialization exception: " + ex.getMessage());
+                System.err.println("\n\nCache initialization exception: " + ex.getMessage());
                 ex.printStackTrace(System.err);
             }
 
@@ -107,6 +107,7 @@ public class MainController implements ServletContextListener {
     public void shutdown() throws Exception {
         orientClient.stopServer();
         Server.stop();
+        stopCache();
     }
 
 
@@ -121,6 +122,11 @@ public class MainController implements ServletContextListener {
             if (pluginClassName!=null)
                 cacheManagerFactory.addAlias(cache.getAlias(), pluginClassName);
         }
+    }
+
+    private void stopCache() throws Exception {
+        //Cache servers shutdown
+        cacheServersManager.shutdown();
     }
 
 

@@ -20,7 +20,7 @@ public class CacheManagerFactory {
     public CacheManager getInstance(String name) throws Exception {
         Class<? extends CacheManager> instanceClass = aliasMap.get(name);
         if (instanceClass!=null) {
-            CacheManager manager = instanceProducer.select().iterator().next();
+            CacheManager manager = instanceProducer.select(instanceClass).iterator().next();
             manager.init();
             return manager;
         } else

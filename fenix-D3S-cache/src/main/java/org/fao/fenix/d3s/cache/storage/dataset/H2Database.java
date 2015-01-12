@@ -20,7 +20,7 @@ public abstract class H2Database implements DatasetStorage {
     public void open() throws Exception {
         if (!initialized) {
             Map<String, String> initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    Server.CONFIG_FOLDER_PATH + "storage.properties",
+                    "file:"+Server.CONFIG_FOLDER_PATH + "storage.properties",
                     "/org/fao/fenix/config/storage.properties"
             ).toMap(getStoragePropertiesPrefix());
 
@@ -46,7 +46,7 @@ public abstract class H2Database implements DatasetStorage {
 
     private void runScript(String filePath, Connection connection) throws FileNotFoundException, SQLException {
         File file = filePath!=null ? new File(filePath) : null;
-        if (file!=null)
+        if (file!=null && file.exists() && file.isFile())
             RunScript.execute(connection, new FileReader(file));
     }
 

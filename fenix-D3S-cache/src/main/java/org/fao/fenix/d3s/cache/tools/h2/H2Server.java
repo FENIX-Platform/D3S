@@ -32,7 +32,7 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
     private void startConsole() throws SQLException, IOException {
         if (consoleServer ==null) {
             Properties initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    CONFIG_FOLDER_PATH + "h2.properties",
+                    "file:"+CONFIG_FOLDER_PATH + "h2.properties",
                     "/org/fao/fenix/config/h2.properties"
             );
 
@@ -40,10 +40,14 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
             if (!databaseFolder.exists())
                 databaseFolder.mkdirs();
 
+            StringBuilder serverParameters = new StringBuilder()
+                    .append("-webPort ").append(initProperties.getProperty("console.port"))
+                    .append(",-webAllowOthers true")
+                    .append(",-baseDir ").append(databaseFolder.getAbsolutePath());
             consoleServer = Server.createWebServer(
-                    "-webPort "+initProperties.getProperty("console.port"),
+                    "-webPort", initProperties.getProperty("console.port"),
                     "-webAllowOthers",
-                    "-baseDir "+databaseFolder.getAbsolutePath()
+                    "-baseDir", databaseFolder.getAbsolutePath()
             );
         }
         if (!consoleServer.isRunning(false))
