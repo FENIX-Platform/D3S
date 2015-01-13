@@ -12,4 +12,10 @@ public enum Type {
     private Type(int sqlType) {
         this.sqlType = sqlType;
     }
+
+    public int getSqlType() {
+        return sqlType;
+    }
+
+
 }

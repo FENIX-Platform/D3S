@@ -9,7 +9,7 @@ public class StoreStatus {
 
     private Status status;
     private Integer count;
-    private Date lastUpdate;
+    private Date lastUpdate = new Date();
     private Date timeout;
 
 

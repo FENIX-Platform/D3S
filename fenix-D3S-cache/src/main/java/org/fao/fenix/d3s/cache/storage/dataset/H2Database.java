@@ -4,9 +4,7 @@ import org.fao.fenix.d3s.cache.tools.Server;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.h2.tools.RunScript;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
@@ -31,8 +29,8 @@ public abstract class H2Database implements DatasetStorage {
                     Integer.parseInt(initProperties.containsKey("max") ? initProperties.get("max") : "0")
             );
 
-            runScript(initProperties.get("ddl"), getConnection());
-            runScript(initProperties.get("dml"), getConnection());
+            runScript(initProperties.get("ddl"));
+            runScript(initProperties.get("dml"));
 
             initialized = true;
         }
@@ -44,10 +42,28 @@ public abstract class H2Database implements DatasetStorage {
             pool.setMaxConnections(maxConnections);
     }
 
-    private void runScript(String filePath, Connection connection) throws FileNotFoundException, SQLException {
+    private void runScript(String filePath) throws FileNotFoundException, SQLException {
         File file = filePath!=null ? new File(filePath) : null;
-        if (file!=null && file.exists() && file.isFile())
-            RunScript.execute(connection, new FileReader(file));
+        if (file!=null && file.exists() && file.isFile()) {
+            Connection connection = getConnection();
+            try {
+                RunScript.execute(connection, new FileReader(file));
+            } finally {
+                if (connection != null)
+                    connection.close();
+            }
+        }
+    }
+    private void runScript(InputStream input) throws FileNotFoundException, SQLException {
+        if (input!=null) {
+            Connection connection = getConnection();
+            try {
+                RunScript.execute(connection, new InputStreamReader(input));
+            } finally {
+                if (connection != null)
+                    connection.close();
+            }
+        }
     }
 
 

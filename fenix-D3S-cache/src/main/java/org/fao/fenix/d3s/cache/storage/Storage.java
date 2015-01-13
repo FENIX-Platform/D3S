@@ -37,14 +37,14 @@ public interface Storage {
      * @param resourceId Referenced resource internal id.
      * @param status Resource status.
      */
-    public void storeMetadata(String resourceId, StoreStatus status);
+    public void storeMetadata(String resourceId, StoreStatus status) throws Exception;
 
     /**
      * Overwrite/append a set of resources metadata. This function can be used for import purposes.
      * @param metadata Resources storage metadata.
      * @param overwrite Flag to set overwrite or append mode.
      */
-    public void storeMetadata(Map<String,StoreStatus> metadata, boolean overwrite);
+    public void storeMetadata(Map<String,StoreStatus> metadata, boolean overwrite) throws Exception;
 
     /**
      * Restore a clean status for the storage by metadata validation/update and removing timed out data.

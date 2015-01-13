@@ -9,6 +9,7 @@ public class Column {
     private String name;
     private Type type;
     private boolean key;
+    private Object noDataValue;
 
 
     public Column(DSDColumn columnMetadata) {
@@ -31,6 +32,8 @@ public class Column {
         }
 
         key = columnMetadata.getKey()!=null && columnMetadata.getKey();
+
+        //TODO noDataValue = columnMetadata.getNoDataValue();
     }
 
 
@@ -53,5 +56,9 @@ public class Column {
 
     public boolean isKey() {
         return key;
+    }
+
+    public Object getNoDataValue() {
+        return noDataValue;
     }
 }
