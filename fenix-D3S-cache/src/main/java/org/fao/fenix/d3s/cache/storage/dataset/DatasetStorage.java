@@ -11,7 +11,7 @@ import org.fao.fenix.d3s.cache.storage.Storage;
 public interface DatasetStorage extends Storage {
 
     /**
-     * Create a new table with the specified structure.
+     * Create a new table with the specified structure if it don't exists.
      * Metadata will be updated automatically.
      * @param tableStructure New table metadata
      * @throws Exception

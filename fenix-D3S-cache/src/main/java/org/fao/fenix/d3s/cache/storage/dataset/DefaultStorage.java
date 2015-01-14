@@ -9,24 +9,22 @@ import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.Date;
 
 public abstract class DefaultStorage extends H2Database {
 
 
     //DATA
     @Override
-    public void create(Table tableStructure) throws Exception {
-        if (tableStructure.getColumns().size()==0)
+    public synchronized void create(Table tableStructure) throws Exception {
+        String tableName = tableStructure.getTableName();
+        if (tableStructure.getColumns().size()==0 || tableName==null)
             throw new Exception("Invalid table structure.");
 
-        //Delete existing table
-        String tableName = tableStructure.getTableName();
-        if (metadata.containsKey(tableName))
-            delete(tableName);
+        //Check if table exists
+        if (loadMetadata().containsKey(tableName))
+            throw new Exception("Duplicate table error.");
 
         //Create query
         StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
@@ -64,35 +62,34 @@ public abstract class DefaultStorage extends H2Database {
 
         query.append(')');
 
-        //Execute
+        //Execute query and update metadata
         Connection connection = getConnection();
         try {
+            storeMetadata(tableName, new StoreStatus(StoreStatus.Status.loading, 0, new Date(), null), connection);
             connection.createStatement().executeUpdate(query.toString());
+
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
         } finally {
-            if (connection!=null)
             connection.close();
         }
     }
 
     @Override
-    public void delete(String tableName) throws Exception {
+    public synchronized void delete(String tableName) throws Exception {
         Connection connection = getConnection();
         try {
-            connection.setAutoCommit(false);
-
-            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id=\""+tableName+'"');
-            connection.createStatement().executeUpdate("DROP TABLE "+tableName);
+            removeMetadata(tableName, connection);
+            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + tableName);
 
             connection.commit();
-            metadata.remove(tableName);
         } catch (Exception ex) {
             connection.rollback();
             throw ex;
         } finally {
-            if (connection!=null) {
-                connection.setAutoCommit(true);
-                connection.close();
-            }
+            connection.close();
         }
 
     }
@@ -104,12 +101,76 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public StoreStatus store(String tableName, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
-        return null;
+    public synchronized StoreStatus store(String tableName, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
+        StoreStatus status = loadMetadata(tableName);
+        if (status==null)
+            throw new Exception("Unavailable table: "+tableName);
+
+        Connection connection = getConnection();
+        try {
+            //Retrieve table structure
+            Table tableMetadata = new Table(tableName, connection);
+            Column[] structure = tableMetadata.getColumns().toArray(new Column[tableMetadata.getColumns().size()]);
+            int[] columnsType = new int[structure.length];
+            for (int i=0; i<structure.length; i++)
+                columnsType[i] = structure[i].getType().getSqlType();
+
+            //If overwrite mode is active delete existing data
+            if (overwrite)
+                connection.createStatement().executeUpdate("DELETE FROM "+tableName);
+
+            //Build query
+            StringBuilder query = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
+
+            for (Column column : structure)
+                query.append(column.getName()).append(',');
+            query.setLength(query.length()-1);
+
+            query.append(") VALUES (");
+            for (int count = structure.length; count>0; count--)
+                query.append("?,");
+            query.setLength(query.length()-1);
+            query.append(')');
+
+            //Prepare store session
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+            size = size>0 ? size : Integer.MAX_VALUE;
+            int count = 0;
+
+            //Store data
+            for (; count<size && data.hasNext(); count++) {
+                Object[] row = data.next();
+                for (int i=0; i<columnsType.length; i++)
+                    statement.setObject(i+1,row[i],columnsType[i]);
+                statement.addBatch();
+            }
+            statement.executeBatch();
+
+            //Update status
+            status.setStatus(data.hasNext() ? StoreStatus.Status.loading : StoreStatus.Status.ready);
+            status.setCount(overwrite ? count : status.getCount()+count);
+            status.setLastUpdate(new Date());
+            storeMetadata(tableName, status, connection);
+
+            //Close transaction
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            //try to set incomplete status
+            status.setStatus(StoreStatus.Status.incomplete);
+            status.setLastUpdate(new Date());
+            storeMetadata(tableName,status);
+            //throw error
+            throw ex;
+        } finally {
+            connection.close();
+        }
+
+        return status;
     }
 
     @Override
-    public StoreStatus store(String tableName, DataFilter filter, boolean overwrite, String... sourceTablesName) throws Exception {
+    public synchronized StoreStatus store(String tableName, DataFilter filter, boolean overwrite, String... sourceTablesName) throws Exception {
         return null;
     }
 
@@ -131,8 +192,7 @@ public abstract class DefaultStorage extends H2Database {
                 metadata = null;
                 throw ex;
             } finally {
-                if (connection != null)
-                    connection.close();
+                connection.close();
             }
         }
         return metadata;
@@ -144,10 +204,20 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized void storeMetadata(String resourceId, StoreStatus status) throws Exception {
+    public void storeMetadata(String resourceId, StoreStatus status) throws Exception {
         Connection connection = getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement( metadata.put(resourceId,status) != null ?
+            storeMetadata(resourceId,status,connection);
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
+        } finally {
+            connection.close();
+        }
+    }
+    private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
+            PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) != null ?
                     "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)":
                     "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
             );
@@ -161,12 +231,25 @@ public abstract class DefaultStorage extends H2Database {
             statement.setString(5, resourceId);
 
             statement.executeUpdate();
-        } finally {
-            metadata = null; //Force metadata refresh/reset
+    }
 
-            if (connection!=null)
-                connection.close();
+    @Override
+    public void removeMetadata(String resourceId) throws Exception {
+        Connection connection = getConnection();
+        try {
+            removeMetadata(resourceId, connection);
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
+        } finally {
+            connection.close();
         }
+
+    }
+    public synchronized void removeMetadata(String resourceId, Connection connection) throws Exception {
+        if (loadMetadata().containsKey(resourceId))
+            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id=\""+resourceId+'"');
     }
 
     @Override
@@ -177,15 +260,15 @@ public abstract class DefaultStorage extends H2Database {
 
             PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)");
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?");
-            for (Map.Entry<String,StoreStatus> statusEntry : metadata.entrySet()) {
+            for (Map.Entry<String, StoreStatus> statusEntry : metadata.entrySet()) {
                 StoreStatus status = statusEntry.getValue();
 
                 PreparedStatement statement = existingMetadata.remove(statusEntry.getKey()) ? updateStatement : insertStatement;
-                statement.setString(1,status.getStatus().name());
-                if (status.getCount()!=null)
+                statement.setString(1, status.getStatus().name());
+                if (status.getCount() != null)
                     statement.setInt(2, status.getCount());
                 statement.setTimestamp(3, new Timestamp(status.getLastUpdate().getTime()));
-                if (status.getTimeout()!=null)
+                if (status.getTimeout() != null)
                     statement.setTimestamp(4, new Timestamp(status.getTimeout().getTime()));
                 statement.setString(5, statusEntry.getKey());
 
@@ -194,18 +277,20 @@ public abstract class DefaultStorage extends H2Database {
             insertStatement.executeBatch();
             updateStatement.executeBatch();
 
-            if (overwrite && existingMetadata.size()>0) {
+            if (overwrite && existingMetadata.size() > 0) {
                 StringBuilder deleteQuery = new StringBuilder();
                 for (String id : existingMetadata)
                     deleteQuery.append(",\"").append(id).append('"');
-                connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id IN ("+deleteQuery.substring(1)+')');
+                connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id IN (" + deleteQuery.substring(1) + ')');
             }
 
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
         } finally {
-            this.metadata = null; //Force metadata refresh/reset
-
-            if (connection!=null)
-                connection.close();
+            this.metadata = null; //Force metadata reload
+            connection.close();
         }
 
     }
@@ -213,13 +298,13 @@ public abstract class DefaultStorage extends H2Database {
 
     //MAINTENANCE
     @Override
-    public void clean() throws Exception {
+    public synchronized void clean() throws Exception {
         //TODO
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void reset() throws Exception {
+    public synchronized void reset() throws Exception {
         for (String id : loadMetadata().keySet())
             delete(id);
     }

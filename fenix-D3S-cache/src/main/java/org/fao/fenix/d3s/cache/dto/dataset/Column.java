@@ -3,6 +3,10 @@ package org.fao.fenix.d3s.cache.dto.dataset;
 
 import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Set;
+
 
 public class Column {
 
@@ -34,6 +38,12 @@ public class Column {
         key = columnMetadata.getKey()!=null && columnMetadata.getKey();
 
         //TODO noDataValue = columnMetadata.getNoDataValue();
+    }
+
+    public Column(ResultSet columnMetadata, Set<String> keyColumns) throws SQLException {
+        name = columnMetadata.getString("COLUMN_NAME");
+        type = Type.getType(columnMetadata.getShort("DATA_TYPE"));
+        key = keyColumns.contains(name);
     }
 
 

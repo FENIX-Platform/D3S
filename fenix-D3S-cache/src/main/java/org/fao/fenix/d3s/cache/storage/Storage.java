@@ -40,6 +40,12 @@ public interface Storage {
     public void storeMetadata(String resourceId, StoreStatus status) throws Exception;
 
     /**
+     * Remove resource metadata. This function is intended for internal use by the implementing class.
+     * @param resourceId Referenced resource internal id.
+     */
+    public void removeMetadata(String resourceId) throws Exception;
+
+    /**
      * Overwrite/append a set of resources metadata. This function can be used for import purposes.
      * @param metadata Resources storage metadata.
      * @param overwrite Flag to set overwrite or append mode.

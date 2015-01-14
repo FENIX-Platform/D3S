@@ -23,7 +23,7 @@ public abstract class H2Database implements DatasetStorage {
             ).toMap(getStoragePropertiesPrefix());
 
             initPool(
-                    initProperties.get("url"),
+                    initProperties.get("url")+";AUTOCOMMIT=OFF",
                     initProperties.get("usr"),
                     initProperties.get("psw"),
                     Integer.parseInt(initProperties.containsKey("max") ? initProperties.get("max") : "0")
