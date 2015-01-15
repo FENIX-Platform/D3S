@@ -27,11 +27,11 @@ public interface DatasetStorage extends Storage {
      * @param ordering Ordering parameters.
      * @param pagination Pagination parameters.
      * @param filter Rows and columns filter.
-     * @param sourceTablesName Involved source tables name.
+     * @param tables Involved source tables metadata.
      * @return Selected data.
      * @throws Exception
      */
-    public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, String ... sourceTablesName) throws Exception;
+    public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, Table ... tables) throws Exception;
 
     /**
      * Store data into an existing table.

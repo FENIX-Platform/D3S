@@ -96,7 +96,29 @@ public abstract class DefaultStorage extends H2Database {
 
 
     @Override
-    public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, String... sourceTablesName) throws Exception {
+    public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, Table... tables) throws Exception {
+        if (tables!=null) {
+            final Connection connection = getConnection();
+            Collection<Iterator<Object[]>> producers = new LinkedList<>();
+
+            for (Table structure : tables) {
+                //Creare un iteratore per ogni tabella ognuno con la possibilità di fare la propria query e con una potenziale matrice di conversione per la posizione delle colonne tramite funzione di init(boolean autoclose) throws Exceptionù
+            }
+
+            //Se l'elenco dei producers ha dimensione 1 si ritorna il producer creato. Se la dimensione è > 1 si ritorna un iteratore wrapper che passa da un iteratore all'altro man mano che vengono consumati i dati
+            //P.S.: tutti gli iteratori usano la stessa connessione che rimane aperta fino al consumo del contenuto
+            //P.S.: gli iteratori dovrebbero avere un close che viene richiamato in caso di timeout dal wrapper o dall'iteratore con autoclose==true. Il timeout potrebbe provenire dalle storage properties.
+        }
+        StringBuilder querySelect = new StringBuilder();
+        Collection<String> columnsName = filter.getColumns();
+        if (columnsName!=null && columnsName.size()>0) {
+            for (String name : columnsName)
+                querySelect.append(name).append(',');
+            querySelect.setLength(querySelect.length()-1);
+        } else
+            querySelect.append('*');
+
+
         return null;
     }
 
