@@ -2,7 +2,8 @@ package org.fao.ess.uneca.d3s;
 
 import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumn;
 import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
-import org.fao.fenix.commons.utils.DatabaseUtils;
+import org.fao.fenix.commons.utils.database.DataIterator;
+import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -50,7 +51,7 @@ public class UNECA extends WDSDatasetDao {
             PreparedStatement statement = connection.prepareStatement(buildQuery(resource));
             statement.setString(1,resource.getUid());
 
-            return getConsumerIterator(databaseUtils.getDataIterator(statement.executeQuery()), connection);
+            return new DataIterator(statement.executeQuery(),connection,null);
         } catch (Exception ex) {
             if (connection!=null)
                 try { connection.close(); } catch (SQLException e) { }

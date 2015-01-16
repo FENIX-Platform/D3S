@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.cache.storage.dataset;
 
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
-import org.fao.fenix.commons.utils.Iterator;
+import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;

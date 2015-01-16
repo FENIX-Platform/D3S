@@ -13,6 +13,18 @@ public class Table {
     private Collection<Column> columns = new LinkedList<>();
     private String tableName;
 
+
+    public static Table[] getInstances(MeIdentification<DSDDataset> ... metadataArray) {
+        Collection<Table> tables = new LinkedList<>();
+        if (metadataArray!=null)
+            for (MeIdentification<DSDDataset> metadata : metadataArray)
+                if (metadata!=null)
+                    tables.add(new Table(metadata));
+
+        return tables.size()>0 ? tables.toArray(new Table[tables.size()]) : null;
+    }
+
+
     public Table() {
     }
     public Table(String tableName) {
