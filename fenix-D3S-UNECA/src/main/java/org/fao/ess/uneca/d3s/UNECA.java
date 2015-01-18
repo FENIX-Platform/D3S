@@ -51,7 +51,7 @@ public class UNECA extends WDSDatasetDao {
             PreparedStatement statement = connection.prepareStatement(buildQuery(resource));
             statement.setString(1,resource.getUid());
 
-            return new DataIterator(statement.executeQuery(),connection,null);
+            return new DataIterator(statement.executeQuery(),connection,null,null);
         } catch (Exception ex) {
             if (connection!=null)
                 try { connection.close(); } catch (SQLException e) { }

@@ -85,4 +85,30 @@ public class Table {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+
+
+
+    //Utils
+    public Set<String> getColumnsName() {
+        Set<String> names = new LinkedHashSet<>();
+        for (Column column : columns)
+            names.add(column.getName());
+        return names;
+    }
+
+    public Map<String, Column> getColumnsByName() {
+        Map<String, Column> columnsByName = new LinkedHashMap<>();
+        for (Column column : columns)
+            columnsByName.put(column.getName(), column);
+        return columnsByName;
+    }
+
+    public Object[] getNoDataValues() {
+        Object[] noDataValues = new Object[columns.size()];
+        Iterator<Column> columnIterator = columns.iterator();
+        boolean isNull = true;
+        for (int i=0; i<noDataValues.length; i++)
+            isNull &= (noDataValues[i]=columnIterator.next().getNoDataValue()) == null;
+        return isNull ? null : noDataValues;
+    }
 }

@@ -1,6 +1,9 @@
 package org.fao.fenix.d3s.cache.storage.dataset;
 
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
+import org.fao.fenix.commons.find.dto.filter.FieldFilter;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
+import org.fao.fenix.commons.find.dto.filter.TimeFilter;
 import org.fao.fenix.commons.utils.database.DataIterator;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.commons.utils.database.Iterator;
@@ -9,6 +12,7 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.dto.dataset.Type;
 
 import javax.inject.Inject;
 import java.sql.*;
@@ -35,19 +39,25 @@ public abstract class DefaultStorage extends H2Database {
                 .append(tableName)
                 .append(" (");
 
-        Object defaultValue = null;
+//        Object defaultValue = null;
         for (Column column : tableStructure.getColumns()) {
             query.append(column.getName());
 
             switch (column.getType()) {
                 case bool:      query.append(" BOOLEAN"); break;
-                case integer:   query.append(" INT"); break;
                 case real:      query.append(" DOUBLE"); break;
                 case string:    query.append(" VARCHAR"); break;
                 case object:    query.append(" OTHER"); break;
+                case integer:
+                    Integer precision = column.getPrecision();
+                    if (precision!=null)
+                        query.append(" DECIMAL(").append(precision).append(",0)");
+                    else
+                        query.append(" BIGINT");
+                    break;
             }
 
-            if ((defaultValue = column.getNoDataValue()) != null) {
+/*            if ((defaultValue = column.getNoDataValue()) != null) {
                 switch (column.getType()) {
                     case bool:
                     case integer:
@@ -56,7 +66,7 @@ public abstract class DefaultStorage extends H2Database {
                     case string:  query.append(" DEFAULT ").append('"').append(defaultValue).append('"'); break;
                 }
             }
-
+*/
             if (column.isKey())
                 query.append(" PRIMARY KEY");
 
@@ -104,33 +114,95 @@ public abstract class DefaultStorage extends H2Database {
         if (tables!=null && tables.length>0) {
             //Select data
             Collection<ResultSet> data = new LinkedList<>();
+            Collection<Object[]> defaults = new LinkedList<>();
             Connection connection = getConnection();
             try {
-                for (Table structure : tables)
+                for (Table structure : tables) {
                     data.add(load(ordering, pagination, filter, structure));
+                    defaults.add(structure.getNoDataValues());
+                }
             } catch (Exception ex) {
                 if (!connection.isClosed())
                     connection.close();
                 throw ex;
             }
-
-            return new DataIterator(data,connection,10000l);
+            //Create and return data iterator
+            return new DataIterator(data,connection,10000l,defaults);
         } else
             return null;
     }
 
     private ResultSet load(Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
-        //TODO
-        //Create query
-        StringBuilder querySelect = new StringBuilder();
-        Collection<String> columnsName = filter.getColumns();
-        if (columnsName!=null && columnsName.size()>0) {
-            for (String name : columnsName)
-                querySelect.append(name).append(',');
-            querySelect.setLength(querySelect.length()-1);
-        } else
-            querySelect.append('*');
+        Map<String, Column> columnsByName = table.getColumnsByName();
 
+        //Create query
+        StringBuilder query = new StringBuilder("SELECT ");
+        //Add select columns
+        Collection<String> selectColumns = filter.getColumns();
+        if (selectColumns!=null && selectColumns.size()>0) {
+            selectColumns.retainAll(columnsByName.keySet()); //use only existing columns
+            for (String name : selectColumns)
+                query.append(name).append(',');
+            query.setLength(query.length()-1);
+        } else
+            query.append('*');
+        //Add source table
+        query.append(" FROM ").append(table.getTableName());
+        //Add where condition
+        Collection<Object> params = new LinkedList<>();
+        StandardFilter rowsFilter = filter.getRows();
+        if (rowsFilter!=null && rowsFilter.size()>0) {
+            query.append(" WHERE 1=1");
+            for (Map.Entry<String, FieldFilter> conditionEntry : rowsFilter.entrySet()) {
+                String fieldName = conditionEntry.getKey();
+                Column column = columnsByName.get(fieldName);
+                FieldFilter fieldFilter = conditionEntry.getValue();
+
+                if (column==null)
+                    throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                if (fieldFilter!=null) {
+                    switch (fieldFilter.getFilterType()) {
+                        case enumeration:
+                            if (column.getType()!=Type.string)
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                            query.append(" AND ").append(fieldName).append(" IN (");
+                            for (String value : fieldFilter.enumeration) {
+                                query.append("?,");
+                                params.add(value);
+                            }
+                            query.setCharAt(query.length() - 1, ')');
+                            break;
+                        case time:
+                            if (column.getType()!=Type.integer)
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                            query.append(" AND (");
+                            for (TimeFilter timeFilter : fieldFilter.time) {
+                                if (timeFilter.from!=null) {
+                                    query.append(fieldName).append(" >= ?");
+                                    params.add(timeFilter.getFrom(column.getPrecision()));
+                                }
+                                if (timeFilter.to!=null) {
+                                    if (timeFilter.from!=null)
+                                        query.append(" AND ");
+                                    query.append(fieldName).append(" <= ?");
+                                    params.add(timeFilter.getTo(column.getPrecision()));
+                                }
+                                query.append(" OR ");
+                            }
+                            query.setLength(query.length()-4);
+                            query.append(')');
+                            break;
+                        case code:
+                            if (column.getType()!=Type.string)
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                            query.append(" AND (");
+                            //TODO
+
+                    }
+
+                }
+            }
+        }
 
         return null;
     }
