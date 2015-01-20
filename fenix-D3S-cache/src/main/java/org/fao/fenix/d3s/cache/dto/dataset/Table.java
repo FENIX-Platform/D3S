@@ -5,6 +5,7 @@ import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.*;
 
@@ -12,6 +13,7 @@ public class Table {
 
     private Collection<Column> columns = new LinkedList<>();
     private String tableName;
+    private Set<String> indexes = new HashSet<>();
 
 
     public static Table[] getInstances(MeIdentification<DSDDataset> ... metadataArray) {
@@ -53,20 +55,21 @@ public class Table {
     }
 
     public Table(String tableName, Connection connection) throws Exception {
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
         this.tableName = tableName;
 
         Set<String> keyColumns = new HashSet<>();
-        for (ResultSet column = connection.getMetaData().getPrimaryKeys(null,null,tableName); column.next(); )
+        for (ResultSet column = databaseMetaData.getPrimaryKeys(null, null, tableName); column.next(); )
             keyColumns.add(column.getString("COLUMN_NAME"));
         Map<Integer, Column> columnsMap = new TreeMap<>();
-        for (ResultSet column = connection.getMetaData().getColumns(null,null,tableName,null); column.next(); )
+        for (ResultSet column = databaseMetaData.getColumns(null, null, tableName, null); column.next(); )
             columnsMap.put(column.getInt("ORDINAL_POSITION"), new Column(column,keyColumns));
         columns.addAll(columnsMap.values());
+
+        int indexPrefixLength = "IDX_".length() + tableName.length();
+        for (ResultSet indexInfo = databaseMetaData.getIndexInfo(null, null, tableName, false, false); indexInfo.next(); )
+            indexes.add(indexInfo.getString("INDEX_NAME").substring(indexPrefixLength));
     }
-
-
-
-
 
 
 

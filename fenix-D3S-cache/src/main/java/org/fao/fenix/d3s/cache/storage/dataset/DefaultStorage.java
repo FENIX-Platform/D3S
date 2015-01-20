@@ -1,9 +1,6 @@
 package org.fao.fenix.d3s.cache.storage.dataset;
 
-import org.fao.fenix.commons.find.dto.filter.DataFilter;
-import org.fao.fenix.commons.find.dto.filter.FieldFilter;
-import org.fao.fenix.commons.find.dto.filter.StandardFilter;
-import org.fao.fenix.commons.find.dto.filter.TimeFilter;
+import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.utils.database.DataIterator;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.commons.utils.database.Iterator;
@@ -160,10 +157,12 @@ public abstract class DefaultStorage extends H2Database {
 
                 if (column==null)
                     throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+
+                Type columnType = column.getType();
                 if (fieldFilter!=null) {
                     switch (fieldFilter.getFilterType()) {
                         case enumeration:
-                            if (column.getType()!=Type.string)
+                            if (columnType!=Type.string)
                                 throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
                             query.append(" AND ").append(fieldName).append(" IN (");
                             for (String value : fieldFilter.enumeration) {
@@ -173,7 +172,7 @@ public abstract class DefaultStorage extends H2Database {
                             query.setCharAt(query.length() - 1, ')');
                             break;
                         case time:
-                            if (column.getType()!=Type.integer)
+                            if (columnType!=Type.integer)
                                 throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
                             query.append(" AND (");
                             for (TimeFilter timeFilter : fieldFilter.time) {
@@ -193,16 +192,35 @@ public abstract class DefaultStorage extends H2Database {
                             query.append(')');
                             break;
                         case code:
-                            if (column.getType()!=Type.string)
+                            query.append(" AND ");
+                            if (columnType==Type.string) {
+                                query.append(fieldName).append(" IN (");
+                                for (CodesFilter codesFilter : fieldFilter.codes)
+                                    for (String code : codesFilter.codes) {
+                                        query.append("?,");
+                                        params.add(code);
+                                    }
+                                query.setCharAt(query.length()-1, ')');
+                            } else if (columnType==Type.array) {
+                                query.append('(');
+                                for (CodesFilter codesFilter : fieldFilter.codes)
+                                    for (String code : codesFilter.codes) {
+                                        query.append("ARRAY_CONTAINS (").append(fieldName).append(", ?) OR ");
+                                        params.add(code);
+                                    }
+                                query.setLength(query.length()-4);
+                                query.append(')');
+                            } else
                                 throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
-                            query.append(" AND (");
-                            //TODO
-
                     }
 
                 }
             }
         }
+
+        //Execute query
+
+
 
         return null;
     }
