@@ -29,7 +29,7 @@ public interface CacheManager<M extends DSD, D> {
      * Remove all of the timed out and incomplete resources.
      * @return Number of removed resources.
      */
-    public int clean();
+    public int clean() throws Exception;
 
 
     /**

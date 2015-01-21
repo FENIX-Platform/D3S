@@ -2,7 +2,6 @@ package org.fao.fenix.d3s.cache.storage.dataset;
 
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.utils.database.DataIterator;
-import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
@@ -11,13 +10,13 @@ import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.Type;
 
-import javax.inject.Inject;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
 public abstract class DefaultStorage extends H2Database {
-    @Inject DatabaseUtils databaseUtils;
+
+    private static String SCHEMA_NAME = "DATA";
 
 
     //DATA
@@ -32,11 +31,8 @@ public abstract class DefaultStorage extends H2Database {
             throw new Exception("Duplicate table error.");
 
         //Create query
-        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
-                .append(tableName)
-                .append(" (");
+        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
 
-//        Object defaultValue = null;
         for (Column column : tableStructure.getColumns()) {
             query.append(column.getName());
 
@@ -44,6 +40,7 @@ public abstract class DefaultStorage extends H2Database {
                 case bool:      query.append(" BOOLEAN"); break;
                 case real:      query.append(" DOUBLE"); break;
                 case string:    query.append(" VARCHAR"); break;
+                case array:    query.append(" ARRAY"); break;
                 case object:    query.append(" OTHER"); break;
                 case integer:
                     Integer precision = column.getPrecision();
@@ -54,7 +51,8 @@ public abstract class DefaultStorage extends H2Database {
                     break;
             }
 
-/*            if ((defaultValue = column.getNoDataValue()) != null) {
+        Object defaultValue = null;
+            if ((defaultValue = column.getNoDataValue()) != null) {
                 switch (column.getType()) {
                     case bool:
                     case integer:
@@ -63,7 +61,7 @@ public abstract class DefaultStorage extends H2Database {
                     case string:  query.append(" DEFAULT ").append('"').append(defaultValue).append('"'); break;
                 }
             }
-*/
+
             if (column.isKey())
                 query.append(" PRIMARY KEY");
 
@@ -115,7 +113,7 @@ public abstract class DefaultStorage extends H2Database {
             Connection connection = getConnection();
             try {
                 for (Table structure : tables) {
-                    data.add(load(ordering, pagination, filter, structure));
+                    data.add(load(connection, ordering, pagination, filter, structure));
                     defaults.add(structure.getNoDataValues());
                 }
             } catch (Exception ex) {
@@ -129,7 +127,7 @@ public abstract class DefaultStorage extends H2Database {
             return null;
     }
 
-    private ResultSet load(Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
+    private ResultSet load(Connection connection, Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
         Map<String, Column> columnsByName = table.getColumnsByName();
 
         //Create query
@@ -144,7 +142,7 @@ public abstract class DefaultStorage extends H2Database {
         } else
             query.append('*');
         //Add source table
-        query.append(" FROM ").append(table.getTableName());
+        query.append(" FROM ").append(SCHEMA_NAME).append('.').append(table.getTableName());
         //Add where condition
         Collection<Object> params = new LinkedList<>();
         StandardFilter rowsFilter = filter.getRows();
@@ -218,11 +216,22 @@ public abstract class DefaultStorage extends H2Database {
             }
         }
 
+        //Add ordering
+        if (ordering!=null)
+            query.append(ordering.toH2SQL());
+
+        //Add pagination
+        if (pagination!=null)
+            query.append(' ').append(pagination.toH2SQL());
+
         //Execute query
+        PreparedStatement statement = connection.prepareStatement(query.toString());
+        int i=1;
+        for (Object param : params)
+            statement.setObject(i++, param);
 
-
-
-        return null;
+        //Return data
+        return statement.executeQuery();
     }
 
     @Override
@@ -245,7 +254,7 @@ public abstract class DefaultStorage extends H2Database {
                 connection.createStatement().executeUpdate("DELETE FROM "+tableName);
 
             //Build query
-            StringBuilder query = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
+            StringBuilder query = new StringBuilder("INSERT INTO ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
 
             for (Column column : structure)
                 query.append(column.getName()).append(',');
@@ -296,6 +305,7 @@ public abstract class DefaultStorage extends H2Database {
 
     @Override
     public synchronized StoreStatus store(String tableName, DataFilter filter, boolean overwrite, String... sourceTablesName) throws Exception {
+        //TODO
         return null;
     }
 
@@ -423,9 +433,49 @@ public abstract class DefaultStorage extends H2Database {
 
     //MAINTENANCE
     @Override
-    public synchronized void clean() throws Exception {
-        //TODO
-        throw new UnsupportedOperationException();
+    public synchronized int clean() throws Exception {
+        Connection connection = getConnection();
+        int count=0;
+        try {
+            Set<String> tablesName = new HashSet<>();
+            for (ResultSet tables=connection.getMetaData().getTables(null,SCHEMA_NAME.toUpperCase(),null,null); tables.next(); )
+                tablesName.add(tables.getString("TABLE_NAME"));
+            Map<String,StoreStatus> statusMap = loadMetadata();
+
+            for (Map.Entry<String,StoreStatus> statusEntry : statusMap.entrySet()) {
+                StoreStatus status = statusEntry.getValue();
+                String tableName = statusEntry.getKey();
+                Date timeout = status.getTimeout();
+
+                //Remove incomplete and timed out tables
+                if (status.getStatus()==StoreStatus.Status.incomplete || timeout!=null && timeout.compareTo(new Date())>0) {
+                    delete(tableName);
+                    count++;
+                }
+
+                //Remove orphan metadata
+                if (!tablesName.contains(tableName)) {
+                    removeMetadata(tableName);
+                    count++;
+                } else
+                    tablesName.remove(tableName);
+            }
+
+            //Remove orphan tables
+            for (String tableName : tablesName) {
+                connection.createStatement().executeUpdate("DROP TABLE " + SCHEMA_NAME + '.' + tableName);
+                count++;
+            }
+
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
+        } finally {
+            this.metadata = null; //Force metadata reload
+            connection.close();
+        }
+
+        return count;
     }
 
     @Override

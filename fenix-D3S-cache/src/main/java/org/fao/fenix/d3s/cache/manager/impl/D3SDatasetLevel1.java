@@ -24,25 +24,21 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private boolean initialized = false;
     @Inject private DefaultStorage storage;
-    @Inject private DefaultCacheFilter filterManager;
 
 
     @Override
     public void init() throws Exception {
-        if (!initialized) {
-            filterManager.setStorage(storage);
-            initialized = true;
-        }
+        //Nothing to do here
     }
 
     @Override
     public int getStoreBufferSize() {
-        return 0;
+        return SOTRE_PAGE_SIZE;
     }
 
     @Override
-    public int clean() {
-        return 0;
+    public int clean() throws Exception {
+        return storage.clean();
     }
 
     @Override

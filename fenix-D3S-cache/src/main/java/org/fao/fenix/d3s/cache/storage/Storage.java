@@ -54,9 +54,10 @@ public interface Storage {
 
     /**
      * Restore a clean status for the storage by metadata validation/update and removing timed out data.
+     * @return Number of updated resources.
      * @throws Exception
      */
-    public void clean() throws Exception;
+    public int clean() throws Exception;
 
     /**
      * Remove any existing information from the storage.
