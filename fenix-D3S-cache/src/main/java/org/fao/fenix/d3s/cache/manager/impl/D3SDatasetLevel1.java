@@ -7,10 +7,11 @@ import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
-import org.fao.fenix.d3s.cache.datasetFilter.impl.DefaultCacheFilter;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
+import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
+import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private boolean initialized = false;
     @Inject private DefaultStorage storage;
+    @Inject private ResourceMonitor monitor;
 
 
     @Override
@@ -43,7 +45,12 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public Iterator<Object[]> load(MeIdentification<DSDDataset> metadata, Order order, Page page) throws Exception {
-        return null;
+        String id = getID(metadata);
+        int size = page!=null && page.perPage>0 ? page.skip+page.length : 0;
+        boolean ordering = order!=null && order.size()>0;
+        monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
+
+        return storage.load(order,page,null,new Table(metadata));
     }
 
     @Override
@@ -78,6 +85,10 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
 
 
+    //Utils
+    private String getID(MeIdentification metadata) {
+        return metadata!=null ? metadata.getUid() + (metadata.getVersion()!=null ? '|'+metadata.getVersion() : "") : null;
+    }
 
     /*
     Appunti:

@@ -50,18 +50,17 @@ public abstract class DefaultStorage extends H2Database {
                         query.append(" BIGINT");
                     break;
             }
-
-        Object defaultValue = null;
+/*
+            Object defaultValue = null;
             if ((defaultValue = column.getNoDataValue()) != null) {
                 switch (column.getType()) {
                     case bool:
                     case integer:
-                    case real:
-                        query.append(" DEFAULT ").append(defaultValue); break;
+                    case real: query.append(" DEFAULT ").append(defaultValue); break;
                     case string:  query.append(" DEFAULT ").append('"').append(defaultValue).append('"'); break;
                 }
             }
-
+*/
             if (column.isKey())
                 query.append(" PRIMARY KEY");
 
@@ -128,108 +127,14 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     private ResultSet load(Connection connection, Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
-        Map<String, Column> columnsByName = table.getColumnsByName();
-
         //Create query
-        StringBuilder query = new StringBuilder("SELECT ");
-        //Add select columns
-        Collection<String> selectColumns = filter.getColumns();
-        if (selectColumns!=null && selectColumns.size()>0) {
-            selectColumns.retainAll(columnsByName.keySet()); //use only existing columns
-            for (String name : selectColumns)
-                query.append(name).append(',');
-            query.setLength(query.length()-1);
-        } else
-            query.append('*');
-        //Add source table
-        query.append(" FROM ").append(SCHEMA_NAME).append('.').append(table.getTableName());
-        //Add where condition
         Collection<Object> params = new LinkedList<>();
-        StandardFilter rowsFilter = filter.getRows();
-        if (rowsFilter!=null && rowsFilter.size()>0) {
-            query.append(" WHERE 1=1");
-            for (Map.Entry<String, FieldFilter> conditionEntry : rowsFilter.entrySet()) {
-                String fieldName = conditionEntry.getKey();
-                Column column = columnsByName.get(fieldName);
-                FieldFilter fieldFilter = conditionEntry.getValue();
-
-                if (column==null)
-                    throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
-
-                Type columnType = column.getType();
-                if (fieldFilter!=null) {
-                    switch (fieldFilter.getFilterType()) {
-                        case enumeration:
-                            if (columnType!=Type.string)
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
-                            query.append(" AND ").append(fieldName).append(" IN (");
-                            for (String value : fieldFilter.enumeration) {
-                                query.append("?,");
-                                params.add(value);
-                            }
-                            query.setCharAt(query.length() - 1, ')');
-                            break;
-                        case time:
-                            if (columnType!=Type.integer)
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
-                            query.append(" AND (");
-                            for (TimeFilter timeFilter : fieldFilter.time) {
-                                if (timeFilter.from!=null) {
-                                    query.append(fieldName).append(" >= ?");
-                                    params.add(timeFilter.getFrom(column.getPrecision()));
-                                }
-                                if (timeFilter.to!=null) {
-                                    if (timeFilter.from!=null)
-                                        query.append(" AND ");
-                                    query.append(fieldName).append(" <= ?");
-                                    params.add(timeFilter.getTo(column.getPrecision()));
-                                }
-                                query.append(" OR ");
-                            }
-                            query.setLength(query.length()-4);
-                            query.append(')');
-                            break;
-                        case code:
-                            query.append(" AND ");
-                            if (columnType==Type.string) {
-                                query.append(fieldName).append(" IN (");
-                                for (CodesFilter codesFilter : fieldFilter.codes)
-                                    for (String code : codesFilter.codes) {
-                                        query.append("?,");
-                                        params.add(code);
-                                    }
-                                query.setCharAt(query.length()-1, ')');
-                            } else if (columnType==Type.array) {
-                                query.append('(');
-                                for (CodesFilter codesFilter : fieldFilter.codes)
-                                    for (String code : codesFilter.codes) {
-                                        query.append("ARRAY_CONTAINS (").append(fieldName).append(", ?) OR ");
-                                        params.add(code);
-                                    }
-                                query.setLength(query.length()-4);
-                                query.append(')');
-                            } else
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
-                    }
-
-                }
-            }
-        }
-
-        //Add ordering
-        if (ordering!=null)
-            query.append(ordering.toH2SQL());
-
-        //Add pagination
-        if (pagination!=null)
-            query.append(' ').append(pagination.toH2SQL());
-
+        String query = createFilterQuery(ordering, pagination, filter, table, params, false);
         //Execute query
         PreparedStatement statement = connection.prepareStatement(query.toString());
         int i=1;
         for (Object param : params)
             statement.setObject(i++, param);
-
         //Return data
         return statement.executeQuery();
     }
@@ -304,9 +209,59 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized StoreStatus store(String tableName, DataFilter filter, boolean overwrite, String... sourceTablesName) throws Exception {
-        //TODO
-        return null;
+    public synchronized StoreStatus store(String tableName, DataFilter filter, boolean overwrite, Table... tables) throws Exception {
+        StoreStatus status = loadMetadata(tableName);
+        if (status==null)
+            throw new Exception("Unavailable table: "+tableName);
+
+        //Prepare queries
+        String[] queries = new String[tables.length];
+        Collection<Object>[] params = new Collection[tables.length];
+        String[] insertQueriesColumnsSegment = new String[tables.length];
+
+        for (int i=0; i<tables.length; i++) {
+            queries[i] = createFilterQuery(null, null, filter, tables[i], params[i] = new LinkedList<>(), true);
+
+            StringBuilder segment = new StringBuilder();
+            for (Column column : tables[i].getColumns())
+                segment.append(',').append(column.getName());
+            insertQueriesColumnsSegment[i] = segment.substring(1);
+        }
+
+        //Execute queries to populate destination table
+        Connection connection = getConnection();
+        try {
+            int count = 0;
+            //Insert data
+            for (int i=0; i<tables.length; i++) {
+                //Build insert query
+                StringBuilder query = new StringBuilder("INSERT INTO ")
+                        .append(SCHEMA_NAME).append('.').append(tableName)
+                        .append(" (").append(insertQueriesColumnsSegment[i]).append(") ")
+                        .append(queries[i]);
+                //Run query
+                PreparedStatement statement = connection.prepareStatement(query.toString());
+                int columnIndex=1;
+                for (Object param : params[i])
+                    statement.setObject(columnIndex++, param);
+                count += statement.executeUpdate();
+            }
+            //Update status
+            status.setStatus(StoreStatus.Status.ready);
+            status.setCount(overwrite ? count : status.getCount() + count);
+            status.setLastUpdate(new Date());
+            storeMetadata(tableName, status, connection);
+            //Commit changes
+            connection.commit();
+        } catch (Exception ex) {
+            connection.rollback();
+            throw ex;
+        } finally {
+            connection.close();
+        }
+
+        //Return status
+        return status;
     }
 
 
@@ -483,4 +438,119 @@ public abstract class DefaultStorage extends H2Database {
         for (String id : loadMetadata().keySet())
             delete(id);
     }
+
+
+
+    //Utils
+    private String createFilterQuery(Order ordering, Page pagination, DataFilter filter, Table table, Collection<Object> params, boolean forUpdate) throws Exception {
+        Map<String, Column> columnsByName = table.getColumnsByName();
+
+        StringBuilder query = new StringBuilder("SELECT ");
+
+        //Add select columns
+        Collection<String> selectColumns = filter.getColumns();
+        if (selectColumns!=null && selectColumns.size()>0) {
+            selectColumns.retainAll(columnsByName.keySet()); //use only existing columns
+            for (String name : selectColumns)
+                query.append(name).append(',');
+            query.setLength(query.length()-1);
+        } else {
+            for (Column column : table.getColumns())
+                if (column.getType()==Type.array)
+                    query.append("ARRAY_GET (").append(column.getName()).append(",1), ");
+                else
+                    query.append(column.getName()).append(", ");
+            query.setLength(query.length()-2);
+        }
+
+        //Add source table
+        query.append(" FROM ").append(SCHEMA_NAME).append('.').append(table.getTableName());
+        //Add where condition
+        StandardFilter rowsFilter = filter.getRows();
+        if (rowsFilter!=null && rowsFilter.size()>0) {
+            query.append(" WHERE 1=1");
+            for (Map.Entry<String, FieldFilter> conditionEntry : rowsFilter.entrySet()) {
+                String fieldName = conditionEntry.getKey();
+                Column column = columnsByName.get(fieldName);
+                FieldFilter fieldFilter = conditionEntry.getValue();
+
+                if (column==null)
+                    throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+
+                Type columnType = column.getType();
+                if (fieldFilter!=null) {
+                    switch (fieldFilter.getFilterType()) {
+                        case enumeration:
+                            if (columnType!=Type.string)
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                            query.append(" AND ").append(fieldName).append(" IN (");
+                            for (String value : fieldFilter.enumeration) {
+                                query.append("?,");
+                                params.add(value);
+                            }
+                            query.setCharAt(query.length() - 1, ')');
+                            break;
+                        case time:
+                            if (columnType!=Type.integer)
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                            query.append(" AND (");
+                            for (TimeFilter timeFilter : fieldFilter.time) {
+                                if (timeFilter.from!=null) {
+                                    query.append(fieldName).append(" >= ?");
+                                    params.add(timeFilter.getFrom(column.getPrecision()));
+                                }
+                                if (timeFilter.to!=null) {
+                                    if (timeFilter.from!=null)
+                                        query.append(" AND ");
+                                    query.append(fieldName).append(" <= ?");
+                                    params.add(timeFilter.getTo(column.getPrecision()));
+                                }
+                                query.append(" OR ");
+                            }
+                            query.setLength(query.length()-4);
+                            query.append(')');
+                            break;
+                        case code:
+                            query.append(" AND ");
+                            if (columnType==Type.string) {
+                                query.append(fieldName).append(" IN (");
+                                for (CodesFilter codesFilter : fieldFilter.codes)
+                                    for (String code : codesFilter.codes) {
+                                        query.append("?,");
+                                        params.add(code);
+                                    }
+                                query.setCharAt(query.length()-1, ')');
+                            } else if (columnType==Type.array) {
+                                query.append('(');
+                                for (CodesFilter codesFilter : fieldFilter.codes)
+                                    for (String code : codesFilter.codes) {
+                                        query.append("ARRAY_CONTAINS (").append(fieldName).append(", ?) OR ");
+                                        params.add(code);
+                                    }
+                                query.setLength(query.length()-4);
+                                query.append(')');
+                            } else
+                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                    }
+
+                }
+            }
+        }
+
+        //Add ordering
+        if (ordering!=null)
+            query.append(ordering.toH2SQL());
+
+        //Add pagination
+        if (pagination!=null)
+            query.append(' ').append(pagination.toH2SQL());
+
+        //Add for update option
+        if (forUpdate)
+            query.append(" FOR UPDATE");
+
+        //Return query
+        return query.toString();
+    }
+
 }

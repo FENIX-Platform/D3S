@@ -55,11 +55,11 @@ public interface DatasetStorage extends Storage {
      * @param tableName Destination table name.
      * @param filter Rows and columns filter.
      * @param overwrite Flag to set overwrite or append mode.
-     * @param sourceTablesName Involved source tables name.
+     * @param tables Involved source tables metadata.
      * @return Resource data storage status
      * @throws Exception
      */
-    public StoreStatus store(String tableName, DataFilter filter, boolean overwrite, String ... sourceTablesName) throws Exception;
+    public StoreStatus store(String tableName, DataFilter filter, boolean overwrite, Table... tables) throws Exception;
 
     /**
      * Remove an existing table (and related metadata)
