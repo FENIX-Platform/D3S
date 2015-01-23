@@ -2,6 +2,8 @@ package org.fao.fenix.d3s.cache.tools;
 
 
 import javax.inject.Singleton;
+import javax.naming.NameAlreadyBoundException;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ public class ResourceMonitor {
     public synchronized void check(Operation operation, String resourceId, int size, boolean ordering) throws InterruptedException {
         switch (operation) {
             case startWrite:
+                if (resourcesSize.containsKey(resourceId))
+                    throw new ConcurrentModificationException();
                 resourcesSize.put(resourceId,size);
                 break;
             case stepWrite:
@@ -31,6 +35,7 @@ public class ResourceMonitor {
             case delete:
                 while (resourcesSize.get(resourceId)!=null)
                     wait();
+                //TODO lock resource
                 break;
         }
     }

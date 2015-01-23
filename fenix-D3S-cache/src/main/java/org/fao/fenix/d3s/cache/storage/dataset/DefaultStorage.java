@@ -21,7 +21,7 @@ public abstract class DefaultStorage extends H2Database {
 
     //DATA
     @Override
-    public synchronized StoreStatus create(Table tableStructure) throws Exception {
+    public synchronized StoreStatus create(Table tableStructure, Date timeout) throws Exception {
         String tableName = tableStructure.getTableName();
         if (tableStructure.getColumns().size()==0 || tableName==null)
             throw new Exception("Invalid table structure.");
@@ -71,7 +71,7 @@ public abstract class DefaultStorage extends H2Database {
         query.append(')');
 
         //Execute query and update metadata
-        StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), null);
+        StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), timeout);
         Connection connection = getConnection();
         try {
             storeMetadata(tableName, status, connection);

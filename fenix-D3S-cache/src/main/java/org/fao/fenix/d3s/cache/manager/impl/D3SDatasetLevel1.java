@@ -16,6 +16,7 @@ import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Date;
 
 
 @ApplicationScoped
@@ -55,14 +56,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout) throws Exception {
-        //TODO verificare il timeout per lo status (dove passarlo)
         //Lock resource
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
         //Crerate table if not exists
         StoreStatus status = storage.loadMetadata(id);
         if (status==null)
-            status = storage.create(new Table(metadata));
+            status = storage.create(new Table(metadata), timeout!=null ? new Date(System.currentTimeMillis()+timeout) : null);
         //Try to skip with incomplete resources
         if (status.getStatus() == StoreStatus.Status.incomplete)
             try { data.skip(status.getCount()); } catch (UnsupportedOperationException ex) {}
@@ -79,7 +79,10 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public void remove(MeIdentification<DSDDataset> metadata) throws Exception {
-
+        //Lock resource
+        String id = getID(metadata);
+        monitor.check(ResourceMonitor.Operation.delete, id, 0, false);
+        //Delete
     }
 
     @Override

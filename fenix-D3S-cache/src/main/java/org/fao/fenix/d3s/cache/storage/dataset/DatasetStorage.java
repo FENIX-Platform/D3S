@@ -8,15 +8,18 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.storage.Storage;
 
+import java.util.Date;
+
 public interface DatasetStorage extends Storage {
 
     /**
      * Create a new table with the specified structure if it don't exists.
      * Metadata will be updated automatically.
      * @param tableStructure New table metadata
+     * @param timeout Table timeout timestamp (useful to clean temporary tables)
      * @throws Exception
      */
-    public StoreStatus create(Table tableStructure) throws Exception;
+    public StoreStatus create(Table tableStructure, Date timeout) throws Exception;
 
     /**
      * Load data from existing tables. There's no check about data quality or data structure. The execution is synchronous and produced data is volatile.
