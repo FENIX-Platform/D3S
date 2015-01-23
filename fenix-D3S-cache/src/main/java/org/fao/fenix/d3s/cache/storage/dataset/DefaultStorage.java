@@ -21,7 +21,7 @@ public abstract class DefaultStorage extends H2Database {
 
     //DATA
     @Override
-    public synchronized void create(Table tableStructure) throws Exception {
+    public synchronized StoreStatus create(Table tableStructure) throws Exception {
         String tableName = tableStructure.getTableName();
         if (tableStructure.getColumns().size()==0 || tableName==null)
             throw new Exception("Invalid table structure.");
@@ -71,9 +71,10 @@ public abstract class DefaultStorage extends H2Database {
         query.append(')');
 
         //Execute query and update metadata
+        StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), null);
         Connection connection = getConnection();
         try {
-            storeMetadata(tableName, new StoreStatus(StoreStatus.Status.loading, 0, new Date(), null), connection);
+            storeMetadata(tableName, status, connection);
             connection.createStatement().executeUpdate(query.toString());
 
             connection.commit();
@@ -83,6 +84,8 @@ public abstract class DefaultStorage extends H2Database {
         } finally {
             connection.close();
         }
+
+        return status;
     }
 
     @Override
@@ -159,7 +162,7 @@ public abstract class DefaultStorage extends H2Database {
                 connection.createStatement().executeUpdate("DELETE FROM "+tableName);
 
             //Build query
-            StringBuilder query = new StringBuilder("INSERT INTO ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
+            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
 
             for (Column column : structure)
                 query.append(column.getName()).append(',');
@@ -235,7 +238,7 @@ public abstract class DefaultStorage extends H2Database {
             //Insert data
             for (int i=0; i<tables.length; i++) {
                 //Build insert query
-                StringBuilder query = new StringBuilder("INSERT INTO ")
+                StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ")
                         .append(SCHEMA_NAME).append('.').append(tableName)
                         .append(" (").append(insertQueriesColumnsSegment[i]).append(") ")
                         .append(queries[i]);

@@ -16,7 +16,7 @@ public interface DatasetStorage extends Storage {
      * @param tableStructure New table metadata
      * @throws Exception
      */
-    public void create(Table tableStructure) throws Exception;
+    public StoreStatus create(Table tableStructure) throws Exception;
 
     /**
      * Load data from existing tables. There's no check about data quality or data structure. The execution is synchronous and produced data is volatile.

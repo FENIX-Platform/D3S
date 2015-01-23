@@ -7,6 +7,7 @@ import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
+import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
@@ -15,7 +16,6 @@ import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Iterator;
 
 
 @ApplicationScoped
@@ -55,7 +55,26 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout) throws Exception {
-
+        //TODO verificare il timeout per lo status (dove passarlo)
+        //Lock resource
+        String id = getID(metadata);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
+        //Crerate table if not exists
+        StoreStatus status = storage.loadMetadata(id);
+        if (status==null)
+            status = storage.create(new Table(metadata));
+        //Try to skip with incomplete resources
+        if (status.getStatus() == StoreStatus.Status.incomplete)
+            try { data.skip(status.getCount()); } catch (UnsupportedOperationException ex) {}
+        //store data
+        try {
+            for (status = storage.store(id, data, SOTRE_PAGE_SIZE, overwrite); status.getStatus() == StoreStatus.Status.loading; status = storage.store(id, data, SOTRE_PAGE_SIZE, false))
+                monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount(), false);
+        } catch (Exception ex) {
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, status.getCount(), false);
+            throw ex;
+        }
+        monitor.check(ResourceMonitor.Operation.stopWrite, id, status.getCount(), false);
     }
 
     @Override
@@ -65,12 +84,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public StoreStatus status(MeIdentification<DSDDataset> metadata) throws Exception {
-        return null;
+        return storage.loadMetadata(getID(metadata));
     }
 
     @Override
     public Integer size(MeIdentification<DSDDataset> metadata) throws Exception {
-        return null;
+        StoreStatus status = storage.loadMetadata(getID(metadata));
+        return status!=null ? status.getCount() : null;
     }
 
     @Override
