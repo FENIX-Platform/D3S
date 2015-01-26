@@ -50,7 +50,7 @@ public interface CacheManager<M extends DSD, D> {
      * If overwrite is false, resource status will be checked.
      *   If it is 'incomplete' the store function will try to use the Iterator skip function. If the skip is unavailable the store function will overwrite the data.
      *   If it is 'ready' all available data will be added.
-     * If a valid timeout is specified the resource will be removed in lazy mode (when any operation is called on the specified resource or when the clean operation is executed)
+     * If a valid timeout is specified the resource will be removed during clean operation execution
      * @param metadata Referenced resource metadata.
      * @param data New data.
      * @param overwrite Overwrite flag.

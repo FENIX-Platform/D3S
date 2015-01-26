@@ -108,28 +108,33 @@ public abstract class DefaultStorage extends H2Database {
 
     @Override
     public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, Table... tables) throws Exception {
-        if (tables!=null && tables.length>0) {
-            //Select data
-            Collection<ResultSet> data = new LinkedList<>();
-            Collection<Object[]> defaults = new LinkedList<>();
-            Connection connection = getConnection();
+        Collection<ResultSet> data = new LinkedList<>();
+        Collection<Object[]> defaults = new LinkedList<>();
+        Connection connection = getConnection();
+        //Select data
+        if (tables!=null && tables.length>0)
             try {
                 for (Table structure : tables) {
-                    data.add(load(connection, ordering, pagination, filter, structure));
-                    defaults.add(structure.getNoDataValues());
+                    ResultSet resultSet = load(connection, ordering, pagination, filter, structure);
+                    if (resultSet!=null) {
+                        data.add(resultSet);
+                        defaults.add(structure.getNoDataValues());
+                    }
                 }
             } catch (Exception ex) {
                 if (!connection.isClosed())
                     connection.close();
                 throw ex;
             }
-            //Create and return data iterator
-            return new DataIterator(data,connection,10000l,defaults);
-        } else
-            return null;
+        //Create and return data iterator
+        return data.size()>0 ? new DataIterator(data,connection,10000l,defaults) : null;
     }
 
     private ResultSet load(Connection connection, Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
+        //Check table
+        StoreStatus status = loadMetadata(table!=null ? table.getTableName() : null);
+        if (status==null || status.getStatus()==StoreStatus.Status.incomplete)
+            return null;
         //Create query
         Collection<Object> params = new LinkedList<>();
         String query = createFilterQuery(ordering, pagination, filter, table, params, false);
@@ -145,7 +150,7 @@ public abstract class DefaultStorage extends H2Database {
     @Override
     public synchronized StoreStatus store(String tableName, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
         StoreStatus status = loadMetadata(tableName);
-        if (status==null)
+        if (status==null || status.getStatus()==StoreStatus.Status.incomplete)
             throw new Exception("Unavailable table: "+tableName);
 
         Connection connection = getConnection();

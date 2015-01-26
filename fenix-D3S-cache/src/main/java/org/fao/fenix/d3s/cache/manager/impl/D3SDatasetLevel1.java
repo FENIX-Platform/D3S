@@ -16,7 +16,10 @@ import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.swing.table.TableRowSorter;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 
 @ApplicationScoped
@@ -24,7 +27,6 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private static final int SOTRE_PAGE_SIZE = 1000;
 
-    private boolean initialized = false;
     @Inject private DefaultStorage storage;
     @Inject private ResourceMonitor monitor;
 
@@ -59,30 +61,39 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         //Lock resource
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
-        //Crerate table if not exists
-        StoreStatus status = storage.loadMetadata(id);
-        if (status==null)
-            status = storage.create(new Table(metadata), timeout!=null ? new Date(System.currentTimeMillis()+timeout) : null);
-        //Try to skip with incomplete resources
-        if (status.getStatus() == StoreStatus.Status.incomplete)
-            try { data.skip(status.getCount()); } catch (UnsupportedOperationException ex) {}
-        //store data
         try {
-            for (status = storage.store(id, data, SOTRE_PAGE_SIZE, overwrite); status.getStatus() == StoreStatus.Status.loading; status = storage.store(id, data, SOTRE_PAGE_SIZE, false))
-                monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount(), false);
+            //Create table if not exists
+            StoreStatus status = storage.loadMetadata(id);
+            if (status == null)
+                status = storage.create(new Table(metadata), timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+            //Try to skip with incomplete resources in append mode
+            if (!overwrite && status.getStatus() == StoreStatus.Status.incomplete)
+                try {
+                    data.skip(status.getCount());
+                } catch (UnsupportedOperationException ex) {
+                    overwrite = true; //If skip is unsupported force overwrite mode
+                }
+            //Store data and unlock resource
+            new D3SDatasetLevel1StoreExecutor(storage, monitor, status, id, data, overwrite).start();
         } catch (Exception ex) {
-            monitor.check(ResourceMonitor.Operation.stopWrite, id, status.getCount(), false);
+            //Unlock resource
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+            //Throw error
             throw ex;
         }
-        monitor.check(ResourceMonitor.Operation.stopWrite, id, status.getCount(), false);
     }
+
+
 
     @Override
     public void remove(MeIdentification<DSDDataset> metadata) throws Exception {
         //Lock resource
         String id = getID(metadata);
-        monitor.check(ResourceMonitor.Operation.delete, id, 0, false);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
         //Delete
+        storage.delete(id);
+        //Unlock resource
+        monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
     }
 
     @Override
@@ -98,12 +109,54 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     @Override
     public void filter(Resource<DSDDataset, Object[]>[] resources, StandardFilter rowsFilter, MeIdentification<DSDDataset> destination, boolean overwrite, Long timeout) throws Exception {
+        //Lock resource
+        String id = getID(destination);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
+        try {
+            Table table = new Table(destination);
+            //Store external resources and create corresponding Table metadata
+            Collection<String> externalIds = new LinkedList<>();
+            Collection<Table> tables = new LinkedList<>();
+            for (Resource<DSDDataset, Object[]> resource : resources) {
+                Table resourceTable = new Table(resource.getMetadata());
+                tables.add(resourceTable);
+                if (resource.getData()!=null) {
+                    externalIds.add(resourceTable.getTableName());
+                    store(resource.getMetadata(), resource.getData(), true, timeout);
+                }
+            }
+            //Wait for external resources store completion
+            for (String externalId : externalIds)
+                monitor.check(ResourceMonitor.Operation.startRead, id, 0, true);
 
+            //Start tables merge into the destination table
+                //Create table if not exists
+                StoreStatus status = storage.loadMetadata(id);
+                if (status == null)
+                    status = storage.create(table, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+                //Store data and unlock resource
+                //new D3SDatasetLevel1StoreExecutor(storage, monitor, status, id, data, overwrite).start();
+            //TODO Storage diretto da tabella
+            //TODO processo completamente asincrono
+
+        } catch (Exception ex) {
+            //Unlock resource
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+            //Throw error
+            throw ex;
+        }
     }
 
     @Override
     public Iterator<Object[]> filter(MeIdentification<DSDDataset>[] resourcesMetadata, DataFilter filter, Order order) throws Exception {
-        return null;
+        if (resourcesMetadata!=null && resourcesMetadata.length>0) {
+            Table[] tables = new Table[resourcesMetadata.length];
+            for (int i=0; i<tables.length; i++)
+                tables[i] = new Table(resourcesMetadata[i]);
+
+            return storage.load(order,null,filter,tables);
+        } else
+            return null;
     }
 
 
@@ -113,6 +166,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         return metadata!=null ? metadata.getUid() + (metadata.getVersion()!=null ? '|'+metadata.getVersion() : "") : null;
     }
 
+}
     /*
     Appunti:
     La funzione load è sincrona. Ritorna null se la risorsa non esiste e un iteratore vuoto se non ci sono dati nella selezione
@@ -123,4 +177,3 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
      Terminata la scrittura, le letture che non possono essere soddisfatte (pagina inesistente) ritornano 0 righe
     Devo ricordarmi di ritornare errore da tutte le letture in attesa di una scrittura
      */
-}
