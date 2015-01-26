@@ -91,9 +91,7 @@ public interface CacheManager<M extends DSD, D> {
      * Resources without a valid 'data' property must be already present into the cache.
      *
      * If overwrite is true, old data will be erased.
-     * If overwrite is false, resource status will be checked.
-     *   If it is 'incomplete' the store function will try to use the Iterator skip function. If the skip is unavailable the store function will overwrite the data.
-     *   If it is 'ready' all available data will be added.
+     * If overwrite is false, all available data will be added.
      * If a valid timeout is specified the resource will be removed in lazy mode (when any operation is called on the specified resource or when the clean operation is executed)
      * @param resources Existing/new resources metadata and data.
      * @param rowsFilter Filter for rows selection over the different existing resources.

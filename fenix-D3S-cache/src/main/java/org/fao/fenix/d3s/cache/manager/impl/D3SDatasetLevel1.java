@@ -3,6 +3,7 @@ package org.fao.fenix.d3s.cache.manager.impl;
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.Order;
@@ -11,12 +12,13 @@ import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
+import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.swing.table.TableRowSorter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -74,7 +76,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                     overwrite = true; //If skip is unsupported force overwrite mode
                 }
             //Store data and unlock resource
-            new D3SDatasetLevel1StoreExecutor(storage, monitor, status, id, data, overwrite).start();
+            new ExternalDatasetExecutor(storage, monitor, status, id, data, overwrite).start();
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
@@ -123,6 +125,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 if (resource.getData()!=null) {
                     externalIds.add(resourceTable.getTableName());
                     store(resource.getMetadata(), resource.getData(), true, timeout);
+                    //TODO refactoring Resource dataset
                 }
             }
             //Wait for external resources store completion
@@ -135,10 +138,11 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 if (status == null)
                     status = storage.create(table, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
                 //Store data and unlock resource
-                //new D3SDatasetLevel1StoreExecutor(storage, monitor, status, id, data, overwrite).start();
-            //TODO Storage diretto da tabella
-            //TODO processo completamente asincrono
-
+                DataFilter filter = new DataFilter();
+                filter.setRows(rowsFilter);
+                for (DSDColumn column : destination.getDsd().getColumns())
+                    filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
+                new InternalDatasetExecutor(storage, monitor, id, filter, overwrite, tables.toArray(new Table[tables.size()]));
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
