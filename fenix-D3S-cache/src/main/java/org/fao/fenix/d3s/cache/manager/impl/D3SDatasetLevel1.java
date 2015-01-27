@@ -3,17 +3,17 @@ package org.fao.fenix.d3s.cache.manager.impl;
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
+import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
+import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
@@ -29,6 +29,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private static final int SOTRE_PAGE_SIZE = 1000;
 
+    @Inject private DatabaseUtils utils;
     @Inject private DefaultStorage storage;
     @Inject private ResourceMonitor monitor;
 
@@ -44,6 +45,11 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     }
 
     @Override
+    public Storage getStorage() {
+        return storage;
+    }
+
+    @Override
     public int clean() throws Exception {
         return storage.clean();
     }
@@ -54,7 +60,17 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         int size = page!=null && page.perPage>0 ? page.skip+page.length : 0;
         boolean ordering = order!=null && order.size()>0;
         monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
+        //Check resource last update
+        StoreStatus status = storage.loadMetadata(id);
+        if (status!=null) {
+            Date cacheLastUpdate = status.getLastUpdate();
+            MeMaintenance meMaintenance = metadata.getMeMaintenance();
+            SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
+            Date lastUpdate = seUpdate.getUpdateDate();
+            if (lastUpdate!=null && cacheLastUpdate.before(lastUpdate))
+                storage.delete(id);
 
+        }
         return storage.load(order,page,null,new Table(metadata));
     }
 
@@ -124,8 +140,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 tables.add(resourceTable);
                 if (resource.getData()!=null) {
                     externalIds.add(resourceTable.getTableName());
-                    store(resource.getMetadata(), resource.getData(), true, timeout);
-                    //TODO refactoring Resource dataset
+                    store(resource.getMetadata(), utils.getDataIterator(resource.getData()), true, timeout);
                 }
             }
             //Wait for external resources store completion
@@ -164,20 +179,9 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     }
 
 
-
-    //Utils
-    private String getID(MeIdentification metadata) {
+    @Override
+    public String getID(MeIdentification metadata) {
         return metadata!=null ? metadata.getUid() + (metadata.getVersion()!=null ? '|'+metadata.getVersion() : "") : null;
     }
 
 }
-    /*
-    Appunti:
-    La funzione load è sincrona. Ritorna null se la risorsa non esiste e un iteratore vuoto se non ci sono dati nella selezione
-    Le funzioni filtro sono sincrone. La prima crea una nuova risorsa la seconda consente il caricamento
-
-    Il monitor delle scritture/letture delle risorse deve essere solido.
-     Dopo ogni blocco scritto (di 1000 righe) si smazzano tutte le letture possibili e si rimettono le altre in pausa.
-     Terminata la scrittura, le letture che non possono essere soddisfatte (pagina inesistente) ritornano 0 righe
-    Devo ricordarmi di ritornare errore da tutte le letture in attesa di una scrittura
-     */

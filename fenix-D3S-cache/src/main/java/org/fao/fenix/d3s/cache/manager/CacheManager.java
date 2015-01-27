@@ -10,6 +10,7 @@ import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
+import org.fao.fenix.d3s.cache.storage.Storage;
 
 
 public interface CacheManager<M extends DSD, D> {
@@ -24,6 +25,12 @@ public interface CacheManager<M extends DSD, D> {
      * @return The block size as number of items.
      */
     public int getStoreBufferSize();
+
+    /**
+     * Get current cache manager default storage manager.
+     * @return Current storage manager.
+     */
+    public Storage getStorage();
 
     /**
      * Remove all of the timed out and incomplete resources.
@@ -112,4 +119,12 @@ public interface CacheManager<M extends DSD, D> {
      * @throws Exception
      */
     public Iterator<D> filter(MeIdentification<M>[] resourcesMetadata, DataFilter filter, Order order) throws Exception;
+
+
+    /**
+     * Return the standard internal id used to identify the resource into the cache. For dataset type of cache it corresponds to the table name.
+     * @param metadata Resource metadata.
+     * @return Internal resource
+     */
+    String getID(MeIdentification metadata);
 }
