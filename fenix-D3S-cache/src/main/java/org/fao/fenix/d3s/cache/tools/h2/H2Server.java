@@ -30,6 +30,7 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
 
     //Internal logic
     private void startConsole() throws SQLException, IOException {
+        System.out.print("\nStarting up H2 console server... ");
         if (consoleServer ==null) {
             Properties initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
                     "file:"+CONFIG_FOLDER_PATH + "h2.properties",
@@ -52,10 +53,13 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
         }
         if (!consoleServer.isRunning(false))
             consoleServer.start();
+        System.out.println("done.");
     }
     private void stopConsole() {
+        System.out.print("\nShutting down H2 console server... ");
         if (consoleServer !=null && consoleServer.isRunning(false))
             consoleServer.stop();
+        System.out.println("done.");
     }
 
 

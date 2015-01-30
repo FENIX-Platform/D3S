@@ -57,8 +57,8 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
-            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
-            if (cache!=null)
+            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+            if (cache != null)
                 cache.store(metadata, utils.getDataIterator(data), overwrite, null);
 
             wdsDao.storeData(

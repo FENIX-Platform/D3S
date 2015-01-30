@@ -66,7 +66,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             Date cacheLastUpdate = status.getLastUpdate();
             MeMaintenance meMaintenance = metadata.getMeMaintenance();
             SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
-            Date lastUpdate = seUpdate.getUpdateDate();
+            Date lastUpdate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
             if (lastUpdate!=null && cacheLastUpdate.before(lastUpdate))
                 storage.delete(id);
 

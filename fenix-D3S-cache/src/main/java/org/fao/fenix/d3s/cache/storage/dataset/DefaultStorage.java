@@ -32,6 +32,7 @@ public abstract class DefaultStorage extends H2Database {
 
         //Create query
         StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
+        StringBuilder queryIndex = new StringBuilder("ALTER TABLE ").append(SCHEMA_NAME).append('.').append(tableName).append(" ADD PRIMARY KEY (");
 
         for (Column column : tableStructure.getColumns()) {
             query.append(column.getName());
@@ -42,14 +43,16 @@ public abstract class DefaultStorage extends H2Database {
                 case string:    query.append(" VARCHAR"); break;
                 case array:    query.append(" ARRAY"); break;
                 case object:    query.append(" OTHER"); break;
-                case integer:
-                    Integer precision = column.getPrecision();
-                    if (precision!=null)
-                        query.append(" DECIMAL(").append(precision).append(",0)");
-                    else
-                        query.append(" BIGINT");
-                    break;
+                case integer:   query.append(" BIGINT"); break;
             }
+
+            if (column.isKey()) {
+                query.append(" NOT NULL");
+                queryIndex.append(column.getName()).append(',');
+            }
+
+            query.append(',');
+
 /*
             Object defaultValue = null;
             if ((defaultValue = column.getNoDataValue()) != null) {
@@ -61,14 +64,9 @@ public abstract class DefaultStorage extends H2Database {
                 }
             }
 */
-            if (column.isKey())
-                query.append(" PRIMARY KEY");
-
-            query.append(", ");
         }
-        query.setLength(query.length()-2);
-
-        query.append(')');
+        query.setCharAt(query.length()-1,')');
+        queryIndex.setCharAt(queryIndex.length()-1,')');
 
         //Execute query and update metadata
         StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), timeout);
@@ -76,6 +74,7 @@ public abstract class DefaultStorage extends H2Database {
         try {
             storeMetadata(tableName, status, connection);
             connection.createStatement().executeUpdate(query.toString());
+            connection.createStatement().executeUpdate(queryIndex.toString());
 
             connection.commit();
         } catch (Exception ex) {
@@ -315,20 +314,22 @@ public abstract class DefaultStorage extends H2Database {
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
-            PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) != null ?
-                    "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)":
-                    "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
-            );
+        PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) != null ?
+                "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)":
+                "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
+        );
 
-            statement.setString(1,status.getStatus().name());
-            if (status.getCount()!=null)
-                statement.setInt(2, status.getCount());
-            statement.setTimestamp(3, new Timestamp(status.getLastUpdate().getTime()));
-            if (status.getTimeout()!=null)
-                statement.setTimestamp(4, new Timestamp(status.getTimeout().getTime()));
-            statement.setString(5, resourceId);
+        statement.setString(1,status.getStatus().name());
+        if (status.getCount()!=null)
+            statement.setInt(2, status.getCount());
+        statement.setTimestamp(3, new Timestamp(status.getLastUpdate().getTime()));
+        if (status.getTimeout()!=null)
+            statement.setTimestamp(4, new Timestamp(status.getTimeout().getTime()));
+        else
+            statement.setNull(4, Types.TIMESTAMP);
+        statement.setString(5, resourceId);
 
-            statement.executeUpdate();
+        statement.executeUpdate();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class ResourceProvider extends JsonProvider implements MessageBodyReader<
     public Resource readFrom(Class<Resource> resourceClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try {
             String content = readContent(inputStream);
-            return decode(content, Resource.class, getRepresentationType(content,"metadata"));
+            return decodeResource(content, getRepresentationType(content, "metadata"));
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }
