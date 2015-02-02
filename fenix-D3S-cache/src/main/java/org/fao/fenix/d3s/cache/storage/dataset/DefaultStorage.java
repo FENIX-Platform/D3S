@@ -22,8 +22,9 @@ public abstract class DefaultStorage extends H2Database {
     //DATA
     @Override
     public synchronized StoreStatus create(Table tableStructure, Date timeout) throws Exception {
-        String tableName = tableStructure.getTableName();
-        if (tableStructure.getColumns().size()==0 || tableName==null)
+        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
+        if (tableName==null || columns==null || columns.size()==0)
             throw new Exception("Invalid table structure.");
 
         //Check if table exists
@@ -32,9 +33,9 @@ public abstract class DefaultStorage extends H2Database {
 
         //Create query
         StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
-        StringBuilder queryIndex = new StringBuilder("ALTER TABLE ").append(SCHEMA_NAME).append('.').append(tableName).append(" ADD PRIMARY KEY (");
+        StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
 
-        for (Column column : tableStructure.getColumns()) {
+        for (Column column : columns) {
             query.append(column.getName());
 
             switch (column.getType()) {
@@ -46,27 +47,14 @@ public abstract class DefaultStorage extends H2Database {
                 case integer:   query.append(" BIGINT"); break;
             }
 
-            if (column.isKey()) {
-                query.append(" NOT NULL");
-                queryIndex.append(column.getName()).append(',');
-            }
-
             query.append(',');
 
-/*
-            Object defaultValue = null;
-            if ((defaultValue = column.getNoDataValue()) != null) {
-                switch (column.getType()) {
-                    case bool:
-                    case integer:
-                    case real: query.append(" DEFAULT ").append(defaultValue); break;
-                    case string:  query.append(" DEFAULT ").append('"').append(defaultValue).append('"'); break;
-                }
-            }
-*/
+            if (column.isKey())
+                queryIndex.append(column.getName()).append(',');
+
         }
-        query.setCharAt(query.length()-1,')');
         queryIndex.setCharAt(queryIndex.length()-1,')');
+        query.append(queryIndex).append(')');
 
         //Execute query and update metadata
         StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), timeout);
@@ -74,11 +62,11 @@ public abstract class DefaultStorage extends H2Database {
         try {
             storeMetadata(tableName, status, connection);
             connection.createStatement().executeUpdate(query.toString());
-            connection.createStatement().executeUpdate(queryIndex.toString());
 
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
+            loadMetadata().remove(tableName);
             throw ex;
         } finally {
             connection.close();
@@ -92,7 +80,7 @@ public abstract class DefaultStorage extends H2Database {
         Connection connection = getConnection();
         try {
             removeMetadata(tableName, connection);
-            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + tableName);
+            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + SCHEMA_NAME + '.' + tableName);
 
             connection.commit();
         } catch (Exception ex) {
@@ -147,15 +135,29 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized StoreStatus store(String tableName, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
+    public synchronized StoreStatus store(Table tableMetadata, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
+        String tableName = tableMetadata!=null ? tableMetadata.getTableName() : null;
         StoreStatus status = loadMetadata(tableName);
-        if (status==null || status.getStatus()==StoreStatus.Status.incomplete)
+        if (status==null)
             throw new Exception("Unavailable table: "+tableName);
 
         Connection connection = getConnection();
         try {
+            //Take action for 'incomplete' status
+            if (status.getStatus()==StoreStatus.Status.incomplete) {
+                //Try to skip with incomplete resources in append mode
+                if (!overwrite)
+                    try {
+                        data.skip(status.getCount());
+                    } catch (UnsupportedOperationException ex) {
+                        //If skip is unsupported force overwrite mode
+                        status.setCount(0);
+                        overwrite = true;
+                    }
+                status.setStatus(StoreStatus.Status.loading);
+                storeMetadata(tableName, status, connection);
+            }
             //Retrieve table structure
-            Table tableMetadata = new Table(tableName, connection);
             Column[] structure = tableMetadata.getColumns().toArray(new Column[tableMetadata.getColumns().size()]);
             int[] columnsType = new int[structure.length];
             for (int i=0; i<structure.length; i++)
@@ -163,7 +165,7 @@ public abstract class DefaultStorage extends H2Database {
 
             //If overwrite mode is active delete existing data
             if (overwrite)
-                connection.createStatement().executeUpdate("DELETE FROM "+tableName);
+                connection.createStatement().executeUpdate("DELETE FROM " + SCHEMA_NAME + '.' + tableName);
 
             //Build query
             StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
@@ -216,7 +218,8 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized StoreStatus store(String tableName, DataFilter filter, boolean overwrite, Table... tables) throws Exception {
+    public synchronized StoreStatus store(Table table, DataFilter filter, boolean overwrite, Table... tables) throws Exception {
+        String tableName = table!=null ? table.getTableName() : null;
         StoreStatus status = loadMetadata(tableName);
         if (status==null)
             throw new Exception("Unavailable table: "+tableName);
@@ -314,7 +317,7 @@ public abstract class DefaultStorage extends H2Database {
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
-        PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) != null ?
+        PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) == null ?
                 "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)":
                 "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
         );
@@ -457,7 +460,7 @@ public abstract class DefaultStorage extends H2Database {
         StringBuilder query = new StringBuilder("SELECT ");
 
         //Add select columns
-        Collection<String> selectColumns = filter.getColumns();
+        Collection<String> selectColumns = filter!=null ? filter.getColumns() : null;
         if (selectColumns!=null && selectColumns.size()>0) {
             selectColumns.retainAll(columnsByName.keySet()); //use only existing columns
             for (String name : selectColumns)
@@ -475,7 +478,7 @@ public abstract class DefaultStorage extends H2Database {
         //Add source table
         query.append(" FROM ").append(SCHEMA_NAME).append('.').append(table.getTableName());
         //Add where condition
-        StandardFilter rowsFilter = filter.getRows();
+        StandardFilter rowsFilter = filter!=null ? filter.getRows() : null;
         if (rowsFilter!=null && rowsFilter.size()>0) {
             query.append(" WHERE 1=1");
             for (Map.Entry<String, FieldFilter> conditionEntry : rowsFilter.entrySet()) {

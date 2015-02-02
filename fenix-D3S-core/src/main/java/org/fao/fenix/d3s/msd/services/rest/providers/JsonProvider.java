@@ -1,33 +1,21 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import com.tinkerpop.gremlin.Tokens;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
-import org.fao.fenix.commons.utils.CSVReader;
-import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
 import java.io.*;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 
 
@@ -36,30 +24,11 @@ public abstract class JsonProvider {
 
     //Utils
     protected Resource decodeResource(String source, RepresentationType resourceType) throws Exception {
-        JsonNode root = jacksonMapper.reader().readTree(source);
-
-        JavaType type = null;
         switch (resourceType) {
-            case codelist:
-                return new Resource<DSDCodelist, Code>(
-                    decode(root.findValue("metadata").toString(), MeIdentification.class, DSDCodelist.class),
-                    decode(root.findValue("data").toString(), Collection.class, Code.class)
-                );
-            case dataset:
-            return new Resource<DSDDataset, Object[]>(
-                    decode(root.findValue("metadata").toString(), MeIdentification.class, DSDDataset.class),
-                    decode(root.findValue("data").toString(), Collection.class, Object[].class)
-            );
-            case geographic:
-            return new Resource<DSDGeographic, Object>(
-                    decode(root.findValue("metadata").toString(), MeIdentification.class, DSDGeographic.class),
-                    decode(root.findValue("data").toString(), Collection.class, Object.class)
-            );
-            case document:
-            return new Resource<DSDDocument, Object>(
-                    decode(root.findValue("metadata").toString(), MeIdentification.class, DSDDocument.class),
-                    decode(root.findValue("data").toString(), Collection.class, Object.class)
-            );
+            case codelist:  return decode(source, Resource.class, DSDCodelist.class, Code.class);
+            case dataset:   return decode(source, Resource.class, DSDDataset.class, Object[].class);
+            case geographic:return decode(source, Resource.class, DSDGeographic.class, Object.class);
+            case document:  return decode(source, Resource.class, DSDDocument.class, Object.class);
             default: return null;
         }
     }

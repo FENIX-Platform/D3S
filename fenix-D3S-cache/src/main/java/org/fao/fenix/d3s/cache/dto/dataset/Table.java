@@ -53,10 +53,12 @@ public class Table {
             for (DSDColumn column : columnsStructure)
                 columns.add(new Column(column));
     }
-
-    public Table(String tableName, Connection connection) throws Exception {
+    /*
+    public Table(String tableName, String schema, Connection connection) throws Exception {
         DatabaseMetaData databaseMetaData = connection.getMetaData();
         this.tableName = tableName;
+
+        tableName = schema!=null ? schema+'.'+tableName : tableName;
 
         Set<String> keyColumns = new HashSet<>();
         for (ResultSet column = databaseMetaData.getPrimaryKeys(null, null, tableName); column.next(); )
@@ -70,7 +72,7 @@ public class Table {
         for (ResultSet indexInfo = databaseMetaData.getIndexInfo(null, null, tableName, false, false); indexInfo.next(); )
             indexes.add(indexInfo.getString("INDEX_NAME").substring(indexPrefixLength));
     }
-
+*/
 
 
     public Collection<Column> getColumns() {

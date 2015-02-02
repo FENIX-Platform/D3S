@@ -60,18 +60,19 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         int size = page!=null && page.perPage>0 ? page.skip+page.length : 0;
         boolean ordering = order!=null && order.size()>0;
         monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
-        //Check resource last update
+        //Check resource last update and load
         StoreStatus status = storage.loadMetadata(id);
-        if (status!=null) {
+        if (status!=null && status.getStatus()!=StoreStatus.Status.incomplete) {
             Date cacheLastUpdate = status.getLastUpdate();
             MeMaintenance meMaintenance = metadata.getMeMaintenance();
             SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
             Date lastUpdate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
             if (lastUpdate!=null && cacheLastUpdate.before(lastUpdate))
                 storage.delete(id);
-
+            else
+                return storage.load(order,page,null,new Table(metadata));
         }
-        return storage.load(order,page,null,new Table(metadata));
+        return null;
     }
 
     @Override
@@ -80,19 +81,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
         try {
+            Table tableMetadata = new Table(metadata);
             //Create table if not exists
             StoreStatus status = storage.loadMetadata(id);
             if (status == null)
-                status = storage.create(new Table(metadata), timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
-            //Try to skip with incomplete resources in append mode
-            if (!overwrite && status.getStatus() == StoreStatus.Status.incomplete)
-                try {
-                    data.skip(status.getCount());
-                } catch (UnsupportedOperationException ex) {
-                    overwrite = true; //If skip is unsupported force overwrite mode
-                }
+                storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
             //Store data and unlock resource
-            new ExternalDatasetExecutor(storage, monitor, status, id, data, overwrite).start();
+            new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite).start();
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
@@ -151,13 +146,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 //Create table if not exists
                 StoreStatus status = storage.loadMetadata(id);
                 if (status == null)
-                    status = storage.create(table, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+                    storage.create(table, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
                 //Store data and unlock resource
                 DataFilter filter = new DataFilter();
                 filter.setRows(rowsFilter);
                 for (DSDColumn column : destination.getDsd().getColumns())
                     filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
-                new InternalDatasetExecutor(storage, monitor, id, filter, overwrite, tables.toArray(new Table[tables.size()]));
+                new InternalDatasetExecutor(storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);

@@ -42,27 +42,27 @@ public interface DatasetStorage extends Storage {
      * If overwrite is true existing data wil be deleted before to start store activity.
      * Table must be present and data have to be syntactically correct considering table structure.
      * Metadata will be updated automatically.
-     * @param tableName Destination table name.
+     * @param table Destination table metadata.
      * @param data External data source.
      * @param size Current data block the function should try to consume.
      * @param overwrite Flag to set overwrite or append mode.
      * @return Resource data storage status
      * @throws Exception
      */
-    public StoreStatus store(String tableName, Iterator<Object[]> data, int size, boolean overwrite) throws Exception;
+    public StoreStatus store(Table table, Iterator<Object[]> data, int size, boolean overwrite) throws Exception;
 
     /**
      * Store data into an existing table loading rows from other tables.
      * Rules about load and store activities are inherited form basic load and store functions.
      * Metadata will be updated automatically.
-     * @param tableName Destination table name.
+     * @param table Destination table metadata.
      * @param filter Rows and columns filter.
      * @param overwrite Flag to set overwrite or append mode.
      * @param tables Involved source tables metadata.
      * @return Resource data storage status
      * @throws Exception
      */
-    public StoreStatus store(String tableName, DataFilter filter, boolean overwrite, Table... tables) throws Exception;
+    public StoreStatus store(Table table, DataFilter filter, boolean overwrite, Table... tables) throws Exception;
 
     /**
      * Remove an existing table (and related metadata)

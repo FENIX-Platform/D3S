@@ -1,5 +1,9 @@
 package org.fao.fenix.d3s.cache.storage.dataset;
 
+import org.fao.fenix.commons.find.dto.filter.DataFilter;
+import org.fao.fenix.commons.utils.database.Iterator;
+import org.fao.fenix.d3s.cache.dto.StoreStatus;
+import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.tools.Server;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.h2.tools.RunScript;
@@ -82,5 +86,4 @@ public abstract class H2Database implements DatasetStorage {
 
     //H2 specific server methods
     protected abstract String getStoragePropertiesPrefix();
-
 }

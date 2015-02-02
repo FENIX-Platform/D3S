@@ -14,13 +14,15 @@ public class InternalDatasetExecutor extends ResourceStorageExecutor {
     private DatasetStorage storage;
     private boolean overwrite;
     private DataFilter filter;
+    private Table structure;
     private Table[] sourceTables;
 
-    public InternalDatasetExecutor(DatasetStorage storage, ResourceMonitor monitor, String id, DataFilter filter, boolean overwrite, Table... sourceTables) {
-        super(id,monitor);
+    public InternalDatasetExecutor(DatasetStorage storage, ResourceMonitor monitor, Table structure, DataFilter filter, boolean overwrite, Table... sourceTables) {
+        super(structure.getTableName(),monitor);
         this.storage = storage;
         this.overwrite = overwrite;
         this.filter = filter;
+        this.structure = structure;
         this.sourceTables = sourceTables;
     }
 
@@ -28,6 +30,6 @@ public class InternalDatasetExecutor extends ResourceStorageExecutor {
 
     @Override
     protected void execute() throws Exception {
-        storage.store(id,filter,overwrite, sourceTables);
+        storage.store(structure,filter,overwrite, sourceTables);
     }
 }
