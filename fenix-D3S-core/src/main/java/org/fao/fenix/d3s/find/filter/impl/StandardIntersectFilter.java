@@ -55,9 +55,9 @@ public class StandardIntersectFilter extends Filter {
                 for (Object timeObject : filterCondition.values) {
                     ConditionTime time = (ConditionTime) timeObject;
                     if (time.from != null)
-                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ").append(time.from).append(" OR ");
+                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ").append(time.getFrom(14)).append(" OR ");
                     if (time.to != null)
-                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ").append(time.to).append(" OR ");
+                        queryFilterTime.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ").append(time.getTo(14)).append(" OR ");
                 }
                 queryFilterTime.setLength(queryFilter.length() - 4);
                 queryFilterTime.append(')');

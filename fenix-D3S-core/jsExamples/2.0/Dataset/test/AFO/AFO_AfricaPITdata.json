@@ -6,7 +6,7 @@
     },
 
     "dsd" : {
-        "datasource" : "CountrySTAT",
+        "datasource" : "D3S",
         "contextSystem" : "AFO",
         "columns" : [
 			{

@@ -27,7 +27,7 @@ public class MetadataProvider<T extends MeIdentification> extends JsonProvider i
     public T readFrom(Class<T> resourceClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try {
             String content = readContent(inputStream);
-            return (T)decode(content, MeIdentification.class, getRepresentationType(content, null));
+            return (T) decodeMetadata(content, getRepresentationType(content, null));
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }

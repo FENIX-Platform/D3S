@@ -23,7 +23,7 @@ public abstract class CSVProvider<T> extends JsonProvider implements MessageBody
 
             String metadataSection = readSection(in, "--structure--");
             RepresentationType resourceType = getRepresentationType(metadataSection,null);
-            MeIdentification metadata = decode(metadataSection, MeIdentification.class, resourceType);
+            MeIdentification metadata = decodeMetadata(metadataSection, resourceType);
 
             Properties structure = readStructureProperties(readSection(in,"--data--"));
             String csvSeparator = structure.getProperty("csvSeparator", ";").trim();

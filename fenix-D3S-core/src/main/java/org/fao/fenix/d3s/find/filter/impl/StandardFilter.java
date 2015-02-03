@@ -41,11 +41,11 @@ public class StandardFilter extends Filter {
                         ConditionTime time = (ConditionTime)timeObject;
                         if (time.from!=null) {
                             queryFilter.append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
-                            params.add(time.from);
+                            params.add(time.getFrom(14));
                         }
                         if (time.to!=null) {
                             queryFilter.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
-                            params.add(time.to);
+                            params.add(time.getTo(14));
                         }
                     }
                     queryFilter.setLength(queryFilter.length()-4);

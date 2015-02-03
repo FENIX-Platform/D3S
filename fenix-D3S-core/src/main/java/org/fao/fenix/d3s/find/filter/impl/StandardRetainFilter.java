@@ -51,11 +51,11 @@ public class StandardRetainFilter extends Filter {
                     Collection<Object> params = new LinkedList<>();
                     if (time.from!=null) {
                         timeQuery.append(filter.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
-                        params.add(time.from);
+                        params.add(time.getFrom(14));
                     }
                     if (time.to!=null) {
                         timeQuery.append(filter.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
-                        params.add(time.to);
+                        params.add(time.getTo(14));
                     }
 
                     if (params.size()>0)

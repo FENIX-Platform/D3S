@@ -15,14 +15,14 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public abstract class ResourceDao<D> extends OrientDao {
+public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
 
     //LOAD RESOURCE
 
-    public MeIdentification loadMetadata(String id, String version) throws Exception {
+    public MeIdentification<M> loadMetadata(String id, String version) throws Exception {
         return isRID(id,version) ? loadBean(id, MeIdentification.class) : loadMetadataByUID(id,version);
     }
-    public MeIdentification loadMetadataByUID(String uid, String version) throws Exception {
+    public MeIdentification<M> loadMetadataByUID(String uid, String version) throws Exception {
         if (uid==null)
             return null;
         Collection<MeIdentification> resources = version==null ?
@@ -42,14 +42,14 @@ public abstract class ResourceDao<D> extends OrientDao {
 
     //STORE RESOURCE
 
-    public MeIdentification insertMetadata (MeIdentification metadata) throws Exception {
+    public MeIdentification<M> insertMetadata (MeIdentification<M> metadata) throws Exception {
         if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
         return metadata!=null ? newCustomEntity(metadata) : null;
     }
-    public MeIdentification updateMetadata (MeIdentification metadata, boolean overwrite) throws Exception {
+    public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite) throws Exception {
         if (metadata!=null) {
             if (metadata.getRID()==null) {
                 ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
@@ -60,15 +60,15 @@ public abstract class ResourceDao<D> extends OrientDao {
         }
         throw new NoContentException("Cannot find bean. Resource icdentification is mandatory to execute update operation.");
     }
-    public MeIdentification insertResource (Resource<D> resource) throws Exception {
-        MeIdentification metadata = insertMetadata(resource.getMetadata());
+    public MeIdentification<M> insertResource (Resource<M,D> resource) throws Exception {
+        MeIdentification<M> metadata = insertMetadata(resource.getMetadata());
         if (metadata!=null)
             insertData(metadata, resource.getData());
         return metadata;
     }
 
-    public MeIdentification updateResource (Resource<D> resource, boolean overwrite) throws Exception {
-        MeIdentification metadata = updateMetadata(resource.getMetadata(), overwrite);
+    public MeIdentification<M> updateResource (Resource<M,D> resource, boolean overwrite) throws Exception {
+        MeIdentification<M> metadata = updateMetadata(resource.getMetadata(), overwrite);
         if (metadata!=null)
             updateData(metadata, resource.getData(), overwrite);
         return metadata;
@@ -83,7 +83,7 @@ public abstract class ResourceDao<D> extends OrientDao {
     }
 
     public boolean deleteResource (String id, String version) throws Exception {
-        MeIdentification metadata = loadMetadata(id,version);
+        MeIdentification<M> metadata = loadMetadata(id,version);
 
         if (metadata!=null) {
             deleteData(metadata);
@@ -92,14 +92,14 @@ public abstract class ResourceDao<D> extends OrientDao {
         return metadata!=null;
     }
 
-    public void deleteResource (MeIdentification metadata) throws Exception {
+    public void deleteResource (MeIdentification<M> metadata) throws Exception {
         if (metadata!=null) {
             deleteData(metadata);
             deleteMetadata(metadata);
         }
     }
 
-    public void deleteMetadata(MeIdentification metadata) throws Exception {
+    public void deleteMetadata(MeIdentification<M> metadata) throws Exception {
         if (metadata!=null) {
             DSD dsd = metadata.getDsd();
             if (dsd != null)
@@ -111,10 +111,10 @@ public abstract class ResourceDao<D> extends OrientDao {
 
     //DATA LOAD AND STORE
 
-    public abstract Collection<D> loadData(MeIdentification metadata) throws Exception;
-    protected abstract void insertData(MeIdentification metadata, Collection<D> data) throws Exception;
-    protected abstract void updateData(MeIdentification metadata, Collection<D> data, boolean overwrite) throws Exception;
-    public abstract void deleteData(MeIdentification metadata) throws Exception;
+    public abstract Collection<D> loadData(MeIdentification<M> metadata) throws Exception;
+    protected abstract void insertData(MeIdentification<M> metadata, Collection<D> data) throws Exception;
+    protected abstract void updateData(MeIdentification<M> metadata, Collection<D> data, boolean overwrite) throws Exception;
+    public abstract void deleteData(MeIdentification<M> metadata) throws Exception;
 
     //Utils
     Pattern ridPattern = Pattern.compile("^\\d+_\\d+$");

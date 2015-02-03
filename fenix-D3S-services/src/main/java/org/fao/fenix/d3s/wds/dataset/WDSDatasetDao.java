@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.wds.dataset;
 
-import org.fao.fenix.commons.msd.dto.data.dataset.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
 import org.fao.fenix.d3s.wds.WDSDao;
@@ -8,7 +7,7 @@ import org.fao.fenix.d3s.wds.WDSDao;
 import java.util.Iterator;
 
 public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
-
+    //TODO remove consumer pattern by creating an Orient Data Iterator that can close connection
     //Support consumer pattern
     public abstract void consume(Object... args);
     public abstract void consumed(Object... args);
@@ -79,7 +78,7 @@ public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
                             row[structure.singleValuesIndexes[i]] = structure.singleValues[i];
                         return row;
                     } else
-                        return rawRow;
+                        return null;
                 }
             };
     }

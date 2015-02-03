@@ -1,31 +1,21 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
-import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import com.tinkerpop.gremlin.Tokens;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
-import org.fao.fenix.commons.utils.CSVReader;
-import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
 import java.io.*;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 import java.util.Scanner;
 
 
@@ -33,22 +23,41 @@ public abstract class JsonProvider {
     private ObjectMapper jacksonMapper = new ObjectMapper();
 
     //Utils
-    protected <T> T decode(String source, Class<T> baseClass, RepresentationType type) throws Exception {
-        StringBuilder className = new StringBuilder("org.fao.fenix.commons.msd.dto.data.");
-        switch (type) {
-            case codelist:      className.append("codelist."); break;
-            case dataset:       className.append("dataset."); break;
-            case geographic:    className.append("geographic."); break;
-            case document:      className.append("document."); break;
+    protected Resource decodeResource(String source, RepresentationType resourceType) throws Exception {
+        switch (resourceType) {
+            case codelist:  return decode(source, Resource.class, DSDCodelist.class, Code.class);
+            case dataset:   return decode(source, Resource.class, DSDDataset.class, Object[].class);
+            case geographic:return decode(source, Resource.class, DSDGeographic.class, Object.class);
+            case document:  return decode(source, Resource.class, DSDDocument.class, Object.class);
             default: return null;
         }
-        className.append(baseClass.getSimpleName());
-
-        return (T)decode(source, Class.forName(className.toString()));
+    }
+    protected <T> Collection<T> decodeData(String source, RepresentationType resourceType) throws Exception {
+        Class<?> type;
+        switch (resourceType) {
+            case codelist:      type = Code.class; break;
+            case dataset:       type = Object[].class; break;
+            case geographic:    type = Object.class; break;
+            case document:      type = Object.class; break;
+            default: return null;
+        }
+        return decode(source, Collection.class, type);
+    }
+    protected <T extends DSD> MeIdentification<T> decodeMetadata(String source, RepresentationType resourceType) throws Exception {
+        Class<? extends DSD> type;
+        switch (resourceType) {
+            case codelist:      type = DSDCodelist.class; break;
+            case dataset:       type = DSDDataset.class; break;
+            case geographic:    type = DSDGeographic.class; break;
+            case document:      type = DSDDocument.class; break;
+            default: return null;
+        }
+        return decode(source, MeIdentification.class, type);
     }
 
-    protected <T> T decode(String source, Class<T> beanClass) throws Exception {
-        return jacksonMapper.readValue(source,beanClass);
+    protected <T> T decode(String source, Class<T> beanClass, Class<?>... types) throws Exception {
+        JavaType type = jacksonMapper.getTypeFactory().constructParametricType(beanClass, types);
+        return source!=null ? (T)jacksonMapper.readValue(source,type) : null;
     }
     
     protected RepresentationType getRepresentationType(String source, String metadataField) throws Exception {

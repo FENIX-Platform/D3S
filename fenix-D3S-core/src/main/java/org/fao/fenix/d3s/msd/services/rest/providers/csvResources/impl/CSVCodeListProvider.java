@@ -1,8 +1,9 @@
 package org.fao.fenix.d3s.msd.services.rest.providers.csvResources.impl;
 
-import org.fao.fenix.commons.msd.dto.data.codelist.MeIdentification;
-import org.fao.fenix.commons.msd.dto.data.codelist.Resource;
+import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.Code;
+import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
+import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,7 +23,7 @@ public class CSVCodeListProvider {
     }
 
 
-    public static Resource getResource(MeIdentification metadata, Properties structure, Iterable<String[]> data) throws Exception {
+    public static Resource<DSDCodelist, Code> getResource(MeIdentification<DSDCodelist> metadata, Properties structure, Iterable<String[]> data) throws Exception {
         return new Resource(metadata, createCodeListData(metadata,readStructure(structure),data) );
     }
 
