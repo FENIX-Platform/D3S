@@ -394,6 +394,6 @@ CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQ
 
 CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
 
-CREATE INDEX DSDGeographic.workspace|layerName UNIQUE;
+CREATE INDEX DSDGeographic.workspace|layerName ON DSDGeographic (workspace, layerName) UNIQUE;
 
 DISCONNECT;
