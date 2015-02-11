@@ -120,7 +120,7 @@ public class MainController implements ServletContextListener {
         for (D3SCache cache : D3SCache.values()) {
             String pluginClassName = initParameters.getProperty("cache."+cache.name()+".plugin");
             if (pluginClassName!=null)
-                cacheManagerFactory.addAlias(cache.getAlias(), pluginClassName);
+                cacheManagerFactory.addAlias(cache.name(), pluginClassName);
         }
     }
 

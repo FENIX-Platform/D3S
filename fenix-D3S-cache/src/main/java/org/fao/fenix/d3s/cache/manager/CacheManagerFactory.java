@@ -14,7 +14,8 @@ public class CacheManagerFactory {
 
 
     public void addAlias(String alias, String className) throws ClassNotFoundException {
-        aliasMap.put(alias, (Class<? extends CacheManager>) Class.forName(className));
+        if (className.trim().length()>0)
+            aliasMap.put(alias, (Class<? extends CacheManager>) Class.forName(className));
     }
 
     public CacheManager getInstance(String name) throws Exception {
@@ -26,7 +27,4 @@ public class CacheManagerFactory {
         } else
             return null;
     }
-
-
-
 }

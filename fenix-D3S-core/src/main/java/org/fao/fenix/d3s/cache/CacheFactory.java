@@ -12,6 +12,6 @@ public class CacheFactory {
     @Inject private CacheManagerFactory cacheManagerFactory;
 
     public CacheManager<DSDDataset, Object[]> getDatasetCacheManager(D3SCache cache) throws Exception {
-        return cacheManagerFactory.getInstance(cache.getAlias());
+        return cacheManagerFactory.getInstance(cache.name());
     }
 }
