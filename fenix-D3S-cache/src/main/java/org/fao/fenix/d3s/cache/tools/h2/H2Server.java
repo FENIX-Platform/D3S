@@ -30,11 +30,12 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
 
     //Internal logic
     private void startConsole() throws SQLException, IOException {
+        String portNumber = "";
         System.out.print("\nStarting up H2 console server... ");
         if (consoleServer ==null) {
             Properties initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    "file:"+CONFIG_FOLDER_PATH + "h2.properties",
-                    "/org/fao/fenix/config/h2.properties"
+                    "/org/fao/fenix/config/h2.properties",
+                    "file:"+CONFIG_FOLDER_PATH + "h2.properties"
             );
 
             File databaseFolder = new File(initProperties.getProperty("databases.path"));
@@ -46,14 +47,14 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
                     .append(",-webAllowOthers true")
                     .append(",-baseDir ").append(databaseFolder.getAbsolutePath());
             consoleServer = Server.createWebServer(
-                    "-webPort", initProperties.getProperty("console.port"),
+                    "-webPort", portNumber=initProperties.getProperty("console.port"),
                     "-webAllowOthers",
                     "-baseDir", databaseFolder.getAbsolutePath()
             );
         }
         if (!consoleServer.isRunning(false))
             consoleServer.start();
-        System.out.println("done.");
+        System.out.println("done on port "+portNumber);
     }
     private void stopConsole() {
         System.out.print("\nShutting down H2 console server... ");

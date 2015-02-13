@@ -22,8 +22,8 @@ public abstract class H2Database implements DatasetStorage {
     public void open() throws Exception {
         if (!initialized) {
             Map<String, String> initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    "file:"+Server.CONFIG_FOLDER_PATH + "storage.properties",
-                    "/org/fao/fenix/config/storage.properties"
+                    "/org/fao/fenix/config/storage.properties",
+                    "file:"+Server.CONFIG_FOLDER_PATH + "storage.properties"
             ).toMap(getStoragePropertiesPrefix());
 
             initPool(
