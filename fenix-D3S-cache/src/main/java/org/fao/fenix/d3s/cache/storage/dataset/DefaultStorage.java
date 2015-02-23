@@ -89,7 +89,6 @@ public abstract class DefaultStorage extends H2Database {
         } finally {
             connection.close();
         }
-
     }
 
 

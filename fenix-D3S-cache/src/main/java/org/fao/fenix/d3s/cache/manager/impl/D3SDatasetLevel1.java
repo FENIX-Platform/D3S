@@ -103,10 +103,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         //Lock resource
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
-        //Delete
-        storage.delete(id);
-        //Unlock resource
-        monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+        try {
+            //Delete
+            storage.delete(id);
+        } finally {
+            //Unlock resource
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+        }
     }
 
     @Override

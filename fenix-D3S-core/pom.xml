@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-lucene</artifactId>
-            <version>2.0</version>
+            <version>${orient.version}</version>
         </dependency>
         <dependency>
             <groupId>com.orientechnologies</groupId>
