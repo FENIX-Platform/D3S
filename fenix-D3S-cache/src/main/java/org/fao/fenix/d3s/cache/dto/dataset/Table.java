@@ -39,15 +39,19 @@ public class Table {
     }
     public Table(MeIdentification<DSDDataset> metadata) {
         if (metadata!=null) {
-            tableName = metadata.getUid();
-            String version = metadata.getVersion();
-            if (version!=null)
-                tableName += '|'+version;
+            setTableName(metadata);
+            setColumns(metadata.getDsd());
         }
-        setColumns(metadata.getDsd());
     }
 
-    private void setColumns(DSDDataset structure) {
+    protected void setTableName(MeIdentification<DSDDataset> metadata) {
+        tableName = metadata.getUid();
+        String version = metadata.getVersion();
+        if (version!=null)
+            tableName += '|'+version;
+    }
+
+    protected void setColumns(DSDDataset structure) {
         Collection<DSDColumn> columnsStructure = structure!=null ? structure.getColumns() : null;
         if (columnsStructure!=null)
             for (DSDColumn column : columnsStructure)

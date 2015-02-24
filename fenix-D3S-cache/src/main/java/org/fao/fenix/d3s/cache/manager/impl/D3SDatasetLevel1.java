@@ -60,19 +60,18 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         int size = page!=null && page.perPage>0 ? page.skip+page.length : 0;
         boolean ordering = order!=null && order.size()>0;
         monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
-        //Check resource last update and load
+        //Check resource status and resource (and related codelists) last update date
         StoreStatus status = storage.loadMetadata(id);
-        if (status!=null && status.getStatus()!=StoreStatus.Status.incomplete) {
+        if (status!=null && status.getStatus()!=StoreStatus.Status.incomplete) { //Check status
             Date cacheLastUpdate = status.getLastUpdate();
-            MeMaintenance meMaintenance = metadata.getMeMaintenance();
-            SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
-            Date lastUpdate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
-            if (lastUpdate!=null && cacheLastUpdate.before(lastUpdate))
-                storage.delete(id);
-            else
-                return storage.load(order,page,null,new Table(metadata));
-        }
-        return null;
+            for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
+                if (cacheLastUpdate.before(lastUpdate)) {
+                    storage.delete(id);
+                    return null;
+                }
+            return storage.load(order,page,null,new Table(metadata));
+        } else
+            return null;
     }
 
     @Override
@@ -180,6 +179,36 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     @Override
     public String getID(MeIdentification metadata) {
         return metadata!=null ? metadata.getUid() + (metadata.getVersion()!=null ? '|'+metadata.getVersion() : "") : null;
+    }
+
+
+    //Utils
+    //Retrieve last update dates for dataset and related codelists
+    private Collection<Date> getDatasetLastUpdateDates(MeIdentification<DSDDataset> metadata) {
+        Collection<Date> dates = new LinkedList<>();
+        //Add dataset update date
+        Date date = getLastUpdateDate(metadata);
+        if (date!=null)
+            dates.add(date);
+        //Add columns update date
+        DSDDataset dsd = metadata.getDsd();
+        Collection<DSDColumn> columns = dsd!=null ? dsd.getColumns() : null;
+        if (columns!=null)
+            for (DSDColumn column : columns) {
+                DSDDomain domain = column.getDomain();
+                Collection<OjCodeList> codeLists = domain!=null ? domain.getCodes() : null;
+                if (codeLists!=null)
+                    for (OjCodeList codeList : codeLists)
+                        if ((date = getLastUpdateDate(codeList.getLinkedCodeList())) != null)
+                            dates.add(date);
+            }
+        //Return list
+        return dates;
+    }
+    private Date getLastUpdateDate(MeIdentification<?> metadata) {
+        MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
+        SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
+        return seUpdate!=null ? seUpdate.getUpdateDate() : null;
     }
 
 }
