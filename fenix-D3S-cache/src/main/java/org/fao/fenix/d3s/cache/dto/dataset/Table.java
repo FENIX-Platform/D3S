@@ -3,6 +3,8 @@ package org.fao.fenix.d3s.cache.dto.dataset;
 import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.type.DataType;
+import org.fao.fenix.commons.utils.Language;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -28,27 +30,65 @@ public class Table {
 
 
     public Table() {
+        init(null,null,null);
     }
     public Table(String tableName) {
-        this.tableName = tableName;
+        init(tableName,null,null);
     }
 
     public Table(String tableName, DSDDataset structure) {
-        this.tableName = tableName;
-        setColumns(structure);
+        this(tableName,structure,null);
     }
     public Table(MeIdentification<DSDDataset> metadata) {
-        if (metadata!=null) {
-            setTableName(metadata);
-            setColumns(metadata.getDsd());
-        }
+        this(metadata,null);
+    }
+    public Table(String tableName, DSDDataset structure, Language language) {
+        init(tableName, structure, language);
+    }
+    public Table(MeIdentification<DSDDataset> metadata, Language language) {
+        init(getTableName(metadata), metadata!=null ? metadata.getDsd() : null, language);
     }
 
-    protected void setTableName(MeIdentification<DSDDataset> metadata) {
-        tableName = metadata.getUid();
-        String version = metadata.getVersion();
-        if (version!=null)
-            tableName += '|'+version;
+    private void init(String tableName, DSDDataset structure, Language language) {
+        this.tableName = tableName;
+        setColumns(extend(structure,language));
+    }
+
+    private DSDDataset extend (DSDDataset structure, Language language) {
+        if (structure!=null) {
+            Collection<DSDColumn> columns = new LinkedList<>();
+            if (structure.getColumns()!=null) {
+                columns.addAll(structure.getColumns());
+                if (language!=null)
+                    for (DSDColumn column : structure.getColumns())
+                        if (column.getDataType()== DataType.code || column.getDataType()==DataType.customCode) {
+                            DSDColumn newColumn = new DSDColumn();
+                            newColumn.setId(column.getId()+'_'+language.getCode());
+                            newColumn.setDataType(DataType.text);
+                            newColumn.setTitle(column.getTitle());
+                            newColumn.setKey(false);
+                            newColumn.setVirtual(false);
+                            newColumn.setTransposed(false);
+                            columns.add(newColumn);
+                        }
+            }
+
+            DSDDataset dsd = new DSDDataset();
+            dsd.setColumns(columns);
+            return dsd;
+        } else
+            return null;
+    }
+
+    protected String getTableName(MeIdentification<DSDDataset> metadata) {
+        if (tableName!=null) {
+            String tableName = metadata.getUid();
+            String version = metadata.getVersion();
+            if (version != null)
+                tableName += '|' + version;
+            return tableName;
+        } else
+            return null;
     }
 
     protected void setColumns(DSDDataset structure) {

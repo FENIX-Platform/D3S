@@ -22,20 +22,13 @@ public class WriteTable extends Table {
     }
 
 
-    public WriteTable() {
-        super();
-    }
-    public WriteTable(String tableName) {
-        super(tableName);
-    }
-
     public WriteTable(String tableName, DSDDataset structure) {
-        super(tableName);
+        setTableName(tableName);
         setColumns(extend(structure));
     }
     public WriteTable(MeIdentification<DSDDataset> metadata) {
         if (metadata!=null) {
-            setTableName(metadata);
+            setTableName(getTableName(metadata));
             setColumns(extend(metadata.getDsd()));
         }
     }

@@ -18,7 +18,7 @@ public class Column {
 
 
     public Column(DSDColumn columnMetadata) {
-        if ((name = columnMetadata.getSubject()) == null)
+        //if ((name = columnMetadata.getSubject()) == null)
             name = columnMetadata.getId();
 
         switch (columnMetadata.getDataType()) {

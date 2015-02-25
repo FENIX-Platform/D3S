@@ -10,9 +10,11 @@ import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
+import org.fao.fenix.d3s.cache.manager.impl.level1.LabelDataIterator;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
@@ -75,12 +77,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     }
 
     @Override
-    public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout) throws Exception {
+    public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
         try {
-            Table tableMetadata = new Table(metadata);
+            Table tableMetadata = new WriteTable(metadata);
+            data = new LabelDataIterator(data,tableMetadata,metadata.getDsd(),codeLists);
             //Create table if not exists
             StoreStatus status = storage.loadMetadata(id);
             if (status == null)
@@ -123,7 +126,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     }
 
     @Override
-    public void filter(Resource<DSDDataset, Object[]>[] resources, StandardFilter rowsFilter, MeIdentification<DSDDataset> destination, boolean overwrite, Long timeout) throws Exception {
+    public void filter(Resource<DSDDataset, Object[]>[] resources, StandardFilter rowsFilter, MeIdentification<DSDDataset> destination, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(destination);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
@@ -137,7 +140,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 tables.add(resourceTable);
                 if (resource.getData()!=null) {
                     externalIds.add(resourceTable.getTableName());
-                    store(resource.getMetadata(), utils.getDataIterator(resource.getData()), true, timeout);
+                    store(resource.getMetadata(), utils.getDataIterator(resource.getData()), true, timeout, codeLists);
                 }
             }
             //Wait for external resources store completion
@@ -153,7 +156,8 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 DataFilter filter = new DataFilter();
                 filter.setRows(rowsFilter);
                 for (DSDColumn column : destination.getDsd().getColumns())
-                    filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
+                    //filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
+                    filter.addColumn(column.getId());
                 new InternalDatasetExecutor(storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
         } catch (Exception ex) {
             //Unlock resource

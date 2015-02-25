@@ -4,13 +4,17 @@ package org.fao.fenix.d3s.cache.manager;
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.storage.Storage;
+
+import java.util.Collection;
 
 
 public interface CacheManager<M extends DSD, D> {
@@ -64,7 +68,7 @@ public interface CacheManager<M extends DSD, D> {
      * @param timeout New timeout in seconds for the current resource. A null value or a value < 0 will maintain the existing one. A value = 0 (default) means no timeout.
      * @throws Exception A ConcurrentModificationException will be thrown if a store activity is already running on the same resource.
      */
-    public void store(MeIdentification<M> metadata, Iterator<D> data, boolean overwrite, Long timeout) throws Exception;
+    public void store(MeIdentification<M> metadata, Iterator<D> data, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception;
 
     /**
      * Remove specified resource data from cache if it exists.
@@ -107,7 +111,7 @@ public interface CacheManager<M extends DSD, D> {
      * @param timeout New timeout in seconds for the current resource. A null value or a value < 0 will maintain the existing one. A value = 0 (default) means no timeout.
      * @throws Exception An exception is thrown if some of the sources data blocks don't exists or is incompatible.
      */
-    public void filter(Resource<M,D>[] resources, StandardFilter rowsFilter, MeIdentification<M> destination, boolean overwrite, Long timeout) throws Exception;
+    public void filter(Resource<M,D>[] resources, StandardFilter rowsFilter, MeIdentification<M> destination, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception;
 
     /**
      * This method filter existing resources data. The execution is synchronous and returned result is volatile.
