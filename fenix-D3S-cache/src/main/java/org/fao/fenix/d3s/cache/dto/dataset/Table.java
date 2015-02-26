@@ -30,54 +30,22 @@ public class Table {
 
 
     public Table() {
-        init(null,null,null);
+        init(null,null);
     }
     public Table(String tableName) {
-        init(tableName,null,null);
+        init(tableName,null);
     }
 
     public Table(String tableName, DSDDataset structure) {
-        this(tableName,structure,null);
+        init(tableName, structure);
     }
     public Table(MeIdentification<DSDDataset> metadata) {
-        this(metadata,null);
-    }
-    public Table(String tableName, DSDDataset structure, Language language) {
-        init(tableName, structure, language);
-    }
-    public Table(MeIdentification<DSDDataset> metadata, Language language) {
-        init(getTableName(metadata), metadata!=null ? metadata.getDsd() : null, language);
+        init(getTableName(metadata), metadata!=null ? metadata.getDsd() : null);
     }
 
-    private void init(String tableName, DSDDataset structure, Language language) {
+    protected void init(String tableName, DSDDataset structure) {
         this.tableName = tableName;
-        setColumns(extend(structure,language));
-    }
-
-    private DSDDataset extend (DSDDataset structure, Language language) {
-        if (structure!=null) {
-            Collection<DSDColumn> columns = new LinkedList<>();
-            if (structure.getColumns()!=null) {
-                columns.addAll(structure.getColumns());
-                if (language!=null)
-                    for (DSDColumn column : structure.getColumns())
-                        if (column.getDataType()== DataType.code || column.getDataType()==DataType.customCode) {
-                            DSDColumn newColumn = new DSDColumn();
-                            newColumn.setId(column.getId()+'_'+language.getCode());
-                            newColumn.setDataType(DataType.text);
-                            newColumn.setTitle(column.getTitle());
-                            newColumn.setKey(false);
-                            newColumn.setVirtual(false);
-                            newColumn.setTransposed(false);
-                            columns.add(newColumn);
-                        }
-            }
-
-            DSDDataset dsd = new DSDDataset();
-            dsd.setColumns(columns);
-            return dsd;
-        } else
-            return null;
+        setColumns(structure);
     }
 
     protected String getTableName(MeIdentification<DSDDataset> metadata) {
