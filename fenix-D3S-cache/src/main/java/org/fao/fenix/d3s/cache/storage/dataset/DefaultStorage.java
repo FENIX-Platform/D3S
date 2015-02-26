@@ -550,7 +550,7 @@ public abstract class DefaultStorage extends H2Database {
 
         //Add ordering
         if (ordering!=null)
-            query.append(ordering.toH2SQL());
+            query.append(ordering.toH2SQL(columnsByName.keySet().toArray(new String[columnsByName.size()])));
 
         //Add pagination
         if (pagination!=null)
