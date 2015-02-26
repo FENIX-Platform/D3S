@@ -131,12 +131,12 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         String id = getID(destination);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
         try {
-            Table table = new Table(destination);
+            Table table = new WriteTable(destination);
             //Store external resources and create corresponding Table metadata
             Collection<String> externalIds = new LinkedList<>();
             Collection<Table> tables = new LinkedList<>();
             for (Resource<DSDDataset, Object[]> resource : resources) {
-                Table resourceTable = new Table(resource.getMetadata());
+                Table resourceTable = new WriteTable(resource.getMetadata());
                 tables.add(resourceTable);
                 if (resource.getData()!=null) {
                     externalIds.add(resourceTable.getTableName());
@@ -155,7 +155,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 //Store data and unlock resource
                 DataFilter filter = new DataFilter();
                 filter.setRows(rowsFilter);
-                for (DSDColumn column : destination.getDsd().getColumns())
+                for (DSDColumn column : destination.getDsd().getColumns()) // Add all destination column to the filter (including label columns)
                     //filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
                     filter.addColumn(column.getId());
                 new InternalDatasetExecutor(storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
