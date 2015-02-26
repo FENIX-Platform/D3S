@@ -4,6 +4,7 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.msd.utils.DataUtils;
+import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.CacheFactory;
 import org.fao.fenix.d3s.cache.D3SCache;
@@ -23,18 +24,26 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
     @Override
     public Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata) throws Exception {
-        if (metadata!=null && metadata.getDsd()!=null) {
+        DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
+        if (dsd!=null) {
             CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
             WDSDatasetDao wdsDao = getDao(metadata);
 
+            //Use extended dsd in case of cache loading and standard dsd other operations
+            Language[] languages = dbParameters.getLanguageInfo();
+            DSDDataset dsdExtended = cache!=null && languages!=null && languages.length>0 ? dsd.extend(languages) : dsd;
+
+            metadata.setDsd(dsdExtended);
             Iterator<Object[]> data = cache!=null ? cache.load(metadata, getOrder(), getPage()) : null;
             if (data==null) {
                 if (wdsDao == null)
                     throw new ClassNotFoundException("Cannot load data. DAO not found");
+                metadata.setDsd(dsd);
                 data = wdsDao.loadData(metadata);
 
                 if (cache!=null) {
                     cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
+                    metadata.setDsd(dsdExtended);
                     data = cache.load(metadata, getOrder(), getPage());
                 }
             }
