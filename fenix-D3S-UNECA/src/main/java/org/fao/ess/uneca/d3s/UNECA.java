@@ -1,7 +1,7 @@
 package org.fao.ess.uneca.d3s;
 
-import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumn;
-import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
+import org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
 import org.fao.fenix.commons.utils.database.DataIterator;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
@@ -44,7 +44,7 @@ public class UNECA extends WDSDatasetDao {
     }
     //
     @Override
-    protected Iterator<Object[]> loadData(MeIdentificationDSDFull resource, DatasetStructure structure) throws Exception {
+    protected Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
@@ -60,17 +60,17 @@ public class UNECA extends WDSDatasetDao {
     }
 
     @Override
-    protected void storeData(MeIdentificationDSDFull resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
+    protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteData(MeIdentificationDSDFull resource) throws Exception {
+    public void deleteData(MetadataDSD resource) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     //Utils
-    private String buildQuery(MeIdentificationDSDFull resource) {
+    private String buildQuery(MetadataDSD resource) {
         StringBuilder select = new StringBuilder();
 
         for (DSDColumn column : resource.getDsd().getColumns())

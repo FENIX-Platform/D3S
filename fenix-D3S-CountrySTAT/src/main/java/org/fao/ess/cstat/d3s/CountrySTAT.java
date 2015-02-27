@@ -8,7 +8,7 @@ import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.templates.standardDsd.dataset.MeIdentificationDSDFull;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -46,7 +46,7 @@ public class CountrySTAT extends WDSDatasetDao {
 
 
     @Override
-    public Iterator<Object[]> loadData(MeIdentificationDSDFull resource, DatasetStructure structure) throws Exception {
+    public Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
         String uid = resource.getUid();
 
         ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
@@ -88,7 +88,7 @@ public class CountrySTAT extends WDSDatasetDao {
     }
 
     @Override
-    protected void storeData(MeIdentificationDSDFull resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
+    protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (data!=null && data.hasNext() && datasetID!=null) {
 
@@ -163,7 +163,7 @@ public class CountrySTAT extends WDSDatasetDao {
     }
 
     @Override
-    public void deleteData(MeIdentificationDSDFull resource) throws Exception {
+    public void deleteData(MetadataDSD resource) throws Exception {
         String datasetID = resource!=null ? resource.getUid() : null;
         if (datasetID!=null) {
 

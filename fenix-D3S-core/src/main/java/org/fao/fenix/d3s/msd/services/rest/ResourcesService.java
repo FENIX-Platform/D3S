@@ -8,20 +8,20 @@ import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
-import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
-import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSDFull;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.MetadataDSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
-import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSD;
-import org.fao.fenix.commons.msd.dto.templates.standardDsd.MeIdentificationDSDOnly;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.Metadata;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.DSD;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
@@ -33,23 +33,59 @@ public class ResourcesService implements Resources {
     @Inject private FilterResourceDao filterResourceDao;
 
 
+    //MASSIVE METADATA
+
+    @Override
+    public Collection<Object> getMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean extend) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+        if (resources!=null && resources.size()>0) {
+            Collection result = new LinkedList();
+            for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
+                result.add(getMetadataProxy(resource, full, dsd, extend));
+            return result;
+        } else
+            return null;
+    }
+
+    @Override
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> insertMetadata(Collection<T> metadata) throws Exception {
+        return null;
+    }
+
+    @Override
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> updateMetadata(Collection<T> metadata) throws Exception {
+        return null;
+    }
+
+    @Override
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> appendMetadata(Collection<T> metadata) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Collection<MeIdentification> deleteMetadata(StandardFilter filter) throws Exception {
+        return null;
+    }
+
+
+
     //RESOURCES
 
     @Override
-    public ResourceProxy getResource(String rid, boolean full, boolean dsd) throws Exception {
+    public ResourceProxy getResource(String rid, boolean full, boolean dsd, boolean extend) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
-        return metadata!=null ? getResourceProxy(metadata, getData(metadata), full, dsd) : null;
+        return metadata!=null ? getResourceProxy(metadata, getData(metadata), full, dsd, extend) : null;
     }
 
     @Override
-    public ResourceProxy getResourceByUID(String uid, boolean full, boolean dsd) throws Exception {
-        return getResourceByUID(uid, null, full, dsd);
+    public ResourceProxy getResourceByUID(String uid, boolean full, boolean dsd, boolean extend) throws Exception {
+        return getResourceByUID(uid, null, full, dsd, extend);
     }
 
     @Override
-    public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd) throws Exception {
+    public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd, boolean extend) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        return metadata!=null ? getResourceProxy(metadata, getData(metadata), full, dsd) : null;
+        return metadata!=null ? getResourceProxy(metadata, getData(metadata), full, dsd, extend) : null;
     }
 
     @Override
@@ -86,18 +122,18 @@ public class ResourcesService implements Resources {
     //METADATA
 
     @Override
-    public Object getMetadata(String rid, boolean full, boolean dsd) throws Exception {
-        return getMetadataProxy(loadMetadata(rid, null), full, dsd);
+    public Object getMetadata(String rid, boolean full, boolean dsd, boolean extend) throws Exception {
+        return getMetadataProxy(loadMetadata(rid, null), full, dsd, extend);
     }
 
     @Override
-    public Object getMetadataByUID(String uid, boolean full, boolean dsd) throws Exception {
-        return getMetadataByUID(uid, null, full, dsd);
+    public Object getMetadataByUID(String uid, boolean full, boolean dsd, boolean extend) throws Exception {
+        return getMetadataByUID(uid, null, full, dsd, extend);
     }
 
     @Override
-    public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd) throws Exception {
-        return getMetadataProxy(loadMetadata(uid, version), full, dsd);
+    public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd, boolean extend) throws Exception {
+        return getMetadataProxy(loadMetadata(uid, version), full, dsd, extend);
     }
 
     @Override
@@ -145,12 +181,12 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public <T extends DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
         return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, true), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
-    public <T extends DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
         return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, false), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
@@ -194,13 +230,13 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd) throws Exception {
+    public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean extend) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
         if (resources!=null && resources.size()>0) {
             if (full || dsd) {
                 Collection result = new LinkedList();
                 for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
-                    result.add(getMetadataProxy(resource, full, dsd));
+                    result.add(getMetadataProxy(resource, full, dsd, extend));
                 return result;
             } else
                 return ResponseBeanFactory.getInstances(resources, MeIdentification.class);
@@ -222,8 +258,8 @@ public class ResourcesService implements Resources {
         return dataDao!=null ? dataDao.loadData(metadata) : null;
     }
 
-    private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd) throws Exception {
-        Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd);
+    private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean extend) throws Exception {
+        Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, extend);
         return metadataProxyClass!=null ? ResponseBeanFactory.getInstance(metadata, metadataProxyClass) : null;
     }
 
@@ -232,10 +268,10 @@ public class ResourcesService implements Resources {
         return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
     }
 
-    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, boolean full, boolean dsd) throws Exception {
+    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, boolean full, boolean dsd, boolean extend) throws Exception {
         RepresentationType type = loadRepresentationType(metadata);
         return new ResourceProxy(
-                ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd)),
+                ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, extend)),
                 data, getTemplateDataClass(type)
         );
     }
@@ -260,18 +296,19 @@ public class ResourcesService implements Resources {
         return null;
     }
 
-    private static final String standardTemplatesBasePackage = "org.fao.fenix.commons.msd.dto.templates.standardDsd";
-    private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd) throws ClassNotFoundException {
+    private static final String standardTemplatesBasePackage = Metadata.class.getPackage().getName();
+    private static final String exportTemplatesBasePackage = org.fao.fenix.commons.msd.dto.templates.export.combined.Metadata.class.getPackage().getName();
+    private Class getMetadataProxyClass (RepresentationType representationType, boolean full, boolean dsd, boolean extend) throws ClassNotFoundException {
         String templateClassName = null;
         if (full && dsd)
-            templateClassName = MeIdentificationDSDFull.class.getSimpleName();
+            templateClassName = MetadataDSD.class.getSimpleName();
         else if (full)
-            templateClassName = MeIdentificationDSD.class.getSimpleName();
+            templateClassName = Metadata.class.getSimpleName();
         else if (dsd)
-            templateClassName = MeIdentificationDSDOnly.class.getSimpleName();
+            templateClassName = DSD.class.getSimpleName();
 
         if (templateClassName!=null)
-            return Class.forName(standardTemplatesBasePackage+'.' + representationType + '.' + templateClassName);
+            return Class.forName((extend ? exportTemplatesBasePackage : standardTemplatesBasePackage)+'.' + representationType + '.' + templateClassName);
 
         switch (representationType) {
             case codelist: return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
@@ -290,10 +327,10 @@ public class ResourcesService implements Resources {
     }
 
 
-    private Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD> getDSDProxyClass(Object entity) throws ClassNotFoundException {
+    private Class<? extends org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSD> getDSDProxyClass(Object entity) throws ClassNotFoundException {
         if (entity!=null) {
             String className = entity instanceof ProxyObject ? ((OObjectProxyMethodHandler) ProxyFactory.getHandler((Proxy) entity)).getDoc().getClassName() : entity.getClass().getSimpleName();
-            return (Class<? extends org.fao.fenix.commons.msd.dto.templates.dsd.DSD>) Class.forName(org.fao.fenix.commons.msd.dto.templates.dsd.DSD.class.getPackage().getName()+'.'+className);
+            return (Class<? extends org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSD>) Class.forName(org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSD.class.getPackage().getName()+'.'+className);
         }
         return null;
     }
