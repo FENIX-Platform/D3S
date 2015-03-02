@@ -36,7 +36,7 @@ public interface Resources {
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> appendMetadata(Collection<T> metadata) throws Exception;
     @DELETE
     @Path("/massive/metadata")
-    public Collection<MeIdentification> deleteMetadata(StandardFilter filter) throws Exception;
+    public Integer deleteMetadata(StandardFilter filter, @QueryParam("logic") String businessName) throws Exception;
 
 
     @GET

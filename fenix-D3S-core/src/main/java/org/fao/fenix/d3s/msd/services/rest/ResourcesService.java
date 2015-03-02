@@ -21,7 +21,6 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
@@ -49,22 +48,27 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> insertMetadata(Collection<T> metadata) throws Exception {
-        return null;
+        return ResponseBeanFactory.getInstances(metadataDao.insertMetadata(metadata), MeIdentification.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> updateMetadata(Collection<T> metadata) throws Exception {
-        return null;
+        return ResponseBeanFactory.getInstances(metadataDao.updateMetadata(metadata, true), MeIdentification.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> Collection<MeIdentification> appendMetadata(Collection<T> metadata) throws Exception {
-        return null;
+        return ResponseBeanFactory.getInstances(metadataDao.updateMetadata(metadata,false), MeIdentification.class);
     }
 
     @Override
-    public Collection<MeIdentification> deleteMetadata(StandardFilter filter) throws Exception {
-        return null;
+    public Integer deleteMetadata(StandardFilter filter, String businessName) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+        if (resources!=null) {
+            metadataDao.deleteMetadata(resources.toArray(new org.fao.fenix.commons.msd.dto.full.MeIdentification[resources.size()]));
+            return resources.size();
+        } else
+            return 0;
     }
 
 

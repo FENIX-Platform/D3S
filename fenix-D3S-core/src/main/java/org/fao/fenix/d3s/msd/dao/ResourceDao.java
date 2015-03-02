@@ -12,6 +12,7 @@ import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 import javax.ws.rs.core.NoContentException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -41,6 +42,36 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
 
 
     //STORE RESOURCE
+
+    public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {
+        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
+        if (metadata!=null)
+            try {
+                getConnection().begin();
+                for (MeIdentification<M> m : metadata)
+                    storedMetadata.add(insertMetadata(m));
+                getConnection().commit();
+            } catch (Exception ex) {
+                getConnection().rollback();
+                throw ex;
+            }
+        return storedMetadata;
+    }
+    public Collection<MeIdentification<M>> updateMetadata (Collection<MeIdentification<M>> metadata, boolean overwrite) throws Exception {
+        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
+        if (metadata!=null)
+            try {
+                getConnection().begin();
+                for (MeIdentification<M> m : metadata)
+                    storedMetadata.add(updateMetadata(m, overwrite));
+                getConnection().commit();
+            } catch (Exception ex) {
+                getConnection().rollback();
+                throw ex;
+            }
+        return storedMetadata;
+    }
+
 
     public MeIdentification<M> insertMetadata (MeIdentification<M> metadata) throws Exception {
         if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
@@ -99,12 +130,19 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         }
     }
 
-    public void deleteMetadata(MeIdentification<M> metadata) throws Exception {
-        if (metadata!=null) {
-            DSD dsd = metadata.getDsd();
-            if (dsd != null)
-                getConnection().delete(dsd);
-            getConnection().delete(metadata);
+    public void deleteMetadata(MeIdentification<M> ... metadata) throws Exception {
+        if (metadata!=null) try {
+            getConnection().begin();
+            for (MeIdentification<M> m : metadata) {
+                DSD dsd = m.getDsd();
+                if (dsd != null)
+                    getConnection().delete(dsd);
+                getConnection().delete(m);
+            }
+            getConnection().commit();
+        } catch (Exception ex) {
+            getConnection().rollback();
+            throw ex;
         }
     }
 
