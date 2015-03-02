@@ -21,6 +21,7 @@ import org.fao.fenix.d3s.msd.services.spi.Resources;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
@@ -94,17 +95,23 @@ public class ResourcesService implements Resources {
 
     @Override
     public MeIdentification insertResource(Resource resource) throws Exception {
-        return resource.getMetadata()!=null ? ResponseBeanFactory.getInstance( getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource), MeIdentification.class ) : null;
+        if (resource==null || resource.getMetadata()==null)
+            throw new BadRequestException();
+        return ResponseBeanFactory.getInstance( getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource), MeIdentification.class );
     }
 
     @Override
     public MeIdentification updateResource(Resource resource) throws Exception {
-        return resource.getMetadata()!=null ? ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true), MeIdentification.class) : null;
+        if (resource==null || resource.getMetadata()==null)
+            throw new BadRequestException();
+        return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true), MeIdentification.class);
     }
 
     @Override
     public MeIdentification appendResource(Resource resource) throws Exception {
-        return resource.getMetadata()!=null ? ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class) : null;
+        if (resource==null || resource.getMetadata()==null)
+            throw new BadRequestException();
+        return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class);
     }
 
     @Override
@@ -142,16 +149,22 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification insertMetadata(T metadata) throws Exception {
+        if (metadata==null)
+            throw new BadRequestException();
         return ResponseBeanFactory.getInstance(metadataDao.insertMetadata(metadata), MeIdentification.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification updateMetadata(T metadata) throws Exception {
+        if (metadata==null)
+            throw new BadRequestException();
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, true), MeIdentification.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification appendMetadata(T metadata) throws Exception {
+        if (metadata==null)
+            throw new BadRequestException();
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, false), MeIdentification.class);
     }
 
@@ -186,12 +199,12 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
-        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, true), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(true, metadata)[0], org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
-        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(metadata, false), org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(false, metadata)[0], org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override

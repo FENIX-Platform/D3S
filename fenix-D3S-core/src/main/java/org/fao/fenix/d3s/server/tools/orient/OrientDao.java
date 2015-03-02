@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -192,44 +193,44 @@ public abstract class OrientDao {
     private static final Map<Class,Collection<MethodGetSet>> entityCollectionGetSet = new HashMap<>();
     private static final Map<Method,Boolean> embeddedGetSet = new HashMap<>();
 
-    public <T extends JSONEntity> T newCustomEntity(T bean, boolean ... checks) {
-        boolean cycleCheck = checks!=null && checks.length>0 && checks[0]; //false by default
+    public <T extends JSONEntity> T newCustomEntity(T bean) {
+        return newCustomEntity(false, true, bean);
+    }
+    public <T extends JSONEntity> T newCustomEntity(boolean cycleCheck, boolean transaction, T bean) {
         try {
             bean.setRID(null); //Ignore bean ORID
-            return saveCustomEntity(bean, false, cycleCheck); //Save in append mode for connected entities
+            return saveCustomEntity(false, cycleCheck, transaction, bean)[0]; //Save in append mode for connected entities
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public <T extends JSONEntity> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
-        Collection<T> beans = new LinkedList<>();
-        beans.add(bean);
-        return saveCustomEntity(beans,checks).iterator().next();
+    public <T extends JSONEntity> T[] saveCustomEntity(boolean overwrite, T... beans) throws Exception {
+        return saveCustomEntity(overwrite, false, true, beans);
     }
-    public <T extends JSONEntity> Collection<T> saveCustomEntity(Collection<T> beans, boolean ... checks) throws Exception {
-        boolean overwrite = checks!=null && checks.length>0 && checks[0]; //false by default
-        boolean cycleCheck = checks!=null && checks.length>1 && checks[1]; //false by default
+    public <T extends JSONEntity> T[] saveCustomEntity(boolean overwrite, boolean cycleCheck, boolean transaction, T... beans) throws Exception {
+        OObjectDatabaseTx transactionConnection = transaction ? getConnection() : null;
 
-        OObjectDatabaseTx connection = null;
+        if (transactionConnection!=null)
+            transactionConnection.begin();
         try {
-            connection = getConnection();
-            connection.begin();
-
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
-            Collection<T> beansBuffer = new LinkedList<>();
-            for (T bean : beans)
-                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, connection, false, null));
+            T[] beansBuffer = Arrays.copyOf(beans, beans.length);
 
-            connection.commit();
+            OObjectDatabaseTx connection = transactionConnection!=null ? transactionConnection : getConnection();
+            for (int i=0; i<beansBuffer.length; i++)
+                beansBuffer[i] = saveCustomEntity(beansBuffer[i], overwrite, buffer, connection, false, null);
+
+            if (transactionConnection!=null)
+                transactionConnection.commit();
             return beansBuffer;
         } catch (OSerializationException e) {
-            if (connection!=null)
-                connection.rollback();
+            if (transactionConnection!=null)
+                transactionConnection.rollback();
             client.registerPersistentEntities();
-            return saveCustomEntity(beans, overwrite, cycleCheck);
+            return saveCustomEntity(overwrite, cycleCheck, transaction, beans);
         } catch (Exception e) {
-            if (connection!=null)
-                connection.rollback();
+            if (transactionConnection!=null)
+                transactionConnection.rollback();
             throw e;
         }
     }

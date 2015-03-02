@@ -30,13 +30,16 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
     @Override
     protected void insertData(MeIdentification<DSDCodelist> metadata, Collection<Code> data) throws Exception {
-        saveCustomEntity(normalization(metadata, data, null, null),false,true);
+        Collection<Code> normalizedData = normalization(metadata, data, null, null);
+        saveCustomEntity(false,true,true, normalizedData.toArray(new Code[normalizedData.size()]));
     }
 
     @Override
     protected void updateData(MeIdentification<DSDCodelist> metadata, Collection<Code> data, boolean overwrite) throws Exception {
         Collection<String> toDelete = overwrite ? new LinkedList<String>() : null;
-        saveCustomEntity(normalization(metadata, data, loadData(metadata), toDelete),overwrite,true);
+        Collection<Code> normalizedData = normalization(metadata, data, loadData(metadata), toDelete);
+
+        saveCustomEntity(overwrite, true, true, normalizedData.toArray(new Code[normalizedData.size()]));
         deleteData(metadata, toDelete);
     }
 

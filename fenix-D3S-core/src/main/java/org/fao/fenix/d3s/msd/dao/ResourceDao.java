@@ -3,6 +3,7 @@ package org.fao.fenix.d3s.msd.dao;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
@@ -17,6 +18,37 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
+
+    //MASSIVE METADATA
+    public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {
+        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
+        if (metadata!=null)
+            try {
+                getConnection().begin();
+                for (MeIdentification<M> m : metadata)
+                    storedMetadata.add(insertMetadata(m, false));
+                getConnection().commit();
+            } catch (Exception ex) {
+                getConnection().rollback();
+                throw ex;
+            }
+        return storedMetadata;
+    }
+    public Collection<MeIdentification<M>> updateMetadata (Collection<MeIdentification<M>> metadata, boolean overwrite) throws Exception {
+        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
+        if (metadata!=null)
+            try {
+                getConnection().begin();
+                for (MeIdentification<M> m : metadata)
+                    storedMetadata.add(updateMetadata(m, overwrite, false));
+                getConnection().commit();
+            } catch (Exception ex) {
+                getConnection().rollback();
+                throw ex;
+            }
+        return storedMetadata;
+    }
+
 
     //LOAD RESOURCE
 
@@ -43,66 +75,57 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
 
     //STORE RESOURCE
 
-    public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {
-        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null)
-            try {
-                getConnection().begin();
-                for (MeIdentification<M> m : metadata)
-                    storedMetadata.add(insertMetadata(m));
-                getConnection().commit();
-            } catch (Exception ex) {
-                getConnection().rollback();
-                throw ex;
-            }
-        return storedMetadata;
-    }
-    public Collection<MeIdentification<M>> updateMetadata (Collection<MeIdentification<M>> metadata, boolean overwrite) throws Exception {
-        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null)
-            try {
-                getConnection().begin();
-                for (MeIdentification<M> m : metadata)
-                    storedMetadata.add(updateMetadata(m, overwrite));
-                getConnection().commit();
-            } catch (Exception ex) {
-                getConnection().rollback();
-                throw ex;
-            }
-        return storedMetadata;
-    }
-
-
     public MeIdentification<M> insertMetadata (MeIdentification<M> metadata) throws Exception {
+        return insertMetadata(metadata, true);
+    }
+    private MeIdentification<M> insertMetadata (MeIdentification<M> metadata, boolean transaction) throws Exception {
         if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
-        return metadata!=null ? newCustomEntity(metadata) : null;
+        return newCustomEntity(false, transaction, metadata);
     }
+
     public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite) throws Exception {
+        return updateMetadata(metadata, overwrite, true);
+    }
+    private MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite, boolean transaction) throws Exception {
         if (metadata!=null) {
             if (metadata.getRID()==null) {
                 ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
                 metadata.setORID(metadataO!=null ? metadataO.getIdentity() : null);
             }
             if (metadata.getRID()!=null)
-                return  metadata.isIdentificationOnly() ? loadMetadata(metadata.getRID(), null) : saveCustomEntity(metadata,overwrite);
+                return  metadata.isIdentificationOnly() ? loadMetadata(metadata.getRID(), null) : saveCustomEntity(overwrite, false, transaction, metadata)[0];
         }
-        throw new NoContentException("Cannot find bean. Resource icdentification is mandatory to execute update operation.");
+        return null;
     }
     public MeIdentification<M> insertResource (Resource<M,D> resource) throws Exception {
-        MeIdentification<M> metadata = insertMetadata(resource.getMetadata());
-        if (metadata!=null)
-            insertData(metadata, resource.getData());
-        return metadata;
+        getConnection().begin();
+        try {
+            MeIdentification<M> metadata = insertMetadata(resource.getMetadata());
+            if (metadata != null)
+                insertData(metadata, resource.getData());
+            getConnection().commit();
+            return metadata;
+        } catch (Exception ex) {
+            getConnection().rollback();
+            throw ex;
+        }
     }
 
     public MeIdentification<M> updateResource (Resource<M,D> resource, boolean overwrite) throws Exception {
-        MeIdentification<M> metadata = updateMetadata(resource.getMetadata(), overwrite);
-        if (metadata!=null)
-            updateData(metadata, resource.getData(), overwrite);
-        return metadata;
+        getConnection().begin();
+        try {
+            MeIdentification<M> metadata = updateMetadata(resource.getMetadata(), overwrite);
+            if (metadata!=null)
+                updateData(metadata, resource.getData(), overwrite);
+            getConnection().commit();
+            return metadata;
+        } catch (Exception ex) {
+            getConnection().rollback();
+            throw ex;
+        }
     }
 
     //DELETE RESOURCE
@@ -114,36 +137,50 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     }
 
     public boolean deleteResource (String id, String version) throws Exception {
-        MeIdentification<M> metadata = loadMetadata(id,version);
-
-        if (metadata!=null) {
-            deleteData(metadata);
-            deleteMetadata(metadata);
-        }
-        return metadata!=null;
+        return deleteResource(loadMetadata(id, version));
     }
 
-    public void deleteResource (MeIdentification<M> metadata) throws Exception {
-        if (metadata!=null) {
-            deleteData(metadata);
-            deleteMetadata(metadata);
-        }
-    }
-
-    public void deleteMetadata(MeIdentification<M> ... metadata) throws Exception {
-        if (metadata!=null) try {
-            getConnection().begin();
-            for (MeIdentification<M> m : metadata) {
-                DSD dsd = m.getDsd();
-                if (dsd != null)
-                    getConnection().delete(dsd);
-                getConnection().delete(m);
-            }
-            getConnection().commit();
+    public boolean deleteResource (MeIdentification<M> metadata) throws Exception {
+        getConnection().begin();
+        try {
+            if (metadata!=null) {
+                deleteMetadata(metadata);
+                deleteData(metadata);
+                getConnection().commit();
+                return true;
+            } else
+                return false;
         } catch (Exception ex) {
             getConnection().rollback();
             throw ex;
         }
+    }
+
+    public void deleteMetadata(MeIdentification<M> ... metadata) throws Exception {
+        deleteMetadata(true, metadata);
+    }
+    private void deleteMetadata(boolean transaction, MeIdentification<M> ... metadata) throws Exception {
+        OObjectDatabaseTx transactionConnection = transaction ? getConnection() : null;
+
+        if (metadata!=null)
+            try {
+                if (transactionConnection!=null)
+                    transactionConnection.begin();
+
+                OObjectDatabaseTx connection = transactionConnection!=null ? transactionConnection : getConnection();
+                for (MeIdentification<M> m : metadata) {
+                    DSD dsd = m.getDsd();
+                    if (dsd != null)
+                        connection.delete(dsd);
+                    connection.delete(m);
+                }
+                if (transactionConnection!=null)
+                    transactionConnection.commit();
+            } catch (Exception ex) {
+                if (transactionConnection!=null)
+                    transactionConnection.rollback();
+                throw ex;
+            }
     }
 
 
