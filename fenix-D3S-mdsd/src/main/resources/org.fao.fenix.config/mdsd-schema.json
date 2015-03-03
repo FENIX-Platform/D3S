@@ -153,6 +153,66 @@
                "type": "string"
             }
          }
+      },
+      "OjCode": {
+         "type": "object",
+         "properties": {
+            "code": {
+               "type": "string"
+            },
+            "label": {
+               "type": "object",
+               "patternProperties": {
+                  ".{1,}": {"type": "string"}
+               }
+            }
+         }
+      },
+      "OjCodeList": {
+         "type": "object",
+         "properties": {
+            "codes": {
+               "type": "array",
+               "items": {
+                  "$ref": "#/definitions/OjCode"
+               }
+            },
+            "idCodeList": {
+               "type": "string"
+            },
+            "version": {
+               "type": "string"
+            },
+            "extendedName": {
+               "type": "object",
+               "patternProperties": {
+                  ".{1,}": {"type": "string"}
+               }
+            },
+            "contactInfo": {
+               "$ref": "#/definitions/OjResponsibleParty"
+            },
+            "codeListResources": {
+               "type": "array",
+               "items": {
+                  "$ref": "#/definitions/OjCitation"
+               }
+            },
+            "link": {
+               "type": "string"
+            }
+         }
+      },
+      "OjPeriod": {
+         "type": "object",
+         "properties": {
+            "from": {
+               "type": "date-time"
+            },
+            "to": {
+               "type": "date-time"
+            }
+         }
       }
    }
 }
