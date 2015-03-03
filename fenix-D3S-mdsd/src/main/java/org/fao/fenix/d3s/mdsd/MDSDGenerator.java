@@ -30,7 +30,7 @@ public class MDSDGenerator {
                 if (f.getType().getSimpleName().equalsIgnoreCase("Collection")) {
                     ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
                     Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-                    System.out.println("\t" + stringListClass);
+                    System.out.println("\t" + stringListClass.getSimpleName());
                 }
                 sb.append(encodeField(f.getName(), f.getType().getSimpleName(), l, d));
                 sb.append(",");
