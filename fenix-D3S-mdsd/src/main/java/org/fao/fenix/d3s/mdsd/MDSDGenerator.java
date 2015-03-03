@@ -6,6 +6,7 @@ import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * @author <a href="mailto:guido.barbaglia@fao.org">Guido Barbaglia</a>
@@ -25,6 +26,12 @@ public class MDSDGenerator {
             try {
                 Label l = (Label)f.getDeclaredAnnotation(Label.class);
                 Description d = (Description)f.getDeclaredAnnotation(Description.class);
+                System.out.println(f.getType().getSimpleName());
+                if (f.getType().getSimpleName().equalsIgnoreCase("Collection")) {
+                    ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
+                    Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+                    System.out.println("\t" + stringListClass);
+                }
                 sb.append(encodeField(f.getName(), f.getType().getSimpleName(), l, d));
                 sb.append(",");
             } catch (Exception e) {
@@ -44,6 +51,19 @@ public class MDSDGenerator {
         StringBuilder sb = new StringBuilder();
         sb.append("\"").append(fieldName).append("\": {");
         sb.append("\"type\": \"").append(fieldType).append("\",\"properties\": {");
+
+        sb.append(encodeLabel(l));
+        sb.append(",");
+        sb.append(encodeDescription(d));
+
+
+        sb.append("}");
+        sb.append("}");
+        return sb;
+    }
+
+    private StringBuilder encodeLabel(Label l) {
+        StringBuilder sb = new StringBuilder();
         sb.append("\"label\": {");
         if (l.en().length() > 0)
             sb.append("\"en\": \"").append(l.en()).append("\"");
@@ -57,8 +77,12 @@ public class MDSDGenerator {
             sb.append(",\"cn\": \"").append(l.cn()).append("\"");
         if (l.ru().length() > 0)
             sb.append(",\"ru\": \"").append(l.ru()).append("\"");
-        sb.append("},");
+        sb.append("}");
+        return sb;
+    }
 
+    private StringBuilder encodeDescription(Description d) {
+        StringBuilder sb = new StringBuilder();
         sb.append("\"description\": {");
         if (d.en().length() > 0)
             sb.append("\"en\": \"").append(d.en()).append("\"");
@@ -72,9 +96,6 @@ public class MDSDGenerator {
             sb.append(",\"cn\": \"").append(d.cn()).append("\"");
         if (d.ru().length() > 0)
             sb.append(",\"ru\": \"").append(d.ru()).append("\"");
-        sb.append("}");
-
-        sb.append("}");
         sb.append("}");
         return sb;
     }
