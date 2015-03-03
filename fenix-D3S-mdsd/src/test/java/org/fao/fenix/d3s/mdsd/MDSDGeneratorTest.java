@@ -8,4 +8,9 @@ import junit.framework.TestCase;
  */
 public class MDSDGeneratorTest extends TestCase {
 
+    public void testGenerate() {
+        MDSDGenerator g = new MDSDGenerator();
+        g.generate();
+    }
+
 }
