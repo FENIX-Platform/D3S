@@ -38,6 +38,9 @@ public class MDSDGenerator {
         Map<String, String> m = new HashMap<>();
         m.put("\\{,", "{");
         m.put("},}", "}}");
+        m.put(",},", "},");
+        m.put(",}", "}");
+        m.put(",,", ",");
         m.put(",,,", "");
         String s = sb.toString();
         for (String key : m.keySet())
@@ -75,42 +78,37 @@ public class MDSDGenerator {
 
     private StringBuilder encodeField(Field f, Label l, Description d, boolean isMap, boolean isCollection) {
         StringBuilder sb = new StringBuilder();
-
         boolean isOj = f.getType().getSimpleName().startsWith("Oj");
         if (isOj) {
             sb.append("\"").append(f.getName()).append("\": {");
+            sb.append(encodeLabelAndDescription(l, d));
+            sb.append(",");
             sb.append("\"$ref\": \"#/definitions/").append(f.getType().getSimpleName()).append("\"");
             sb.append("}");
         } else {
-
             if (f.getName().equalsIgnoreCase(f.getType().getSimpleName())) {
-
-//                System.out.println("####################################################################################################");
-//                System.out.println(f.getName());
-//                sb.append("\"").append(f.getName()).append("\": {}");
-
                 try {
                     Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
                     if (!(o instanceof String)) {
-//                        sb.append(",");
                         sb.append("\"").append(f.getName()).append("\": ");
                         sb.append(processObject(o));
                     }
                 } catch (Exception e) {
 
                 }
-
             }
-
             else {
-
                 if (isMap) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"object\",");
+                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(",");
                     sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}}");
                 } else if (isCollection) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"array\",");
+                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(",");
                     ParameterizedType fieldType = (ParameterizedType) f.getGenericType();
                     String generics = ((Class<?>) fieldType.getActualTypeArguments()[0]).getSimpleName();
                     if (generics.equalsIgnoreCase(String.class.getSimpleName())) {
@@ -120,18 +118,8 @@ public class MDSDGenerator {
                     }
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
-                    sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\"");
-                }
-                if (l.en().length() > 0 || d.en().length() > 0) {
-                    sb.append(",");
-                    sb.append("\"properties\": {");
-                    if (l.en().length() > 0)
-                        sb.append(encodeLabel(l));
-                    if (d.en().length() > 0) {
-                        sb.append(",");
-                        sb.append(encodeDescription(d));
-                    }
-                    sb.append("}");
+                    sb.append("\"type\": \"").append(f.getType().getSimpleName().toLowerCase()).append("\",");
+                    sb.append(encodeLabelAndDescription(l, d));
                 }
                 try {
                     Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
@@ -149,14 +137,23 @@ public class MDSDGenerator {
         return sb;
     }
 
-    private StringBuilder encodeString() {
+    private StringBuilder encodeLabelAndDescription(Label l, Description d) {
         StringBuilder sb = new StringBuilder();
+        if (l.en().length() > 0 || d.en().length() > 0) {
+            if (l.en().length() > 0)
+                sb.append(encodeLabel(l));
+            if (d.en().length() > 0) {
+                sb.append(",");
+                sb.append(encodeDescription(d));
+            }
+        }
         return sb;
     }
 
     private StringBuilder encodeLabel(Label l) {
         StringBuilder sb = new StringBuilder();
-        sb.append("\"label\": {");
+        sb.append("\"title\": \"").append(l.en()).append("\",");
+        sb.append("\"title_i18n\": {");
         sb.append("\"en\": \"").append(l.en()).append("\"");
         if (l.fr().length() > 0)
             sb.append(",\"fr\": \"").append(l.fr()).append("\"");
@@ -174,7 +171,8 @@ public class MDSDGenerator {
 
     private StringBuilder encodeDescription(Description d) {
         StringBuilder sb = new StringBuilder();
-        sb.append("\"description\": {");
+        sb.append("\"description\": \"").append(d.en()).append("\",");
+        sb.append("\"description_i18n\": {");
         sb.append("\"en\": \"").append(d.en()).append("\"");
         if (d.fr().length() > 0)
             sb.append(",\"fr\": \"").append(d.fr()).append("\"");
