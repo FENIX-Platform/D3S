@@ -1,0 +1,1298 @@
+{
+   "type": "object",
+   "properties": {
+      "uid": {
+         "type": "String",
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "version": {
+         "type": "String",
+         "properties": {
+            "label": {"en": "Version"},
+            "description": {"en": "This is the version of the metadata."}
+         }
+      },
+      "parentIdentifiers": {
+         "type": "array",
+         "items": {"type": "string"},
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "language": {"$ref": "#/definitions/OjCodeList"},
+      "languageDetails": {
+         "type": "object",
+         "patternProperties": {".{1,}": {"type": "string"}},
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "title": {
+         "type": "object",
+         "patternProperties": {".{1,}": {"type": "string"}},
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "creationDate": {
+         "type": "Date",
+         "properties": {
+            "label": {},
+            "description": {},
+            "creationDate": {
+               "type": "object",
+               "properties": {}
+            }
+         }
+      },
+      "characterSet": {"$ref": "#/definitions/OjCodeList"},
+      "metadataStandardName": {
+         "type": "String",
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "metadataStandardVersion": {
+         "type": "String",
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "metadataLanguage": {"$ref": "#/definitions/OjCodeList"},
+      "contacts": {
+         "type": "array",
+         "items": {"$ref": "#/definitions/OjResponsibleParty"},
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "noDataValue": {
+         "type": "String",
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "meDocuments": {
+         "type": "array",
+         "items": {"$ref": "#/definitions/MeDocuments"},
+         "properties": {
+            "label": {},
+            "description": {}
+         }
+      },
+      "meInstitutionalMandate": {
+         "type": "MeInstitutionalMandate",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meInstitutionalMandate": {
+               "type": "object",
+               "properties": {
+                  "legalActsAgreements": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "institutionalMandateDataSharing": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meAccessibility": {
+         "type": "MeAccessibility",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meAccessibility": {
+               "type": "object",
+               "properties": {
+                  "seDataDissemination": {
+                     "type": "SeDataDissemination",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDataDissemination": {
+                           "type": "object",
+                           "properties": {
+                              "seDistribution": {
+                                 "type": "SeDistribution",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seDistribution": {
+                                       "type": "object",
+                                       "properties": {
+                                          "onlineResource": {
+                                             "type": "String",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "disseminationFormat": {
+                                             "type": "array",
+                                             "items": {"type": "string"},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "seReleasePolicy": {
+                                 "type": "SeReleasePolicy",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seReleasePolicy": {
+                                       "type": "object",
+                                       "properties": {
+                                          "releaseCalendar": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "releaseCalendarAccess": {
+                                             "type": "String",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "disseminationPeriodicity": {"$ref": "#/definitions/OjCodeList"},
+                                          "embargoTime": {"$ref": "#/definitions/OjPeriod"}
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seClarity": {
+                     "type": "SeClarity",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seClarity": {
+                           "type": "object",
+                           "properties": {
+                              "clarity": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "metadataCompletenessRate": {
+                                 "type": "Integer",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seConfidentiality": {
+                     "type": "SeConfidentiality",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seConfidentiality": {
+                           "type": "object",
+                           "properties": {
+                              "confidentialityPolicy": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "confidentialityDataTreatment": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "confidentialityStatus": {"$ref": "#/definitions/OjCodeList"}
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meContent": {
+         "type": "MeContent",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meContent": {
+               "type": "object",
+               "properties": {
+                  "resourceRepresentationType": {
+                     "type": "RepresentationType",
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "keywords": {
+                     "type": "array",
+                     "items": {"type": "string"},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "description": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "statisticalConceptsDefinitions": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "seReferencePopulation": {
+                     "type": "SeReferencePopulation",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seReferencePopulation": {
+                           "type": "object",
+                           "properties": {
+                              "statisticalPopulation": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "statisticalUnit": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "referencePeriod": {"$ref": "#/definitions/OjCodeList"},
+                              "referenceArea": {"$ref": "#/definitions/OjCodeList"}
+                           }
+                        }
+                     }
+                  },
+                  "seCoverage": {
+                     "type": "SeCoverage",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seCoverage": {
+                           "type": "object",
+                           "properties": {
+                              "coverageSectors": {"$ref": "#/definitions/OjCodeList"},
+                              "coverageSectorsDetails": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "coverageTime": {"$ref": "#/definitions/OjPeriod"},
+                              "coverageGeographic": {"$ref": "#/definitions/OjCodeList"}
+                           }
+                        }
+                     }
+                  },
+                  "seCodeList": {
+                     "type": "SeCodeList",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seCodeList": {
+                           "type": "object",
+                           "properties": {
+                              "numberOfLevels": {
+                                 "type": "Integer",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "typeOfCodeList": {
+                                 "type": "CodeListType",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meDataQuality": {
+         "type": "MeDataQuality",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meDataQuality": {
+               "type": "object",
+               "properties": {
+                  "qualityManagement": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "qualityAssessment": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "qualityAssurance": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "seAccuracy": {
+                     "type": "SeAccuracy",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seAccuracy": {
+                           "type": "object",
+                           "properties": {
+                              "accuracyNonSampling": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "accuracySampling": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seDataRevision": {
+                     "type": "SeDataRevision",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDataRevision": {
+                           "type": "object",
+                           "properties": {
+                              "revisionPolicy": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "revisionPractice": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seRelevance": {
+                     "type": "SeRelevance",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seRelevance": {
+                           "type": "object",
+                           "properties": {
+                              "userNeeds": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "userSatisfaction": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "completeness": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "completenessPercentage": {
+                                 "type": "Double",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seComparability": {
+                     "type": "SeComparability",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seComparability": {
+                           "type": "object",
+                           "properties": {
+                              "comparabilityGeographical": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "comparabilityTime": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "coherenceIntern": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seTimelinessPunctuality": {
+                     "type": "SeTimelinessPunctuality",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seTimelinessPunctuality": {
+                           "type": "object",
+                           "properties": {
+                              "timeliness": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "punctuality": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meMaintenance": {
+         "type": "MeMaintenance",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meMaintenance": {
+               "type": "object",
+               "properties": {
+                  "maintenanceAgency": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "seUpdate": {
+                     "type": "SeUpdate",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seUpdate": {
+                           "type": "object",
+                           "properties": {
+                              "updateDate": {
+                                 "type": "Date",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "updateDate": {
+                                       "type": "object",
+                                       "properties": {}
+                                    }
+                                 }
+                              },
+                              "updatePeriodicity": {"$ref": "#/definitions/OjCodeList"}
+                           }
+                        }
+                     }
+                  },
+                  "seMetadataMaintenance": {
+                     "type": "SeMetadataMaintenance",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seMetadataMaintenance": {
+                           "type": "object",
+                           "properties": {
+                              "metadataLastCertified": {
+                                 "type": "Date",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "metadataLastCertified": {
+                                       "type": "object",
+                                       "properties": {}
+                                    }
+                                 }
+                              },
+                              "metadataLastPosted": {
+                                 "type": "Date",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "metadataLastPosted": {
+                                       "type": "object",
+                                       "properties": {}
+                                    }
+                                 }
+                              },
+                              "metadataLastUpdate": {
+                                 "type": "Date",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "metadataLastUpdate": {
+                                       "type": "object",
+                                       "properties": {}
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meReferenceSystem": {
+         "type": "MeReferenceSystem",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meReferenceSystem": {
+               "type": "object",
+               "properties": {
+                  "referenceSystemIdentifier": {
+                     "type": "String",
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "referenceSystemName": {
+                     "type": "object",
+                     "patternProperties": {".{1,}": {"type": "string"}},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "referenceSystemAuthority": {"$ref": "#/definitions/OjResponsibleParty"},
+                  "seProjection": {
+                     "type": "SeProjection",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seProjection": {
+                           "type": "object",
+                           "properties": {
+                              "projection": {"$ref": "#/definitions/OjCodeList"},
+                              "projectionName": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "seProjectionParameters": {
+                                 "type": "SeProjectionParameters",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seProjectionParameters": {
+                                       "type": "object",
+                                       "properties": {
+                                          "zone": {
+                                             "type": "Integer",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "standardParallel": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "longitudeOfCentralMeridian": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "latitudeOfProjectionOrigin": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "falseEasting": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "falseNorthing": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "falseEastingNorthingUnits": {"$ref": "#/definitions/OjMeasure"},
+                                          "scaleFactorAtEquator": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "heightOfProspectivePointAboveSurface": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "longitudeOfProjectionCenter": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "latitudeOfProjectionCenter": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "scaleFactorAtCenterLine": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "straightVerticalLongitudeFromPole": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "scaleFactorAtProjectionOrigin": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "seObliqueLineAzimuth": {
+                                             "type": "SeObliqueLineAzimuth",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {},
+                                                "seObliqueLineAzimuth": {
+                                                   "type": "object",
+                                                   "properties": {
+                                                      "azimuthAngle": {
+                                                         "type": "Double",
+                                                         "properties": {
+                                                            "label": {},
+                                                            "description": {}
+                                                         }
+                                                      },
+                                                      "azimuthMeasurePointLongitude": {
+                                                         "type": "Double",
+                                                         "properties": {
+                                                            "label": {},
+                                                            "description": {}
+                                                         }
+                                                      }
+                                                   }
+                                                }
+                                             }
+                                          },
+                                          "seObliqueLinePoint": {
+                                             "type": "SeObliqueLinePoint",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {},
+                                                "seObliqueLinePoint": {
+                                                   "type": "object",
+                                                   "properties": {
+                                                      "obliqueLineLatitude": {
+                                                         "type": "Double",
+                                                         "properties": {
+                                                            "label": {},
+                                                            "description": {}
+                                                         }
+                                                      },
+                                                      "obliqueLineLongitude": {
+                                                         "type": "Double",
+                                                         "properties": {
+                                                            "label": {},
+                                                            "description": {}
+                                                         }
+                                                      }
+                                                   }
+                                                }
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seEllipsoid": {
+                     "type": "SeEllipsoid",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seEllipsoid": {
+                           "type": "object",
+                           "properties": {
+                              "ellipsoid": {"$ref": "#/definitions/OjCodeList"},
+                              "ellipsoidName": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "seEllipsoidParameters": {
+                                 "type": "SeEllipsoidParameters",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seEllipsoidParameters": {
+                                       "type": "object",
+                                       "properties": {
+                                          "semiMajorAxis": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "axisUnits": {"$ref": "#/definitions/OjMeasure"},
+                                          "denominatorOfFlatteringRatio": {
+                                             "type": "Double",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seDatum": {
+                     "type": "SeDatum",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDatum": {
+                           "type": "object",
+                           "properties": {
+                              "datum": {"$ref": "#/definitions/OjCodeList"},
+                              "datumName": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meResourceStructure": {
+         "type": "MeResourceStructure",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meResourceStructure": {
+               "type": "object",
+               "properties": {
+                  "seResourceDimensions": {
+                     "type": "array",
+                     "items": {"$ref": "#/definitions/SeResourceDimensions"},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "seResourceRecords": {
+                     "type": "array",
+                     "items": {"$ref": "#/definitions/SeResourceRecords"},
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meSpatialRepresentation": {
+         "type": "MeSpatialRepresentation",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meSpatialRepresentation": {
+               "type": "object",
+               "properties": {
+                  "layerType": {
+                     "type": "LayerType",
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "typeOfProduct": {"$ref": "#/definitions/OjCodeList"},
+                  "processing": {"$ref": "#/definitions/OjCodeList"},
+                  "noDataValue": {
+                     "type": "String",
+                     "properties": {
+                        "label": {},
+                        "description": {}
+                     }
+                  },
+                  "seBoundingBox": {
+                     "type": "SeBoundingBox",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seBoundingBox": {
+                           "type": "object",
+                           "properties": {
+                              "xmin": {
+                                 "type": "Double",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "xmax": {
+                                 "type": "Double",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "ymin": {
+                                 "type": "Double",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "ymax": {
+                                 "type": "Double",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "seGridSpatialRepresentation": {
+                                 "type": "SeGridSpatialRepresentation",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seGridSpatialRepresentation": {
+                                       "type": "object",
+                                       "properties": {
+                                          "numberOfDimensions": {
+                                             "type": "Integer",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "axisDimensionProperties": {"$ref": "#/definitions/OjAxis"},
+                                          "cellGeometry": {
+                                             "type": "CellGeometry",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "cellOfOrigin": {
+                                             "type": "CellOfOrigin",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "xyPosition": {
+                                             "type": "XYPosition",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "seVectorSpatialRepresentation": {
+                                 "type": "SeVectorSpatialRepresentation",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seVectorSpatialRepresentation": {
+                                       "type": "object",
+                                       "properties": {
+                                          "topologyLevel": {"$ref": "#/definitions/OjCodeList"},
+                                          "geometricObjects": {
+                                             "type": "GeometricObjects",
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "meStatisticalProcessing": {
+         "type": "MeStatisticalProcessing",
+         "properties": {
+            "label": {},
+            "description": {},
+            "meStatisticalProcessing": {
+               "type": "object",
+               "properties": {
+                  "seDataSource": {
+                     "type": "SeDataSource",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDataSource": {
+                           "type": "object",
+                           "properties": {
+                              "sePrimaryDataCollection": {
+                                 "type": "SePrimaryDataCollection",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "sePrimaryDataCollection": {
+                                       "type": "object",
+                                       "properties": {
+                                          "dataCollector": {"$ref": "#/definitions/OjResponsibleParty"},
+                                          "typeOfCollection": {"$ref": "#/definitions/OjCodeList"},
+                                          "samplingProcedure": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "dataCollection": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "collectionPeriodicity": {"$ref": "#/definitions/OjCodeList"}
+                                       }
+                                    }
+                                 }
+                              },
+                              "seSecondaryDataCollection": {
+                                 "type": "SeSecondaryDataCollection",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "seSecondaryDataCollection": {
+                                       "type": "object",
+                                       "properties": {
+                                          "originOfCollectedData": {"$ref": "#/definitions/OjCodeList"},
+                                          "organization": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "rawDataDescription": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          },
+                                          "dataCollection": {
+                                             "type": "object",
+                                             "patternProperties": {".{1,}": {"type": "string"}},
+                                             "properties": {
+                                                "label": {},
+                                                "description": {}
+                                             }
+                                          }
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seDataCompilation": {
+                     "type": "SeDataCompilation",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDataCompilation": {
+                           "type": "object",
+                           "properties": {
+                              "missingData": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "weights": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "aggregationProcessing": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "aggregationFormula": {
+                                 "type": "String",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "dataAdjustment": {"$ref": "#/definitions/OjCodeList"},
+                              "dataAdjustmentDetails": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "indexType": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "basePeriod": {
+                                 "type": "Date",
+                                 "properties": {
+                                    "label": {},
+                                    "description": {},
+                                    "basePeriod": {
+                                       "type": "object",
+                                       "properties": {}
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "seDataValidation": {
+                     "type": "SeDataValidation",
+                     "properties": {
+                        "label": {},
+                        "description": {},
+                        "seDataValidation": {
+                           "type": "object",
+                           "properties": {
+                              "dataValidationIntermediate": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "dataValidationOutput": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              },
+                              "dataValidationSource": {
+                                 "type": "object",
+                                 "patternProperties": {".{1,}": {"type": "string"}},
+                                 "properties": {
+                                    "label": {},
+                                    "description": {}
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
