@@ -65,34 +65,43 @@ public class MDSDGenerator {
     private StringBuilder encodeField(Field f, Label l, Description d, boolean isMap, boolean isCollection) {
         StringBuilder sb = new StringBuilder();
         boolean isOj = f.getType().getSimpleName().startsWith("Oj");
-//        System.out.println("\t" + f.getName() + " > " + f.getType().getSimpleName() + "? " + isOj);
-
         if (isOj) {
             sb.append("\"").append(f.getName()).append("\": {");
             sb.append("\"$ref\": \"#/definitions/").append(f.getType().getSimpleName()).append("\"");
             sb.append("}");
         } else {
-            sb.append("\"").append(f.getName()).append("\": {");
 
             if (isMap) {
+                sb.append("\"").append(f.getName()).append("\": {");
                 sb.append("\"type\": \"object\",");
-                sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}},");
+                sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}}");
             } else if (isCollection) {
+                sb.append("\"").append(f.getName()).append("\": {");
                 sb.append("\"type\": \"array\",");
                 ParameterizedType fieldType = (ParameterizedType) f.getGenericType();
                 String generics = ((Class<?>) fieldType.getActualTypeArguments()[0]).getSimpleName();
                 if (generics.equalsIgnoreCase(String.class.getSimpleName())) {
-                    sb.append("\"items\": {\"type\": \"string\"},");
+                    sb.append("\"items\": {\"type\": \"string\"}");
                 } else {
-                    sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"},");
+                    sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"}");
                 }
             } else {
-                sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\",");
+//                if (f.getName().equalsIgnoreCase(f.getType().getSimpleName()))
+//                    System.out.println(f.getName() + " - " + f.getType().getSimpleName() + " - " + f.getName().equalsIgnoreCase(f.getType().getSimpleName()));
+                sb.append("\"").append(f.getName()).append("\": {");
+                sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\"");
             }
-            sb.append("\"properties\": {");
-            sb.append(encodeLabel(l));
-            sb.append(",");
-            sb.append(encodeDescription(d));
+            if (l.en().length() > 0 || d.en().length() > 0) {
+                sb.append(",");
+                sb.append("\"properties\": {");
+                if (l.en().length() > 0)
+                    sb.append(encodeLabel(l));
+                if (d.en().length() > 0) {
+                    sb.append(",");
+                    sb.append(encodeDescription(d));
+                }
+                sb.append("}");
+            }
             try {
                 Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
                 if (!(o instanceof String)) {
@@ -103,7 +112,7 @@ public class MDSDGenerator {
             } catch (Exception e) {
 
             }
-            sb.append("}");
+//            sb.append("}");
             sb.append("}");
         }
         return sb;
@@ -117,8 +126,7 @@ public class MDSDGenerator {
     private StringBuilder encodeLabel(Label l) {
         StringBuilder sb = new StringBuilder();
         sb.append("\"label\": {");
-        if (l.en().length() > 0)
-            sb.append("\"en\": \"").append(l.en()).append("\"");
+        sb.append("\"en\": \"").append(l.en()).append("\"");
         if (l.fr().length() > 0)
             sb.append(",\"fr\": \"").append(l.fr()).append("\"");
         if (l.es().length() > 0)
@@ -136,8 +144,7 @@ public class MDSDGenerator {
     private StringBuilder encodeDescription(Description d) {
         StringBuilder sb = new StringBuilder();
         sb.append("\"description\": {");
-        if (d.en().length() > 0)
-            sb.append("\"en\": \"").append(d.en()).append("\"");
+        sb.append("\"en\": \"").append(d.en()).append("\"");
         if (d.fr().length() > 0)
             sb.append(",\"fr\": \"").append(d.fr()).append("\"");
         if (d.es().length() > 0)
