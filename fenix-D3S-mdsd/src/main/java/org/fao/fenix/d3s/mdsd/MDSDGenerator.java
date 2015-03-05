@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,8 +97,7 @@ public class MDSDGenerator {
                 } catch (Exception e) {
 
                 }
-            }
-            else {
+            } else {
                 if (isMap) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"object\",");
@@ -116,6 +116,10 @@ public class MDSDGenerator {
                     } else {
                         sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"}");
                     }
+                } else if (f.getType().getSimpleName().equalsIgnoreCase(Date.class.getSimpleName())) {
+                    sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append("\"type\": \"date-time\",");
+                    sb.append(encodeLabelAndDescription(l, d));
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"").append(f.getType().getSimpleName().toLowerCase()).append("\",");
@@ -123,7 +127,7 @@ public class MDSDGenerator {
                 }
                 try {
                     Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
-                    if (!(o instanceof String)) {
+                    if (!(o instanceof String) && !(o instanceof Date)) {
                         sb.append(",");
                         sb.append("\"").append(f.getName()).append("\": ");
                         sb.append(processObject(o));

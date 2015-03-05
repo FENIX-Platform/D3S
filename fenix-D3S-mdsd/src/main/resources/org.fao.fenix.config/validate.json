@@ -46,11 +46,11 @@
          "patternProperties": {".{1}": {"type": "string"}}
       },
       "creationDate": {
-         "type": "date",
-         "creationDate": {
-            "type": "object",
-            "properties": {}
-         }
+         "type": "date-time",
+         "title": "Creation Date",
+         "title_i18n": {"en": "Creation Date"},
+         "description": "Date for dataset creation",
+         "description_i18n": {"en": "Date for dataset creation"}
       },
       "characterSet": {"$ref": "#/definitions/OjCodeList"},
       "metadataStandardName": {"type": "string"},
@@ -293,40 +293,16 @@
             "seUpdate": {
                "type": "object",
                "properties": {
-                  "updateDate": {
-                     "type": "date",
-                     "updateDate": {
-                        "type": "object",
-                        "properties": {}
-                     }
-                  },
+                  "updateDate": {"type": "date-time"},
                   "updatePeriodicity": {"$ref": "#/definitions/OjCodeList"}
                }
             },
             "seMetadataMaintenance": {
                "type": "object",
                "properties": {
-                  "metadataLastCertified": {
-                     "type": "date",
-                     "metadataLastCertified": {
-                        "type": "object",
-                        "properties": {}
-                     }
-                  },
-                  "metadataLastPosted": {
-                     "type": "date",
-                     "metadataLastPosted": {
-                        "type": "object",
-                        "properties": {}
-                     }
-                  },
-                  "metadataLastUpdate": {
-                     "type": "date",
-                     "metadataLastUpdate": {
-                        "type": "object",
-                        "properties": {}
-                     }
-                  }
+                  "metadataLastCertified": {"type": "date-time"},
+                  "metadataLastPosted": {"type": "date-time"},
+                  "metadataLastUpdate": {"type": "date-time"}
                }
             }
          }
@@ -521,13 +497,7 @@
                      "type": "object",
                      "patternProperties": {".{1}": {"type": "string"}}
                   },
-                  "basePeriod": {
-                     "type": "date",
-                     "basePeriod": {
-                        "type": "object",
-                        "properties": {}
-                     }
-                  }
+                  "basePeriod": {"type": "date-time"}
                }
             },
             "seDataValidation": {
