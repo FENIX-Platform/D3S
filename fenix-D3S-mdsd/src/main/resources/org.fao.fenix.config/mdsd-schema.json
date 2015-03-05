@@ -23,7 +23,9 @@
             "extend": {
                "type": "object",
                "patternProperties": {
-                  ".{1,}": {"type": "string"}
+                  ".{1,}": {
+                     "type": "string"
+                  }
                }
             },
             "composedMU": {

@@ -2,13 +2,13 @@ package org.fao.fenix.d3s.mdsd;
 
 import org.fao.fenix.commons.annotations.Description;
 import org.fao.fenix.commons.annotations.Label;
-import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:guido.barbaglia@fao.org">Guido Barbaglia</a>
@@ -34,42 +34,24 @@ public class MDSDGenerator {
     }
 
     private StringBuilder processObject(Object obj) {
-        System.out.println("PROCESSING " + obj.getClass().getSimpleName());
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"type\": \"object\",");
         sb.append("\"properties\": {");
+        Field f;
+        Label l;
+        Description d;
         for (int i = 0 ; i < obj.getClass().getDeclaredFields().length ; i++) {
-            Field f = obj.getClass().getDeclaredFields()[i];
-//            System.out.println(f.getName() + " - " + f.getType().getSimpleName());
+            f = obj.getClass().getDeclaredFields()[i];
             try {
-                Label l = (Label)f.getDeclaredAnnotation(Label.class);
-                Description d = (Description)f.getDeclaredAnnotation(Description.class);
-//                System.out.println(f.getType().getSimpleName());
-                sb.append(encodeField(f, l, d));
-
-//                if (f.getType().getSimpleName().equalsIgnoreCase("Collection")) {
-//                    ParameterizedType stringListType = (ParameterizedType) f.getGenericType();
-//                    Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-//                    System.out.println("\t" + stringListClass.getSimpleName());
-//                } else {
-//                try {
-//                    System.out.println(f.getName() + ", " + f.getType().getSimpleName());
-//                    Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
-//                    if (!(o instanceof String)) {
-//                        System.out.println("\tAdd sub-objects");
-//                        sb.append(processObject(o));
-//                    }
-//                } catch (Exception e) {
-//
-//                }
-//                    sb.append("{").append("\"type\": \"object\",\"properties\": {");
-//                    sb.append(processObject(o));
-//                    sb.append("}");
-//                }
-
+                l = (Label)f.getDeclaredAnnotation(Label.class);
+                d = (Description)f.getDeclaredAnnotation(Description.class);
+                boolean isMap = f.getType().getSimpleName().equalsIgnoreCase(Map.class.getSimpleName());
+                System.out.println(f.getName() + ": " + f.getType().getSimpleName() + ": " + isMap);
+                sb.append(encodeField(f, l, d, isMap));
                 sb.append(",");
             } catch (Exception e) {
+
             }
         }
         if (sb.charAt(sb.length() - 1) == ',')
@@ -79,30 +61,27 @@ public class MDSDGenerator {
         return sb;
     }
 
-    private StringBuilder encodeField(Field f, Label l, Description d) {
+    private StringBuilder encodeField(Field f, Label l, Description d, boolean isMap) {
         StringBuilder sb = new StringBuilder();
         sb.append("\"").append(f.getName()).append("\": {");
         sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\",");
+        if (isMap) {
+            sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}},");
+        }
         sb.append("\"properties\": {");
-
         sb.append(encodeLabel(l));
         sb.append(",");
         sb.append(encodeDescription(d));
-
         try {
-            System.out.println(f.getName() + ", " + f.getType().getSimpleName());
             Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
             if (!(o instanceof String)) {
                 sb.append(",");
                 sb.append("\"").append(f.getName()).append("\": ");
-                System.out.println("\tAdd sub-objects");
                 sb.append(processObject(o));
             }
         } catch (Exception e) {
 
         }
-
-
         sb.append("}");
         sb.append("}");
         return sb;
