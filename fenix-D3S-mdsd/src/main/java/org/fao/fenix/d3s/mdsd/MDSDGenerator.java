@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,9 +30,19 @@ public class MDSDGenerator {
         sb.append(processObject(obj));
 
         /* Return output. */
-        System.out.println(sb);
-        return sb.toString();
+        return clean(sb).toString();
 
+    }
+
+    private StringBuilder clean(StringBuilder sb) {
+        Map<String, String> m = new HashMap<>();
+        m.put("\\{,", "{");
+        m.put("},}", "}}");
+        m.put(",,,", "");
+        String s = sb.toString();
+        for (String key : m.keySet())
+            s = s.replaceAll(key, m.get(key));
+        return new StringBuilder(s);
     }
 
     private StringBuilder processObject(Object obj) {
@@ -51,7 +62,7 @@ public class MDSDGenerator {
                 boolean isCollection = f.getType().getSimpleName().equalsIgnoreCase(Collection.class.getSimpleName());
                 sb.append(encodeField(f, l, d, isMap, isCollection));
                 sb.append(",");
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
 
             }
         }
@@ -64,6 +75,7 @@ public class MDSDGenerator {
 
     private StringBuilder encodeField(Field f, Label l, Description d, boolean isMap, boolean isCollection) {
         StringBuilder sb = new StringBuilder();
+
         boolean isOj = f.getType().getSimpleName().startsWith("Oj");
         if (isOj) {
             sb.append("\"").append(f.getName()).append("\": {");
@@ -71,49 +83,68 @@ public class MDSDGenerator {
             sb.append("}");
         } else {
 
-            if (isMap) {
-                sb.append("\"").append(f.getName()).append("\": {");
-                sb.append("\"type\": \"object\",");
-                sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}}");
-            } else if (isCollection) {
-                sb.append("\"").append(f.getName()).append("\": {");
-                sb.append("\"type\": \"array\",");
-                ParameterizedType fieldType = (ParameterizedType) f.getGenericType();
-                String generics = ((Class<?>) fieldType.getActualTypeArguments()[0]).getSimpleName();
-                if (generics.equalsIgnoreCase(String.class.getSimpleName())) {
-                    sb.append("\"items\": {\"type\": \"string\"}");
-                } else {
-                    sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"}");
+            if (f.getName().equalsIgnoreCase(f.getType().getSimpleName())) {
+
+//                System.out.println("####################################################################################################");
+//                System.out.println(f.getName());
+//                sb.append("\"").append(f.getName()).append("\": {}");
+
+                try {
+                    Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
+                    if (!(o instanceof String)) {
+//                        sb.append(",");
+                        sb.append("\"").append(f.getName()).append("\": ");
+                        sb.append(processObject(o));
+                    }
+                } catch (Exception e) {
+
                 }
-            } else {
-//                if (f.getName().equalsIgnoreCase(f.getType().getSimpleName()))
-//                    System.out.println(f.getName() + " - " + f.getType().getSimpleName() + " - " + f.getName().equalsIgnoreCase(f.getType().getSimpleName()));
-                sb.append("\"").append(f.getName()).append("\": {");
-                sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\"");
+
             }
-            if (l.en().length() > 0 || d.en().length() > 0) {
-                sb.append(",");
-                sb.append("\"properties\": {");
-                if (l.en().length() > 0)
-                    sb.append(encodeLabel(l));
-                if (d.en().length() > 0) {
+
+            else {
+
+                if (isMap) {
+                    sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append("\"type\": \"object\",");
+                    sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}}");
+                } else if (isCollection) {
+                    sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append("\"type\": \"array\",");
+                    ParameterizedType fieldType = (ParameterizedType) f.getGenericType();
+                    String generics = ((Class<?>) fieldType.getActualTypeArguments()[0]).getSimpleName();
+                    if (generics.equalsIgnoreCase(String.class.getSimpleName())) {
+                        sb.append("\"items\": {\"type\": \"string\"}");
+                    } else {
+                        sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"}");
+                    }
+                } else {
+                    sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append("\"type\": \"").append(f.getType().getSimpleName()).append("\"");
+                }
+                if (l.en().length() > 0 || d.en().length() > 0) {
                     sb.append(",");
-                    sb.append(encodeDescription(d));
+                    sb.append("\"properties\": {");
+                    if (l.en().length() > 0)
+                        sb.append(encodeLabel(l));
+                    if (d.en().length() > 0) {
+                        sb.append(",");
+                        sb.append(encodeDescription(d));
+                    }
+                    sb.append("}");
+                }
+                try {
+                    Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
+                    if (!(o instanceof String)) {
+                        sb.append(",");
+                        sb.append("\"").append(f.getName()).append("\": ");
+                        sb.append(processObject(o));
+                    }
+                } catch (Exception e) {
+
                 }
                 sb.append("}");
             }
-            try {
-                Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
-                if (!(o instanceof String)) {
-                    sb.append(",");
-                    sb.append("\"").append(f.getName()).append("\": ");
-                    sb.append(processObject(o));
-                }
-            } catch (Exception e) {
-
-            }
-//            sb.append("}");
-            sb.append("}");
         }
         return sb;
     }
