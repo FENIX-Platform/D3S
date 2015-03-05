@@ -72,7 +72,8 @@ public class MDSDGenerator {
             } catch (Exception e) {
             }
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (sb.charAt(sb.length() - 1) == ',')
+            sb.deleteCharAt(sb.length() - 1);
         sb.append("}");
         sb.append("}");
         return sb;
@@ -93,6 +94,7 @@ public class MDSDGenerator {
             Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
             if (!(o instanceof String)) {
                 sb.append(",");
+                sb.append("\"").append(f.getName()).append("\": ");
                 System.out.println("\tAdd sub-objects");
                 sb.append(processObject(o));
             }
