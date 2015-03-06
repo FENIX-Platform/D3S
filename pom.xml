@@ -16,6 +16,7 @@
         <module>fenix-D3S-cache</module>
         <module>fenix-D3S-CountrySTAT</module>
         <module>fenix-D3S-UNECA</module>
+        <module>fenix-D3S-mdsd</module>
         <module>fenix-D3S-core</module>
         <module>fenix-D3S-proxy</module>
     </modules>

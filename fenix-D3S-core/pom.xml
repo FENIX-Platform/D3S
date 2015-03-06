@@ -97,6 +97,13 @@
             <version>${orient.version}</version>
         </dependency>
 
+        <!-- MDSD support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fenix-D3S-mdsd</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Services level interface -->
         <dependency>
             <groupId>${project.groupId}</groupId>

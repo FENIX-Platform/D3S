@@ -67,6 +67,7 @@ public abstract class DefaultStorage extends H2Database {
         } catch (Exception ex) {
             connection.rollback();
             loadMetadata().remove(tableName);
+            ex.printStackTrace();
             throw ex;
         } finally {
             connection.close();
@@ -208,6 +209,7 @@ public abstract class DefaultStorage extends H2Database {
             status.setLastUpdate(new Date());
             storeMetadata(tableName,status);
             //throw error
+            ex.printStackTrace();
             throw ex;
         } finally {
             connection.close();
@@ -264,6 +266,7 @@ public abstract class DefaultStorage extends H2Database {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
+            ex.printStackTrace();
             throw ex;
         } finally {
             connection.close();
@@ -289,6 +292,7 @@ public abstract class DefaultStorage extends H2Database {
                     metadata.put(result.getString(1), new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getInt(3), result.getTimestamp(4), result.getTimestamp(5)));
             } catch (Exception ex) {
                 metadata = null;
+                ex.printStackTrace();
                 throw ex;
             } finally {
                 connection.close();
@@ -310,6 +314,7 @@ public abstract class DefaultStorage extends H2Database {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
+            ex.printStackTrace();
             throw ex;
         } finally {
             connection.close();
@@ -342,6 +347,7 @@ public abstract class DefaultStorage extends H2Database {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
+            ex.printStackTrace();
             throw ex;
         } finally {
             connection.close();
@@ -349,8 +355,11 @@ public abstract class DefaultStorage extends H2Database {
 
     }
     public synchronized void removeMetadata(String resourceId, Connection connection) throws Exception {
-        if (loadMetadata().containsKey(resourceId))
-            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id='"+resourceId+'\'');
+        Map<String, StoreStatus> metadata = loadMetadata();
+        if (metadata.containsKey(resourceId)) {
+            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id='" + resourceId + '\'');
+            metadata.remove(resourceId);
+        }
     }
 
     @Override
@@ -388,6 +397,7 @@ public abstract class DefaultStorage extends H2Database {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
+            ex.printStackTrace();
             throw ex;
         } finally {
             this.metadata = null; //Force metadata reload
@@ -435,6 +445,7 @@ public abstract class DefaultStorage extends H2Database {
 
         } catch (Exception ex) {
             connection.rollback();
+            ex.printStackTrace();
             throw ex;
         } finally {
             this.metadata = null; //Force metadata reload

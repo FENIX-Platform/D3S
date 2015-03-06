@@ -10,10 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fenix-D3S-mdsd</artifactId>
     <dependencies>
+        <!-- FENIX search commons components -->
+        <dependency>
+            <groupId>org.fao.fenix</groupId>
+            <artifactId>fenix-commons-search</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

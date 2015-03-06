@@ -83,7 +83,7 @@ public class ResourcesService implements Resources {
             for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
                 resourcesId.add(resource.getRID());
 
-        return ResponseBeanFactory.getInstances(metadataDao.replicateMetadata(resources, replicationFilter.getMetadata()), MeIdentification.class);
+        return ResponseBeanFactory.getInstances(metadataDao.replicateMetadata(resourcesId, replicationFilter.getMetadata()), MeIdentification.class);
     }
 
 

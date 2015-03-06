@@ -60,8 +60,8 @@ public class MDSDGenerator {
         for (int i = 0; i < obj.getClass().getDeclaredFields().length; i++) {
             f = obj.getClass().getDeclaredFields()[i];
             try {
-                l = (Label) f.getDeclaredAnnotation(Label.class);
-                d = (Description) f.getDeclaredAnnotation(Description.class);
+                l = f.getAnnotation(Label.class);
+                d = f.getAnnotation(Description.class);
                 boolean isMap = f.getType().getSimpleName().equalsIgnoreCase(Map.class.getSimpleName());
                 boolean isCollection = f.getType().getSimpleName().equalsIgnoreCase(Collection.class.getSimpleName());
                 sb.append(encodeField(f, l, d, isMap, isCollection));
