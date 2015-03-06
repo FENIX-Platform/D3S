@@ -64,7 +64,9 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
         //Check resource status and resource (and related codelists) last update date
         StoreStatus status = storage.loadMetadata(id);
-        if (status!=null && status.getStatus()!=StoreStatus.Status.incomplete) { //Check status
+        if (status!=null) {
+            if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
+                throw new Exception("Inconsistent cache status for the resource");
             Date cacheLastUpdate = status.getLastUpdate();
             for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
                 if (cacheLastUpdate.before(lastUpdate)) {
@@ -88,6 +90,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             StoreStatus status = storage.loadMetadata(id);
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+            //TODO verify table structure integrity
             //Store data and unlock resource
             new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite).start();
         } catch (Exception ex) {

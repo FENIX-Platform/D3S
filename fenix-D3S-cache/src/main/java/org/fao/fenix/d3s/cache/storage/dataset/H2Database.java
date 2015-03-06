@@ -80,7 +80,9 @@ public abstract class H2Database implements DatasetStorage {
 
     //Standard utils
     public Connection getConnection() throws SQLException {
-        return pool.getConnection();
+        Connection connection = pool.getConnection();
+        connection.setAutoCommit(false);
+        return connection;
     }
 
 

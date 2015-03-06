@@ -22,9 +22,9 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     //MASSIVE METADATA
     public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {
         Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null)
+        if (metadata!=null) {
+            getConnection().begin();
             try {
-                getConnection().begin();
                 for (MeIdentification<M> m : metadata)
                     storedMetadata.add(insertMetadata(m, false));
                 getConnection().commit();
@@ -32,13 +32,14 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 getConnection().rollback();
                 throw ex;
             }
+        }
         return storedMetadata;
     }
     public Collection<MeIdentification<M>> updateMetadata (Collection<MeIdentification<M>> metadata, boolean overwrite) throws Exception {
         Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null)
+        if (metadata!=null) {
+            getConnection().begin();
             try {
-                getConnection().begin();
                 for (MeIdentification<M> m : metadata)
                     storedMetadata.add(updateMetadata(m, overwrite, false));
                 getConnection().commit();
@@ -46,8 +47,30 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 getConnection().rollback();
                 throw ex;
             }
+        }
         return storedMetadata;
     }
+    public Collection<MeIdentification<M>> replicateMetadata (Collection<String> metadataRid, MeIdentification<M> metadata) throws Exception {
+        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
+        if (metadata!=null && metadataRid!=null) {
+            try {
+                metadata.setUid(null);
+                metadata.setVersion(null);
+                getConnection().begin();
+                for (String rid : metadataRid) {
+                    metadata.setRID(rid);
+                    storedMetadata.add(updateMetadata(metadata, false, false));
+                }
+                getConnection().commit();
+            } catch (Exception ex) {
+                getConnection().rollback();
+                throw ex;
+            }
+        }
+        return storedMetadata;
+    }
+
+
 
 
     //LOAD RESOURCE

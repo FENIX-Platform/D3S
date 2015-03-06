@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 
 public abstract class JsonProvider {
-    private ObjectMapper jacksonMapper = new ObjectMapper();
+    protected ObjectMapper jacksonMapper = new ObjectMapper();
 
     //Utils
     protected Resource decodeResource(String source, RepresentationType resourceType) throws Exception {
@@ -62,6 +62,9 @@ public abstract class JsonProvider {
     
     protected RepresentationType getRepresentationType(String source, String metadataField) throws Exception {
         JsonNode metadataNode = source!=null ? jacksonMapper.readTree(source) : null;
+        return getRepresentationType(metadataNode, metadataField);
+    }
+    protected RepresentationType getRepresentationType(JsonNode metadataNode, String metadataField) throws Exception {
         if (metadataField!=null && metadataNode!=null)
             for (String field : metadataField.split("\\."))
                 metadataNode = metadataNode.get(field);

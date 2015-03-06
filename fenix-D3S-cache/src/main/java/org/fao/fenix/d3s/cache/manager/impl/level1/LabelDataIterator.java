@@ -14,6 +14,8 @@ public class LabelDataIterator implements Iterator<Object[]> {
 
     //INIT
     public LabelDataIterator(Iterator<Object[]> source, Table destinationStructure, DSDDataset sourceStructure, Collection<Resource<DSDCodelist,Code>> codelists) {
+        this.source = source;
+
         Collection<Column> columns = destinationStructure.getColumns();
         if (columns!=null && columns.size()>0) {
             //collect codelists codes map by coded column id
@@ -45,7 +47,7 @@ public class LabelDataIterator implements Iterator<Object[]> {
                         String id = column.getName();
                         Language language = id.startsWith(codeColumnId + '_') && id.length() == codeColumnId.length() + 3 ? Language.getInstance(id.substring(id.length() - 2)) : null;
                         if (language!=null)
-                            if ( (labels[index] = language != null ? getLanguageLabels(columnLabelsEntry.getValue(), language) : null) != null )
+                            if ( (labels[index] = getLanguageLabels(columnLabelsEntry.getValue(), language)) != null )
                                 labelsCodeIndex[index] = codeColumnIndex;
                         index++;
                     }
@@ -69,7 +71,7 @@ public class LabelDataIterator implements Iterator<Object[]> {
             Object[] row = Arrays.copyOf(source.next(), labels.length);
             for (int i=0; i<row.length; i++)
                 if (labels[i]!=null)
-                    row[i] = labels[i].get(labelsCodeIndex[i]);
+                    row[i] = labels[i].get(row[labelsCodeIndex[i]]);
             return row;
         } else
             return source.next();
@@ -122,7 +124,7 @@ public class LabelDataIterator implements Iterator<Object[]> {
             if (declaredCodelist!=null)
                 if (column.getDataType() == DataType.code && codelists != null && codelists.size() > 0) {
                     String uid = declaredCodelist.getIdCodeList();
-                    String version = declaredCodelist.getIdCodeList();
+                    String version = declaredCodelist.getVersion();
 
                     if (uid != null)
                         for (Resource<DSDCodelist, Code> codelist : codelists) {

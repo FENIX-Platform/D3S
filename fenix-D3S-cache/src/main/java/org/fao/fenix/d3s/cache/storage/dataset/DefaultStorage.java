@@ -350,7 +350,7 @@ public abstract class DefaultStorage extends H2Database {
     }
     public synchronized void removeMetadata(String resourceId, Connection connection) throws Exception {
         if (loadMetadata().containsKey(resourceId))
-            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id=\""+resourceId+'"');
+            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id='"+resourceId+'\'');
     }
 
     @Override

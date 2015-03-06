@@ -49,7 +49,7 @@ public class Table {
     }
 
     protected String getTableName(MeIdentification<DSDDataset> metadata) {
-        if (tableName!=null) {
+        if (metadata!=null) {
             String tableName = metadata.getUid();
             String version = metadata.getVersion();
             if (version != null)
