@@ -4,6 +4,7 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.utils.Language;
+import org.fao.fenix.commons.utils.database.DataIterator;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
@@ -14,7 +15,32 @@ public class LabelDataIterator implements Iterator<Object[]> {
 
     //INIT
     public LabelDataIterator(Iterator<Object[]> source, Table destinationStructure, DSDDataset sourceStructure, Collection<Resource<DSDCodelist,Code>> codelists) {
-        this.source = source;
+        this.source = source!=null ? source : new Iterator<Object[]>() {
+            @Override
+            public void skip(int amount) {
+
+            }
+
+            @Override
+            public int getIndex() {
+                return 0;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public Object[] next() {
+                return null;
+            }
+
+            @Override
+            public void remove() {
+
+            }
+        };
 
         Collection<Column> columns = destinationStructure.getColumns();
         if (columns!=null && columns.size()>0) {

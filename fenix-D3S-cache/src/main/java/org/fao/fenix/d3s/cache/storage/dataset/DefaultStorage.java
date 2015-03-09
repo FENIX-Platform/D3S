@@ -32,7 +32,7 @@ public abstract class DefaultStorage extends H2Database {
             throw new Exception("Duplicate table error.");
 
         //Create query
-        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
+        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(encodeTableName(tableName)).append(" (");
         StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
 
         for (Column column : columns) {
@@ -81,7 +81,7 @@ public abstract class DefaultStorage extends H2Database {
         Connection connection = getConnection();
         try {
             removeMetadata(tableName, connection);
-            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + SCHEMA_NAME + '.' + tableName);
+            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + encodeTableName(tableName));
 
             connection.commit();
         } catch (Exception ex) {
@@ -165,10 +165,10 @@ public abstract class DefaultStorage extends H2Database {
 
             //If overwrite mode is active delete existing data
             if (overwrite)
-                connection.createStatement().executeUpdate("DELETE FROM " + SCHEMA_NAME + '.' + tableName);
+                connection.createStatement().executeUpdate("DELETE FROM " + encodeTableName(tableName));
 
             //Build query
-            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(SCHEMA_NAME).append('.').append(tableName).append(" (");
+            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(encodeTableName(tableName)).append(" (");
 
             for (Column column : structure)
                 query.append(column.getName()).append(',');
@@ -247,7 +247,7 @@ public abstract class DefaultStorage extends H2Database {
             for (int i=0; i<tables.length; i++) {
                 //Build insert query
                 StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ")
-                        .append(SCHEMA_NAME).append('.').append(tableName)
+                        .append(encodeTableName(tableName))
                         .append(" (").append(insertQueriesColumnsSegment[i]).append(") ")
                         .append(queries[i]);
                 //Run query
@@ -439,7 +439,7 @@ public abstract class DefaultStorage extends H2Database {
 
             //Remove orphan tables
             for (String tableName : tablesName) {
-                connection.createStatement().executeUpdate("DROP TABLE " + SCHEMA_NAME + '.' + tableName);
+                connection.createStatement().executeUpdate("DROP TABLE " + encodeTableName(tableName));
                 count++;
             }
 
@@ -486,7 +486,7 @@ public abstract class DefaultStorage extends H2Database {
         }
 
         //Add source table
-        query.append(" FROM ").append(SCHEMA_NAME).append('.').append(table.getTableName());
+        query.append(" FROM ").append(encodeTableName(table.getTableName()));
         //Add where condition
         StandardFilter rowsFilter = filter!=null ? filter.getRows() : null;
         if (rowsFilter!=null && rowsFilter.size()>0) {
@@ -574,5 +574,12 @@ public abstract class DefaultStorage extends H2Database {
         //Return query
         return query.toString();
     }
+
+
+
+    protected String encodeTableName(String tableName) {
+        return tableName==null ? null : '"' + SCHEMA_NAME + tableName + '"';
+    }
+
 
 }
