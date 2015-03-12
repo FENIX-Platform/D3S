@@ -5,11 +5,18 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.*;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
+import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.client.jaxrs.internal.ClientInvocationBuilder;
 
+@Consumes(value = MediaType.APPLICATION_JSON)
 public class D3SClient {
 
 
@@ -30,7 +37,9 @@ public class D3SClient {
 
     public <T> T getProxy(Class<T> interfaceClassObj, String ... pathPrefix) throws Exception {
         if (clientRest!=null) { //REST PROXY
-            return clientRest.target(basePath + createServiceBasePath(pathPrefix)).proxy(interfaceClassObj);
+            ResteasyWebTarget target = clientRest.target(basePath + createServiceBasePath(pathPrefix));
+            target.request().accept(MediaType.APPLICATION_JSON);
+            return target.proxy(interfaceClassObj);
         } else { //JMX PROXY
             Registry registry = LocateRegistry.getRegistry("host",8000);
 
