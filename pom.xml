@@ -24,7 +24,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy.version>3.0.6.Final</resteasy.version>
-        <orient.version>2.0.4</orient.version>
+        <orient.version>2.0.5</orient.version>
         <jackson.version>2.4.3</jackson.version>
     </properties>
 

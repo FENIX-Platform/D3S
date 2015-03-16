@@ -33,55 +33,33 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
 
 
     @Override
-    public void consume(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[0]);
-    }
-
-    @Override
-    public void consumed(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseDocumentInternal)args[1]);
-        ((ODatabaseDocumentInternal)args[0]).close();
-    }
-
-
-    @Override
     public Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
         String uid = resource.getUid();
 
         ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+        ODatabaseDocumentTx connection = dbClient.getConnection();
 
         try {
-            ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection != null && structure.selectColumns!=null) {
-                final Iterator<ODocument> data = (Iterator<ODocument>)connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), uid).iterator();
+                List<ODocument> data = connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), uid);
                 final String[] ids = new String[structure.selectColumns.length];
                 for (int i=0; i<ids.length; i++)
                     ids[i] = structure.selectColumns[i].getId();
 
-                return getConsumerIterator(new Iterator<Object[]>() {
-                    String[] fields = ids;
-                    @Override
-                    public boolean hasNext() {
-                        return data.hasNext();
-                    }
+                Collection<Object[]> dataset = new LinkedList<>();
+                for (ODocument document : data) {
+                    Object[] row = new Object[ids.length];
+                    for (int i=0; i<row.length; i++)
+                        row[i] = document.field(ids[i]);
+                    dataset.add(row);
+                }
 
-                    @Override
-                    public Object[] next() {
-                        ODocument record = data.next();
-                        Object[] result = new Object[fields.length];
-                        for (int i=0; i<result.length; i++)
-                            result[i] = record.field(fields[i]);
-                        return result;
-                    }
-
-                    @Override
-                    public void remove() {
-                        data.remove();
-                    }
-                }, ODatabaseRecordThreadLocal.INSTANCE.get(), originalConnection);
-            } else
-                return null;
+                return dataset.iterator();
+            }
+            return null;
         } finally {
+            if (connection!=null)
+                connection.close();
             ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
         }
     }

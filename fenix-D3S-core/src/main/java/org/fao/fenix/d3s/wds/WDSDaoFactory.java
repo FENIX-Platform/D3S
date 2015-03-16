@@ -63,4 +63,9 @@ public class WDSDaoFactory {
         return initParameters;
     }
 
+    //Utils
+    public Map<String,String> getDatasourceProperties(String name) {
+        return datasourcesProperties.get(name);
+    }
+
 }

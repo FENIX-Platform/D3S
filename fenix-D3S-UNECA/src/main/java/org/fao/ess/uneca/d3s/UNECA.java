@@ -31,17 +31,6 @@ public class UNECA extends WDSDatasetDao {
         initialized = true;
     }
 
-    @Override
-    public void consume(Object... args) {
-        //Nothing to do in this method
-    }
-
-    @Override
-    public void consumed(Object... args) {
-        Connection connection = args!=null && args.length>0 ? (Connection)args[0] : null;
-        if (connection!=null)
-            try { connection.close(); } catch (SQLException e) { }
-    }
     //
     @Override
     protected Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {

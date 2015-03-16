@@ -7,43 +7,6 @@ import org.fao.fenix.d3s.wds.WDSDao;
 import java.util.Iterator;
 
 public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
-    //TODO remove consumer pattern by creating an Orient Data Iterator that can close connection
-    //Support consumer pattern
-    public abstract void consume(Object... args);
-    public abstract void consumed(Object... args);
-
-    protected Iterator<Object[]> getConsumerIterator(final Iterator<Object[]> source, final Object... args) {
-        return source==null ? null : new Iterator<Object[]>() {
-            boolean toConsume = false;
-
-            @Override
-            public boolean hasNext() {
-                if (source.hasNext()) {
-                    if (!toConsume) {
-                        toConsume = true;
-                        consume(args);
-                    }
-                    return true;
-                } else {
-                    if (toConsume) {
-                        toConsume = false;
-                        consumed(args);
-                    }
-                    return false;
-                }
-            }
-
-            @Override
-            public Object[] next() {
-                return source.next();
-            }
-
-            @Override
-            public void remove() {
-                source.remove();
-            }
-        };
-    }
 
 
     //Usage of metadata summary
