@@ -4,10 +4,14 @@ import org.fao.fenix.commons.annotations.Description;
 import org.fao.fenix.commons.annotations.Label;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
+import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,8 +34,28 @@ public class MDSDGenerator {
         /* Process D3S domain. */
         sb.append(processObject(obj));
 
+        /* Open FENIX custom objects definition file. */
+        String path = "org/fao/fenix/config/descriptions.txt";
+        StringBuilder descriptions = new StringBuilder();
+        try {
+            InputStream in = getClass().getClassLoader().getResourceAsStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            String line;
+            while ((line = reader.readLine()) != null)
+                descriptions.append(line);
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /* Clean the output. */
+        sb = clean(sb);
+
+        /* Merge FENIX custom objects. */
+        sb.insert(1 + sb.indexOf("{"), descriptions + ",");
+
         /* Return output. */
-        return clean(sb).toString();
+        return sb.toString();
 
     }
 
