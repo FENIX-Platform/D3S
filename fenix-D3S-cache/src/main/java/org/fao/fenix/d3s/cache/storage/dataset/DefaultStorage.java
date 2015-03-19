@@ -34,6 +34,7 @@ public abstract class DefaultStorage extends H2Database {
         //Create query
         StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(encodeTableName(tableName)).append(" (");
         StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
+        boolean containsKey = false;
 
         for (Column column : columns) {
             query.append(column.getName());
@@ -49,12 +50,17 @@ public abstract class DefaultStorage extends H2Database {
 
             query.append(',');
 
-            if (column.isKey())
+            if (column.isKey()) {
+                containsKey=true;
                 queryIndex.append(column.getName()).append(',');
+            }
 
         }
-        queryIndex.setCharAt(queryIndex.length()-1,')');
-        query.append(queryIndex).append(')');
+        if (containsKey) {
+            queryIndex.setCharAt(queryIndex.length() - 1, ')');
+            query.append(queryIndex).append(')');
+        } else
+            query.append(')');
 
         //Execute query and update metadata
         StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), timeout);
@@ -578,7 +584,7 @@ public abstract class DefaultStorage extends H2Database {
 
 
     protected String encodeTableName(String tableName) {
-        return tableName==null ? null : '"' + SCHEMA_NAME + tableName + '"';
+        return tableName==null ? null : SCHEMA_NAME + '.'+ '"' + tableName + '"';
     }
 
 

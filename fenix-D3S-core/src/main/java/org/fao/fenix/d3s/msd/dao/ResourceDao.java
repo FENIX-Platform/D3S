@@ -5,16 +5,11 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.ws.rs.core.NoContentException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
@@ -106,6 +101,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
+        setMetadataDefaults(metadata);
         return newCustomEntity(false, transaction, metadata);
     }
 
@@ -118,8 +114,14 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
                 metadata.setORID(metadataO!=null ? metadataO.getIdentity() : null);
             }
-            if (metadata.getRID()!=null)
-                return  metadata.isIdentificationOnly() ? loadMetadata(metadata.getRID(), null) : saveCustomEntity(overwrite, false, transaction, metadata)[0];
+            if (metadata.getRID()!=null) {
+                if (metadata.isIdentificationOnly())
+                    loadMetadata(metadata.getRID(), null);
+                else {
+                    setMetadataDefaults(metadata);
+                    return saveCustomEntity(overwrite, false, transaction, metadata)[0];
+                }
+            }
         }
         return null;
     }
@@ -306,6 +308,27 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             ODocument resource = resources.next();
             resource.setDirty();
             connection.save(resource);
+        }
+    }
+
+
+    //Utils
+    private void setMetadataDefaults(MeIdentification<M> metadata) {
+        Date currentDate = new Date();
+
+        if (metadata!=null) {
+            //Set last update date
+            MeMaintenance meMaintenance = metadata.getMeMaintenance();
+            if (meMaintenance==null)
+                metadata.setMeMaintenance(meMaintenance=new MeMaintenance());
+            SeUpdate seUpdate = meMaintenance.getSeUpdate();
+            if (seUpdate==null)
+                meMaintenance.setSeUpdate(seUpdate=new SeUpdate());
+            if (seUpdate.getUpdateDate()==null)
+                seUpdate.setUpdateDate(currentDate);
+            //Set creation date
+            if (metadata.getCreationDate()==null)
+                metadata.setCreationDate(currentDate);
         }
     }
 

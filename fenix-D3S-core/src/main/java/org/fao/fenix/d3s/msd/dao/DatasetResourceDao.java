@@ -8,6 +8,7 @@ import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.CacheFactory;
 import org.fao.fenix.d3s.cache.D3SCache;
+import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
@@ -34,7 +35,14 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             DSDDataset dsdExtended = cache!=null && languages!=null && languages.length>0 ? dsd.extend(languages) : dsd;
 
             metadata.setDsd(dsdExtended);
-            Iterator<Object[]> data = cache!=null ? cache.load(metadata, getOrder(), getPage()) : null;
+            Iterator<Object[]> data = null;
+            if (cache!=null)
+                try {
+                    data = cache.load(metadata, getOrder(), getPage());
+                } catch (IncompleteException ex) {
+                    cache.remove(metadata);
+                }
+
             if (data==null) {
                 if (wdsDao == null)
                     throw new ClassNotFoundException("Cannot load data. DAO not found");

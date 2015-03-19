@@ -11,6 +11,7 @@ import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
+import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
@@ -66,7 +67,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         StoreStatus status = storage.loadMetadata(id);
         if (status!=null) {
             if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
-                throw new Exception("Inconsistent cache status for the resource");
+                throw new IncompleteException(id);
             Date cacheLastUpdate = status.getLastUpdate();
             for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
                 if (cacheLastUpdate.before(lastUpdate)) {
