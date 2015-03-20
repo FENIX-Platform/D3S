@@ -8,7 +8,7 @@ import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.ess.cstat.d3s.OrientClient;
+import org.fao.fenix.d3s.wds.OrientClient;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,14 +34,12 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
 
     @Override
     public Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
-        String uid = resource.getUid();
-
         ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
         ODatabaseDocumentTx connection = dbClient.getConnection();
 
         try {
             if (connection != null && structure.selectColumns!=null) {
-                List<ODocument> data = connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), uid);
+                List<ODocument> data = connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), getId(resource));
                 final String[] ids = new String[structure.selectColumns.length];
                 for (int i=0; i<ids.length; i++)
                     ids[i] = structure.selectColumns[i].getId();
@@ -64,9 +62,10 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
         }
     }
 
+
     @Override
     protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
+        String datasetID = getId(resource);
         if (data!=null && data.hasNext() && datasetID!=null) {
 
             ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
@@ -141,7 +140,7 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
 
     @Override
     public void deleteData(MetadataDSD resource) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
+        String datasetID = getId(resource);
         if (datasetID!=null) {
 
             ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
@@ -157,6 +156,18 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
                 ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
             }
         }
+    }
+
+
+    //Utils
+    private String getId(MetadataDSD metadata) {
+        if (metadata!=null)
+            if (metadata.getVersion()!=null)
+                return metadata.getUid()+'|'+metadata.getVersion();
+            else
+                return metadata.getUid();
+        else
+            return null;
     }
 
 

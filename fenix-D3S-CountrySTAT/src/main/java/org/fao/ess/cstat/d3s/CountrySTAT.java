@@ -9,6 +9,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
+import org.fao.fenix.d3s.wds.OrientClient;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -35,7 +36,7 @@ public class CountrySTAT extends WDSDatasetDao {
 
     @Override
     public Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
-        String uid = resource.getUid();
+        String uid = getId(resource);
         System.out.println("Loading data for "+uid);
         ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
         ODatabaseDocumentTx connection = dbClient.getConnection();
@@ -71,7 +72,7 @@ public class CountrySTAT extends WDSDatasetDao {
 
     @Override
     protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
+        String datasetID = getId(resource);
         if (data!=null && data.hasNext() && datasetID!=null) {
 
             ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
@@ -146,7 +147,7 @@ public class CountrySTAT extends WDSDatasetDao {
 
     @Override
     public void deleteData(MetadataDSD resource) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
+        String datasetID = getId(resource);
         if (datasetID!=null) {
 
             ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
@@ -163,6 +164,20 @@ public class CountrySTAT extends WDSDatasetDao {
             }
         }
     }
+
+
+
+    //Utils
+    private String getId(MetadataDSD metadata) {
+        if (metadata!=null)
+            if (metadata.getVersion()!=null)
+                return metadata.getUid()+'|'+metadata.getVersion();
+            else
+                return metadata.getUid();
+        else
+            return null;
+    }
+
 
 
 }

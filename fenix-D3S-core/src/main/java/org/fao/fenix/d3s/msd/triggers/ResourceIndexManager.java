@@ -28,6 +28,7 @@ public class ResourceIndexManager extends LinksManager {
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
             "meContent.seCoverage.coverageGeographic",
+            "meContent.seCoverage.coverageTime",
             "meContent.seReferencePopulation.referencePeriod",
             "meContent.seReferencePopulation.referenceArea",
             "contacts",
