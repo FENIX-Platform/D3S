@@ -7,13 +7,8 @@ import org.fao.fenix.commons.msd.dto.type.CodeListType;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 
 import java.io.*;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -157,7 +152,6 @@ public class MDSDGenerator {
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(CodeListType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"$ref\": \"#/definitions/CodeListType\"");
-                    System.out.println(sb);
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"").append(f.getType().getSimpleName().toLowerCase()).append("\",");
