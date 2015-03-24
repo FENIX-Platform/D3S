@@ -11,8 +11,8 @@
         "codes": [{"code": "MODIS_LAND_COVER"}]
       },
       "coverageTime": {
-        "to": 969276800000,
-        "from": 966684800000
+        "to": 1402783200000,
+        "from": 1426948320000
       }
     }
   },
