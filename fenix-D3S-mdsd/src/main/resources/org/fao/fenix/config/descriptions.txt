@@ -49,6 +49,9 @@
       "RepresentationType": {
          "enum": ["Dataset", "Document", "Geographic", "Codelist", "Other"]
       },
+      "CodeListType": {
+         "enum": ["List", "Tree", "Balanced tree", "Oriented graph"]
+      },
       "ResponsiblePartyRole": {
          "enum": ["Owner", "Distributor", "Other"]
       },

@@ -3,6 +3,7 @@ package org.fao.fenix.d3s.mdsd;
 import org.fao.fenix.commons.annotations.Description;
 import org.fao.fenix.commons.annotations.Label;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.type.CodeListType;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 
 import java.io.*;
@@ -153,6 +154,9 @@ public class MDSDGenerator {
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(RepresentationType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"$ref\": \"#/definitions/RepresentationType\"");
+                } else if (f.getType().getSimpleName().equalsIgnoreCase(CodeListType.class.getSimpleName())) {
+                    sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append("\"$ref\": \"#/definitions/CodeListType\"");
                     System.out.println(sb);
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
