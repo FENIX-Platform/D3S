@@ -2,13 +2,11 @@
     "meContent.resourceRepresentationType" : {
         "enumeration" : ["geographic"]
     },
-    "meContent.seCoverage.coverageSectors" : {
-        "codes" : [
-            {
-                "uid" : "layer_products",
-                "version" : "1.0",
-                "codes" : ["gridded_livestock_of_the_world_v_201"]
-            }
-        ]
-    }
+  "meContent.seCoverage.coverageTime" : {
+    "time" : [
+      { "from" : 20130615000000,
+      "to" : 20130615000000 }
+    ]
+  }
+
 }
