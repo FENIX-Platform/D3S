@@ -132,7 +132,8 @@
                }
             },
             "date": {
-               "type": "date-time"
+               "type": "string",
+               "format": "date"
             },
             "documentContact": {
                "$ref": "#/definitions/OjResponsibleParty"
@@ -207,10 +208,12 @@
          "type": "object",
          "properties": {
             "from": {
-               "type": "date-time"
+               "type": "string",
+               "format": "date"
             },
             "to": {
-               "type": "date-time"
+               "type": "string",
+               "format": "date"
             }
          }
       }

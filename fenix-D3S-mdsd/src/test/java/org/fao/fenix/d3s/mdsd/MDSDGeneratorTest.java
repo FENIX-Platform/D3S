@@ -12,7 +12,7 @@ public class MDSDGeneratorTest extends TestCase {
 
     public void testGenerate() {
         MDSDGenerator g = new MDSDGenerator();
-        String json = g.generate();
+        String json  = g.generate();
         System.out.println(json);
         assertTrue(isValid(json));
     }

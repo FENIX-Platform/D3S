@@ -141,8 +141,11 @@ public class MDSDGenerator {
                         sb.append("\"items\": {\"$ref\": \"#/definitions/").append(generics).append("\"}");
                     }
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(Date.class.getSimpleName())) {
+                    System.out.println("date");
                     sb.append("\"").append(f.getName()).append("\": {");
-                    sb.append("\"type\": \"date-time\",");
+                    sb.append("\"type\": \"string\",");
+                    sb.append("\"format\": \"date\",");
+                    System.out.println(sb);
                     sb.append(encodeLabelAndDescription(l, d));
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
