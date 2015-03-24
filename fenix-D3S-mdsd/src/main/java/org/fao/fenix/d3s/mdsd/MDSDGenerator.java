@@ -9,10 +9,7 @@ import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author <a href="mailto:guido.barbaglia@fao.org">Guido Barbaglia</a>
@@ -45,29 +42,12 @@ public class MDSDGenerator {
             e.printStackTrace();
         }
 
-        /* Clean the output. */
-        sb = clean(sb);
-
         /* Merge FENIX custom objects. */
         sb.insert(1 + sb.indexOf("{"), descriptions + ",");
 
-        /* Return output. */
-        return sb.toString();
+        /* Return cleaned output. */
+        return clean(sb.toString());
 
-    }
-
-    private StringBuilder clean(StringBuilder sb) {
-        Map<String, String> m = new HashMap<>();
-        m.put("\\{,", "{");
-        m.put("},}", "}}");
-        m.put(",},", "},");
-        m.put(",}", "}");
-        m.put(",,", ",");
-        m.put(",,,", "");
-        String s = sb.toString();
-        for (String key : m.keySet())
-            s = s.replaceAll(key, m.get(key));
-        return new StringBuilder(s);
     }
 
     private StringBuilder processObject(Object obj) {
@@ -222,6 +202,22 @@ public class MDSDGenerator {
             sb.append(",\"ru\": \"").append(d.ru()).append("\"");
         sb.append("}");
         return sb;
+    }
+
+
+    //Hidden utils
+
+    private String clean(String s) {
+        Map<String, String> m = new LinkedHashMap<>();
+        m.put(",,,", "");
+        m.put(",,", ",");
+        m.put("},}", "}}");
+        m.put("\\{,", "{");
+        m.put(",},", "},");
+        m.put(",}", "}");
+        for (String key : m.keySet())
+            s = s.replaceAll(key, m.get(key));
+        return s;
     }
 
 }
