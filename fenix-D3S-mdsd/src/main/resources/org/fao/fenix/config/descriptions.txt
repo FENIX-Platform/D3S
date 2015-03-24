@@ -46,6 +46,9 @@
       "AxisType": {
          "enum": ["Row", "Column", "Vertical", "Time"]
       },
+      "RepresentationType": {
+         "enum": ["Dataset", "Document", "Geographic", "Codelist", "Other"]
+      },
       "ResponsiblePartyRole": {
          "enum": ["Owner", "Distributor", "Other"]
       },
