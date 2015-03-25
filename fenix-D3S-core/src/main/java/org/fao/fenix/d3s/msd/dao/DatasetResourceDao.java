@@ -64,13 +64,13 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
     @Override
     protected void insertData(MeIdentification<DSDDataset> metadata, Collection<Object[]> data) throws Exception {
-        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null)
-            updateData(metadata, data, true);
+        updateData(metadata, data, true);
     }
+
 
     @Override
     protected void updateData(MeIdentification<DSDDataset> metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
-        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
+        if (getDatasource(metadata)!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
@@ -88,7 +88,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
     @Override
     public void deleteData(MeIdentification<DSDDataset> metadata) throws Exception {
-        if (metadata!=null && metadata.getDsd()!=null && metadata.getDsd().getDatasource()!=null) {
+        if (getDatasource(metadata)!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
@@ -107,8 +107,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     //Utils
     private WDSDatasetDao getDao(MeIdentification<DSDDataset> metadata) {
         try {
-            DSD dsd = metadata!=null ? metadata.getDsd() : null;
-            String datasource = dsd!=null ? dsd.getDatasource() : null;
+            String datasource = getDatasource(metadata);
             return datasource!=null ? (WDSDatasetDao) wdsFactory.getInstance(datasource) : null;
         } catch (Exception ex) {
             return null;
@@ -133,6 +132,13 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             }
 
         return codeListsResource;
+    }
+
+
+    private String getDatasource(MeIdentification<DSDDataset> metadata) {
+        DSD dsd = metadata!=null ? metadata.getDsd() : null;
+        String[] datasources = dsd!=null ? dsd.getDatasources() : null;
+        return datasources!=null && datasources.length>0 ? datasources[0] : null;
     }
 
 
