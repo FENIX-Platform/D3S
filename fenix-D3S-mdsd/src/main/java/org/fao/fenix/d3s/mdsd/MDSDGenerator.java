@@ -89,6 +89,8 @@ public class MDSDGenerator {
             sb.append("}");
         } else {
             if (f.getName().equalsIgnoreCase(f.getType().getSimpleName())) {
+                sb.append(encodeLabelAndDescription(l, d));
+                sb.append(",");
                 try {
                     Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
                     if (!(o instanceof String)) {
@@ -128,9 +130,13 @@ public class MDSDGenerator {
                     sb.append(encodeLabelAndDescription(l, d));
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(RepresentationType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(",");
                     sb.append("\"$ref\": \"#/definitions/RepresentationType\"");
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(CodeListType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
+                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(",");
                     sb.append("\"$ref\": \"#/definitions/CodeListType\"");
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
