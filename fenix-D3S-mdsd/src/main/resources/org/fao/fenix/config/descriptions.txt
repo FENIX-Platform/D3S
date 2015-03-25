@@ -114,7 +114,7 @@
                   ".{1,}": {"type": "string"}
                }
             },
-            "role": {
+            "contactInfo": {
                "$ref": "#/definitions/OjContact"
             }
          }
