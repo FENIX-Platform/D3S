@@ -39,7 +39,7 @@
     "contextSystem" : "FENIX",
     "workspace" : "FENIX",
     "layerName" : "gaul0|1.0",
-    "datasources" : ["DSD", "UNECA"],
+    "datasources" : ["D3S", "UNECA"],
     "contextExtension" : {
          "distribution" : [ {"uid" : "", "version" : ""}]
     }
