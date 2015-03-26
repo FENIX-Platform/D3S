@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.mdsd;
 
 import org.fao.fenix.commons.annotations.Description;
 import org.fao.fenix.commons.annotations.Label;
+import org.fao.fenix.commons.annotations.Order;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.type.CodeListType;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
@@ -29,7 +30,7 @@ public class MDSDGenerator {
         sb.append(processObject(obj));
 
         /* Open FENIX custom objects definition file. */
-        String path = "org/fao/fenix/config/descriptions.txt";
+        String path = "org/fao/fenix/config/descriptions.json";
         StringBuilder descriptions = new StringBuilder();
         try {
             InputStream in = getClass().getClassLoader().getResourceAsStream(path);
@@ -58,14 +59,16 @@ public class MDSDGenerator {
         Field f;
         Label l;
         Description d;
+        Order o;
         for (int i = 0; i < obj.getClass().getDeclaredFields().length; i++) {
             f = obj.getClass().getDeclaredFields()[i];
             try {
                 l = f.getAnnotation(Label.class);
                 d = f.getAnnotation(Description.class);
+                o = f.getAnnotation(Order.class);
                 boolean isMap = f.getType().getSimpleName().equalsIgnoreCase(Map.class.getSimpleName());
                 boolean isCollection = f.getType().getSimpleName().equalsIgnoreCase(Collection.class.getSimpleName());
-                sb.append(encodeField(f, l, d, isMap, isCollection));
+                sb.append(encodeField(f, l, d, o, isMap, isCollection));
                 sb.append(",");
             } catch (NullPointerException e) {
 
@@ -78,24 +81,24 @@ public class MDSDGenerator {
         return sb;
     }
 
-    private StringBuilder encodeField(Field f, Label l, Description d, boolean isMap, boolean isCollection) {
+    private StringBuilder encodeField(Field f, Label l, Description d, Order o, boolean isMap, boolean isCollection) {
         StringBuilder sb = new StringBuilder();
         boolean isOj = f.getType().getSimpleName().startsWith("Oj");
         if (isOj) {
             sb.append("\"").append(f.getName()).append("\": {");
-            sb.append(encodeLabelAndDescription(l, d));
+            sb.append(encodeLabelAndDescription(l, d, o));
             sb.append(",");
             sb.append("\"$ref\": \"#/definitions/").append(f.getType().getSimpleName()).append("\"");
             sb.append("}");
         } else {
             if (f.getName().equalsIgnoreCase(f.getType().getSimpleName())) {
-                sb.append(encodeLabelAndDescription(l, d));
+                sb.append(encodeLabelAndDescription(l, d, o));
                 sb.append(",");
                 try {
-                    Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
-                    if (!(o instanceof String)) {
+                    Object ob = Class.forName(f.getType().getCanonicalName()).newInstance();
+                    if (!(ob instanceof String)) {
                         sb.append("\"").append(f.getName()).append("\": ");
-                        sb.append(processObject(o));
+                        sb.append(processObject(ob));
                     }
                 } catch (Exception e) {
 
@@ -104,13 +107,13 @@ public class MDSDGenerator {
                 if (isMap) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"object\",");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                     sb.append(",");
                     sb.append("\"patternProperties\": {\".{1,}\": {\"type\": \"string\"}}");
                 } else if (isCollection) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"array\",");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                     sb.append(",");
                     ParameterizedType fieldType = (ParameterizedType) f.getGenericType();
                     String generics = ((Class<?>) fieldType.getActualTypeArguments()[0]).getSimpleName();
@@ -123,32 +126,32 @@ public class MDSDGenerator {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"string\",");
                     sb.append("\"format\": \"date\",");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(Double.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"number\",");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(RepresentationType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                     sb.append(",");
                     sb.append("\"$ref\": \"#/definitions/RepresentationType\"");
                 } else if (f.getType().getSimpleName().equalsIgnoreCase(CodeListType.class.getSimpleName())) {
                     sb.append("\"").append(f.getName()).append("\": {");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                     sb.append(",");
                     sb.append("\"$ref\": \"#/definitions/CodeListType\"");
                 } else {
                     sb.append("\"").append(f.getName()).append("\": {");
                     sb.append("\"type\": \"").append(f.getType().getSimpleName().toLowerCase()).append("\",");
-                    sb.append(encodeLabelAndDescription(l, d));
+                    sb.append(encodeLabelAndDescription(l, d, o));
                 }
                 try {
-                    Object o = Class.forName(f.getType().getCanonicalName()).newInstance();
-                    if (!(o instanceof String) && !(o instanceof Date)) {
+                    Object ob = Class.forName(f.getType().getCanonicalName()).newInstance();
+                    if (!(ob instanceof String) && !(ob instanceof Date)) {
                         sb.append(",");
                         sb.append("\"").append(f.getName()).append("\": ");
-                        sb.append(processObject(o));
+                        sb.append(processObject(ob));
                     }
                 } catch (Exception e) {
 
@@ -159,7 +162,7 @@ public class MDSDGenerator {
         return sb;
     }
 
-    private StringBuilder encodeLabelAndDescription(Label l, Description d) {
+    private StringBuilder encodeLabelAndDescription(Label l, Description d, Order o) {
         StringBuilder sb = new StringBuilder();
         if (l.en().length() > 0 || d.en().length() > 0) {
             if (l.en().length() > 0)
@@ -168,7 +171,17 @@ public class MDSDGenerator {
                 sb.append(",");
                 sb.append(encodeDescription(d));
             }
+            if (o.value() > 0) {
+                sb.append(",");
+                sb.append(encodeOrder(o));
+            }
         }
+        return sb;
+    }
+
+    private StringBuilder encodeOrder(Order o) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"propertyOrder\": ").append(o.value()).append("");
         return sb;
     }
 
