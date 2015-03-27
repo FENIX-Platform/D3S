@@ -69,15 +69,19 @@ public class ResourceIndexManager extends LinksManager {
                         break;
                     case OjPeriod:
                         ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
-                        period = datePeriodToPeriod((Date)periodO.field("from"), (Date)periodO.field("to"));
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        if (periodO!=null) {
+                            period = datePeriodToPeriod((Date) periodO.field("from"), (Date) periodO.field("to"));
+                            document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                            document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        }
                         break;
                     case date:
                         Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
-                        period = dateToPeriod(date);
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        if (date!=null) {
+                            period = dateToPeriod(date);
+                            document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                            document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        }
                     case OjCodeList:
                     case OjCodeListCollection:
                         Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
