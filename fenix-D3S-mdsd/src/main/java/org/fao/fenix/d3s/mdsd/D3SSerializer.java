@@ -83,7 +83,7 @@ public class D3SSerializer implements JsonSerializer<MeIdentification> {
         out.getAsJsonObject("description_i18n").addProperty("fr", d.fr());
         out.getAsJsonObject("description_i18n").addProperty("es", d.es());
         out.addProperty("type", "object");
-        out.addProperty("order", o.value());
+        out.addProperty("propertyOrder", o.value());
 
         /* Encode fields. */
         Object obj;
@@ -128,10 +128,12 @@ public class D3SSerializer implements JsonSerializer<MeIdentification> {
             }
 
             else if (f.getType().getCanonicalName().endsWith("RepresentationType")) {
+                out.addProperty("type", "string");
                 out.addProperty("$ref", "#/definitions/RepresentationType");
             }
 
             else if (f.getType().getCanonicalName().endsWith("CodeListType")) {
+                out.addProperty("type", "string");
                 out.addProperty("$ref", "#/definitions/CodeListType");
             }
 

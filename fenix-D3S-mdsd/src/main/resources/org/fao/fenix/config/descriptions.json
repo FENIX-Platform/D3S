@@ -1,9 +1,26 @@
 {
+   "ReferenceEntity": {
+      "enum": [
+         "Identification",
+         "Content",
+         "Institutional mandate",
+         "Comparability",
+         "Statistical processing",
+         "Data quality",
+         "Accessibility",
+         "Maintenance",
+         "Documents",
+         "Resource dimensions",
+         "Spatial representation",
+         "Reference system"
+      ]
+   },
    "OJAxis": {
       "type": "object",
       "properties": {
          "axisName": {
             "title": "Axis Name",
+            "type": "string",
             "$ref": "#/definitions/AxisType"
          },
          "axisSize": {
@@ -298,6 +315,7 @@
          },
          "role": {
             "title": "Role",
+            "type": "string",
             "$ref": "#/definitions/ResponsiblePartyRole"
          },
          "specify": {
@@ -342,6 +360,7 @@
       "properties": {
          "documentKind": {
             "title": "Document Kind",
+            "type": "string",
             "$ref": "#/definitions/DocumentType"
          },
          "title": {
@@ -380,6 +399,7 @@
          },
          "documentContact": {
             "title": "Document Contact",
+            "type": "string",
             "$ref": "#/definitions/OjResponsibleParty"
          },
          "notes": {
