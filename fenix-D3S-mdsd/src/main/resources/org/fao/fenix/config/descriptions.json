@@ -360,6 +360,17 @@
       "properties": {
          "documentKind": {
             "title": "Document Kind",
+            "title_i18n": {
+               "en": "Document Kind",
+               "fr": "Type de document",
+               "es": "Tipo de documento"
+            },
+            "description": "Kind of resource attached to data.",
+            "description_i18n": {
+               "en": "Kind of resource attached to data.",
+               "fr": "",
+               "es": ""
+            },
             "type": "string",
             "$ref": "#/definitions/DocumentType"
          },
@@ -398,8 +409,19 @@
             "format": "date"
          },
          "documentContact": {
-            "title": "Document Contact",
-            "type": "string",
+            "title": "Contact",
+            "title_i18n": {
+               "en": "Contact",
+               "fr": "Contact",
+               "es": "Contacto"
+            },
+            "description": "Name and position information for an individual or organization that is responsible for the resource.",
+            "description_i18n": {
+               "en": "Name and position information for an individual or organization that is responsible for the resource.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "object",
             "$ref": "#/definitions/OjResponsibleParty"
          },
          "notes": {
@@ -464,6 +486,41 @@
                "es": ""
             },
             "type": "string"
+         }
+      }
+   },
+   "MeDocuments": {
+      "type": "object",
+      "properties": {
+         "document": {
+            "type": "object",
+            "title": "Documents linked to the data",
+            "description": "Regular or ad-hoc publications linked to the resource.",
+            "$ref": "#/definitions/OjCitation"
+         },
+         "referenceEntity": {
+            "title": "Reference subject",
+            "type": "string",
+            "description": "The metadata entity(ies) the document refers to. This element allows users to contextualize the document by making reference to specific metadata areas.",
+            "enum": [
+               "Identification",
+               "Content",
+               "Institutional mandate",
+               "Comparability",
+               "Statistical processing",
+               "Data quality",
+               "Accessibility",
+               "Maintenance",
+               "Documents",
+               "Resource dimensions",
+               "Spatial representation",
+               "Reference system"
+            ]
+         },
+         "referenceElement": {
+            "type": "string",
+            "title": "Reference element",
+            "description": "The metadata element(s)the document refers to. This element allows users to contextualize the document by making reference to specific metadata element(s). The element(s) selected must belong to the metadata entity just specified in <<referenceEntity>>."
          }
       }
    },
