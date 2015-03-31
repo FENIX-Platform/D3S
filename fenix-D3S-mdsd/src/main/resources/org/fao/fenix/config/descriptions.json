@@ -1,234 +1,711 @@
-   "$schema": "http://json-schema.org/draft-04/schema#",
-   "description": "D3S Objects Schema",
-   "definitions": {
-      "OJAxis": {
-         "type": "object",
-         "properties": {
-            "axisName": {
-               "$ref": "#/definitions/AxisType"
-            },
-            "axisSize": {
-               "type": "number"
-            },
-            "resolution": {
-               "$ref": "#/definitions/OJMeasure"
-            }
+{
+   "ReferenceEntity": {
+      "enum": [
+         "Identification",
+         "Content",
+         "Institutional mandate",
+         "Comparability",
+         "Statistical processing",
+         "Data quality",
+         "Accessibility",
+         "Maintenance",
+         "Documents",
+         "Resource dimensions",
+         "Spatial representation",
+         "Reference system"
+      ]
+   },
+   "OJAxis": {
+      "type": "object",
+      "properties": {
+         "axisName": {
+            "title": "Axis Name",
+            "type": "string",
+            "$ref": "#/definitions/AxisType"
+         },
+         "axisSize": {
+            "title": "Axis Size",
+            "type": "number"
+         },
+         "resolution": {
+            "title": "Resolution",
+            "$ref": "#/definitions/OJMeasure"
          }
-      },
-      "OJMeasure": {
-         "type": "object",
-         "properties": {
-            "extend": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {
-                     "type": "string"
-                  }
+      }
+   },
+   "OJMeasure": {
+      "type": "object",
+      "properties": {
+         "extend": {
+            "type": "object",
+            "title": "Extent",
+            "title_i18n": {
+               "en": "Extent",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Description of the type of magnitude has been measured (e.g. a length, an area, a volume).",
+            "description_i18n": {
+               "en": "Description of the type of magnitude has been measured (e.g. a length, an area, a volume).",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {
+                  "type": "string"
                }
-            },
-            "composedMU": {
-               "type": "boolean"
-            },
-            "measurementSystem": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "nameMU": {
-               "type": "string"
-            },
-            "conversionToStandard": {
-               "type": "number"
-            }
-         }
-      },
-      "AxisType": {
-         "title": "Type of the axis.",
-         "description": "Type of the axis.",
-         "enum": ["Row", "Column", "Vertical", "Time"]
-      },
-      "RepresentationType": {
-         "enum": ["Dataset", "Document", "Geographic", "Codelist", "Other"]
-      },
-      "CodeListType": {
-         "title": "Type of the code list.",
-         "description": "Type of the code list.",
-         "enum": ["List", "Tree", "Balanced tree", "Oriented graph"]
-      },
-      "ResponsiblePartyRole": {
-         "enum": ["Owner", "Distributor", "Other"]
-      },
-      "OjContact": {
-         "type": "object",
-         "properties": {
-            "phone": {
-               "type": "string"
-            },
-            "address": {
-               "type": "string"
-            },
-            "emailAddress": {
-               "type": "string"
             }
          },
-         "hoursOfService": {
-            "type": "object",
-            "patternProperties": {
-               ".{1,}": {"type": "string"}
+         "composedMU": {
+            "type": "boolean",
+            "title": "Composed unit of measurement",
+            "title_i18n": {
+               "en": "Composed unit of measurement",
+               "fr": "",
+               "es": ""
+            },
+            "description": "",
+            "description_i18n": {
+               "en": "Since a wide variety of phenomenon is measured combining several simple unit of measure, it is requested a Boolean element indicating whether simple or composed unit of measure is used.",
+               "fr": "",
+               "es": ""
             }
          },
-         "contactInstruction": {
+         "measurementSystem": {
             "type": "object",
+            "title": "Measurement system",
+            "title_i18n": {
+               "en": "Measurement system",
+               "fr": "",
+               "es": ""
+            },
+            "description": "System devised to measure some physical quantity (such distance or area. . . ). Example are the English System of feet and inches or the metric system of millimetres, centimetres and meters, also the International System of Units (SI).",
+            "description_i18n": {
+               "en": "System devised to measure some physical quantity (such distance or area. . . ). Example are the English System of feet and inches or the metric system of millimetres, centimetres and meters, also the International System of Units (SI).",
+               "fr": "",
+               "es": ""
+            },
             "patternProperties": {
-               ".{1,}": {"type": "string"}
-            }
-         }
-      },
-      "OjResponsibleParty": {
-         "type": "object",
-         "properties": {
-            "pointOfContact": {
-               "type": "string"
-            },
-            "organization": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "organizationUnit": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "position": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "role": {
-               "$ref": "#/definitions/ResponsiblePartyRole"
-            },
-            "specify": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "contactInfo": {
-               "$ref": "#/definitions/OjContact"
-            }
-         }
-      },
-      "DocumentType": {
-         "enum": ["Scientific paper", "Methodological notes", "Legal document",
-                  "Handbook", "Guidelines", "Ad hoc press",
-                  "News", "Website", "Other"
-         ]
-      },
-      "OjCitation": {
-         "type": "object",
-         "properties": {
-            "documentKind": {
-               "$ref": "#/definitions/DocumentType"
-            },
-            "title": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "date": {
-               "type": "string",
-               "format": "date"
-            },
-            "documentContact": {
-               "$ref": "#/definitions/OjResponsibleParty"
-            },
-            "notes": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "link": {
-               "type": "string"
-            },
-            "isbn": {
-               "type": "string"
-            },
-            "issn": {
-               "type": "string"
-            }
-         }
-      },
-      "OjCode": {
-         "type": "object",
-         "properties": {
-            "code": {
-               "type": "string"
-            },
-            "label": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
+               ".{1,}": {
+                  "type": "string"
                }
             }
-         }
-      },
-      "OjCodeList": {
-         "type": "object",
-         "properties": {
-            "codes": {
-               "type": "array",
-               "title": "Code(s)",
-               "description": "Code corresponding to the element requested by the field it refers to.",
-               "items": {
-                  "$ref": "#/definitions/OjCode"
-               }
+         },
+         "nameMU": {
+            "type": "string",
+            "title": "Measurement unit name",
+            "title_i18n": {
+               "en": "Measurement unit name",
+               "fr": "",
+               "es": ""
             },
-            "idCodeList": {
-               "title": "Codelist identification",
-               "description": "Codelist identifier. It is an alphanumeric acronyme that identify the codelist.",
-               "type": "string"
-            },
-            "version": {
-               "type": "string"
-            },
-            "extendedName": {
-               "type": "object",
-               "patternProperties": {
-                  ".{1,}": {"type": "string"}
-               }
-            },
-            "contactInfo": {
-               "$ref": "#/definitions/OjResponsibleParty"
-            },
-            "codeListResources": {
-               "type": "array",
-               "items": {
-                  "$ref": "#/definitions/OjCitation"
-               }
-            },
-            "link": {
-               "type": "string"
+            "description": "Name of the simple/composed unit of measure adopted.",
+            "description_i18n": {
+               "en": "Name of the simple/composed unit of measure adopted.",
+               "fr": "",
+               "es": ""
             }
-         }
-      },
-      "OjPeriod": {
-         "type": "object",
-         "properties": {
-            "from": {
-               "type": "string",
-               "format": "date"
+         },
+         "conversionToStandard": {
+            "type": "number",
+            "title": "Conversion to the standard",
+            "title_i18n": {
+               "en": "Conversion to the standard",
+               "fr": "",
+               "es": ""
             },
-            "to": {
-               "type": "string",
-               "format": "date"
+            "description": "Allows to convert the unit of measure used in a standard measurement system.",
+            "description_i18n": {
+               "en": "Allows to convert the unit of measure used in a standard measurement system.",
+               "fr": "",
+               "es": ""
             }
          }
       }
+   },
+   "AxisType": {
+      "enum": [
+         "Row",
+         "Column",
+         "Vertical",
+         "Time"
+      ]
+   },
+   "RepresentationType": {
+      "enum": [
+         "Dataset",
+         "Document",
+         "Geographic",
+         "Codelist",
+         "Other"
+      ]
+   },
+   "CodeListType": {
+      "enum": [
+         "List",
+         "Tree",
+         "Balanced tree",
+         "Oriented graph"
+      ]
+   },
+   "ResponsiblePartyRole": {
+      "enum": [
+         "Owner",
+         "Distributor",
+         "Other"
+      ]
+   },
+   "OjContact": {
+      "type": "object",
+      "properties": {
+         "phone": {
+            "title": "Telephone number",
+            "title_i18n": {
+               "en": "Telephone number",
+               "fr": "Numéro de téléphone",
+               "es": "Número de teléfono"
+            },
+            "description": "Telephone numbers at which the organization or individual may be contacted.",
+            "description_i18n": {
+               "en": "Telephone numbers at which the organization or individual may be contacted.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "address": {
+            "title": "Address",
+            "title_i18n": {
+               "en": "Address",
+               "fr": "Adresse",
+               "es": "Dirección"
+            },
+            "description": "Physical address at which the organization or individual may be contacted.",
+            "description_i18n": {
+               "en": "Physical address at which the organization or individual may be contacted.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "emailAddress": {
+            "title": "E-mail address",
+            "title_i18n": {
+               "en": "Adresse Email",
+               "fr": "Adresse Email",
+               "es": "Dirección de correo electrónico"
+            },
+            "description": "E-mail address at which the organization or individual may be contacted.",
+            "description_i18n": {
+               "en": "E-mail address at which the organization or individual may be contacted.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         }
+      },
+      "hoursOfService": {
+         "type": "object",
+         "title": "Hour of service",
+         "title_i18n": {
+            "en": "Hour of service",
+            "fr": "Heures de service",
+            "es": "Horarios de servicio"
+         },
+         "description": "Time period (including time zone) when individuals can contact the organization or individual.",
+         "description_i18n": {
+            "en": "Time period (including time zone) when individuals can contact the organization or individual.",
+            "fr": "",
+            "es": ""
+         },
+         "patternProperties": {
+            ".{1,}": {"type": "string"}
+         }
+      },
+      "contactInstruction": {
+         "type": "object",
+         "title": "Instruction",
+         "title_i18n": {
+            "en": "Instruction",
+            "fr": "Instruction",
+            "es": "Instrucción"
+         },
+         "description": "Supplemental instructions on how or when to contact the individual or organization.",
+         "description_i18n": {
+            "en": "Supplemental instructions on how or when to contact the individual or organization.",
+            "fr": "",
+            "es": ""
+         },
+         "patternProperties": {
+            ".{1,}": {"type": "string"}
+         }
+      }
+   },
+   "OjResponsibleParty": {
+      "type": "object",
+      "properties": {
+         "pointOfContact": {
+            "title": "Point of contact",
+            "title_i18n": {
+               "en": "Point of contact",
+               "fr": "Point de contact",
+               "es": "Punto de contacto"
+            },
+            "description": "Responsible person-surname, given name, title separated by a delimiter. It contains information about the party who can be contacted for acquiring knowledge the resource.",
+            "description_i18n": {
+               "en": "Responsible person-surname, given name, title separated by a delimiter. It contains information about the party who can be contacted for acquiring knowledge the resource.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "organization": {
+            "type": "object",
+            "title": "Organization",
+            "title_i18n": {
+               "en": "Organization",
+               "fr": "Organisation",
+               "es": "Organización"
+            },
+            "description": "Name of the responsible organization.",
+            "description_i18n": {
+               "en": "Name of the responsible organization.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "organizationUnit": {
+            "type": "object",
+            "title": "Organization unit/division",
+            "title_i18n": {
+               "en": "Organization unit/division",
+               "fr": "Unité/division dans l'organisation",
+               "es": "Unidad/división de organización"
+            },
+            "description": "Addressable subdivision of an organization.",
+            "description_i18n": {
+               "en": "Addressable subdivision of an organization.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "position": {
+            "type": "object",
+            "title": "Position",
+            "title_i18n": {
+               "en": "Position",
+               "fr": "Position",
+               "es": "Posición"
+            },
+            "description": "Role or position of the responsible person.",
+            "description_i18n": {
+               "en": "Role or position of the responsible person.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "role": {
+            "title": "Role",
+            "type": "string",
+            "$ref": "#/definitions/ResponsiblePartyRole"
+         },
+         "specify": {
+            "type": "object",
+            "title": "Specify",
+            "title_i18n": {
+               "en": "Specify",
+               "fr": "Spécifier",
+               "es": "Especificar"
+            },
+            "description": "Textual metadata element that allows to specify the role performed by the responsible party. This field is conditional to the element <role>.",
+            "description_i18n": {
+               "en": "Textual metadata element that allows to specify the role performed by the responsible party. This field is conditional to the element <role>.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "contactInfo": {
+            "title": "Contact Info",
+            "$ref": "#/definitions/OjContact"
+         }
+      }
+   },
+   "DocumentType": {
+      "enum": [
+         "Scientific paper",
+         "Methodological notes",
+         "Legal document",
+         "Handbook",
+         "Guidelines",
+         "Ad hoc press",
+         "News",
+         "Website",
+         "Other"
+      ]
+   },
+   "OjCitation": {
+      "type": "object",
+      "properties": {
+         "documentKind": {
+            "title": "Document Kind",
+            "title_i18n": {
+               "en": "Document Kind",
+               "fr": "Type de document",
+               "es": "Tipo de documento"
+            },
+            "description": "Kind of resource attached to data.",
+            "description_i18n": {
+               "en": "Kind of resource attached to data.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string",
+            "$ref": "#/definitions/DocumentType"
+         },
+         "title": {
+            "type": "object",
+            "title": "Title",
+            "title_i18n": {
+               "en": "Title",
+               "fr": "Titre",
+               "es": "Título"
+            },
+            "description": "Title by which the cited resource is known which offers a quick information about its content.",
+            "description_i18n": {
+               "en": "Title by which the cited resource is known which offers a quick information about its content.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "date": {
+            "type": "string",
+            "title": "Date",
+            "title_i18n": {
+               "en": "Date",
+               "fr": "Date",
+               "es": "Fecha"
+            },
+            "description": "Reference date for the cited document.",
+            "description_i18n": {
+               "en": "Reference date for the cited document.",
+               "fr": "",
+               "es": ""
+            },
+            "format": "date"
+         },
+         "documentContact": {
+            "title": "Contact",
+            "title_i18n": {
+               "en": "Contact",
+               "fr": "Contact",
+               "es": "Contacto"
+            },
+            "description": "Name and position information for an individual or organization that is responsible for the resource.",
+            "description_i18n": {
+               "en": "Name and position information for an individual or organization that is responsible for the resource.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "object",
+            "$ref": "#/definitions/OjResponsibleParty"
+         },
+         "notes": {
+            "type": "object",
+            "title": "Notes",
+            "title_i18n": {
+               "en": "Notes",
+               "fr": "Remarques",
+               "es": "Notas"
+            },
+            "description": "",
+            "description_i18n": {
+               "en": "Some additional details about the resource mainly concerning the domain to which the resource refers.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "link": {
+            "title": "Resource hyperlink",
+            "title_i18n": {
+               "en": "Resource hyperlink",
+               "fr": "Lien hypertexte de documents",
+               "es": "Hipervínculo Documento"
+            },
+            "description": "Web site link allowing the user access to the information resource.",
+            "description_i18n": {
+               "en": "Web site link allowing the user access to the information resource.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "isbn": {
+            "title": "ISBN code",
+            "title_i18n": {
+               "en": "ISBN code",
+               "fr": "Code ISBN",
+               "es": "Código ISBN"
+            },
+            "description": "",
+            "description_i18n": {
+               "en": "If available, the International Standard Book Number can be reported in order to uniquely identify the resource cited.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "issn": {
+            "title": "ISNN code",
+            "title_i18n": {
+               "en": "ISNN code",
+               "fr": "Code ISSN",
+               "es": "Código ISSN"
+            },
+            "description": "If available, the International Standard Serial Number (used to identify periodical publications such as reviews and scientific journals) can be reported in order to uniquely identify the resource cited.",
+            "description_i18n": {
+               "en": "If available, the International Standard Serial Number (used to identify periodical publications such as reviews and scientific journals) can be reported in order to uniquely identify the resource cited.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         }
+      }
+   },
+   "MeDocuments": {
+      "type": "object",
+      "properties": {
+         "document": {
+            "type": "object",
+            "title": "Documents linked to the data",
+            "description": "Regular or ad-hoc publications linked to the resource.",
+            "$ref": "#/definitions/OjCitation"
+         },
+         "referenceEntity": {
+            "title": "Reference subject",
+            "type": "string",
+            "description": "The metadata entity(ies) the document refers to. This element allows users to contextualize the document by making reference to specific metadata areas.",
+            "enum": [
+               "Identification",
+               "Content",
+               "Institutional mandate",
+               "Comparability",
+               "Statistical processing",
+               "Data quality",
+               "Accessibility",
+               "Maintenance",
+               "Documents",
+               "Resource dimensions",
+               "Spatial representation",
+               "Reference system"
+            ]
+         },
+         "referenceElement": {
+            "type": "string",
+            "title": "Reference element",
+            "description": "The metadata element(s)the document refers to. This element allows users to contextualize the document by making reference to specific metadata element(s). The element(s) selected must belong to the metadata entity just specified in <<referenceEntity>>."
+         }
+      }
+   },
+   "OjCode": {
+      "type": "object",
+      "properties": {
+         "code": {
+            "title": "Code",
+            "title_i18n": {
+               "en": "Code",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Alphanumeric sequence of characters that uniquely identify an attribute within a codelist.",
+            "description_i18n": {
+               "en": "Alphanumeric sequence of characters that uniquely identify an attribute within a codelist.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "label": {
+            "type": "object",
+            "title": "Label",
+            "title_i18n": {
+               "en": "Label",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Descriptive term associated to each code within a codelist.",
+            "description_i18n": {
+               "en": "Descriptive term associated to each code within a codelist.",
+               "fr": "",
+               "es": ""
+            },
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         }
+      }
+   },
+   "OjCodeList": {
+      "type": "object",
+      "properties": {
+         "codes": {
+            "type": "array",
+            "title": "Code(s)",
+            "title_i18n": {
+               "en": "Code(s)",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Code corresponding to the element requested by the field it refers to.",
+            "description_i18n": {
+               "en": "Code corresponding to the element requested by the field it refers to.",
+               "fr": "",
+               "es": ""
+            },
+            "items": {
+               "title": "Items",
+               "$ref": "#/definitions/OjCode"
+            }
+         },
+         "idCodeList": {
+            "title": "Codelist identification",
+            "title_i18n": {
+               "en": "Codelist identification",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Codelist identifier. It is an alphanumeric acronyme that identify the codelist.",
+            "description_i18n": {
+               "en": "Codelist identifier. It is an alphanumeric acronyme that identify the codelist.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "version": {
+            "title": "Version of the codelist",
+            "title_i18n": {
+               "en": "Version of the codelist",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Information about the version and the state of upgrade of the code list used.",
+            "description_i18n": {
+               "en": "Information about the version and the state of upgrade of the code list used.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         },
+         "extendedName": {
+            "title": "Extended name",
+            "title_i18n": {
+               "en": "Extended name",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Full name of the codelist.",
+            "description_i18n": {
+               "en": "Full name of the codelist.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "object",
+            "patternProperties": {
+               ".{1,}": {"type": "string"}
+            }
+         },
+         "contactInfo": {
+            "title": "Contact Info",
+            "$ref": "#/definitions/OjResponsibleParty"
+         },
+         "codeListResources": {
+            "type": "array",
+            "title": "Resource(s) linked to the codelist",
+            "title_i18n": {
+               "en": "Resource(s) linked to the codelist",
+               "fr": "",
+               "es": ""
+            },
+            "description": "It allows to attach documents to the codelist or simply to cite a webpage linked to the code list to which it refers to.",
+            "description_i18n": {
+               "en": "It allows to attach documents to the codelist or simply to cite a webpage linked to the code list to which it refers to.",
+               "fr": "",
+               "es": ""
+            },
+            "items": {
+               "$ref": "#/definitions/OjCitation"
+            }
+         },
+         "link": {
+            "title": "Codelist hyperlink",
+            "title_i18n": {
+               "en": "Codelist hyperlink",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Web site link allowing the user access to the information resource.",
+            "description_i18n": {
+               "en": "Web site link allowing the user access to the information resource.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string"
+         }
+      }
+   },
+   "OjPeriod": {
+      "type": "object",
+      "properties": {
+         "from": {
+            "title": "Date from",
+            "title_i18n": {
+               "en": "Date from",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Start point of time delimiting a time interval.",
+            "description_i18n": {
+               "en": "Start point of time delimiting a time interval.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string",
+            "format": "date"
+         },
+         "to": {
+            "title": "Date to",
+            "title_i18n": {
+               "en": "Date to",
+               "fr": "",
+               "es": ""
+            },
+            "description": "End point of time delimiting a time interval.",
+            "description_i18n": {
+               "en": "End point of time delimiting a time interval.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "string",
+            "format": "date"
+         }
+      }
    }
+}
