@@ -116,7 +116,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             }
             if (metadata.getRID()!=null) {
                 if (metadata.isIdentificationOnly())
-                    loadMetadata(metadata.getRID(), null);
+                    return loadMetadata(metadata.getRID(), null);
                 else {
                     setMetadataDefaults(metadata);
                     return saveCustomEntity(overwrite, false, transaction, metadata)[0];
