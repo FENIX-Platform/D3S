@@ -1857,3 +1857,15 @@ drop table data.1 [42000-184]
 03-18 12:22:02 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DROP TABLE DATA.1[*] "; SQL statement:
 drop table DATA.1 [42000-184]
+03-31 10:38:46 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "DAN3" not found; SQL statement:
+select * from DATA.dan3 [42102-184]
+03-31 10:38:53 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "dan3 " not found; SQL statement:
+select * from DATA."dan3 " [42102-184]
+03-31 10:39:07 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "DATA.dan3 " not found; SQL statement:
+select * from "DATA.dan3 " [42102-184]
+03-31 10:41:23 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "dan3" not found; SQL statement:
+select * from DATA."dan3" [42102-184]
