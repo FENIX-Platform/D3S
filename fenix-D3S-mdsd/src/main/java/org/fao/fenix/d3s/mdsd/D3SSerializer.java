@@ -1,9 +1,9 @@
 package org.fao.fenix.d3s.mdsd;
 
 import com.google.gson.*;
-import org.fao.fenix.commons.annotations.Description;
-import org.fao.fenix.commons.annotations.Label;
-import org.fao.fenix.commons.annotations.Order;
+import org.fao.fenix.commons.mdsd.annotations.Description;
+import org.fao.fenix.commons.mdsd.annotations.Label;
+import org.fao.fenix.commons.mdsd.annotations.Order;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.io.BufferedReader;
@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:guido.barbaglia@fao.org">Guido Barbaglia</a>
