@@ -3,7 +3,6 @@ package org.fao.fenix.d3s.msd.dao;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
-import org.fao.fenix.commons.msd.utils.DataUtils;
 import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.CacheFactory;

@@ -7,7 +7,6 @@ import org.fao.fenix.commons.utils.Properties;
 import org.fao.fenix.d3s.cache.D3SCache;
 import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.cache.tools.CacheServers;
-import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.tools.rest.Server;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
@@ -20,12 +19,9 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebListener
 public class MainController implements ServletContextListener {
