@@ -3,7 +3,7 @@
     "uid" : "FAOSTAT_QC",
 
     "dsd" : {
-        "datasource" : "CountrySTAT",
+        "datasource" : "D3S",
         "contextSystem" : "FAOSTAT",
         "columns" : [
             {

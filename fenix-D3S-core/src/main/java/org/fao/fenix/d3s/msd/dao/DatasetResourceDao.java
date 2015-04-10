@@ -80,7 +80,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
             wdsDao.storeData(
                     metadata,
-                    cache!=null ? cache.load(metadata, null, null) : data.iterator(),
+                    cache!=null ? cache.load(metadata, null, null) : (data!=null ? data.iterator() : null),
                     overwrite);
         }
     }

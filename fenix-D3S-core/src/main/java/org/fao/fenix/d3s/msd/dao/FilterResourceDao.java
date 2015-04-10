@@ -2,10 +2,11 @@ package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.filter.*;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.find.filter.Filter;
-import org.fao.fenix.d3s.find.filter.impl.StandardRetainFilter;
+import org.fao.fenix.d3s.find.filter.impl.*;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public class FilterResourceDao extends ResourceDao {
 
     public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {
         try {
-            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardRetainFilter.class;
+            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : org.fao.fenix.d3s.find.filter.impl.StandardFilter.class;
             Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
             return resources.size()>0 ? resources : null;
         } catch (ClassNotFoundException ex) {

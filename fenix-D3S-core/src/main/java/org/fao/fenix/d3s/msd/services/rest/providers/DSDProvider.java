@@ -1,12 +1,10 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
 import javax.ws.rs.Consumes;
@@ -19,8 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 
 @Provider

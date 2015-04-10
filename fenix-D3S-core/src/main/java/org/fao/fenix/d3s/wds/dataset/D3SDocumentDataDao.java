@@ -66,7 +66,7 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
     @Override
     protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
         String datasetID = getId(resource);
-        if (data!=null && data.hasNext() && datasetID!=null) {
+        if (datasetID!=null) {
 
             ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
@@ -101,22 +101,23 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
                 connection.declareIntent(new OIntentMassiveInsert());
                 connection.begin();
                 connection.command(new OCommandSQL("delete from Dataset where datasetID = ?")).execute(datasetID);
-                Collection<Integer> rowsError = new LinkedList<>();
-                for (int rowIndex=1; data.hasNext(); rowIndex++) {
-                    Object[] row = data.next();
-                    ODocument rowO = new ODocument("Dataset");
-                    rowO.field("datasetID", datasetID);
-                    try {
-                        for (int i = 0; i < structure.selectColumns.length; i++)
-                            rowO.field(structure.selectColumns[i].getId(), row[i]);
-                        rowO.save();
-                    } catch (Exception ex) {
-                        rowsError.add(rowIndex);
+                if (data!=null) {
+                    Collection<Integer> rowsError = new LinkedList<>();
+                    for (int rowIndex = 1; data.hasNext(); rowIndex++) {
+                        Object[] row = data.next();
+                        ODocument rowO = new ODocument("Dataset");
+                        rowO.field("datasetID", datasetID);
+                        try {
+                            for (int i = 0; i < structure.selectColumns.length; i++)
+                                rowO.field(structure.selectColumns[i].getId(), row[i]);
+                            rowO.save();
+                        } catch (Exception ex) {
+                            rowsError.add(rowIndex);
+                        }
                     }
+                    if (rowsError.size() > 0)
+                        throw new Exception("Row insert error on rows:" + toPointList(rowsError));
                 }
-                if (rowsError.size()>0)
-                    throw new Exception("Row insert error on rows:"+toPointList(rowsError));
-
                 connection.commit();
 
             } catch (Exception ex) {
