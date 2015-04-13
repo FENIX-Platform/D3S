@@ -5,6 +5,7 @@ import org.fao.fenix.commons.find.dto.filter.FieldFilter;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ReplicationFilter;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.utils.JSONUtils;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
@@ -43,7 +44,7 @@ public class ReplicationFilterProvider extends JsonProvider implements MessageBo
 
                 JsonNode filterNode = replicationFilterNode.get("filter");
                 String filterContent = filterNode!=null ? filterNode.toString() : null;
-                replicationFilter.setFilter(filterContent != null ? decode(filterContent, StandardFilter.class, String.class, FieldFilter.class) : null);
+                replicationFilter.setFilter(filterContent != null ? JSONUtils.decode(filterContent, StandardFilter.class, String.class, FieldFilter.class) : null);
 
                 return replicationFilter;
             } else

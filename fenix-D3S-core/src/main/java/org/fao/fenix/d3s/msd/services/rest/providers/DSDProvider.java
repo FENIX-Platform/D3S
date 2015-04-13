@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.DSD;
+import org.fao.fenix.commons.utils.JSONUtils;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
 import javax.ws.rs.Consumes;
@@ -32,7 +33,7 @@ public class DSDProvider <T extends DSD> extends JsonProvider implements Message
     public T readFrom(Class<T> resourceClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> stringStringMultivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
         try {
             String content = readContent(inputStream);
-            return decode(content, getDSDClass(content));
+            return JSONUtils.decode(content, getDSDClass(content));
         } catch (Exception e) {
             throw new WebApplicationException(e);
         }

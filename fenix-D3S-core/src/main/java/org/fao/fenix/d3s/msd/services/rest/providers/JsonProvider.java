@@ -10,6 +10,7 @@ import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
+import org.fao.fenix.commons.utils.JSONUtils;
 import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
 
 import java.io.*;
@@ -25,10 +26,10 @@ public abstract class JsonProvider {
     //Utils
     protected Resource decodeResource(String source, RepresentationType resourceType) throws Exception {
         switch (resourceType) {
-            case codelist:  return decode(source, Resource.class, DSDCodelist.class, Code.class);
-            case dataset:   return decode(source, Resource.class, DSDDataset.class, Object[].class);
-            case geographic:return decode(source, Resource.class, DSDGeographic.class, Object.class);
-            case document:  return decode(source, Resource.class, DSDDocument.class, Object.class);
+            case codelist:  return JSONUtils.decode(source, Resource.class, DSDCodelist.class, Code.class);
+            case dataset:   return JSONUtils.decode(source, Resource.class, DSDDataset.class, Object[].class);
+            case geographic:return JSONUtils.decode(source, Resource.class, DSDGeographic.class, Object.class);
+            case document:  return JSONUtils.decode(source, Resource.class, DSDDocument.class, Object.class);
             default: return null;
         }
     }
@@ -41,7 +42,7 @@ public abstract class JsonProvider {
             case document:      type = Object.class; break;
             default: return null;
         }
-        return decode(source, Collection.class, type);
+        return JSONUtils.decode(source, Collection.class, type);
     }
     protected <T extends DSD> MeIdentification<T> decodeMetadata(String source, RepresentationType resourceType) throws Exception {
         Class<? extends DSD> type;
@@ -52,14 +53,9 @@ public abstract class JsonProvider {
             case document:      type = DSDDocument.class; break;
             default: return null;
         }
-        return decode(source, MeIdentification.class, type);
+        return JSONUtils.decode(source, MeIdentification.class, type);
     }
 
-    protected <T> T decode(String source, Class<T> beanClass, Class<?>... types) throws Exception {
-        JavaType type = jacksonMapper.getTypeFactory().constructParametricType(beanClass, types);
-        return source!=null ? (T)jacksonMapper.readValue(source,type) : null;
-    }
-    
     protected RepresentationType getRepresentationType(String source, String metadataField) throws Exception {
         JsonNode metadataNode = source!=null ? jacksonMapper.readTree(source) : null;
         return getRepresentationType(metadataNode, metadataField);

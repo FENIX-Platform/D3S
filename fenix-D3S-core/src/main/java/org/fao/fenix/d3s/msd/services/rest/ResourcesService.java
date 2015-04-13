@@ -214,16 +214,21 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
-        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(true, metadata)[0], org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
+        return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
-        return ResponseBeanFactory.getInstance(metadataDao.saveCustomEntity(false, metadata)[0], org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
+        return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
     public void deleteDsd(String rid) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        metadataDao.updateMetadata(metadata,true);
+
         metadataDao.delete(rid);
     }
 
@@ -405,6 +410,16 @@ public class ResourcesService implements Resources {
 
 
 
+     //UTILS
+
+    private void updateLastUpdateDate(org.fao.fenix.commons.msd.dto.full.DSD dsd) throws Exception {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadataByDSD(dsd.getORID());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification toSave = new org.fao.fenix.commons.msd.dto.full.MeIdentification();
+        toSave.setUid(metadata.getUid());
+        toSave.setVersion(metadata.getVersion());
+        toSave.setLastUpdate(new Date());
+        metadataDao.updateMetadata(toSave,false);
+    }
 
 
 }

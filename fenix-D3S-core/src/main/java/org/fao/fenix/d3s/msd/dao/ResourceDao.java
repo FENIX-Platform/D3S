@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
+import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
@@ -89,6 +90,13 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 select("select from MeIdentification where index|uid = ? and index|version = ?", null, null, uid, version);
         return resources.size()>0 ? resources.iterator().next() : null;
     }
+    public MeIdentification<M> loadMetadataByDSD(ORID dsdRid) throws Exception {
+        if (dsdRid==null)
+            return null;
+
+        Collection<MeIdentification> resources = select(MeIdentification.class, "select from MeIdentification where dsd = ?", dsdRid);
+        return resources.size()>0 ? resources.iterator().next() : null;
+    }
 
 
     //STORE RESOURCE
@@ -101,7 +109,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
-        setMetadataDefaults(metadata);
+        setMetadataDefaults(metadata, true);
         return newCustomEntity(false, transaction, metadata);
     }
 
@@ -118,7 +126,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 if (metadata.isIdentificationOnly())
                     return loadMetadata(metadata.getRID(), null);
                 else {
-                    setMetadataDefaults(metadata);
+                    setMetadataDefaults(metadata, false);
                     return saveCustomEntity(overwrite, false, transaction, metadata)[0];
                 }
             }
@@ -313,21 +321,14 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
 
 
     //Utils
-    private void setMetadataDefaults(MeIdentification<M> metadata) {
+    private void setMetadataDefaults(MeIdentification<M> metadata, boolean creation) {
         Date currentDate = new Date();
 
         if (metadata!=null) {
             //Set last update date
-            MeMaintenance meMaintenance = metadata.getMeMaintenance();
-            if (meMaintenance==null)
-                metadata.setMeMaintenance(meMaintenance=new MeMaintenance());
-            SeUpdate seUpdate = meMaintenance.getSeUpdate();
-            if (seUpdate==null)
-                meMaintenance.setSeUpdate(seUpdate=new SeUpdate());
-            if (seUpdate.getUpdateDate()==null)
-                seUpdate.setUpdateDate(currentDate);
+            metadata.setLastUpdate(currentDate);
             //Set creation date
-            if (metadata.getCreationDate()==null)
+            if (creation && metadata.getCreationDate()==null)
                 metadata.setCreationDate(currentDate);
         }
     }
