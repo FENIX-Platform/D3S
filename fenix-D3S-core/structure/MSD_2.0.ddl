@@ -378,7 +378,7 @@ CREATE PROPERTY MeIdentification.meStatisticalProcessing EMBEDDED MeStatisticalP
     CREATE PROPERTY SeDataValidation.dataValidationOutput EMBEDDEDMAP STRING;
     CREATE PROPERTY SeDataValidation.dataValidationSource EMBEDDEDMAP STRING;
 
-CREATE PROPERTY MeIdentification.dsd LINK DSDDataset;
+CREATE PROPERTY MeIdentification.dsd LINK DSD;
 
 
 
@@ -395,5 +395,7 @@ CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQ
 CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
 
 CREATE INDEX DSDGeographic.workspace|layerName ON DSDGeographic (workspace, layerName) UNIQUE;
+
+CREATE INDEX MeIdentification.dsd NOTUNIQUE;
 
 DISCONNECT;
