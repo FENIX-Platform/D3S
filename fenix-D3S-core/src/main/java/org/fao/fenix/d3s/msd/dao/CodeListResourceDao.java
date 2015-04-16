@@ -24,6 +24,19 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
 
     @Override
+    public void fetch(MeIdentification metadata) throws Exception {
+        //TODO linking to external codelists isn't supported
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Integer getSize(MeIdentification<DSDCodelist> metadata) throws Exception {
+        ORID metadataORid = metadata!=null ? metadata.getORID() : null;
+        Collection<Integer> size = metadataORid!=null ? select(Integer.class,"select count(*) from Code where codeList = ?",metadataORid) : null;
+        return size!=null && size.size()>0 ? size.iterator().next() : null;
+    }
+
+    @Override
     public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata) throws Exception {
         return loadData(metadata,1);
     }

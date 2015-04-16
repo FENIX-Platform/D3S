@@ -4,9 +4,12 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.utils.Language;
+import org.fao.fenix.commons.utils.Order;
+import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.CacheFactory;
 import org.fao.fenix.d3s.cache.D3SCache;
+import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
@@ -23,7 +26,27 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
 
     @Override
+    public void fetch(MeIdentification<DSDDataset> metadata) throws Exception {
+        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        if (cache==null)
+            throw new UnsupportedOperationException();
+
+        StoreStatus resourceStatus = cache.status(metadata);
+        if (resourceStatus==null)
+            loadData(metadata, new Page(0, 1), null);
+    }
+
+    @Override
+    public Integer getSize(MeIdentification<DSDDataset> metadata) throws Exception {
+        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        return cache!=null ? cache.size(metadata) : null;
+    }
+
+    @Override
     public Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata) throws Exception {
+        return loadData(metadata, getPage(), getOrder());
+    }
+    private Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata, Page pagination, Order ordering) throws Exception {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
         if (dsd!=null) {
             CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
@@ -37,7 +60,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             Iterator<Object[]> data = null;
             if (cache!=null)
                 try {
-                    data = cache.load(metadata, getOrder(), getPage());
+                    data = cache.load(metadata, ordering, pagination);
                 } catch (IncompleteException ex) {
                     cache.remove(metadata);
                 }
@@ -51,7 +74,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                 if (cache!=null) {
                     cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
                     metadata.setDsd(dsdExtended);
-                    data = cache.load(metadata, getOrder(), getPage());
+                    data = cache.load(metadata, ordering, pagination);
                 }
             }
 

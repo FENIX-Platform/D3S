@@ -8,6 +8,16 @@ import java.util.LinkedList;
 public class MetadataResourceDao extends ResourceDao {
 
     @Override
+    public void fetch(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Integer getSize(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Collection loadData(MeIdentification metadata) throws Exception {
         throw new UnsupportedOperationException();
     }

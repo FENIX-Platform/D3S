@@ -219,6 +219,8 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
 
     //DATA LOAD AND STORE
 
+    public abstract void fetch(MeIdentification<M> metadata) throws Exception;
+    public abstract Integer getSize(MeIdentification<M> metadata) throws Exception;
     public abstract Collection<D> loadData(MeIdentification<M> metadata) throws Exception;
     protected abstract void insertData(MeIdentification<M> metadata, Collection<D> data) throws Exception;
     protected abstract void updateData(MeIdentification<M> metadata, Collection<D> data, boolean overwrite) throws Exception;

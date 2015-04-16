@@ -157,6 +157,40 @@ public interface Resources {
     @Path("/data/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public Object getDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+    @DELETE
+    @Path("/data/rid/{rid}")
+    public String deleteData(@PathParam("rid") String rid) throws Exception;
+    @DELETE
+    @Path("/data/uid/{uid}")
+    public String deleteDataByUID(@PathParam("uid") String uid) throws Exception;
+    @DELETE
+    @Path("/data/{uid}/{version}")
+    public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+
+    @GET
+    @Path("/fetch/rid/{rid}")
+    public void fetch(@PathParam("rid") String rid) throws Exception;
+    @GET
+    @Path("/fetch/uid/{uid}")
+    public void fetchByUID(@PathParam("uid") String uid) throws Exception;
+    @GET
+    @Path("/fetch/{uid}/{version}")
+    public void fetchByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+
+    @POST
+    @Path("/find")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+
+}
+
+
+
+
 /*    @PUT
     @Path("/data/rid/{rid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
@@ -187,21 +221,4 @@ public interface Resources {
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification appendDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
-*/    @DELETE
-    @Path("/data/rid/{rid}")
-    public String deleteData(@PathParam("rid") String rid) throws Exception;
-    @DELETE
-    @Path("/data/uid/{uid}")
-    public String deleteDataByUID(@PathParam("uid") String uid) throws Exception;
-    @DELETE
-    @Path("/data/{uid}/{version}")
-    public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
-
-
-    @POST
-    @Path("/find")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
-
-}
+*/
