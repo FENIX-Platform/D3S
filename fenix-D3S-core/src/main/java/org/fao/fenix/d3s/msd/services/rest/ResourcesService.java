@@ -313,7 +313,7 @@ public class ResourcesService implements Resources {
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao!=null ? dataDao.loadData(metadata) : null;
     }
-    private Integer getSize (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+    private Long getSize (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao!=null ? dataDao.getSize(metadata) : null;
     }
@@ -328,7 +328,7 @@ public class ResourcesService implements Resources {
         return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
     }
 
-    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, Integer size, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
+    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, Long size, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
         RepresentationType type = loadRepresentationType(metadata);
         return new ResourceProxy(
                 ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),

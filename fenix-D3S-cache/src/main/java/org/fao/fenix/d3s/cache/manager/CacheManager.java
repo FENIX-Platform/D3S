@@ -91,7 +91,7 @@ public interface CacheManager<M extends DSD, D> {
      * @return Data block size. Null if resource don't exists.
      * @throws Exception
      */
-    public Integer size(MeIdentification<M> metadata) throws Exception;
+    public Long size(MeIdentification<M> metadata) throws Exception;
 
     /**
      * This method store/append/overwrite new resource data filtering existing resources data. The execution is asynchronous and the 'status' function can be used to know the status.

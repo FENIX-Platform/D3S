@@ -124,7 +124,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     }
 
     @Override
-    public Integer size(MeIdentification<DSDDataset> metadata) throws Exception {
+    public Long size(MeIdentification<DSDDataset> metadata) throws Exception {
         StoreStatus status = storage.loadMetadata(getID(metadata));
         return status!=null ? status.getCount() : null;
     }

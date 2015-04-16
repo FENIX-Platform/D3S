@@ -11,9 +11,9 @@ import java.util.Map;
 public class ResourceMonitor {
     public enum Operation { startRead, startWrite, stepWrite, stopWrite }
 
-    private Map<String,Integer> resourcesSize = new HashMap<>();
+    private Map<String,Long> resourcesSize = new HashMap<>();
 
-    public synchronized void check(Operation operation, String resourceId, int size, boolean ordering) throws InterruptedException {
+    public synchronized void check(Operation operation, String resourceId, long size, boolean ordering) throws InterruptedException {
         switch (operation) {
             case startWrite:
                 System.out.println("writing: "+resourceId);
@@ -35,7 +35,7 @@ public class ResourceMonitor {
                 break;
             case startRead:
                 System.out.println("reading: "+resourceId+" - "+size+" - "+ordering);
-                for (Integer currentSize = resourcesSize.get(resourceId); currentSize!=null && (ordering || size<=0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
+                for (Long currentSize = resourcesSize.get(resourceId); currentSize!=null && (ordering || size<=0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
                     wait();
                 System.out.println("read: "+resourceId+" - "+size+" - "+ordering);
                 break;

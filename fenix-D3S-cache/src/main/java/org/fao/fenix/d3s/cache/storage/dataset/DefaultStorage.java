@@ -63,7 +63,7 @@ public abstract class DefaultStorage extends H2Database {
             query.append(')');
 
         //Execute query and update metadata
-        StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0, new Date(), timeout);
+        StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0l, new Date(), timeout);
         Connection connection = getConnection();
         try {
             storeMetadata(tableName, status, connection);
@@ -157,7 +157,7 @@ public abstract class DefaultStorage extends H2Database {
                         data.skip(status.getCount());
                     } catch (UnsupportedOperationException ex) {
                         //If skip is unsupported force overwrite mode
-                        status.setCount(0);
+                        status.setCount(0l);
                         overwrite = true;
                     }
                 status.setStatus(StoreStatus.Status.loading);
@@ -295,7 +295,7 @@ public abstract class DefaultStorage extends H2Database {
                 metadata = new HashMap<>();
                 ResultSet result = connection.createStatement().executeQuery("SELECT id, status, rowsCount, lastUpdate, timeout FROM Metadata");
                 while (result.next())
-                    metadata.put(result.getString(1), new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getInt(3), result.getTimestamp(4), result.getTimestamp(5)));
+                    metadata.put(result.getString(1), new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getLong(3), result.getTimestamp(4), result.getTimestamp(5)));
             } catch (Exception ex) {
                 metadata = null;
                 ex.printStackTrace();
@@ -334,7 +334,7 @@ public abstract class DefaultStorage extends H2Database {
 
         statement.setString(1,status.getStatus().name());
         if (status.getCount()!=null)
-            statement.setInt(2, status.getCount());
+            statement.setLong(2, status.getCount());
         statement.setTimestamp(3, new Timestamp(status.getLastUpdate().getTime()));
         if (status.getTimeout()!=null)
             statement.setTimestamp(4, new Timestamp(status.getTimeout().getTime()));
@@ -382,7 +382,7 @@ public abstract class DefaultStorage extends H2Database {
                 PreparedStatement statement = existingMetadata.remove(statusEntry.getKey()) ? updateStatement : insertStatement;
                 statement.setString(1, status.getStatus().name());
                 if (status.getCount() != null)
-                    statement.setInt(2, status.getCount());
+                    statement.setLong(2, status.getCount());
                 statement.setTimestamp(3, new Timestamp(status.getLastUpdate().getTime()));
                 if (status.getTimeout() != null)
                     statement.setTimestamp(4, new Timestamp(status.getTimeout().getTime()));

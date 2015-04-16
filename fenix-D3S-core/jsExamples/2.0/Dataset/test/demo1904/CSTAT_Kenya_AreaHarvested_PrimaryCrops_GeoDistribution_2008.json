@@ -5,7 +5,13 @@
       "EN" : "Example of Kenya area harvested geographic distribution in 2008"
     },
     "meContent" : {
-      "resourceRepresentationType" : "dataset"
+      "resourceRepresentationType" : "dataset",
+      "seReferencePopulation" : {
+        "referenceArea" : {
+          "idCodeList" : "GAUL_ReferenceArea", "version" : "1.0",
+          "codes" : [ { "code" : "ADM1" } ]
+        }
+      }
     },
 
     "dsd" : {
@@ -39,11 +45,11 @@
           "key" : true,
           "dataType" : "code",
           "domain" : {
-            "codes" : [ { "idCodeList" : "GAUL", "version" : 2014 } ]
+            "codes" : [ { "idCodeList" : "GAUL", "version" : "2014" } ]
           },
           "values" : {
             "codes" : [ {
-              "idCodeList" : "GAUL", "version" : 2014,
+              "idCodeList" : "GAUL", "version" : "2014",
               "codes" : [ { "code" : "51325" },{ "code" : "51326" },{ "code" : "51327" },{ "code" : "51328" },{ "code" : "51329" },{ "code" : "51330" },{ "code" : "51331" },{ "code" : "51332" } ]
             } ]
           }

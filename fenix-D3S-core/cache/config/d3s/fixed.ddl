@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS DATA;
 CREATE TABLE IF NOT EXISTS Metadata (
   id VARCHAR PRIMARY KEY,
   status VARCHAR,
-  rowsCount INT,
+  rowsCount BIGINT,
   lastUpdate TIMESTAMP,
   timeout TIMESTAMP
 );

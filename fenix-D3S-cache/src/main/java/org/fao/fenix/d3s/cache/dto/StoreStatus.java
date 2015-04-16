@@ -8,7 +8,7 @@ public class StoreStatus {
     }
 
     private Status status;
-    private Integer count;
+    private Long count;
     private Date lastUpdate = new Date();
     private Date timeout;
 
@@ -16,7 +16,7 @@ public class StoreStatus {
     public StoreStatus() {
     }
 
-    public StoreStatus(Status status, Integer count, Date lastUpdate, Date timeout) {
+    public StoreStatus(Status status, Long count, Date lastUpdate, Date timeout) {
         this.status = status;
         this.count = count;
         this.lastUpdate = lastUpdate;
@@ -31,11 +31,11 @@ public class StoreStatus {
         this.status = status;
     }
 
-    public Integer getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 

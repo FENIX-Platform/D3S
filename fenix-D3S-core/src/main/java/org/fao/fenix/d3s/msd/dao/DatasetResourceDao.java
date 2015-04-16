@@ -37,7 +37,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     }
 
     @Override
-    public Integer getSize(MeIdentification<DSDDataset> metadata) throws Exception {
+    public Long getSize(MeIdentification<DSDDataset> metadata) throws Exception {
         CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
         return cache!=null ? cache.size(metadata) : null;
     }

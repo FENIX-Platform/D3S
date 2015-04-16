@@ -17,12 +17,12 @@ public class LabelDataIterator implements Iterator<Object[]> {
     public LabelDataIterator(Iterator<Object[]> source, Table destinationStructure, DSDDataset sourceStructure, Collection<Resource<DSDCodelist,Code>> codelists) {
         this.source = source!=null ? source : new Iterator<Object[]>() {
             @Override
-            public void skip(int amount) {
+            public void skip(long amount) {
 
             }
 
             @Override
-            public int getIndex() {
+            public long getIndex() {
                 return 0;
             }
 
@@ -105,12 +105,12 @@ public class LabelDataIterator implements Iterator<Object[]> {
 
 
     @Override
-    public void skip(int amount) {
+    public void skip(long amount) {
         source.skip(amount);
     }
 
     @Override
-    public int getIndex() {
+    public long getIndex() {
         return source.getIndex();
     }
 

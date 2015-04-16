@@ -169,13 +169,13 @@ public interface Resources {
     public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
 
 
-    @GET
+    @PUT
     @Path("/fetch/rid/{rid}")
     public void fetch(@PathParam("rid") String rid) throws Exception;
-    @GET
+    @PUT
     @Path("/fetch/uid/{uid}")
     public void fetchByUID(@PathParam("uid") String uid) throws Exception;
-    @GET
+    @PUT
     @Path("/fetch/{uid}/{version}")
     public void fetchByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
 

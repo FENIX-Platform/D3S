@@ -1,10 +1,12 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.id.ORID;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.storage.ORecordDuplicatedException;
 import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.server.tools.orient.DocumentTrigger;
 
 import java.io.BufferedReader;
 import java.util.*;
@@ -30,10 +32,10 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
     }
 
     @Override
-    public Integer getSize(MeIdentification<DSDCodelist> metadata) throws Exception {
+    public Long getSize(MeIdentification<DSDCodelist> metadata) throws Exception {
         ORID metadataORid = metadata!=null ? metadata.getORID() : null;
-        Collection<Integer> size = metadataORid!=null ? select(Integer.class,"select count(*) from Code where codeList = ?",metadataORid) : null;
-        return size!=null && size.size()>0 ? size.iterator().next() : null;
+        Collection<ODocument> size = metadataORid!=null ? select("select count(*) as size from Code where codeList = ?",metadataORid) : null;
+        return size!=null && size.size()>0 ? (Long)size.iterator().next().field("size") : null;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class FilterResourceDao extends ResourceDao {
     }
 
     @Override
-    public Integer getSize(MeIdentification metadata) throws Exception {
+    public Long getSize(MeIdentification metadata) throws Exception {
         throw new UnsupportedOperationException();
     }
 
