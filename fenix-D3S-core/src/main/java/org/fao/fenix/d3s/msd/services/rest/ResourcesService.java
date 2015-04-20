@@ -93,19 +93,15 @@ public class ResourcesService implements Resources {
 
     @Override
     public ResourceProxy getResource(String rid, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(rid, null);
-        return metadata!=null ? getResourceProxy(metadata, getData(metadata), getSize(metadata), full, dsd, export, datasource) : null;
+        return getResourceProxy(loadMetadata(rid, null), full, dsd, export, datasource);
     }
-
     @Override
     public ResourceProxy getResourceByUID(String uid, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-        return getResourceByUID(uid, null, full, dsd, export, datasource);
+        return getResourceProxy(loadMetadata(uid, null), full, dsd, export, datasource);
     }
-
     @Override
     public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(uid, version);
-        return metadata!=null ? getResourceProxy(metadata, getData(metadata), getSize(metadata), full, dsd, export, datasource) : null;
+        return getResourceProxy(loadMetadata(uid, version), full, dsd, export, datasource);
     }
 
     @Override
@@ -151,12 +147,10 @@ public class ResourcesService implements Resources {
     public Object getMetadata(String rid, boolean full, boolean dsd, boolean export) throws Exception {
         return getMetadataProxy(loadMetadata(rid, null), full, dsd, export);
     }
-
     @Override
     public Object getMetadataByUID(String uid, boolean full, boolean dsd, boolean export) throws Exception {
         return getMetadataByUID(uid, null, full, dsd, export);
     }
-
     @Override
     public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd, boolean export) throws Exception {
         return getMetadataProxy(loadMetadata(uid, version), full, dsd, export);
@@ -263,7 +257,7 @@ public class ResourcesService implements Resources {
         return getDataProxy(loadMetadata(uid, version));
     }
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
-        return getDataProxy(metadata, getData(metadata));
+        return getDataProxy(metadata, loadData(metadata));
     }
 
     @Override
@@ -301,15 +295,18 @@ public class ResourcesService implements Resources {
 
 
     //UTILS
-
-    private org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception {
+    //Manage raw info
+    public Resource loadResource (String id, String version) throws Exception  {
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(id, version);
+        return new Resource(metadata, loadData(metadata));
+    }
+    public org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception {
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadata(id, version);
         if (metadata==null)
             throw new NoContentException("Cannot find resource (id: "+id+(version!=null ? '-'+version : "")+')');
         return metadata;
     }
-
-    private Collection getData (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+    private Collection loadData (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao!=null ? dataDao.loadData(metadata) : null;
     }
@@ -317,27 +314,6 @@ public class ResourcesService implements Resources {
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao!=null ? dataDao.getSize(metadata) : null;
     }
-
-    private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export) throws Exception {
-        Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, export);
-        return metadataProxyClass!=null ? ResponseBeanFactory.getInstance(metadata, metadataProxyClass) : null;
-    }
-
-    private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data) throws Exception {
-        Class dataProxyClass = getTemplateDataClass(loadRepresentationType(metadata));
-        return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
-    }
-
-    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data, Long size, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-        RepresentationType type = loadRepresentationType(metadata);
-        return new ResourceProxy(
-                ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
-                data, getTemplateDataClass(type),
-                datasource ? getDatasources(metadata) : null,
-                size!=null ? size : (data!=null ? data.size() : null)
-        );
-    }
-
     private Map<String,Map<String,String>> getDatasources(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) {
         org.fao.fenix.commons.msd.dto.full.DSD dsd = metadata!=null ? metadata.getDsd() : null;
         String[] datasourcesName = dsd!=null ? dsd.getDatasources() : null;
@@ -353,9 +329,42 @@ public class ResourcesService implements Resources {
 
         return datasources;
     }
+    private String deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            getDao(loadRepresentationType(metadata)).deleteData(metadata);
+            return "";
+        } else
+            return null;
+    }
+    private String deleteResource(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        if (metadata!=null) {
+            getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+            return "";
+        } else
+            return null;
+    }
+    //Retrieve info proxy
+    private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export) throws Exception {
+        Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, export);
+        return metadataProxyClass!=null ? ResponseBeanFactory.getInstance(metadata, metadataProxyClass) : null;
+    }
+    private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data) throws Exception {
+        Class dataProxyClass = getTemplateDataClass(loadRepresentationType(metadata));
+        return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
+    }
+    private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
+        Collection data = loadData(metadata);
+        Long size = getSize(metadata);
 
-
-    //Representation type based selections
+        RepresentationType type = loadRepresentationType(metadata);
+        return new ResourceProxy(
+                ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
+                data, getTemplateDataClass(type),
+                datasource ? getDatasources(metadata) : null,
+                size!=null ? size : (data!=null ? data.size() : null)
+        );
+    }
+    //Representation type based proxy class selections
     private RepresentationType loadRepresentationType(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         RepresentationType representationType = metadata!=null && metadata.getMeContent()!=null ? metadata.getMeContent().getResourceRepresentationType() : null;
         if (representationType==null) {
@@ -415,21 +424,6 @@ public class ResourcesService implements Resources {
     }
 
 
-    private String deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
-        if (metadata!=null) {
-            getDao(loadRepresentationType(metadata)).deleteData(metadata);
-            return "";
-        } else
-            return null;
-    }
-
-    private String deleteResource(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
-        if (metadata!=null) {
-            getDao(loadRepresentationType(metadata)).deleteResource(metadata);
-            return "";
-        } else
-            return null;
-    }
 
 
 

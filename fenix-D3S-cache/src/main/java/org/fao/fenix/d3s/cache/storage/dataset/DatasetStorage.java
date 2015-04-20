@@ -8,6 +8,7 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.storage.Storage;
 
+import java.sql.Connection;
 import java.util.Date;
 
 public interface DatasetStorage extends Storage {
@@ -70,4 +71,11 @@ public interface DatasetStorage extends Storage {
      * @throws Exception
      */
     public void delete(String tableName) throws Exception;
+
+    /**
+     * Returns a new connection to the database. The connection have to be managed by the calling process. The connection has auto-commit mode disabled.
+     * @return New JDBC connection.
+     * @throws Exception
+     */
+    public Connection getConnection() throws Exception;
 }

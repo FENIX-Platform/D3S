@@ -186,7 +186,13 @@ public interface Resources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
 
-}
+
+    //RAW Data access
+    public Resource loadResource (String id, String version) throws Exception;
+    public org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception;
+
+    }
+
 
 
 

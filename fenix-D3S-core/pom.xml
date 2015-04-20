@@ -36,12 +36,11 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+        </plugins>
 	</build>
 
 
 	<dependencies>
-
 
         <!-- J2EE server -->
         <dependency>

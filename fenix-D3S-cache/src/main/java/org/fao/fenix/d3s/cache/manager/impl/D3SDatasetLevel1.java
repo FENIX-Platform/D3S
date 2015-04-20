@@ -68,12 +68,8 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         if (status!=null) {
             if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
                 throw new IncompleteException(id);
-            Date cacheLastUpdate = status.getLastUpdate();
-            for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
-                if (cacheLastUpdate.before(lastUpdate)) {
-                    storage.delete(id);
-                    return null;
-                }
+            if (!checkUpdateDateIsValid(metadata,status))
+                storage.delete(id);
             return storage.load(order,page,null,new Table(metadata));
         } else
             return null;
@@ -89,9 +85,14 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             data = new LabelDataIterator(data,tableMetadata,metadata.getDsd(),codeLists);
             //Create table if not exists
             StoreStatus status = storage.loadMetadata(id);
+            //Verify last update date
+            if (!checkUpdateDateIsValid(metadata,status)) {
+                storage.delete(id);
+                status = null;
+            }
+            //Create table if needed
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
-            //TODO verify table structure integrity
             //Store data and unlock resource
             new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite).start();
         } catch (Exception ex) {
@@ -219,5 +220,15 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         return seUpdate!=null ? seUpdate.getUpdateDate() : null;
     }
 
+
+    private boolean checkUpdateDateIsValid(MeIdentification<DSDDataset> metadata, StoreStatus status) {
+        if (metadata!=null && status!=null) {
+            Date cacheLastUpdate = status.getLastUpdate();
+            for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
+                if (cacheLastUpdate.before(lastUpdate))
+                    return false;
+        }
+        return true;
+    }
 
 }
