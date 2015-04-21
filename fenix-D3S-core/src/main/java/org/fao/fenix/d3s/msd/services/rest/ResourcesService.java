@@ -355,13 +355,15 @@ public class ResourcesService implements Resources {
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
         Collection data = loadData(metadata);
         Long size = getSize(metadata);
+        size = size!=null ? size : (data!=null ? (long)data.size() : null);
 
         RepresentationType type = loadRepresentationType(metadata);
+
         return new ResourceProxy(
                 ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
                 data, getTemplateDataClass(type),
                 datasource ? getDatasources(metadata) : null,
-                size!=null ? size : (data!=null ? data.size() : null)
+                size
         );
     }
     //Representation type based proxy class selections

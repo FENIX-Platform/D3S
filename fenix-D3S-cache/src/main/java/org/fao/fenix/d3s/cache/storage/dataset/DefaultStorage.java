@@ -17,6 +17,7 @@ import java.util.Date;
 public abstract class DefaultStorage extends H2Database {
 
     private static String SCHEMA_NAME = "DATA";
+    private static String TMP_SCHEMA_NAME = "TMP_DATA";
 
 
     //DATA
@@ -32,7 +33,7 @@ public abstract class DefaultStorage extends H2Database {
             throw new Exception("Duplicate table error.");
 
         //Create query
-        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(encodeTableName(tableName)).append(" (");
+        StringBuilder query = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(getTableName(tableName)).append(" (");
         StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
         boolean containsKey = false;
 
@@ -87,7 +88,7 @@ public abstract class DefaultStorage extends H2Database {
         Connection connection = getConnection();
         try {
             removeMetadata(tableName, connection);
-            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + encodeTableName(tableName));
+            connection.createStatement().executeUpdate("DROP TABLE IF EXISTS " + getTableName(tableName));
 
             connection.commit();
         } catch (Exception ex) {
@@ -171,10 +172,10 @@ public abstract class DefaultStorage extends H2Database {
 
             //If overwrite mode is active delete existing data
             if (overwrite)
-                connection.createStatement().executeUpdate("DELETE FROM " + encodeTableName(tableName));
+                connection.createStatement().executeUpdate("DELETE FROM " + getTableName(tableName));
 
             //Build query
-            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(encodeTableName(tableName)).append(" (");
+            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(getTableName(tableName)).append(" (");
 
             for (Column column : structure)
                 query.append(column.getName()).append(',');
@@ -213,7 +214,7 @@ public abstract class DefaultStorage extends H2Database {
             //try to set incomplete status
             status.setStatus(StoreStatus.Status.incomplete);
             status.setLastUpdate(new Date());
-            storeMetadata(tableName,status);
+            storeMetadata(tableName, status);
             //throw error
             ex.printStackTrace();
             throw ex;
@@ -253,7 +254,7 @@ public abstract class DefaultStorage extends H2Database {
             for (int i=0; i<tables.length; i++) {
                 //Build insert query
                 StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ")
-                        .append(encodeTableName(tableName))
+                        .append(getTableName(tableName))
                         .append(" (").append(insertQueriesColumnsSegment[i]).append(") ")
                         .append(queries[i]);
                 //Run query
@@ -327,9 +328,9 @@ public abstract class DefaultStorage extends H2Database {
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
-        PreparedStatement statement = connection.prepareStatement( loadMetadata().put(resourceId, status) == null ?
-                "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)":
-                "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
+        PreparedStatement statement = connection.prepareStatement(loadMetadata().put(resourceId, status) == null ?
+                        "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)" :
+                        "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
         );
 
         statement.setString(1,status.getStatus().name());
@@ -445,7 +446,7 @@ public abstract class DefaultStorage extends H2Database {
 
             //Remove orphan tables
             for (String tableName : tablesName) {
-                connection.createStatement().executeUpdate("DROP TABLE " + encodeTableName(tableName));
+                connection.createStatement().executeUpdate("DROP TABLE " + getTableName(tableName));
                 count++;
             }
 
@@ -466,7 +467,6 @@ public abstract class DefaultStorage extends H2Database {
         for (String id : loadMetadata().keySet())
             delete(id);
     }
-
 
 
     //Utils
@@ -492,7 +492,7 @@ public abstract class DefaultStorage extends H2Database {
         }
 
         //Add source table
-        query.append(" FROM ").append(encodeTableName(table.getTableName()));
+        query.append(" FROM ").append(getTableName(table.getTableName()));
         //Add where condition
         StandardFilter rowsFilter = filter!=null ? filter.getRows() : null;
         if (rowsFilter!=null && rowsFilter.size()>0) {
@@ -582,9 +582,14 @@ public abstract class DefaultStorage extends H2Database {
     }
 
 
-
-    protected String encodeTableName(String tableName) {
+    @Override
+    public String getTableName(String tableName) {
         return tableName==null ? null : SCHEMA_NAME + '.'+ '"' + tableName + '"';
+    }
+
+    @Override
+    public String getTemporaryTableName(String tableName) {
+        return tableName==null ? null : TMP_SCHEMA_NAME + '.'+ '"' + tableName + '"';
     }
 
 

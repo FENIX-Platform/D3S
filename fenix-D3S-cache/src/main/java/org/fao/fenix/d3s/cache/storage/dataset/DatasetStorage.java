@@ -13,6 +13,7 @@ import java.util.Date;
 
 public interface DatasetStorage extends Storage {
 
+
     /**
      * Create a new table with the specified structure if it don't exists.
      * Metadata will be updated automatically.
@@ -78,4 +79,19 @@ public interface DatasetStorage extends Storage {
      * @throws Exception
      */
     public Connection getConnection() throws Exception;
+
+    /**
+     * Returns the internal table name associated to a cached resource ID
+     * @param resourceId Cached resource ID
+     * @return Internal table name
+     */
+    public String getTableName(String resourceId);
+
+    /**
+     * Returns the internal table name associated to a cached resource ID into the temporary tablespace
+     * @param resourceId Cached resource ID
+     * @return Internal table name
+     */
+    public String getTemporaryTableName(String resourceId);
+
 }
