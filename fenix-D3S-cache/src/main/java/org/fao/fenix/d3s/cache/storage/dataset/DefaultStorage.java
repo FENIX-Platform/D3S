@@ -17,7 +17,6 @@ import java.util.Date;
 public abstract class DefaultStorage extends H2Database {
 
     private static String SCHEMA_NAME = "DATA";
-    private static String TMP_SCHEMA_NAME = "TMP_DATA";
 
 
     //DATA
@@ -585,11 +584,6 @@ public abstract class DefaultStorage extends H2Database {
     @Override
     public String getTableName(String tableName) {
         return tableName==null ? null : SCHEMA_NAME + '.'+ '"' + tableName + '"';
-    }
-
-    @Override
-    public String getTemporaryTableName(String tableName) {
-        return tableName==null ? null : TMP_SCHEMA_NAME + '.'+ '"' + tableName + '"';
     }
 
 

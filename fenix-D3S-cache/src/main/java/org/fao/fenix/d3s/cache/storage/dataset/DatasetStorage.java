@@ -87,11 +87,4 @@ public interface DatasetStorage extends Storage {
      */
     public String getTableName(String resourceId);
 
-    /**
-     * Returns the internal table name associated to a cached resource ID into the temporary tablespace
-     * @param resourceId Cached resource ID
-     * @return Internal table name
-     */
-    public String getTemporaryTableName(String resourceId);
-
 }
