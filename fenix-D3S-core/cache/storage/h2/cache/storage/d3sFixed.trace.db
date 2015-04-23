@@ -2047,3 +2047,5 @@ SELECT Year, Item, Value FROM DATA."dan2|1.0" ORDER BY title.EN ASC  LIMIT 3 OFF
 	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
 	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
 	at java.lang.Thread.run(Thread.java:745)
+04-23 17:49:25 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-184]

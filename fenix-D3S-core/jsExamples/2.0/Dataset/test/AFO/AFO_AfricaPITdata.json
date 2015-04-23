@@ -6,7 +6,7 @@
     },
 
     "dsd" : {
-        "datasource" : "D3S",
+        "datasources" : ["D3S"],
         "contextSystem" : "AFO",
         "columns" : [
 			{

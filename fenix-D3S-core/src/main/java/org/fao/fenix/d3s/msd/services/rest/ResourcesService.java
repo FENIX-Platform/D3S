@@ -214,7 +214,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
-        updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
+        updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(false, metadata)[0]);
         return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
