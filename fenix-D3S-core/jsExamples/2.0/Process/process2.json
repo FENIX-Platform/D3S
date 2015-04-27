@@ -1,12 +1,7 @@
 [
   {
-    "name" : "simpleFilter",
+    "name" : "filter",
     "parameters" : {
-      "order" : {
-        "Country" : "DESC",
-        "Year" : "DESC"
-      },
-      "filter" : {
         "rows" : {
           "Item" : {
             "codes" : [
@@ -22,6 +17,5 @@
           "Item", "Country", "Year", "Value"
         ]
       }
-    }
   }
 ]

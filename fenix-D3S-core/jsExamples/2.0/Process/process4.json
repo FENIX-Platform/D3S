@@ -2,10 +2,6 @@
   {
     "name" : "simpleFilter",
     "parameters" : {
-      "order" : {
-        "Country" : "DESC",
-        "Year" : "DESC"
-      },
       "filter" : {
         "rows" : {
           "Item" : {
@@ -17,11 +13,18 @@
               }
             ]
           }
-        },
-        "columns" : [
-          "Item", "Country", "Year", "Value"
-        ]
+        }
       }
+    }
+  },
+  {
+    "name" : "asTable"
+  },
+  {
+    "name" : "order",
+    "parameters" : {
+      "Country" : "DESC",
+      "Year" : "DESC"
     }
   }
 ]

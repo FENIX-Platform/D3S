@@ -2049,3 +2049,16 @@ SELECT Year, Item, Value FROM DATA."dan2|1.0" ORDER BY title.EN ASC  LIMIT 3 OFF
 	at java.lang.Thread.run(Thread.java:745)
 04-23 17:49:25 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLException: The object is already closed [90007-184]
+04-27 10:05:14 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-184]
+04-27 11:04:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "AFO_AFRICAPITDATA" not found; SQL statement:
+SELECT Item,Country,Year,Value FROM AFO_AfricaPITdata WHERE 1=1 AND Item IN (?,?,?) [42102-184]
+04-27 12:47:33 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-184]
+04-27 12:51:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TMP_" not found; SQL statement:
+SELECT * FROM TMP_-751489119372620160-8232075104219303462 ORDER BY Country DESC, Year DESC [42102-184]
+04-27 12:52:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TMP_738191373506789626" not found; SQL statement:
+SELECT * FROM TMP_738191373506789626-8283880117385613154 ORDER BY Country DESC, Year DESC [42102-184]
