@@ -2062,3 +2062,5 @@ SELECT * FROM TMP_-751489119372620160-8232075104219303462 ORDER BY Country DESC,
 04-27 12:52:47 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "TMP_738191373506789626" not found; SQL statement:
 SELECT * FROM TMP_738191373506789626-8283880117385613154 ORDER BY Country DESC, Year DESC [42102-184]
+04-28 09:45:26 jdbc[6]: exception
+org.h2.jdbc.JdbcSQLException: The object is already closed [90007-184]
