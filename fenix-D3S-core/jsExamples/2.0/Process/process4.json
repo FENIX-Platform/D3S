@@ -12,6 +12,15 @@
                 "codes" : ["310230", "2814", "310210"]
               }
             ]
+          },
+          "Country" : {
+            "codes" : [
+              {
+                "uid" : "AFO_Countrycode",
+                "version" : null,
+                "codes" : ["BEN", "BFA", "EGY"]
+              }
+            ]
           }
         }
       }
@@ -19,6 +28,9 @@
   },
   {
     "name" : "asTable"
+  },
+  {
+    "name" : "distinct"
   },
   {
     "name" : "order",
