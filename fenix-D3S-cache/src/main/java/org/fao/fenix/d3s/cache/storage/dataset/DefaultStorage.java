@@ -76,7 +76,8 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
 
         return status;
@@ -94,7 +95,8 @@ public abstract class DefaultStorage extends H2Database {
             connection.rollback();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
     }
 
@@ -218,7 +220,8 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
 
         return status;
@@ -275,7 +278,8 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
 
         //Return status
@@ -301,7 +305,8 @@ public abstract class DefaultStorage extends H2Database {
                 ex.printStackTrace();
                 throw ex;
             } finally {
-                connection.close();
+                if (connection!=null)
+                    connection.close();
             }
         }
         return metadata;
@@ -323,7 +328,8 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
@@ -356,7 +362,8 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
 
     }
@@ -407,7 +414,8 @@ public abstract class DefaultStorage extends H2Database {
             throw ex;
         } finally {
             this.metadata = null; //Force metadata reload
-            connection.close();
+            if (connection!=null)
+                connection.close();
         }
 
     }

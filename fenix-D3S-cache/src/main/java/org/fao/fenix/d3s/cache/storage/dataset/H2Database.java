@@ -10,12 +10,15 @@ import org.h2.tools.RunScript;
 
 import java.io.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
 public abstract class H2Database implements DatasetStorage {
     private boolean initialized = false;
     private JdbcConnectionPool pool;
+
+
 
     //STARTUP FLOW
     @Override
@@ -44,6 +47,10 @@ public abstract class H2Database implements DatasetStorage {
         pool = JdbcConnectionPool.create(url, usr, psw);
         if (maxConnections>0)
             pool.setMaxConnections(maxConnections);
+
+        this.url = url;
+        this.usr = usr;
+        this.psw = psw;
     }
 
     private void runScript(String filePath) throws FileNotFoundException, SQLException {
@@ -79,9 +86,26 @@ public abstract class H2Database implements DatasetStorage {
 
 
     //Standard utils
-    @Override
+/*    @Override
     public Connection getConnection() throws SQLException {
         Connection connection = pool.getConnection();
+        connection.setAutoCommit(false);
+        return connection;
+    }
+*/
+    static {
+        try {
+            Class.forName(org.h2.Driver.class.getName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String url, usr, psw;
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        Connection connection = DriverManager.getConnection(url,usr,psw);
         connection.setAutoCommit(false);
         return connection;
     }
