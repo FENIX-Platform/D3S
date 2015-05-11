@@ -132,6 +132,8 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
                 }
                 //Update parents link and level
                 if (parentCode != null) {
+                    if (parentCode.getCode().equals(code.getCode()))
+                        throw new Exception("Child and parent with the same code: "+code.getCode());
                     code.setLevel(Math.max(parentCode.getLevel() + 1, code.getLevel()));      //Update level
                     code.addParent(parentCode);                                             //Add parents links
                 }
