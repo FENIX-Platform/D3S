@@ -2,7 +2,7 @@ package org.fao.fenix.d3s.server.services.rest;
 
 
 import org.fao.fenix.commons.msd.dto.JSONEntity;
-import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.commons.utils.Page;
 
 import javax.servlet.http.HttpServletRequest;

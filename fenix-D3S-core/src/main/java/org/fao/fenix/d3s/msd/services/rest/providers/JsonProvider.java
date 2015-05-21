@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.msd.services.rest.providers;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
@@ -11,7 +10,7 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.commons.utils.JSONUtils;
-import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

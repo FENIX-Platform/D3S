@@ -14,7 +14,7 @@
           }
         },
         "columns" : [
-          "Item", "Country", "Year", "Value"
+          "Item", "Country", "Year", "Value", "Element"
         ]
       }
   }

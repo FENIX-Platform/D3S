@@ -4,6 +4,7 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -16,7 +17,8 @@ import java.util.LinkedList;
 @WebFilter(filterName="OrientConnectionManager", urlPatterns={"/v2/*"})
 public class OrientConnectionWebFilter implements Filter {
     @Inject OrientServer client;
-    @Inject DatabaseStandards dbParameters;
+    @Inject
+    DatabaseStandards dbParameters;
 
 
     @Override public void init(FilterConfig filterConfig) throws ServletException { }

@@ -6,7 +6,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.utils.JSONUtils;
-import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
