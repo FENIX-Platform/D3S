@@ -31,9 +31,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         if (cache==null)
             throw new UnsupportedOperationException();
 
-        StoreStatus resourceStatus = cache.status(metadata);
-        if (resourceStatus==null)
-            loadData(metadata, new Page(0, 1), null);
+        loadData(metadata, new Page(0, 1), null);
     }
 
     @Override
