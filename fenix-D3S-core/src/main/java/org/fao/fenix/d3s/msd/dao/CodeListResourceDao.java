@@ -40,7 +40,7 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
     @Override
     public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata) throws Exception {
-        return loadData(metadata,1);
+        return loadData(metadata, null, 1);
     }
 
     @Override
@@ -61,6 +61,30 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
 
     //Codes selection
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, String label, Integer level, String ... codes) throws Exception {
+        if (metadata==null)
+            return null;
+
+        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
+
+        Collection<Object> params = new LinkedList<>();
+        params.add(metadata.getORID());
+        if (level!=null && level>0) {
+            query.append(" and level = ?");
+            params.add(level);
+        }
+        if (codes!=null && codes.length>0) {
+            query.append(" and code in [ ? ]");
+            params.addAll(Arrays.asList(codes));
+        }
+        if (label!=null && label.trim().length()>0) {
+            query.append(" and indexLabel lucene ?");
+            params.add(label.toLowerCase());
+        }
+
+        return select(Code.class, query.toString(), params.toArray());
+    }
+/*
     public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, Integer level, String ... codes) throws Exception {
         if (metadata==null)
             return null;
@@ -86,6 +110,8 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         } else
             return select(Code.class, query.toString(), metadataORid);
     }
+*/
+
 
     public int deleteData(MeIdentification<DSDCodelist> metadata, Collection<String> codes) throws Exception {
         return metadata!=null && codes!=null && codes.size()>0 ? command("delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : 0;

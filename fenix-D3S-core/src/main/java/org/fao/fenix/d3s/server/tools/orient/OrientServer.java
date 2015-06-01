@@ -11,10 +11,7 @@ import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.msd.triggers.DSDDatasetLinksManager;
-import org.fao.fenix.d3s.msd.triggers.LinksManager;
-import org.fao.fenix.d3s.msd.triggers.ResourceIndexManager;
-import org.fao.fenix.d3s.msd.triggers.ResourceLinksManager;
+import org.fao.fenix.d3s.msd.triggers.*;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
 
@@ -118,9 +115,11 @@ public class OrientServer {
                     triggersFactory.select(DSDDatasetLinksManager.class).iterator().next(),
                     triggersFactory.select(ResourceLinksManager.class).iterator().next(),
                     triggersFactory.select(ResourceIndexManager.class).iterator().next(),
+                    triggersFactory.select(CodeIndexManager.class).iterator().next(),
             };
 
             Orient.instance().addDbLifecycleListener(triggers[2]); //TODO all triggers will be added when Orient will support trigger order
+            Orient.instance().addDbLifecycleListener(triggers[3]); //TODO all triggers will be added when Orient will support trigger order
             for (LinksManager trigger : triggers)
                 trigger.init(meIdentificationClassO);
 

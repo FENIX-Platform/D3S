@@ -11,9 +11,7 @@ import org.fao.fenix.d3s.msd.services.spi.Codes;
 
 import javax.inject.Inject;
 import javax.ws.rs.Path;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 @Path("msd/codes")
 public class CodesService implements Codes {
@@ -25,7 +23,7 @@ public class CodesService implements Codes {
     @Override
     public Collection<Code> getCodes(CodesFilter filter) throws Exception {
         MeIdentification metadata = filter.rid!=null ? dao.loadMetadata(filter.rid,null) : dao.loadMetadata(filter.uid,filter.version);
-        return loadCodes(metadata, filter.level, filter.levels, filter.codes);
+        return filter.label!=null && !filter.label.trim().equals("") ? loadCodes(metadata, filter.label) : loadCodes(metadata, filter.level, filter.levels, filter.codes);
     }
 
 
@@ -37,7 +35,7 @@ public class CodesService implements Codes {
             String[] codesArray = codes!=null && codes.size()>0 ? codes.toArray(new String[codes.size()]) : null;
             level = level==null && codesArray==null ? new Integer(1) : level;
             //Retrieve data
-            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, level, codesArray);
+            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, null, level, codesArray);
             //Return data proxy
             if (data!=null && data.size()>0) {
                 if (level != null)
@@ -48,6 +46,26 @@ public class CodesService implements Codes {
             }
         }
         return null;
+    }
+    private Collection<Code> loadCodes(MeIdentification metadata, String label) throws Exception {
+        MeContent meContent = metadata!=null ? metadata.getMeContent() : null;
+        if (meContent!=null && meContent.getResourceRepresentationType() == RepresentationType.codelist) {
+            return loadCodes(
+                    metadata,
+                    null,
+                    1,
+                    fillCodesPath(dao.loadData(metadata, label, null), new HashSet<String>())
+            );
+        }
+        return null;
+    }
+    private Set<String> fillCodesPath (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, Set<String> codesName) {
+        if (codes!=null && codes.size()>0)
+            for (org.fao.fenix.commons.msd.dto.full.Code code : codes) {
+                codesName.add(code.getCode());
+                fillCodesPath(code.getParents(), codesName);
+            }
+        return codesName;
     }
 
 
