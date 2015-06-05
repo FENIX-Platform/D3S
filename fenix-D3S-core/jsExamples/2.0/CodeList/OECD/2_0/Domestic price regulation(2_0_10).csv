@@ -1,13 +1,13 @@
 {
-    "uid": "OECD_CommodityClass1",
+    "uid": "OECD_PolicyType2_0_10",
 	"version": "1.0",
     "title": {
-        "EN": "OECD Commodity Class Agricultural"
+        "EN": "OECD Domestic price regulation"
     },
     "meContent": {
         "resourceRepresentationType": "codelist",
         "keywords": ["activity", "sector"],
-        "description": {"EN":"OECD Commodity Class Agricultural list"},
+        "description": {"EN":"OECD Domestic price regulation"},
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
             "coverageSectors":
@@ -105,7 +105,7 @@
     }
 }
 
-#structure
+--structure--
 csvSeparator=;
 structure=table
 dateFormat=dd/mm/yyyy
@@ -113,13 +113,13 @@ codeColumnsIndex=1
 titleColumnIndex_EN=2
 
 --data--
-3;Maize
-9;Maize + Rice
-10;Maize + Soybeans
-2;Rice
-4;Soybeans
-1;Wheat
-8;Wheat + Maize
-11;Wheat + Maize + Rice
-12;Wheat + Rice
+44;Maximum reference price
+45;Minimum reference price
+
+
+
+
+
+
+
 

@@ -1,13 +1,13 @@
 {
-    "uid": "OECD_CommodityClass1",
+    "uid": "OECD_PolicyType0_1_1",
 	"version": "1.0",
     "title": {
-        "EN": "OECD Commodity Class Agricultural"
+        "EN": "OECD Export measures"
     },
     "meContent": {
         "resourceRepresentationType": "codelist",
         "keywords": ["activity", "sector"],
-        "description": {"EN":"OECD Commodity Class Agricultural list"},
+        "description": {"EN":"OECD Policy Measures of Export measures"},
         "statisticalConceptsDefinitions": null,
         "seCoverage": {
             "coverageSectors":
@@ -105,7 +105,7 @@
     }
 }
 
-#structure
+--structure--
 csvSeparator=;
 structure=table
 dateFormat=dd/mm/yyyy
@@ -113,13 +113,17 @@ codeColumnsIndex=1
 titleColumnIndex_EN=2
 
 --data--
-3;Maize
-9;Maize + Rice
-10;Maize + Soybeans
-2;Rice
-4;Soybeans
-1;Wheat
-8;Wheat + Maize
-11;Wheat + Maize + Rice
-12;Wheat + Rice
+1;Export prohibition
+2;Export quota
+3;Export subsidies
+4;Export tax
+5;Licensing requirement
+8;Minimum reference price
+9;Restriction on customs clearance point for exports
+10;VAT tax rebate
+27;Domestic market obligation
+
+
+
+
 
