@@ -6,43 +6,45 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 //import org.fao.fenix.d3s.msd.dao.canc.dm.DMIndexStore;
 import org.fao.fenix.d3s.server.init.MainController;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 import org.fao.fenix.d3s.server.dto.OrientStatus;
+import org.fao.fenix.d3s.wds.WDSDaoFactory;
 
 
 @Path("server")
-public class Server implements org.fao.fenix.d3s.server.services.spi.Server {
+public class Server {
     @Context HttpServletRequest request;
-//    @Inject private DMIndexStore dmIndexStore;
     @Inject private OrientServer orientServer;
-/*
-    @Override
-	public void createMetadataIndex() throws Exception {
-		dmIndexStore.createDynamicIndexStructure();
-	}
+    @Inject private WDSDaoFactory daoFactory;
 
-    @Override
-	public void rebuildMetadataIndex() throws Exception {
-		dmIndexStore.rebuildIndexes();
-	}
 
-    @Override
-	public void removeMetadataIndex() throws Exception {
-		dmIndexStore.removeIndexes();
-	}
-*/
-    @Override
+
+    @GET
+    @Path("/orient")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public OrientStatus orientStatus() throws Exception {
         return orientServer.getStatus();
     }
 
-    @Override
+    @GET
+    @Path("/init/parameters")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
 	public Map<String,String> serverInitParameters() throws Exception {
 		return MainController.getInitParameters().toMap();
 	}
+
+
+    @GET
+    @Path("/ds/{id}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    public Map<String,String> getProeprties(@PathParam("id") String name) throws Exception {
+        return name!=null ? daoFactory.getDatasourceProperties(name) : null;
+    }
+
 
 
 }

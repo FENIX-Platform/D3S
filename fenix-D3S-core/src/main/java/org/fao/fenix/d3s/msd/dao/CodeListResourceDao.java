@@ -1,14 +1,17 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.id.ORID;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.storage.ORecordDuplicatedException;
 import org.fao.fenix.commons.msd.dto.full.Code;
+import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.server.tools.orient.DocumentTrigger;
 
 import java.io.BufferedReader;
 import java.util.*;
 
-public class CodeListResourceDao extends ResourceDao<Code> {
+public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 /*
     public Collection<Resource<Code>> getCodeLists() throws Exception {
         Collection<Resource<Code>> codeLists = new LinkedList<>();
@@ -23,26 +26,66 @@ public class CodeListResourceDao extends ResourceDao<Code> {
 
 
     @Override
-    public Collection<Code> loadData(MeIdentification metadata) throws Exception {
-        return loadData(metadata,1);
+    public void fetch(MeIdentification metadata) throws Exception {
+        //TODO linking to external codelists isn't supported
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    protected void insertData(MeIdentification metadata, Collection<Code> data) throws Exception {
-        saveCustomEntity(normalization(metadata, data, null, null),false,true);
+    public Long getSize(MeIdentification<DSDCodelist> metadata) throws Exception {
+        ORID metadataORid = metadata!=null ? metadata.getORID() : null;
+        Collection<ODocument> size = metadataORid!=null ? select("select count(*) as size from Code where codeList = ?",metadataORid) : null;
+        return size!=null && size.size()>0 ? (Long)size.iterator().next().field("size") : null;
     }
 
     @Override
-    protected void updateData(MeIdentification metadata, Collection<Code> data, boolean overwrite) throws Exception {
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata) throws Exception {
+        return loadData(metadata, null, 1);
+    }
+
+    @Override
+    protected void insertData(MeIdentification<DSDCodelist> metadata, Collection<Code> data) throws Exception {
+        Collection<Code> normalizedData = normalization(metadata, data, null, null);
+        saveCustomEntity(false,true,true, normalizedData.toArray(new Code[normalizedData.size()]));
+    }
+
+    @Override
+    protected void updateData(MeIdentification<DSDCodelist> metadata, Collection<Code> data, boolean overwrite) throws Exception {
         Collection<String> toDelete = overwrite ? new LinkedList<String>() : null;
-        saveCustomEntity(normalization(metadata, data, loadData(metadata), toDelete),overwrite,true);
+        Collection<Code> normalizedData = normalization(metadata, data, loadData(metadata), toDelete);
+
+        saveCustomEntity(overwrite, true, true, normalizedData.toArray(new Code[normalizedData.size()]));
         deleteData(metadata, toDelete);
     }
 
 
 
     //Codes selection
-    public Collection<Code> loadData(MeIdentification metadata, Integer level, String ... codes) throws Exception {
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, String label, Integer level, String ... codes) throws Exception {
+        if (metadata==null)
+            return null;
+
+        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
+
+        Collection<Object> params = new LinkedList<>();
+        params.add(metadata.getORID());
+        if (level!=null && level>0) {
+            query.append(" and level = ?");
+            params.add(level);
+        }
+        if (codes!=null && codes.length>0) {
+            query.append(" and code in [ ? ]");
+            params.addAll(Arrays.asList(codes));
+        }
+        if (label!=null && label.trim().length()>0) {
+            query.append(" and indexLabel lucene ?");
+            params.add(label.toLowerCase());
+        }
+
+        return select(Code.class, query.toString(), params.toArray());
+    }
+/*
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, Integer level, String ... codes) throws Exception {
         if (metadata==null)
             return null;
 
@@ -67,20 +110,22 @@ public class CodeListResourceDao extends ResourceDao<Code> {
         } else
             return select(Code.class, query.toString(), metadataORid);
     }
+*/
 
-    public int deleteData(MeIdentification metadata, Collection<String> codes) throws Exception {
+
+    public int deleteData(MeIdentification<DSDCodelist> metadata, Collection<String> codes) throws Exception {
         return metadata!=null && codes!=null && codes.size()>0 ? command("delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : 0;
     }
 
     @Override
-    public void deleteData(MeIdentification metadata) throws Exception {
+    public void deleteData(MeIdentification<DSDCodelist> metadata) throws Exception {
         if (metadata!=null)
             command("delete from Code where codeList = ?", metadata.getORID());
     }
 
 
     //Utils
-    private Collection<Code> normalization (MeIdentification codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete) throws Exception {
+    private Collection<Code> normalization (MeIdentification<DSDCodelist> codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete) throws Exception {
         Map<String,ORID> existingORIDs = getCodeListRids(existingCodeList);
         Map<String,Code> visitedNodes = new HashMap<>();
         codeList = normalization(codeListResource, codeList, null, visitedNodes, existingORIDs);
@@ -93,7 +138,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
         return codeList;
     }
 
-    private Collection<Code> normalization(MeIdentification codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs) throws Exception {
+    private Collection<Code> normalization(MeIdentification<DSDCodelist> codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs) throws Exception {
         if (codes!=null) {
             Collection<Code> buffer = new LinkedList<>();
 
@@ -113,6 +158,8 @@ public class CodeListResourceDao extends ResourceDao<Code> {
                 }
                 //Update parents link and level
                 if (parentCode != null) {
+                    if (parentCode.getCode().equals(code.getCode()))
+                        throw new Exception("Child and parent with the same code: "+code.getCode());
                     code.setLevel(Math.max(parentCode.getLevel() + 1, code.getLevel()));      //Update level
                     code.addParent(parentCode);                                             //Add parents links
                 }
@@ -143,7 +190,7 @@ public class CodeListResourceDao extends ResourceDao<Code> {
                 ORID existingOrid = buffer[0].put(code.getCode(), code.getORID());
                 //Check code entity duplication TODO check if it is really possible
                 if (existingOrid!=null && !existingOrid.equals(code.getORID()))
-                    throw new ORecordDuplicatedException("Code '"+code.getCode()+"' entity is duplicated into database: "+code.getORID()+" - "+existingOrid);
+                    throw new ORecordDuplicatedException("Code '"+code.getCode()+"' entity is duplicated into database",code.getORID());
                 //Apply recursion
                 getCodeListRids(code.getChildren(), buffer);
             }

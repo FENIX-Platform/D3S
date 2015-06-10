@@ -2,10 +2,11 @@ package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.filter.*;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.find.filter.Filter;
-import org.fao.fenix.d3s.find.filter.impl.StandardRetainFilter;
+import org.fao.fenix.d3s.find.filter.impl.*;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -16,6 +17,16 @@ public class FilterResourceDao extends ResourceDao {
     @Inject private Instance<Filter> queryBuilders;
     private static String queryBuildersPackage = Filter.class.getPackage().getName()+".impl.";
 
+
+    @Override
+    public void fetch(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Long getSize(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Collection loadData(MeIdentification metadata) throws Exception {
@@ -39,9 +50,9 @@ public class FilterResourceDao extends ResourceDao {
 
 
 
-    public Collection<MeIdentification> filter (ResourceFilter filter, String businessName) throws Exception {
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {
         try {
-            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : StandardRetainFilter.class;
+            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : org.fao.fenix.d3s.find.filter.impl.StandardFilter.class;
             Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
             return resources.size()>0 ? resources : null;
         } catch (ClassNotFoundException ex) {
@@ -55,7 +66,7 @@ public class FilterResourceDao extends ResourceDao {
 
 
     //Utils
-    private ConditionFilter[] normalizedFilter(ResourceFilter filter) throws Exception {
+    private ConditionFilter[] normalizedFilter(StandardFilter filter) throws Exception {
         Collection<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {

@@ -2,10 +2,9 @@ package org.fao.fenix.d3s.server.services.rest;
 
 
 import org.fao.fenix.commons.msd.dto.JSONEntity;
-import org.fao.fenix.d3s.server.tools.orient.DatabaseStandards;
-import org.fao.fenix.d3s.server.tools.orient.Page;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
+import org.fao.fenix.commons.utils.Page;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

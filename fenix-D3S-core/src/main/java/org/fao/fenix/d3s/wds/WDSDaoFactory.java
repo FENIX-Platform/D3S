@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.wds;
 
-import org.fao.fenix.d3s.server.tools.Properties;
+import org.fao.fenix.commons.utils.Properties;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -55,12 +55,17 @@ public class WDSDaoFactory {
     private Properties initParameters;
     private Properties getInitParameters() throws Exception {
         if (initParameters ==null) {
-            initParameters = new org.fao.fenix.d3s.server.tools.Properties();
+            initParameters = new Properties();
             initParameters.load(OrientServer.class.getResourceAsStream("/org/fao/fenix/config/datasources.properties"));
             if (customPropertiesFile.exists() && customPropertiesFile.isFile() && customPropertiesFile.canRead())
                 initParameters.load(new FileInputStream(customPropertiesFile));
         }
         return initParameters;
+    }
+
+    //Utils
+    public Map<String,String> getDatasourceProperties(String name) {
+        return datasourcesProperties.get(name);
     }
 
 }

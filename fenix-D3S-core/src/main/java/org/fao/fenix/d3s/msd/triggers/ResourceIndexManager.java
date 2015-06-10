@@ -23,15 +23,20 @@ public class ResourceIndexManager extends LinksManager {
             "uid",
             "version",
             "dsd.contextSystem",
+//            "dsd.workspace",
+//            "dsd.layerName",
             "meContent.resourceRepresentationType",
             "meContent.seCoverage.coverageSectors",
             "meContent.seCoverage.coverageGeographic",
+            "meContent.seCoverage.coverageTime",
             "meContent.seReferencePopulation.referencePeriod",
             "meContent.seReferencePopulation.referenceArea",
             "contacts",
             "meAccessibility.seConfidentiality.confidentialityStatus",
             "meSpatialRepresentation.seBoundingBox.seVectorSpatialRepresentation.topologyLevel",
-            //"meStatisticalProcessing.seDataCompilation.aggregationProcessing",
+            "meSpatialRepresentation.processing",
+            "meSpatialRepresentation.layerType",
+            "meReferenceSystem.seProjection.projection"
     };
 
 
@@ -64,15 +69,19 @@ public class ResourceIndexManager extends LinksManager {
                         break;
                     case OjPeriod:
                         ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
-                        period = datePeriodToPeriod((Date)periodO.field("from"), (Date)periodO.field("to"));
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        if (periodO!=null) {
+                            period = datePeriodToPeriod((Date) periodO.field("from"), (Date) periodO.field("to"));
+                            document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                            document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        }
                         break;
                     case date:
                         Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
-                        period = dateToPeriod(date);
-                        document.field("index|" + fieldName + "|from", period[0], OType.LONG);
-                        document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        if (date!=null) {
+                            period = dateToPeriod(date);
+                            document.field("index|" + fieldName + "|from", period[0], OType.LONG);
+                            document.field("index|" + fieldName + "|to", period[1], OType.LONG);
+                        }
                     case OjCodeList:
                     case OjCodeListCollection:
                         Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
@@ -265,7 +274,12 @@ public class ResourceIndexManager extends LinksManager {
                 Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
                 if (ojCodesO!=null && ojCodesO.size()>0)
                     for (ODocument ojCodeO : ojCodesO) {
-                        ODocument linkedCodeO = ojCodeO.field("linkedCode");
+                        ODocument linkedCodeO = null;
+                        try {
+                            linkedCodeO = ojCodeO.field("linkedCode");
+                        } catch (ClassCastException ex) {
+                            ojCodeO.field("linkedCode",null,OType.LINK); //if linked code is a broken link the field method returns an ORID object
+                        }
                         if (linkedCodeO!=null)
                             addParentsToo(linkedCodeO, codes, codeListID);
                         else {

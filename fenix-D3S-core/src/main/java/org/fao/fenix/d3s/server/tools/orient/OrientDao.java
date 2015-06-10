@@ -5,12 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
-import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import javassist.util.proxy.Proxy;
 
-import com.orientechnologies.orient.core.db.ODatabase;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.core.exception.OSerializationException;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
@@ -20,6 +17,9 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
+import org.fao.fenix.commons.utils.Order;
+import org.fao.fenix.commons.utils.Page;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.inject.Inject;
 import javax.persistence.Embedded;
@@ -88,9 +88,9 @@ public abstract class OrientDao {
     //LOAD UTILS
     private <T> OSQLSynchQuery<T> getSelect(String query, Class<T> type, Order ordering, Page paging) {
         if (ordering!=null)
-            query += ordering.toSQL();
+            query += ordering.toOrientSQL();
         if (paging!=null)
-            query += paging.toSQL();
+            query += paging.toOrientSQL();
 
         return createSelect(query,type);
     }
@@ -170,6 +170,13 @@ public abstract class OrientDao {
         return dbParameters.getConnection().getUnderlying().countClass(className);
     }
 
+    public Order getOrder() {
+        return dbParameters.getOrderingInfo();
+    }
+    public Page getPage() {
+        return dbParameters.getPaginationInfo();
+    }
+
 
     //SAVE UTILS
 
@@ -186,48 +193,48 @@ public abstract class OrientDao {
     private static final Map<Class,Collection<MethodGetSet>> entityCollectionGetSet = new HashMap<>();
     private static final Map<Method,Boolean> embeddedGetSet = new HashMap<>();
 
-    public <T extends JSONEntity> T newCustomEntity(T bean, boolean ... checks) {
-        boolean cycleCheck = checks!=null && checks.length>0 && checks[0]; //false by default
+    public <T extends JSONEntity> T newCustomEntity(T bean) {
+        return newCustomEntity(false, true, bean);
+    }
+    public <T extends JSONEntity> T newCustomEntity(boolean cycleCheck, boolean transaction, T bean) {
         try {
             bean.setRID(null); //Ignore bean ORID
-            return saveCustomEntity(bean, false, cycleCheck); //Save in append mode for connected entities
+            return saveCustomEntity(false, cycleCheck, transaction, bean)[0]; //Save in append mode for connected entities
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public <T extends JSONEntity> T saveCustomEntity(T bean, boolean ... checks) throws Exception {
-        Collection<T> beans = new LinkedList<>();
-        beans.add(bean);
-        return saveCustomEntity(beans,checks).iterator().next();
+    public <T extends JSONEntity> T[] saveCustomEntity(boolean overwrite, T... beans) throws Exception {
+        return saveCustomEntity(overwrite, false, true, beans);
     }
-    public <T extends JSONEntity> Collection<T> saveCustomEntity(Collection<T> beans, boolean ... checks) throws Exception {
-        boolean overwrite = checks!=null && checks.length>0 && checks[0]; //false by default
-        boolean cycleCheck = checks!=null && checks.length>1 && checks[1]; //false by default
+    public <T extends JSONEntity> T[] saveCustomEntity(boolean overwrite, boolean cycleCheck, boolean transaction, T... beans) throws Exception {
+        OObjectDatabaseTx transactionConnection = transaction ? getConnection() : null;
 
-        OObjectDatabaseTx connection = null;
+        if (transactionConnection!=null)
+            transactionConnection.begin();
         try {
-            connection = getConnection();
-            connection.begin();
-
             Map<Object,Object> buffer = cycleCheck ? new HashMap<>() : null;
-            Collection<T> beansBuffer = new LinkedList<>();
-            for (T bean : beans)
-                beansBuffer.add(saveCustomEntity(bean, overwrite, buffer, connection, false, null));
+            T[] beansBuffer = Arrays.copyOf(beans, beans.length);
 
-            connection.commit();
+            OObjectDatabaseTx connection = transactionConnection!=null ? transactionConnection : getConnection();
+            for (int i=0; i<beansBuffer.length; i++)
+                beansBuffer[i] = saveCustomEntity(beansBuffer[i], overwrite, buffer, connection, false, null);
+
+            if (transactionConnection!=null)
+                transactionConnection.commit();
             return beansBuffer;
         } catch (OSerializationException e) {
-            if (connection!=null)
-                connection.rollback();
+            if (transactionConnection!=null)
+                transactionConnection.rollback();
             client.registerPersistentEntities();
-            return saveCustomEntity(beans, overwrite, cycleCheck);
+            return saveCustomEntity(overwrite, cycleCheck, transaction, beans);
         } catch (Exception e) {
-            if (connection!=null)
-                connection.rollback();
+            if (transactionConnection!=null)
+                transactionConnection.rollback();
             throw e;
         }
     }
-    private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded, T embeddedBeanProxy) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException {
+    private <T extends JSONEntity> T saveCustomEntity(T bean, boolean overwrite, Map<Object,Object> buffer, OObjectDatabaseTx connection, boolean embedded, T embeddedBeanProxy) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoContentException, ClassNotFoundException {
         //Avoid cycle and useless proxy create/load
         if (bean==null)
             return null;
@@ -267,7 +274,7 @@ public abstract class OrientDao {
             if ((fieldValue=methodGetSet.get.invoke(bean)) != null) {
                 empty = false;
                 boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
-                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedField, (T)methodGetSet.get.invoke(beanProxy)));
+                methodGetSet.set.invoke(beanProxy, saveCustomEntity((JSONEntity) fieldValue, overwrite, buffer, connection, embeddedField, embeddedField ? (T)methodGetSet.get.invoke(beanProxy) : null));
             } else if (overwrite)
                 nullFields.add(methodGetSet.set);
 
@@ -275,13 +282,12 @@ public abstract class OrientDao {
             if ((collectionFieldValue = (Collection) methodGetSet.get.invoke(bean))!=null && collectionFieldValue.size()>0) {
                 //Collect new proxy entities
                 empty = false;
-                Collection<JSONEntity> proxyCollectionFieldValue = new LinkedHashSet<>();
-                for (JSONEntity elementValue : collectionFieldValue) {
-                    boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
+                boolean embeddedField = embeddedGetSet.get(methodGetSet.set);
+                Collection<JSONEntity> proxyCollectionFieldValue = embeddedField ? new LinkedList<JSONEntity>() : new LinkedHashSet<JSONEntity>();
+                for (JSONEntity elementValue : collectionFieldValue)
                     proxyCollectionFieldValue.add(saveCustomEntity(elementValue, overwrite, buffer, connection, embeddedField, null));
-                }
-                //In append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
-                if (!overwrite) {
+                //With links in append mode add old proxy entities (duplicates are avoided by default by Java HashSet)
+                if (!overwrite && !embeddedField) {
                     Collection<? extends JSONEntity> existingProxyCollectionFieldValue = (Collection)methodGetSet.get.invoke(beanProxy);
                     if (existingProxyCollectionFieldValue!=null && existingProxyCollectionFieldValue.size()>0)
                         for (Object existingValue : existingProxyCollectionFieldValue)

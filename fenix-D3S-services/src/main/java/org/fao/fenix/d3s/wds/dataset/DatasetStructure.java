@@ -1,18 +1,16 @@
 package org.fao.fenix.d3s.wds.dataset;
 
-import org.fao.fenix.commons.msd.dto.full.DSD;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSDColumn;
+import org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSDDataset;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 public class DatasetStructure {
 
     public DatasetStructure() { }
-    public DatasetStructure(MeIdentification metadata) {
+    public DatasetStructure(MetadataDSD metadata) {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
         Collection<DSDColumn> columns = dsd!=null ? dsd.getColumns() : null;
         if (columns!=null && columns.size()>0) {

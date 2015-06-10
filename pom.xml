@@ -13,8 +13,10 @@
     <modules>
         <module>fenix-D3S-services</module>
         <module>fenix-D3S-client</module>
+        <module>fenix-D3S-cache</module>
         <module>fenix-D3S-CountrySTAT</module>
         <module>fenix-D3S-UNECA</module>
+        <module>fenix-D3S-mdsd</module>
         <module>fenix-D3S-core</module>
         <module>fenix-D3S-proxy</module>
     </modules>
@@ -22,7 +24,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy.version>3.0.6.Final</resteasy.version>
-        <orient.version>1.7.8</orient.version>
+        <orient.version>2.0.5</orient.version>
         <jackson.version>2.4.3</jackson.version>
     </properties>
 

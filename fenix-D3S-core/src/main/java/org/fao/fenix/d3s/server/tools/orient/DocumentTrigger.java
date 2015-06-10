@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 import com.orientechnologies.orient.core.db.ODatabase;
-import com.orientechnologies.orient.core.db.ODatabaseComplex;
+import com.orientechnologies.orient.core.db.ODatabaseInternal;
 import com.orientechnologies.orient.core.db.ODatabaseLifecycleListener;
 import com.orientechnologies.orient.core.hook.ORecordHook;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
@@ -20,23 +20,38 @@ public abstract class DocumentTrigger extends OrientDao implements ORecordHook, 
     }
 
     @Override
-    public void onCreate(ODatabase oDatabase) {
-        ((ODatabaseComplex<?>)oDatabase).registerHook(this);
+    public PRIORITY getPriority() {
+        return PRIORITY.REGULAR;
     }
 
     @Override
-    public void onOpen(ODatabase oDatabase) {
-        ((ODatabaseComplex<?>)oDatabase).registerHook(this);
+    public void onCreate(ODatabaseInternal oDatabase) {
+        oDatabase.registerHook(this);
     }
 
     @Override
-    public void onClose(ODatabase oDatabase) {
-        ((ODatabaseComplex<?>)oDatabase).unregisterHook(this);
+    public void onOpen(ODatabaseInternal oDatabase) {
+        oDatabase.registerHook(this);
+    }
+
+    @Override
+    public void onClose(ODatabaseInternal oDatabase) {
+        oDatabase.unregisterHook(this);
+    }
+
+    @Override
+    public void onCreateClass(ODatabaseInternal oDatabaseInternal, OClass oClass) {
+        //Nothing to do here
+    }
+
+    @Override
+    public void onDropClass(ODatabaseInternal oDatabaseInternal, OClass oClass) {
+        //Nothing to do here
     }
 
     //ORecordHook implementation
     @Override
-    public RESULT onTrigger(TYPE type, ORecord<?> oRecord) {
+    public RESULT onTrigger(TYPE type, ORecord oRecord) {
         OObjectDatabaseTx localConnection = null;
         try {
             OObjectDatabaseTx connection = getConnection();

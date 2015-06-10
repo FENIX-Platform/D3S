@@ -1,15 +1,15 @@
 package org.fao.ess.cstat.d3s;
 
 
+import com.orientechnologies.orient.core.db.ODatabaseDocumentInternal;
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.db.record.ODatabaseRecord;
 import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
+import org.fao.fenix.d3s.wds.OrientClient;
 import org.fao.fenix.d3s.wds.dataset.DatasetStructure;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -35,63 +35,47 @@ public class CountrySTAT extends WDSDatasetDao {
 
 
     @Override
-    public void consume(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[0]);
-    }
-
-    @Override
-    public void consumed(Object... args) {
-        ODatabaseRecordThreadLocal.INSTANCE.set((ODatabaseRecord)args[1]);
-        ((ODatabaseRecord)args[0]).close();
-    }
-
-
-    @Override
-    public Iterator<Object[]> loadData(MeIdentification resource, DatasetStructure structure) throws Exception {
-        ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+    public Iterator<Object[]> loadData(MetadataDSD resource, DatasetStructure structure) throws Exception {
+        String uid = getId(resource);
+        System.out.println("Loading data for "+uid);
+        ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+        ODatabaseDocumentTx connection = dbClient.getConnection();
+        System.out.println("Taken connection "+(connection!=null)+'-'+(connection!=null?!connection.isClosed():false));
 
         try {
-            ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection != null && structure.selectColumns!=null) {
-                final Iterator<ODocument> data = (Iterator<ODocument>)connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), resource.getUid()).iterator();
+                System.out.println("Executing query");
+                List<ODocument> data = connection.query(new OSQLSynchQuery<ODocument>("select from Dataset where datasetID = ? order by @rid"), uid);
+                System.out.println("Data "+(data!=null)+'-'+(data!=null?data.size():0));
                 final String[] ids = new String[structure.selectColumns.length];
                 for (int i=0; i<ids.length; i++)
                     ids[i] = structure.selectColumns[i].getId();
 
-                return getConsumerIterator(new Iterator<Object[]>() {
-                    String[] fields = ids;
-                    @Override
-                    public boolean hasNext() {
-                        return data.hasNext();
-                    }
+                Collection<Object[]> dataset = new LinkedList<>();
+                for (ODocument document : data) {
+                    Object[] row = new Object[ids.length];
+                    for (int i=0; i<row.length; i++)
+                        row[i] = document.field(ids[i]);
+                    dataset.add(row);
+                }
+                System.out.println("Data buffer "+(dataset!=null)+'-'+(dataset!=null?dataset.size():0));
 
-                    @Override
-                    public Object[] next() {
-                        ODocument record = data.next();
-                        Object[] result = new Object[fields.length];
-                        for (int i=0; i<result.length; i++)
-                            result[i] = record.field(fields[i]);
-                        return result;
-                    }
-
-                    @Override
-                    public void remove() {
-                        data.remove();
-                    }
-                }, ODatabaseRecordThreadLocal.INSTANCE.get(), originalConnection);
-            } else
-                return null;
+                return dataset.iterator();
+            }
+            return null;
         } finally {
+            if (connection!=null)
+                connection.close();
             ODatabaseRecordThreadLocal.INSTANCE.set(originalConnection);
         }
     }
 
     @Override
-    protected void storeData(MeIdentification resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
-        if (data!=null && data.hasNext() && datasetID!=null) {
+    protected void storeData(MetadataDSD resource, Iterator<Object[]> data, boolean overwrite, DatasetStructure structure) throws Exception {
+        String datasetID = getId(resource);
+        if (datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to CountrySTAT database");
@@ -124,13 +108,22 @@ public class CountrySTAT extends WDSDatasetDao {
                 connection.declareIntent(new OIntentMassiveInsert());
                 connection.begin();
                 connection.command(new OCommandSQL("delete from Dataset where datasetID = ?")).execute(datasetID);
-                while (data.hasNext()) {
-                    Object[] row = data.next();
-                    ODocument rowO = new ODocument("Dataset");
-                    rowO.field("datasetID", datasetID);
-                    for (int i=0; i<structure.selectColumns.length; i++)
-                        rowO.field(structure.selectColumns[i].getId(), row[i]);
-                    rowO.save();
+                if (data!=null) {
+                    Collection<Integer> rowsError = new LinkedList<>();
+                    for (int rowIndex = 1; data.hasNext(); rowIndex++) {
+                        Object[] row = data.next();
+                        ODocument rowO = new ODocument("Dataset");
+                        rowO.field("datasetID", datasetID);
+                        try {
+                            for (int i = 0; i < structure.selectColumns.length; i++)
+                                rowO.field(structure.selectColumns[i].getId(), row[i]);
+                            rowO.save();
+                        } catch (Exception ex) {
+                            rowsError.add(rowIndex);
+                        }
+                    }
+                    if (rowsError.size() > 0)
+                        throw new Exception("Row insert error on rows:" + toPointList(rowsError));
                 }
                 connection.commit();
 
@@ -146,12 +139,19 @@ public class CountrySTAT extends WDSDatasetDao {
         }
     }
 
+    private String toPointList(Collection<Integer> list) {
+        StringBuilder buffer = new StringBuilder();
+        for (Integer text : list)
+            buffer.append("\n- ").append(text);
+        return buffer.toString();
+    }
+
     @Override
-    public void deleteData(MeIdentification resource) throws Exception {
-        String datasetID = resource!=null ? resource.getUid() : null;
+    public void deleteData(MetadataDSD resource) throws Exception {
+        String datasetID = getId(resource);
         if (datasetID!=null) {
 
-            ODatabaseRecord originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
+            ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
             ODatabaseDocumentTx connection = dbClient.getConnection();
             if (connection == null)
                 throw new Exception("Cannot connect to CountrySTAT database");
@@ -165,6 +165,20 @@ public class CountrySTAT extends WDSDatasetDao {
             }
         }
     }
+
+
+
+    //Utils
+    private String getId(MetadataDSD metadata) {
+        if (metadata!=null)
+            if (metadata.getVersion()!=null)
+                return metadata.getUid()+'|'+metadata.getVersion();
+            else
+                return metadata.getUid();
+        else
+            return null;
+    }
+
 
 
 }

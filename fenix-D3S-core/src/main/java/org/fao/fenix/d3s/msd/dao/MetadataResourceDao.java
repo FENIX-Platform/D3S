@@ -1,11 +1,21 @@
 package org.fao.fenix.d3s.msd.dao;
 
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class MetadataResourceDao extends ResourceDao {
+
+    @Override
+    public void fetch(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Long getSize(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Collection loadData(MeIdentification metadata) throws Exception {

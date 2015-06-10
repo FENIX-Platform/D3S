@@ -36,11 +36,12 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+        </plugins>
 	</build>
 
 
 	<dependencies>
+
         <!-- J2EE server -->
         <dependency>
             <groupId>org.glassfish.main.extras</groupId>
@@ -65,7 +66,7 @@
         <dependency>
             <groupId>org.fao.fenix</groupId>
             <artifactId>fenix-cross-domain</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
 
         <!-- Orient -->
@@ -77,7 +78,7 @@
         <dependency>
             <groupId>com.orientechnologies</groupId>
             <artifactId>orientdb-lucene</artifactId>
-            <version>1.7.5</version>
+            <version>${orient.version}</version>
         </dependency>
         <dependency>
             <groupId>com.orientechnologies</groupId>
@@ -94,23 +95,25 @@
             <artifactId>orientdb-object</artifactId>
             <version>${orient.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.orientechnologies</groupId>
-            <artifactId>orientdb-nativeos</artifactId>
-            <version>${orient.version}</version>
-        </dependency>
 
-        <!-- H2 database -->
+        <!-- MDSD support -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.180</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fenix-D3S-mdsd</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Services level interface -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fenix-D3S-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Internal cache management -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fenix-D3S-cache</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -125,7 +128,23 @@
             <artifactId>fenix-D3S-UNECA</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.fao.fenix</groupId>
+            <artifactId>fenix-D3P-D3SConnector</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
+        <!-- NGINX cache management test -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.51</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+        </dependency>
 
     </dependencies>
 </project>

@@ -19,6 +19,12 @@
 			<version>${project.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-client</artifactId>
+            <version>${orient.version}</version>
+        </dependency>
+
         <!-- REST client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>

@@ -1,7 +1,7 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
-import org.fao.fenix.commons.msd.dto.templates.dsd.DSDColumnSubject;
+import org.fao.fenix.commons.msd.dto.templates.standard.dsd.DSDColumnSubject;
 import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Subjects;
 
@@ -27,12 +27,12 @@ public class SubjectsService implements Subjects {
 
     @Override
     public DSDColumnSubject updateSubject(org.fao.fenix.commons.msd.dto.full.DSDColumnSubject subject) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(subject, true), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(true, subject), DSDColumnSubject.class);
     }
 
     @Override
     public DSDColumnSubject appendSubject(org.fao.fenix.commons.msd.dto.full.DSDColumnSubject subject) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(subject, false), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(false, subject), DSDColumnSubject.class);
     }
 
 }

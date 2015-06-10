@@ -1,7 +1,9 @@
 package org.fao.fenix.d3s.msd.services.spi;
 
+import org.fao.fenix.commons.msd.dto.data.MetadataList;
+import org.fao.fenix.commons.msd.dto.data.ReplicationFilter;
 import org.fao.fenix.commons.msd.dto.data.Resource;
-import org.fao.fenix.commons.find.dto.filter.ResourceFilter;
+import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.templates.identification.DSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
@@ -13,18 +15,53 @@ import java.util.Collection;
 
 public interface Resources {
 
+    //MASSIVE METADATA
+    @POST
+    @Path("/massive/load")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
+    @POST
+    @Path("/massive")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<MeIdentification> insertMetadata(MetadataList metadata) throws Exception;
+    @PUT
+    @Path("/massive")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<MeIdentification> updateMetadata(MetadataList metadata) throws Exception;
+    @PATCH
+    @Path("/massive")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<MeIdentification> appendMetadata(MetadataList metadata) throws Exception;
+    @DELETE
+    @Path("/massive")
+    public Integer deleteMetadata(StandardFilter filter, @QueryParam("logic") String businessName) throws Exception;
+
+    @PATCH
+    @Path("/replication")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @QueryParam("logic") String businessName) throws Exception;
+
+
+
+    //RESOURCES
+
     @GET
     @Path("/rid/{rid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/uid/{uid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @POST
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
@@ -51,30 +88,30 @@ public interface Resources {
     @GET
     @Path("/metadata/rid/{rid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
     @GET
     @Path("/metadata/uid/{uid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
     @POST
     @Path("/metadata")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public MeIdentification insertMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification insertMetadata(T metadata) throws Exception;
     @PUT
     @Path("/metadata")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public MeIdentification updateMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification updateMetadata(T metadata) throws Exception;
     @PATCH
     @Path("/metadata")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public MeIdentification appendMetadata(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
+    public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification appendMetadata(T metadata) throws Exception;
     @DELETE
     @Path("/metadata/rid/{rid}")
     public String deleteMetadata(@PathParam("rid") String rid) throws Exception;
@@ -120,6 +157,46 @@ public interface Resources {
     @Path("/data/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     public Object getDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+    @DELETE
+    @Path("/data/rid/{rid}")
+    public String deleteData(@PathParam("rid") String rid) throws Exception;
+    @DELETE
+    @Path("/data/uid/{uid}")
+    public String deleteDataByUID(@PathParam("uid") String uid) throws Exception;
+    @DELETE
+    @Path("/data/{uid}/{version}")
+    public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+
+    @PUT
+    @Path("/fetch/rid/{rid}")
+    public void fetch(@PathParam("rid") String rid) throws Exception;
+    @PUT
+    @Path("/fetch/uid/{uid}")
+    public void fetchByUID(@PathParam("uid") String uid) throws Exception;
+    @PUT
+    @Path("/fetch/{uid}/{version}")
+    public void fetchByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+
+
+    @POST
+    @Path("/find")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+
+
+    //RAW Data access
+    public Resource loadResource (String id, String version) throws Exception;
+    public org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception;
+
+    }
+
+
+
+
+
 /*    @PUT
     @Path("/data/rid/{rid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
@@ -150,21 +227,4 @@ public interface Resources {
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification appendDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
-*/    @DELETE
-    @Path("/data/rid/{rid}")
-    public String deleteData(@PathParam("rid") String rid) throws Exception;
-    @DELETE
-    @Path("/data/uid/{uid}")
-    public String deleteDataByUID(@PathParam("uid") String uid) throws Exception;
-    @DELETE
-    @Path("/data/{uid}/{version}")
-    public String deleteDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
-
-
-    @POST
-    @Path("/find")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Collection findMetadata(ResourceFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd) throws Exception;
-
-}
+*/

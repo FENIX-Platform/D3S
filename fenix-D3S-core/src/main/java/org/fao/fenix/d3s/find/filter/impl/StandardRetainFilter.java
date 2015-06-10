@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.find.filter.impl;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
+import org.fao.fenix.commons.find.dto.filter.TimeFilter;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.find.filter.Filter;
 
@@ -12,7 +13,7 @@ public class StandardRetainFilter extends Filter {
 
     @Override
     public Collection<MeIdentification> filter(ConditionFilter ... filter) throws Exception {
-        Collection<MeIdentification> resources = new HashSet<>();
+        Collection<MeIdentification> resources = new LinkedHashSet<>();
 
         if (filter.length>0)
             resources.addAll(filter(filter[0]));
@@ -24,7 +25,7 @@ public class StandardRetainFilter extends Filter {
     }
 
     private Collection<MeIdentification> filter(ConditionFilter filter) throws Exception  {
-        Collection<MeIdentification> resources = new HashSet<>();
+        Collection<MeIdentification> resources = new LinkedHashSet<>();
         StringBuilder query = new StringBuilder("SELECT FROM MeIdentification WHERE ");
 
         switch (filter.filterType) {
@@ -46,20 +47,20 @@ public class StandardRetainFilter extends Filter {
                 break;
             case time:
                 for (Object value : filter.values) {
-                    ConditionTime time = (ConditionTime)value;
+                    TimeFilter time = (TimeFilter)value;
                     StringBuilder timeQuery = new StringBuilder();
                     Collection<Object> params = new LinkedList<>();
                     if (time.from!=null) {
-                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
-                        params.add(time.from);
+                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? AND ");
+                        params.add(time.getFrom(14));
                     }
                     if (time.to!=null) {
-                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
-                        params.add(time.to);
+                        timeQuery.append(filter.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? AND ");
+                        params.add(time.getTo(14));
                     }
 
                     if (params.size()>0)
-                        resources.addAll(select(MeIdentification.class, query.toString() + timeQuery.substring(0,timeQuery.length()-4), params.toArray()));
+                        resources.addAll(select(MeIdentification.class, query.toString() + timeQuery.substring(0,timeQuery.length()-5), params.toArray()));
                 }
                 break;
             default:
