@@ -185,6 +185,7 @@ CREATE PROPERTY Code.validityPeriod EMBEDDED Period;
 CREATE PROPERTY Code.parents LINKLIST Code;
 CREATE PROPERTY Code.children LINKLIST Code;
 CREATE PROPERTY Code.relations LINKLIST Code;
+CREATE PROPERTY Code.leaf boolean;
 
 
 

@@ -9,6 +9,7 @@ import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.DocumentTrigger;
 
 import java.io.BufferedReader;
+import java.text.CollationElementIterator;
 import java.util.*;
 
 public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
@@ -84,33 +85,6 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
         return select(Code.class, query.toString(), params.toArray());
     }
-/*
-    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, Integer level, String ... codes) throws Exception {
-        if (metadata==null)
-            return null;
-
-        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
-        ORID metadataORid = metadata.getORID();
-
-        if (codes!=null && codes.length>0) {
-            Collection<Code> result = new LinkedList<>();
-            if (level!=null && level>0) {
-                query.append(" and level = ? and code = ?");
-                for (String code : codes)
-                    result.addAll(select(Code.class, query.toString(), metadataORid, level, code));
-            } else {
-                query.append(" and code = ?");
-                for (String code : codes)
-                    result.addAll(select(Code.class, query.toString(), metadataORid, code));
-            }
-            return result;
-        } else if (level!=null && level>0) {
-            query.append(" and level = ?");
-            return select(Code.class, query.toString(), metadataORid, level);
-        } else
-            return select(Code.class, query.toString(), metadataORid);
-    }
-*/
 
 
     public int deleteData(MeIdentification<DSDCodelist> metadata, Collection<String> codes) throws Exception {
@@ -134,6 +108,8 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
             for (String codeValue : existingORIDs.keySet())
                 if (!visitedNodes.containsKey(codeValue))
                     toDelete.add(codeValue);
+        //Fill leaf field
+        setLeafField(codeList);
         //Return updated codelist objects
         return codeList;
     }
@@ -181,7 +157,6 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
             return null;
     }
 
-
     private Map<String,ORID> getCodeListRids (Collection<Code> codeList, Map<String,ORID> ... buffer) throws ORecordDuplicatedException {
         if (codeList!=null) {
             if (buffer.length==0)
@@ -198,4 +173,42 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         } else
             return null;
     }
+
+    private void setLeafField(Collection<Code> codeList) {
+        if (codeList!=null)
+            for (Code code : codeList) {
+                Collection<Code> children = code.getChildren();
+                code.setLeaf(children==null || children.size()==0);
+                setLeafField(children);
+            }
+    }
 }
+
+
+/*
+    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, Integer level, String ... codes) throws Exception {
+        if (metadata==null)
+            return null;
+
+        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
+        ORID metadataORid = metadata.getORID();
+
+        if (codes!=null && codes.length>0) {
+            Collection<Code> result = new LinkedList<>();
+            if (level!=null && level>0) {
+                query.append(" and level = ? and code = ?");
+                for (String code : codes)
+                    result.addAll(select(Code.class, query.toString(), metadataORid, level, code));
+            } else {
+                query.append(" and code = ?");
+                for (String code : codes)
+                    result.addAll(select(Code.class, query.toString(), metadataORid, code));
+            }
+            return result;
+        } else if (level!=null && level>0) {
+            query.append(" and level = ?");
+            return select(Code.class, query.toString(), metadataORid, level);
+        } else
+            return select(Code.class, query.toString(), metadataORid);
+    }
+*/
