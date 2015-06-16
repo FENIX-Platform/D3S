@@ -46,14 +46,14 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
     @Override
     protected void insertData(MeIdentification<DSDCodelist> metadata, Collection<Code> data) throws Exception {
-        Collection<Code> normalizedData = normalization(metadata, data, null, null);
+        Collection<Code> normalizedData = normalization(metadata, data, null, null, true);
         saveCustomEntity(false,true,true, normalizedData.toArray(new Code[normalizedData.size()]));
     }
 
     @Override
     protected void updateData(MeIdentification<DSDCodelist> metadata, Collection<Code> data, boolean overwrite) throws Exception {
         Collection<String> toDelete = overwrite ? new LinkedList<String>() : null;
-        Collection<Code> normalizedData = normalization(metadata, data, loadData(metadata), toDelete);
+        Collection<Code> normalizedData = normalization(metadata, data, loadData(metadata), toDelete, overwrite);
 
         saveCustomEntity(overwrite, true, true, normalizedData.toArray(new Code[normalizedData.size()]));
         deleteData(metadata, toDelete);
@@ -99,22 +99,22 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
 
     //Utils
-    private Collection<Code> normalization (MeIdentification<DSDCodelist> codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete) throws Exception {
+    private Collection<Code> normalization (MeIdentification<DSDCodelist> codeListResource, Collection<Code> codeList, Collection<Code> existingCodeList, Collection<String> toDelete, boolean overwrite) throws Exception {
         Map<String,ORID> existingORIDs = getCodeListRids(existingCodeList);
         Map<String,Code> visitedNodes = new HashMap<>();
-        codeList = normalization(codeListResource, codeList, null, visitedNodes, existingORIDs);
+        codeList = normalization(codeListResource, codeList, null, visitedNodes, existingORIDs, overwrite);
         //Find lost database codes
         if (existingCodeList!=null && toDelete!=null)
             for (String codeValue : existingORIDs.keySet())
                 if (!visitedNodes.containsKey(codeValue))
                     toDelete.add(codeValue);
         //Fill leaf field
-        setLeafField(codeList);
+        setLeafField(codeList, overwrite);
         //Return updated codelist objects
         return codeList;
     }
 
-    private Collection<Code> normalization(MeIdentification<DSDCodelist> codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs) throws Exception {
+    private Collection<Code> normalization(MeIdentification<DSDCodelist> codeListResource, Collection<Code> codes, Code parentCode, Map<String,Code> visitedNodes, Map<String,ORID> existingORIDs, boolean overwrite) throws Exception {
         if (codes!=null) {
             Collection<Code> buffer = new LinkedList<>();
 
@@ -140,7 +140,7 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
                     code.addParent(parentCode);                                             //Add parents links
                 }
                 //Update children link
-                Collection<Code> normalizedChildren = normalization(codeListResource, currentCode.getChildren(), code, visitedNodes, existingORIDs);
+                Collection<Code> normalizedChildren = normalization(codeListResource, currentCode.getChildren(), code, visitedNodes, existingORIDs, overwrite);
                 Collection<Code> existingChildren = code.getChildren();
                 if (normalizedChildren!=null && existingChildren!=null)
                     normalizedChildren.addAll(existingChildren);
@@ -174,12 +174,13 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
             return null;
     }
 
-    private void setLeafField(Collection<Code> codeList) {
+    private void setLeafField(Collection<Code> codeList, boolean overwrite) {
         if (codeList!=null)
             for (Code code : codeList) {
                 Collection<Code> children = code.getChildren();
-                code.setLeaf(children==null || children.size()==0);
-                setLeafField(children);
+                if (overwrite || children!=null)
+                    code.setLeaf(children==null || children.size()==0);
+                setLeafField(children, overwrite);
             }
     }
 }
