@@ -115,11 +115,11 @@ public class OrientServer {
                     triggersFactory.select(DSDDatasetLinksManager.class).iterator().next(),
                     triggersFactory.select(ResourceLinksManager.class).iterator().next(),
                     triggersFactory.select(ResourceIndexManager.class).iterator().next(),
-                    triggersFactory.select(CodeIndexManager.class).iterator().next(),
+                    //triggersFactory.select(CodeIndexManager.class).iterator().next(),
             };
 
             Orient.instance().addDbLifecycleListener(triggers[2]); //TODO all triggers will be added when Orient will support trigger order
-            Orient.instance().addDbLifecycleListener(triggers[3]); //TODO all triggers will be added when Orient will support trigger order
+//            Orient.instance().addDbLifecycleListener(triggers[3]); //TODO all triggers will be added when Orient will support trigger order
             for (LinksManager trigger : triggers)
                 trigger.init(meIdentificationClassO);
 

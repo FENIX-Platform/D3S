@@ -186,6 +186,7 @@ CREATE PROPERTY Code.parents LINKLIST Code;
 CREATE PROPERTY Code.children LINKLIST Code;
 CREATE PROPERTY Code.relations LINKLIST Code;
 CREATE PROPERTY Code.leaf boolean;
+CREATE PROPERTY Code.indexLabel string;
 
 
 
@@ -394,6 +395,7 @@ CREATE INDEX MeIdentification.index_id UNIQUE;
 CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQUE;
 
 CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
+CREATE INDEX Code.indexLabel FULLTEXT ENGINE LUCENE;
 
 CREATE INDEX DSDGeographic.workspace|layerName ON DSDGeographic (workspace, layerName) UNIQUE;
 

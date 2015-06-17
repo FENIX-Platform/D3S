@@ -21,21 +21,24 @@ public class CodesService implements Codes {
 
 
     @Override
-    public Collection<Code> getCodes(CodesFilter filter) throws Exception {
+    public Collection<Code> getCodes(CodesFilter filter, boolean tree) throws Exception {
         MeIdentification metadata = filter.rid!=null ? dao.loadMetadata(filter.rid,null) : dao.loadMetadata(filter.uid,filter.version);
-        return filter.label!=null && !filter.label.trim().equals("") ? loadCodes(metadata, filter.label) : loadCodes(metadata, filter.level, filter.levels, filter.codes);
+        return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
     }
 
 
     //Logic
-    private Collection<Code> loadCodes(MeIdentification metadata, Integer level, Integer levels, Collection<String> codes) throws Exception {
+    private Collection<Code> loadCodes(MeIdentification metadata, Integer level, Integer levels, Collection<String> codes, String label, boolean tree) throws Exception {
         MeContent meContent = metadata!=null ? metadata.getMeContent() : null;
-        if (meContent!=null && meContent.getResourceRepresentationType() == RepresentationType.codelist) {
+        RepresentationType type = meContent!=null ? meContent.getResourceRepresentationType() : null;
+        if (type == RepresentationType.codelist) {
             //Filter normalization
             String[] codesArray = codes!=null && codes.size()>0 ? codes.toArray(new String[codes.size()]) : null;
-            level = level==null && codesArray==null ? new Integer(1) : level;
+            level = level==null && codesArray==null && label==null ? new Integer(1) : level;
             //Retrieve data
-            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, null, level, codesArray);
+            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, label, level, codesArray);
+            //To tree if required
+            data = toTree(data);
             //Return data proxy
             if (data!=null && data.size()>0) {
                 if (level != null)
@@ -47,25 +50,30 @@ public class CodesService implements Codes {
         }
         return null;
     }
-    private Collection<Code> loadCodes(MeIdentification metadata, String label) throws Exception {
-        MeContent meContent = metadata!=null ? metadata.getMeContent() : null;
-        if (meContent!=null && meContent.getResourceRepresentationType() == RepresentationType.codelist) {
-            return loadCodes(
-                    metadata,
-                    null,
-                    1,
-                    fillCodesPath(dao.loadData(metadata, label, null), new HashSet<String>())
-            );
-        }
-        return null;
+
+    private Set<org.fao.fenix.commons.msd.dto.full.Code> toTree (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes) throws CloneNotSupportedException {
+        Set<org.fao.fenix.commons.msd.dto.full.Code> root = new HashSet<>();
+        toTree(codes, null, new HashSet<String>(), root);
+        return root;
     }
-    private Set<String> fillCodesPath (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, Set<String> codesName) {
-        if (codes!=null && codes.size()>0)
-            for (org.fao.fenix.commons.msd.dto.full.Code code : codes) {
-                codesName.add(code.getCode());
-                fillCodesPath(code.getParents(), codesName);
-            }
-        return codesName;
+    private void toTree (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, org.fao.fenix.commons.msd.dto.full.Code child, Set<String> loadedCodes, Set<org.fao.fenix.commons.msd.dto.full.Code> root) throws CloneNotSupportedException {
+        if (codes!=null)
+            for (org.fao.fenix.commons.msd.dto.full.Code code : codes)
+                if (!loadedCodes.contains(code.getCode())) {
+                    org.fao.fenix.commons.msd.dto.full.Code clone = (org.fao.fenix.commons.msd.dto.full.Code)code.clone();
+                    loadedCodes.add(code.getCode());
+
+                    if (child!=null) {
+                        clone.addChild(child);
+                        child.addParent(clone);
+                    }
+
+                    Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = code.getParents();
+                    if (parents!=null && parents.size()>0)
+                        toTree(parents,clone,loadedCodes,root);
+                    else
+                        root.add(clone);
+                }
     }
 
 

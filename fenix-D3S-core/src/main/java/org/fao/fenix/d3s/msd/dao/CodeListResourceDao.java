@@ -66,21 +66,28 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         if (metadata==null)
             return null;
 
-        StringBuilder query = new StringBuilder("select from Code where codeList = ?");
-
         Collection<Object> params = new LinkedList<>();
+        StringBuilder query = new StringBuilder("select from Code where");
+
+        if (label!=null && label.trim().length()>0) {
+            query.append(" indexLabel lucene ? and");
+            params.add(label.toLowerCase());
+        }
+
+        query.append(" codeList = ?");
         params.add(metadata.getORID());
+
         if (level!=null && level>0) {
             query.append(" and level = ?");
             params.add(level);
         }
         if (codes!=null && codes.length>0) {
-            query.append(" and code in [ ? ]");
-            params.addAll(Arrays.asList(codes));
-        }
-        if (label!=null && label.trim().length()>0) {
-            query.append(" and indexLabel lucene ?");
-            params.add(label.toLowerCase());
+            query.append(" and code in [");
+            for (String code : codes) {
+                query.append("?,");
+                params.add(code);
+            }
+            query.setCharAt(query.length()-1,']');
         }
 
         return select(Code.class, query.toString(), params.toArray());
@@ -110,6 +117,8 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
                     toDelete.add(codeValue);
         //Fill leaf field
         setLeafField(codeList, overwrite);
+        //Fill label index field
+        setLabelIndexField(codeList, overwrite);
         //Return updated codelist objects
         return codeList;
     }
@@ -178,11 +187,34 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         if (codeList!=null)
             for (Code code : codeList) {
                 Collection<Code> children = code.getChildren();
-                if (overwrite || children!=null)
+                if (overwrite || code.getLeaf()==null || children!=null)
                     code.setLeaf(children==null || children.size()==0);
                 setLeafField(children, overwrite);
             }
     }
+
+    private void setLabelIndexField(Collection<Code> codeList, boolean overwrite) {
+        if (codeList!=null)
+            for (Code code : codeList) {
+                Map<String, String> title = code.getTitle();
+                Map<String, String> description = code.getDescription();
+                if (overwrite || code.getIndexLabel()==null || title!=null || description!=null) {
+                    //Update code label index
+                    StringBuilder indexLabel = new StringBuilder(code.getCode());
+                    if (title!=null)
+                        for (String t : title.values())
+                            indexLabel.append(' ').append(t.trim().toLowerCase());
+                    if (description!=null)
+                        for (String d : description.values())
+                            indexLabel.append(' ').append(d.trim().toLowerCase());
+
+                    code.setIndexLabel(indexLabel.toString());
+                }
+                setLabelIndexField(code.getChildren(), overwrite);
+            }
+    }
+
+
 }
 
 
