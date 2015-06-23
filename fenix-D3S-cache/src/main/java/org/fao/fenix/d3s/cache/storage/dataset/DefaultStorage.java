@@ -175,8 +175,11 @@ public abstract class DefaultStorage extends H2Database {
             if (overwrite)
                 connection.createStatement().executeUpdate("DELETE FROM " + getTableName(tableName));
 
+            //Check primary key availability
+            boolean hasPrimaryKey = connection.getMetaData().getPrimaryKeys(null,null,getTableName(tableName)).next();
+
             //Build query
-            StringBuilder query = new StringBuilder(overwrite ? "INSERT INTO " : "MERGE INTO ").append(getTableName(tableName)).append(" (");
+            StringBuilder query = new StringBuilder(overwrite || !hasPrimaryKey ? "INSERT INTO " : "MERGE INTO ").append(getTableName(tableName)).append(" (");
 
             for (Column column : structure)
                 query.append(column.getName()).append(',');
