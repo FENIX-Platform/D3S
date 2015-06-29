@@ -98,7 +98,7 @@ public class ResourceIndexManager extends LinksManager {
                 }
             }
         //Save changes
-        document.save();
+        //document.save();
         return RESULT.RECORD_CHANGED;
     }
 

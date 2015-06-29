@@ -21,9 +21,9 @@ public class CodesService implements Codes {
 
 
     @Override
-    public Collection<Code> getCodes(CodesFilter filter, boolean tree) throws Exception {
+    public Collection<Code> getCodes(CodesFilter filter, String tree) throws Exception {
         MeIdentification metadata = filter.rid!=null ? dao.loadMetadata(filter.rid,null) : dao.loadMetadata(filter.uid,filter.version);
-        return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
+        return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree!=null && tree.trim().equalsIgnoreCase("true"));
     }
 
 
@@ -37,43 +37,65 @@ public class CodesService implements Codes {
             level = level==null && codesArray==null && label==null ? new Integer(1) : level;
             //Retrieve data
             Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, label, level, codesArray);
-            //To tree if required
-            data = toTree(data);
             //Return data proxy
             if (data!=null && data.size()>0) {
-                if (level != null)
+                if (tree)
+                    data = toTree(data, levels);
+                else if (level != null)
                     Code.levelInfo.set(new Integer[]{level, levels != null ? level + levels - 1 : null});
                 else if (levels!=null)
                     data = getInjectLevelDataWrapper(data, levels);
+
                 return ResponseBeanFactory.getInstances(data, Code.class);
             }
         }
         return null;
     }
 
-    private Set<org.fao.fenix.commons.msd.dto.full.Code> toTree (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes) throws CloneNotSupportedException {
+    private Set<org.fao.fenix.commons.msd.dto.full.Code> toTree (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, Integer levels) throws CloneNotSupportedException {
         Set<org.fao.fenix.commons.msd.dto.full.Code> root = new HashSet<>();
-        toTree(codes, null, new HashSet<String>(), root);
+        Map<String, org.fao.fenix.commons.msd.dto.full.Code> loadedCodes = new HashMap<String, org.fao.fenix.commons.msd.dto.full.Code>();
+        appendParents(codes, null, loadedCodes, root);
+        appendChildren(codes, null, loadedCodes, levels);
         return root;
     }
-    private void toTree (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, org.fao.fenix.commons.msd.dto.full.Code child, Set<String> loadedCodes, Set<org.fao.fenix.commons.msd.dto.full.Code> root) throws CloneNotSupportedException {
-        if (codes!=null)
-            for (org.fao.fenix.commons.msd.dto.full.Code code : codes)
-                if (!loadedCodes.contains(code.getCode())) {
-                    org.fao.fenix.commons.msd.dto.full.Code clone = (org.fao.fenix.commons.msd.dto.full.Code)code.clone();
-                    loadedCodes.add(code.getCode());
+    private void appendChildren(Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, org.fao.fenix.commons.msd.dto.full.Code parent, Map<String, org.fao.fenix.commons.msd.dto.full.Code> loadedCodes, Integer levels) throws CloneNotSupportedException {
+        if (codes!=null && levels!=null && levels>0)
+            for (org.fao.fenix.commons.msd.dto.full.Code code : codes) {
+                org.fao.fenix.commons.msd.dto.full.Code clone = loadedCodes.get(code.getCode());
+                if (clone==null) {
+                    clone = (org.fao.fenix.commons.msd.dto.full.Code) code.clone();
+                    loadedCodes.put(code.getCode(), clone);
+                }
 
-                    if (child!=null) {
-                        clone.addChild(child);
-                        child.addParent(clone);
-                    }
+                if (parent!=null) {
+                    parent.addChild(code);
+                    clone.addParent(parent);
+                }
+
+                appendChildren(code.getChildren(), clone, loadedCodes, levels-1);
+            }
+    }
+    private void appendParents (Collection<org.fao.fenix.commons.msd.dto.full.Code> codes, org.fao.fenix.commons.msd.dto.full.Code child, Map<String, org.fao.fenix.commons.msd.dto.full.Code> loadedCodes, Set<org.fao.fenix.commons.msd.dto.full.Code> root) throws CloneNotSupportedException {
+        if (codes!=null)
+            for (org.fao.fenix.commons.msd.dto.full.Code code : codes) {
+                org.fao.fenix.commons.msd.dto.full.Code clone = loadedCodes.get(code.getCode());
+                if (clone==null) {
+                    clone = (org.fao.fenix.commons.msd.dto.full.Code) code.clone();
+                    loadedCodes.put(code.getCode(), clone);
 
                     Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = code.getParents();
-                    if (parents!=null && parents.size()>0)
-                        toTree(parents,clone,loadedCodes,root);
+                    if (parents != null && parents.size() > 0)
+                        appendParents(parents, clone, loadedCodes, root);
                     else
                         root.add(clone);
                 }
+
+                if (child != null) {
+                    clone.addChild(child);
+                    child.addParent(clone);
+                }
+            }
     }
 
 

@@ -20,7 +20,7 @@ public interface Resources {
     @Path("/massive/load")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
+    public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @HeaderParam("full") @DefaultValue("true") boolean full, @HeaderParam("dsd") @DefaultValue("true") boolean dsd, @HeaderParam("export") @DefaultValue("true") boolean export) throws Exception;
     @POST
     @Path("/massive")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
@@ -44,7 +44,7 @@ public interface Resources {
     @Path("/replication")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @QueryParam("logic") String businessName) throws Exception;
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @HeaderParam("logic") String businessName) throws Exception;
 
 
 
@@ -184,7 +184,7 @@ public interface Resources {
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+    public Collection findMetadata(StandardFilter filter, @HeaderParam("logic") String businessName, @HeaderParam("full") @DefaultValue("false") boolean full, @HeaderParam("dsd") @DefaultValue("false") boolean dsd, @HeaderParam("export") @DefaultValue("false") boolean export) throws Exception;
 
 
     //RAW Data access
