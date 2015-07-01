@@ -13,6 +13,6 @@ public interface Codes {
     @Path("/filter")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection<Code> getCodes(CodesFilter filter, @HeaderParam("tree") String tree) throws Exception;
+    public Collection<Code> getCodes(CodesFilter filter, @QueryParam("tree") @DefaultValue("false") boolean tree) throws Exception;
 
 }

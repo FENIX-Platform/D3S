@@ -35,10 +35,10 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
 
     @Override
     public Iterator<Object[]> loadData(MeIdentification resource) throws Exception {
+        DatasetStructure structure = new DatasetStructure(resource);
+
         ODatabaseDocumentInternal originalConnection = ODatabaseRecordThreadLocal.INSTANCE.get();
         ODatabaseDocumentTx connection = dbClient.getConnection();
-
-        DatasetStructure structure = new DatasetStructure(resource);
 
         try {
             if (connection != null && structure.selectColumns!=null) {

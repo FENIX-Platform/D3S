@@ -21,9 +21,9 @@ public class CodesService implements Codes {
 
 
     @Override
-    public Collection<Code> getCodes(CodesFilter filter, String tree) throws Exception {
+    public Collection<Code> getCodes(CodesFilter filter, boolean tree) throws Exception {
         MeIdentification metadata = filter.rid!=null ? dao.loadMetadata(filter.rid,null) : dao.loadMetadata(filter.uid,filter.version);
-        return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree!=null && tree.trim().equalsIgnoreCase("true"));
+        return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
     }
 
 
