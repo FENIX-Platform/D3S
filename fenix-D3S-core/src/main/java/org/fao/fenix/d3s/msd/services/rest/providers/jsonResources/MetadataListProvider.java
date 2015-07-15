@@ -1,10 +1,11 @@
-package org.fao.fenix.d3s.msd.services.rest.providers;
+package org.fao.fenix.d3s.msd.services.rest.providers.jsonResources;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.fao.fenix.commons.msd.dto.data.MetadataList;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.msd.services.rest.providers.JsonProvider;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;

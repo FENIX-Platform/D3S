@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.msd.services.rest.providers;
+package org.fao.fenix.d3s.msd.services.rest.providers.jsonResources;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,6 +6,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.utils.JSONUtils;
+import org.fao.fenix.d3s.msd.services.rest.providers.JsonProvider;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.ws.rs.Consumes;

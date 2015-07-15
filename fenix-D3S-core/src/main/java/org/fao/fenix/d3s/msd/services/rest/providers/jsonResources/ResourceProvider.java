@@ -1,6 +1,7 @@
-package org.fao.fenix.d3s.msd.services.rest.providers;
+package org.fao.fenix.d3s.msd.services.rest.providers.jsonResources;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
+import org.fao.fenix.d3s.msd.services.rest.providers.JsonProvider;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;

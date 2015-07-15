@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.msd.services.rest.providers;
+package org.fao.fenix.d3s.msd.services.rest.providers.jsonResources;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.fao.fenix.commons.find.dto.filter.FieldFilter;
@@ -6,6 +6,7 @@ import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.msd.dto.data.ReplicationFilter;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.JSONUtils;
+import org.fao.fenix.d3s.msd.services.rest.providers.JsonProvider;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
