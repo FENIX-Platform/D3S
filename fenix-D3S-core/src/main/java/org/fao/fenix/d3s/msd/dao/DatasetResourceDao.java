@@ -64,10 +64,12 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                 }
 
             if (data==null) {
-                if (wdsDao == null)
-                    throw new ClassNotFoundException("Cannot load data. DAO not found");
-                metadata.setDsd(dsd);
-                data = wdsDao.loadData(metadata);
+                if (wdsDao == null) {
+                    data = new LinkedList<Object[]>().iterator();
+                } else {
+                    metadata.setDsd(dsd);
+                    data = wdsDao.loadData(metadata);
+                }
 
                 if (cache!=null) {
                     cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
@@ -125,7 +127,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
 
     //Utils
-    private WDSDatasetDao getDao(MeIdentification<DSDDataset> metadata) {
+    private WDSDatasetDao getDao(MeIdentification<DSDDataset> metadata) throws Exception {
         try {
             String datasource = getDatasource(metadata);
             return datasource!=null ? (WDSDatasetDao) wdsFactory.getInstance(datasource) : null;
