@@ -517,7 +517,7 @@ public abstract class DefaultStorage extends H2Database {
 
                 Type columnType = column.getType();
                 if (fieldFilter!=null) {
-                    switch (fieldFilter.getFilterType()) {
+                    switch (fieldFilter.retrieveFilterType()) {
                         case enumeration:
                             if (columnType!=Type.string)
                                 throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);

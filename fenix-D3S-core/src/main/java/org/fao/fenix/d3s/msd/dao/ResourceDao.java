@@ -54,8 +54,11 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 metadata.setVersion(null);
                 getConnection().begin();
                 for (String rid : metadataRid) {
+                    long time = System.currentTimeMillis();
                     metadata.setRID(rid);
                     storedMetadata.add(updateMetadata(metadata, false, false));
+                    time = System.currentTimeMillis()-time;
+                    System.out.println("Stored "+rid+" in "+time+" ms");
                 }
                 getConnection().commit();
             } catch (Exception ex) {

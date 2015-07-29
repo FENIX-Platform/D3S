@@ -6,7 +6,6 @@ import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.find.filter.Filter;
-import org.fao.fenix.d3s.find.filter.impl.*;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -73,7 +72,7 @@ public class FilterResourceDao extends ResourceDao {
                 String fieldName = filterEntry.getKey();
                 String indexedFieldName = ("index."+fieldName).replace('.','|');
                 FieldFilter fieldFilter = filterEntry.getValue();
-                FieldFilterType filterType = fieldFilter!=null ? fieldFilter.getFilterType() : null;
+                FieldFilterType filterType = fieldFilter!=null ? fieldFilter.retrieveFilterType() : null;
 
                 if (filterType!=null) {
                     switch (filterType) {
