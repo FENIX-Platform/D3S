@@ -394,6 +394,7 @@ CREATE PROPERTY MeIdentification.index_meContent|resourceRepresentationType STRI
 CREATE INDEX MeIdentification.index_id UNIQUE;
 CREATE INDEX MeIdentification.index_meContent|resourceRepresentationType NOTUNIQUE;
 
+CREATE INDEX Code.codesFilterShort ON Code (codeList, code) NOTUNIQUE;
 CREATE INDEX Code.codesFilter ON Code (codeList, level, code) NOTUNIQUE;
 CREATE INDEX Code.indexLabel FULLTEXT ENGINE LUCENE;
 
