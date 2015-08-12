@@ -71,7 +71,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                     data = wdsDao.loadData(metadata);
                 }
 
-                if (cache!=null) {
+                if (cache!=null && wdsDao!=null) {
                     cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
                     metadata.setDsd(dsdExtended);
                     data = cache.load(metadata, ordering, pagination);
