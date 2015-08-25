@@ -21,7 +21,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 
 @WebListener
 public class MainController implements ServletContextListener {
@@ -82,6 +84,11 @@ public class MainController implements ServletContextListener {
                 ex.printStackTrace(System.err);
             }
 
+            initialized = true;
+
+            //Init listeners
+            for (InitListener listener : listeners)
+                listener.init(initParameters);
 
         } catch (Exception e) {
             try {
@@ -139,4 +146,18 @@ public class MainController implements ServletContextListener {
         return initParameters;
     }
     public String getInitParameter(String key) throws Exception { return getInitParameters().getProperty(key); }
+
+    private static boolean initialized = false;
+    private static Collection<InitListener> listeners = new LinkedList<>();
+    public void registerListener(InitListener listener) {
+        if (!initialized)
+            listeners.add(listener);
+        else
+            try {
+                listener.init(initParameters);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+
 }
