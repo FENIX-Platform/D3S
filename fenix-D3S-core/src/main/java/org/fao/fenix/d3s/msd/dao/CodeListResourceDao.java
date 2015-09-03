@@ -90,7 +90,7 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
             query.setCharAt(query.length()-1,']');
         }
 
-        return select(Code.class, query.toString(), params.toArray());
+        return select(Code.class, query.toString(),null,null, params.toArray());
     }
 
 

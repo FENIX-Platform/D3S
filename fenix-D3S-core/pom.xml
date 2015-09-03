@@ -9,13 +9,8 @@
     </parent>
     <artifactId>fenix-D3S-core</artifactId>
 
-	<build>
-		<plugins>
-        </plugins>
-	</build>
 
-
-	<dependencies>
+    <dependencies>
         <!-- Jackson custom configuration support -->
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>

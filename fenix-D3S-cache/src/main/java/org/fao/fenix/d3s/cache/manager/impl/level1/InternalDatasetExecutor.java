@@ -8,6 +8,8 @@ import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
+import java.util.Date;
+
 
 public class InternalDatasetExecutor extends ResourceStorageExecutor {
 
@@ -30,6 +32,6 @@ public class InternalDatasetExecutor extends ResourceStorageExecutor {
 
     @Override
     protected void execute() throws Exception {
-        storage.store(structure,filter,overwrite, sourceTables);
+        storage.store(structure,filter,overwrite, new Date(), sourceTables);
     }
 }

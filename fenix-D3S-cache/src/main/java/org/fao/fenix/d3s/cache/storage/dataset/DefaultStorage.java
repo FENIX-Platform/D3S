@@ -18,8 +18,78 @@ public abstract class DefaultStorage extends H2Database {
 
     private static String SCHEMA_NAME = "DATA";
 
+    private final Set<String> session = new HashSet<>();
 
     //DATA
+    public void beginSession(Table tableStructure) throws Exception {
+        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
+        if (columns==null)
+            throw new Exception("Missing table structure");
+
+        if (session.contains(tableName))
+            return;
+
+        boolean containsKey = false;
+        for (Column column : columns)
+            if (column.isKey())
+                containsKey=true;
+
+        if (containsKey) {
+            String query = "ALTER TABLE "+getTableName(tableName)+" DROP PRIMARY KEY ";
+            Connection connection = getConnection();
+            try {
+                connection.createStatement().executeUpdate(query.toString());
+                connection.commit();
+            } catch (Exception ex) {
+                connection.rollback();
+                throw ex;
+            } finally {
+                connection.close();
+            }
+        }
+
+        session.add(tableName);
+    }
+
+    @Override
+    public void endSession(Table tableStructure) throws Exception {
+        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
+
+        if (!session.contains(tableName))
+            return;
+        if (columns==null)
+            throw new Exception("Missing table structure");
+
+        StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
+        boolean containsKey = false;
+
+        for (Column column : columns)
+            if (column.isKey()) {
+                containsKey=true;
+                queryIndex.append(column.getName()).append(',');
+            }
+
+        if (containsKey) {
+            queryIndex.setCharAt(queryIndex.length() - 1, ')');
+            String query = "ALTER TABLE "+getTableName(tableName)+" ADD "+queryIndex.toString();
+            Connection connection = getConnection();
+            try {
+                connection.createStatement().executeUpdate(query.toString());
+                connection.commit();
+            } catch (Exception ex) {
+                connection.rollback();
+                throw ex;
+            } finally {
+                connection.close();
+            }
+
+        }
+
+        session.remove(tableName);
+    }
+
     @Override
     public synchronized StoreStatus create(Table tableStructure, Date timeout) throws Exception {
         String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
@@ -143,7 +213,7 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized StoreStatus store(Table tableMetadata, Iterator<Object[]> data, int size, boolean overwrite) throws Exception {
+    public synchronized StoreStatus store(Table tableMetadata, Iterator<Object[]> data, int size, boolean overwrite, Date referenceDate) throws Exception {
         String tableName = tableMetadata!=null ? tableMetadata.getTableName() : null;
         StoreStatus status = loadMetadata(tableName);
         if (status==null)
@@ -217,7 +287,7 @@ public abstract class DefaultStorage extends H2Database {
             connection.rollback();
             //try to set incomplete status
             status.setStatus(StoreStatus.Status.incomplete);
-            status.setLastUpdate(new Date());
+            status.setLastUpdate(referenceDate!=null ? referenceDate : new Date());
             storeMetadata(tableName, status);
             //throw error
             ex.printStackTrace();
@@ -231,7 +301,7 @@ public abstract class DefaultStorage extends H2Database {
     }
 
     @Override
-    public synchronized StoreStatus store(Table table, DataFilter filter, boolean overwrite, Table... tables) throws Exception {
+    public synchronized StoreStatus store(Table table, DataFilter filter, boolean overwrite, Date referenceDate, Table... tables) throws Exception {
         String tableName = table!=null ? table.getTableName() : null;
         StoreStatus status = loadMetadata(tableName);
         if (status==null)
@@ -272,7 +342,7 @@ public abstract class DefaultStorage extends H2Database {
             //Update status
             status.setStatus(StoreStatus.Status.ready);
             status.setCount(overwrite ? count : status.getCount() + count);
-            status.setLastUpdate(new Date());
+            status.setLastUpdate(referenceDate!=null ? referenceDate : new Date());
             storeMetadata(tableName, status, connection);
             //Commit changes
             connection.commit();

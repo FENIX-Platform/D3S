@@ -7,6 +7,7 @@ import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
 
+import java.util.Date;
 
 
 public class ExternalDatasetExecutor extends ResourceStorageExecutor {
@@ -31,7 +32,13 @@ public class ExternalDatasetExecutor extends ResourceStorageExecutor {
 
     @Override
     protected void execute() throws Exception {
-        for (StoreStatus status = storage.store(structure, data, SOTRE_PAGE_SIZE, overwrite); status.getStatus() == StoreStatus.Status.loading; status = storage.store(structure, data, SOTRE_PAGE_SIZE, false))
-            monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount(), false);
+        Date referenceDate = new Date();
+        storage.beginSession(structure);
+        try {
+            for (StoreStatus status = storage.store(structure, data, SOTRE_PAGE_SIZE, overwrite, referenceDate); status.getStatus() == StoreStatus.Status.loading; status = storage.store(structure, data, SOTRE_PAGE_SIZE, false, referenceDate))
+                monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount(), false);
+        } finally {
+            storage.endSession(structure);
+        }
     }
 }

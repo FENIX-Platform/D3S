@@ -13,6 +13,19 @@ import java.util.Date;
 
 public interface DatasetStorage extends Storage {
 
+    /**
+     * Communicate the begin of a store session on a specific table (useful to enhance performance)
+     * @param table Target table
+     * @throws Exception
+     */
+    public void beginSession(Table table) throws Exception;
+
+    /**
+     * Communicate the end of a store session on a specific table
+     * @param table Target table
+     * @throws Exception
+     */
+    public void endSession(Table table) throws Exception;
 
     /**
      * Create a new table with the specified structure if it don't exists.
@@ -51,7 +64,7 @@ public interface DatasetStorage extends Storage {
      * @return Resource data storage status
      * @throws Exception
      */
-    public StoreStatus store(Table table, Iterator<Object[]> data, int size, boolean overwrite) throws Exception;
+    public StoreStatus store(Table table, Iterator<Object[]> data, int size, boolean overwrite, Date referenceDate) throws Exception;
 
     /**
      * Store data into an existing table loading rows from other tables.
@@ -64,7 +77,7 @@ public interface DatasetStorage extends Storage {
      * @return Resource data storage status
      * @throws Exception
      */
-    public StoreStatus store(Table table, DataFilter filter, boolean overwrite, Table... tables) throws Exception;
+    public StoreStatus store(Table table, DataFilter filter, boolean overwrite, Date referenceDate, Table... tables) throws Exception;
 
     /**
      * Remove an existing table (and related metadata)
