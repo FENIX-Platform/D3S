@@ -49,8 +49,12 @@ public abstract class DefaultStorage extends H2Database {
             }
         }
 
+        dropIndexes(tableStructure);
+
         session.add(tableName);
     }
+
+
 
     @Override
     public void endSession(Table tableStructure) throws Exception {
@@ -84,8 +88,9 @@ public abstract class DefaultStorage extends H2Database {
             } finally {
                 connection.close();
             }
-
         }
+
+        createIndexes(tableStructure);
 
         session.remove(tableName);
     }
@@ -661,6 +666,75 @@ public abstract class DefaultStorage extends H2Database {
         return query.toString();
     }
 
+    //Manage default table indexes
+    private void dropIndexes(Table tableStructure) throws Exception {
+        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
+        if (columns==null)
+            throw new Exception("Missing table structure");
+
+        int keyColumnsCount = 0;
+        boolean containsKey = false;
+
+        for (Column column : columns)
+            if (column.isKey()) {
+                containsKey=true;
+                keyColumnsCount++;
+            }
+
+        if (containsKey) {
+            Connection connection = getConnection();
+            try {
+                String baseName = "INDEX_"+tableName+'_';
+                for (int i=1; i<keyColumnsCount; i++)
+                    connection.createStatement().executeUpdate("DROP INDEX IF EXISTS "+baseName+i);
+                connection.commit();
+            } catch (Exception ex) {
+                connection.rollback();
+                throw ex;
+            } finally {
+                connection.close();
+            }
+        }
+    }
+    private void createIndexes(Table tableStructure) throws Exception {
+        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
+        if (columns==null)
+            throw new Exception("Missing table structure");
+
+        ArrayList<String> keyColumns = new ArrayList<>();
+        boolean containsKey = false;
+
+        for (Column column : columns)
+            if (column.isKey()) {
+                containsKey=true;
+                keyColumns.add(column.getName());
+            }
+
+        if (containsKey) {
+            keyColumns.remove(0); //skip first column
+            Connection connection = getConnection();
+            try {
+                for (int i=1; keyColumns.size()>0; i++) {
+                    StringBuilder query = new StringBuilder("CREATE INDEX IF NOT EXISTS INDEX_").append(tableName).append('_').append(i).append(" ON ").append(getTableName(tableName)).append(" (");
+                    for (String keyColumn : keyColumns)
+                        query.append(keyColumn).append(',');
+                    query.setCharAt(query.length() - 1, ')');
+
+                    connection.createStatement().executeUpdate(query.toString());
+
+                    keyColumns.remove(0);
+                }
+                connection.commit();
+            } catch (Exception ex) {
+                connection.rollback();
+                throw ex;
+            } finally {
+                connection.close();
+            }
+        }
+    }
 
     @Override
     public String getTableName(String tableName) {
