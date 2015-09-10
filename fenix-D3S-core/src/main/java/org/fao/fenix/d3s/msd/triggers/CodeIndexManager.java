@@ -17,6 +17,7 @@ public class CodeIndexManager extends LinksManager {
             String code = document.field("code");
             Map<String, String> title = document.field("title");
             Map<String, String> description = document.field("description");
+            Map<String, String> shortTitle = document.field("shortTitle");
             //Update code label index
             StringBuilder indexLabel = new StringBuilder(code);
             if (title!=null)
@@ -24,6 +25,9 @@ public class CodeIndexManager extends LinksManager {
                     indexLabel.append(' ').append(t);
             if (description!=null)
                 for (String d : description.values())
+                    indexLabel.append(' ').append(d);
+            if (shortTitle!=null)
+                for (String d : shortTitle.values())
                     indexLabel.append(' ').append(d);
             document.field("indexLabel",indexLabel.toString());
         }

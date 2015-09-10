@@ -17,7 +17,9 @@ public class CSVCodeListProvider {
         CodeListFileStructure fileBasicStructure;
         Integer[] codeColumnIndexes;
         Map<String,Integer> titleColumnIndexes = new HashMap<>();
+        Map<String,Integer> shortTitleColumnIndexes = new HashMap<>();
         Map<String,Integer> descriptionColumnIndexes = new HashMap<>();
+        Map<String,Integer> supplementalColumnIndexes = new HashMap<>();
         Integer startYearColumnIndex;
         Integer expireYearColumnIndex;
     }
@@ -45,8 +47,12 @@ public class CSVCodeListProvider {
 
             if (fieldName.startsWith("titleColumnIndex_"))
                 structure.titleColumnIndexes.put(fieldName.substring("titleColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue) - 1);
+            else if (fieldName.startsWith("shortTitleColumnIndex_"))
+                structure.shortTitleColumnIndexes.put(fieldName.substring("shortTitleColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue) - 1);
             else if (fieldName.startsWith("descriptionColumnIndex_"))
                 structure.descriptionColumnIndexes.put(fieldName.substring("descriptionColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue) - 1);
+            else if (fieldName.startsWith("supplementalColumnIndex_"))
+                structure.supplementalColumnIndexes.put(fieldName.substring("supplementalColumnIndex_".length()).trim().toUpperCase(), Integer.parseInt(fieldValue) - 1);
             else if ("startYearColumnIndex".equals(fieldName))
                 structure.startYearColumnIndex = Integer.parseInt(fieldValue)-1;
             else if ("expireYearColumnIndex".equals(fieldName))
@@ -97,10 +103,20 @@ public class CSVCodeListProvider {
                     if (label!=null && !label.trim().equals(""))
                         codeObject.addTitle(labelIterator.getKey(), label);
                 }
+                for (Map.Entry<String, Integer> labelIterator : structure.shortTitleColumnIndexes.entrySet()) {
+                    String label = row.length>labelIterator.getValue() ? row[labelIterator.getValue()] : null;
+                    if (label!=null && !label.trim().equals(""))
+                        codeObject.addShortTitle(labelIterator.getKey(), label);
+                }
                 for (Map.Entry<String, Integer> labelIterator : structure.descriptionColumnIndexes.entrySet()) {
                     String label = row.length>labelIterator.getValue() ? row[labelIterator.getValue()] : null;
                     if (label!=null && !label.trim().equals(""))
                         codeObject.addDescription(labelIterator.getKey(), label);
+                }
+                for (Map.Entry<String, Integer> labelIterator : structure.supplementalColumnIndexes.entrySet()) {
+                    String label = row.length>labelIterator.getValue() ? row[labelIterator.getValue()] : null;
+                    if (label!=null && !label.trim().equals(""))
+                        codeObject.addSupplemental(labelIterator.getKey(), label);
                 }
 
                 if (structure.startYearColumnIndex!=null && row.length>structure.startYearColumnIndex)
