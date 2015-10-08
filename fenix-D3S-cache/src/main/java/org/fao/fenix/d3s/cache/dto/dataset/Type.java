@@ -3,7 +3,7 @@ package org.fao.fenix.d3s.cache.dto.dataset;
 import java.sql.Types;
 
 public enum Type {
-    string(Types.VARCHAR), array(Types.ARRAY), integer(Types.INTEGER), real(Types.DOUBLE), bool(Types.BOOLEAN), object(Types.OTHER);
+    string(Types.VARCHAR), array(Types.ARRAY), integer(Types.BIGINT), real(Types.DOUBLE), bool(Types.BOOLEAN), object(Types.OTHER);
 
 
 
