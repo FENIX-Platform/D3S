@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class ExternalDatasetExecutor extends ResourceStorageExecutor {
 
-    private static final int SOTRE_PAGE_SIZE = 1000;
+    private static final int SOTRE_PAGE_SIZE = 100;
 
     private DatasetStorage storage;
     private Table structure;
