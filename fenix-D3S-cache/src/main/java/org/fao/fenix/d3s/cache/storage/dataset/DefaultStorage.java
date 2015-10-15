@@ -1,8 +1,7 @@
 package org.fao.fenix.d3s.cache.storage.dataset;
 
 import org.fao.fenix.commons.find.dto.filter.*;
-import org.fao.fenix.commons.utils.database.DataIterator;
-import org.fao.fenix.commons.utils.database.Iterator;
+import org.fao.fenix.commons.utils.database.*;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
@@ -13,6 +12,7 @@ import org.fao.fenix.d3s.cache.dto.dataset.Type;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import java.util.Iterator;
 
 public abstract class DefaultStorage extends H2Database {
 
@@ -225,14 +225,15 @@ public abstract class DefaultStorage extends H2Database {
             throw new Exception("Unavailable table: "+tableName);
 
         Connection connection = getConnection();
+        connection.setAutoCommit(true);
         try {
             //Take action for 'incomplete' status
             if (status.getStatus()==StoreStatus.Status.incomplete) {
                 //Try to skip with incomplete resources in append mode
                 if (!overwrite)
                     try {
-                        data.skip(status.getCount());
-                    } catch (UnsupportedOperationException ex) {
+                        ((org.fao.fenix.commons.utils.database.Iterator)data).skip(status.getCount());
+                    } catch (Exception ex) {
                         //If skip is unsupported force overwrite mode
                         status.setCount(0l);
                         overwrite = true;
@@ -287,9 +288,9 @@ public abstract class DefaultStorage extends H2Database {
             storeMetadata(tableName, status, connection);
 
             //Close transaction
-            connection.commit();
+            //connection.commit();
         } catch (Exception ex) {
-            connection.rollback();
+            //connection.rollback();
             //try to set incomplete status
             status.setStatus(StoreStatus.Status.incomplete);
             status.setLastUpdate(referenceDate!=null ? referenceDate : new Date());

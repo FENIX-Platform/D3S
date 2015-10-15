@@ -4,28 +4,18 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.utils.Language;
-import org.fao.fenix.commons.utils.database.DataIterator;
-import org.fao.fenix.commons.utils.database.Iterator;
+import org.fao.fenix.commons.utils.database.*;
 import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 
 import java.util.*;
+import java.util.Iterator;
 
-public class LabelDataIterator implements Iterator<Object[]> {
+public class LabelDataIterator implements org.fao.fenix.commons.utils.database.Iterator<Object[]> {
 
     //INIT
     public LabelDataIterator(Iterator<Object[]> source, Table destinationStructure, DSDDataset sourceStructure, Collection<Resource<DSDCodelist,Code>> codelists) {
         this.source = source!=null ? source : new Iterator<Object[]>() {
-            @Override
-            public void skip(long amount) {
-
-            }
-
-            @Override
-            public long getIndex() {
-                return 0;
-            }
-
             @Override
             public boolean hasNext() {
                 return false;
@@ -38,7 +28,7 @@ public class LabelDataIterator implements Iterator<Object[]> {
 
             @Override
             public void remove() {
-
+                throw new UnsupportedOperationException();
             }
         };
 
@@ -104,15 +94,6 @@ public class LabelDataIterator implements Iterator<Object[]> {
     }
 
 
-    @Override
-    public void skip(long amount) {
-        source.skip(amount);
-    }
-
-    @Override
-    public long getIndex() {
-        return source.getIndex();
-    }
 
     @Override
     public boolean hasNext() {
@@ -124,6 +105,21 @@ public class LabelDataIterator implements Iterator<Object[]> {
         source.remove();
     }
 
+    @Override
+    public void skip(long amount) {
+        if (source instanceof Iterator)
+            ((org.fao.fenix.commons.utils.database.Iterator)source).skip(amount);
+        else
+            throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getIndex() {
+        if (source instanceof Iterator)
+            return ((org.fao.fenix.commons.utils.database.Iterator)source).getIndex();
+        else
+            throw new UnsupportedOperationException();
+    }
 
 
 

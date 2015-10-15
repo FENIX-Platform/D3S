@@ -7,7 +7,6 @@ import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
-import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
@@ -18,12 +17,13 @@ import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.LabelDataIterator;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
-import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
+import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -60,17 +60,20 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     @Override
     public Iterator<Object[]> load(MeIdentification<DSDDataset> metadata, Order order, Page page) throws Exception {
         String id = getID(metadata);
-        int size = page!=null && page.perPage>0 ? page.skip+page.length : 0;
         boolean ordering = order!=null && order.size()>0;
-        monitor.check(ResourceMonitor.Operation.startRead, id, size, ordering);
+        int size = !ordering && page!=null && page.perPage>0 ? page.skip+page.length : 0;
         //Check resource status and resource (and related codelists) last update date
         StoreStatus status = storage.loadMetadata(id);
         if (status!=null) {
             if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
                 throw new IncompleteException(id);
-            if (!checkUpdateDateIsValid(metadata,status))
+            if (!checkUpdateDateIsValid(metadata,status)) {
                 storage.delete(id);
-            return storage.load(order,page,null,new Table(metadata));
+                return null;
+            }
+            monitor.check(ResourceMonitor.Operation.startRead, id, size);
+            Iterator<Object[]> data = storage.load(order,page,null,new Table(metadata));
+            return data!=null ? monitor.getMonitorDataIterator(id, data) : null;
         } else
             return null;
     }
@@ -79,7 +82,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(metadata);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
             Table tableMetadata = new WriteTable(metadata);
             data = new LabelDataIterator(data,tableMetadata,metadata.getDsd(),codeLists);
@@ -97,7 +100,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite).start();
         } catch (Exception ex) {
             //Unlock resource
-            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
             //Throw error
             throw ex;
         }
@@ -109,13 +112,13 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     public void remove(MeIdentification<DSDDataset> metadata) throws Exception {
         //Lock resource
         String id = getID(metadata);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
             //Delete
             storage.delete(id);
         } finally {
             //Unlock resource
-            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
         }
     }
 
@@ -134,7 +137,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     public void filter(Resource<DSDDataset, Object[]>[] resources, StandardFilter rowsFilter, MeIdentification<DSDDataset> destination, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(destination);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0, false);
+        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
             Table table = new WriteTable(destination);
             //Store external resources and create corresponding Table metadata
@@ -149,8 +152,10 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 }
             }
             //Wait for external resources store completion
-            for (String externalId : externalIds)
-                monitor.check(ResourceMonitor.Operation.startRead, id, 0, true);
+            for (String externalId : externalIds) {
+                monitor.check(ResourceMonitor.Operation.startRead, externalId, 0);
+                monitor.check(ResourceMonitor.Operation.stopRead, externalId, 0);
+            }
 
             //Start tables merge into the destination table
                 //Create table if not exists
@@ -166,7 +171,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 new InternalDatasetExecutor(storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
         } catch (Exception ex) {
             //Unlock resource
-            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
             //Throw error
             throw ex;
         }

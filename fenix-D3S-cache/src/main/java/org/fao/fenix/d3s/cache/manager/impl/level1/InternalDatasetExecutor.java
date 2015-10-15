@@ -1,12 +1,9 @@
 package org.fao.fenix.d3s.cache.manager.impl.level1;
 
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
-import org.fao.fenix.commons.utils.database.Iterator;
-import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
-import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
-import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
+import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 import java.util.Date;
 

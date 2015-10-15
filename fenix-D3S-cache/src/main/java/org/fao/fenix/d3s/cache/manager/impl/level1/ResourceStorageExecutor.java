@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.cache.manager.impl.level1;
 
-import org.fao.fenix.d3s.cache.tools.ResourceMonitor;
+import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 public abstract class ResourceStorageExecutor implements Runnable {
 
@@ -38,7 +38,7 @@ public abstract class ResourceStorageExecutor implements Runnable {
             if (id!=null)
                 try {
                     //Unlock resource
-                    monitor.check(ResourceMonitor.Operation.stopWrite, id, 0, false);
+                    monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
