@@ -17,7 +17,7 @@ public class InternalDatasetExecutor extends ResourceStorageExecutor {
     private Table[] sourceTables;
 
     public InternalDatasetExecutor(DatasetStorage storage, ResourceMonitor monitor, Table structure, DataFilter filter, boolean overwrite, Table... sourceTables) {
-        super(structure.getTableName(),monitor);
+        super(storage, structure, monitor);
         this.storage = storage;
         this.overwrite = overwrite;
         this.filter = filter;

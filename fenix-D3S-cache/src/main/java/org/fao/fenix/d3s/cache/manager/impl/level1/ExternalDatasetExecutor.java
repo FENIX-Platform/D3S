@@ -11,20 +11,22 @@ import java.util.Iterator;
 
 public class ExternalDatasetExecutor extends ResourceStorageExecutor {
 
-    private static final int SOTRE_PAGE_SIZE = 100;
-
     private DatasetStorage storage;
+    private ResourceMonitor monitor;
     private Table structure;
     private Iterator<Object[]> data;
     private boolean overwrite;
+    private int storePageSize;
 
 
-    public ExternalDatasetExecutor(DatasetStorage storage, ResourceMonitor monitor, Table structure, Iterator<Object[]> data, boolean overwrite) {
-        super(structure.getTableName(), monitor);
+    public ExternalDatasetExecutor(DatasetStorage storage, ResourceMonitor monitor, Table structure, Iterator<Object[]> data, boolean overwrite, int pageSize) {
+        super(storage, structure, monitor);
         this.storage = storage;
+        this.monitor = monitor;
         this.structure = structure;
         this.data = data;
         this.overwrite = overwrite;
+        storePageSize = pageSize;
     }
 
 
@@ -32,12 +34,7 @@ public class ExternalDatasetExecutor extends ResourceStorageExecutor {
     @Override
     protected void execute() throws Exception {
         Date referenceDate = new Date();
-        storage.beginSession(structure);
-        try {
-            for (StoreStatus status = storage.store(structure, data, SOTRE_PAGE_SIZE, overwrite, referenceDate); status.getStatus() == StoreStatus.Status.loading; status = storage.store(structure, data, SOTRE_PAGE_SIZE, false, referenceDate))
-                monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount());
-        } finally {
-            storage.endSession(structure);
-        }
+        for (StoreStatus status = storage.store(structure, data, storePageSize, overwrite, referenceDate); status.getStatus() == StoreStatus.Status.loading; status = storage.store(structure, data, storePageSize, false, referenceDate))
+            monitor.check(ResourceMonitor.Operation.stepWrite, id, status.getCount());
     }
 }

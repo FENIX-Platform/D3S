@@ -30,7 +30,7 @@ import java.util.LinkedList;
 @ApplicationScoped
 public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
-    private static final int SOTRE_PAGE_SIZE = 1000;
+    private static final int SOTRE_PAGE_SIZE = 50;
 
     @Inject private DatabaseUtils utils;
     @Inject private DefaultStorage storage;
@@ -72,8 +72,15 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 return null;
             }
             monitor.check(ResourceMonitor.Operation.startRead, id, size);
-            Iterator<Object[]> data = storage.load(order,page,null,new Table(metadata));
-            return data!=null ? monitor.getMonitorDataIterator(id, data) : null;
+            try {
+                Iterator<Object[]> data = storage.load(order, page, null, new Table(metadata));
+                return data != null ? monitor.newMonitorDataIterator(id, data) : null;
+            } catch (Exception ex) {
+                //Unlock resources write
+                monitor.check(ResourceMonitor.Operation.stopRead, id, 0);
+                //Throw error
+                throw ex;
+            }
         } else
             return null;
     }
@@ -82,8 +89,8 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     public void store(MeIdentification<DSDDataset> metadata, Iterator<Object[]> data, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(metadata);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
+            monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
             Table tableMetadata = new WriteTable(metadata);
             data = new LabelDataIterator(data,tableMetadata,metadata.getDsd(),codeLists);
             //Create table if not exists
@@ -97,7 +104,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
             //Store data and unlock resource
-            new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite).start();
+            new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE).start();
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
@@ -137,8 +144,8 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
     public void filter(Resource<DSDDataset, Object[]>[] resources, StandardFilter rowsFilter, MeIdentification<DSDDataset> destination, boolean overwrite, Long timeout, Collection<Resource<DSDCodelist,Code>> codeLists) throws Exception {
         //Lock resource
         String id = getID(destination);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
+            monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
             Table table = new WriteTable(destination);
             //Store external resources and create corresponding Table metadata
             Collection<String> externalIds = new LinkedList<>();

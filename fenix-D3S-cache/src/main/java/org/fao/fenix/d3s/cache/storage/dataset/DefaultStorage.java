@@ -17,87 +17,36 @@ import java.util.Iterator;
 public abstract class DefaultStorage extends H2Database {
 
     private static String SCHEMA_NAME = "DATA";
+    private final Map<String, Connection> session = new HashMap<>();
 
-    private final Set<String> session = new HashSet<>();
 
-    //DATA
-    public void beginSession(Table tableStructure) throws Exception {
-        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
-        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
-        if (columns==null)
-            throw new Exception("Missing table structure");
-
-        if (session.contains(tableName))
+    //SESSION
+    @Override
+    public synchronized void beginSession(String tableName) throws Exception {
+        if (session.containsKey(tableName))
             return;
 
-        boolean containsKey = false;
-        for (Column column : columns)
-            if (column.isKey())
-                containsKey=true;
-
-        if (containsKey) {
-            String query = "ALTER TABLE "+getTableName(tableName)+" DROP PRIMARY KEY ";
-            Connection connection = getConnection();
-            try {
-                connection.createStatement().executeUpdate(query.toString());
-                connection.commit();
-            } catch (Exception ex) {
-                connection.rollback();
-                throw ex;
-            } finally {
-                connection.close();
-            }
-        }
-
-        //dropIndexes(tableStructure);
-
-        session.add(tableName);
+        Connection connection = getConnection();
+        connection.setAutoCommit(true);
+        session.put(tableName, connection);
     }
-
-
 
     @Override
-    public void endSession(Table tableStructure) throws Exception {
-        String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
-        Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
-
-        if (!session.contains(tableName))
-            return;
-        if (columns==null)
-            throw new Exception("Missing table structure");
-
-        StringBuilder queryIndex = new StringBuilder(" PRIMARY KEY (");
-        boolean containsKey = false;
-
-        for (Column column : columns)
-            if (column.isKey()) {
-                containsKey=true;
-                queryIndex.append(column.getName()).append(',');
-            }
-
-        if (containsKey) {
-            queryIndex.setCharAt(queryIndex.length() - 1, ')');
-            String query = "ALTER TABLE "+getTableName(tableName)+" ADD "+queryIndex.toString();
-            Connection connection = getConnection();
-            try {
-                connection.createStatement().executeUpdate(query.toString());
-                connection.commit();
-            } catch (Exception ex) {
-                connection.rollback();
-                throw ex;
-            } finally {
-                connection.close();
-            }
+    public synchronized void endSession(String tableName) throws Exception {
+        if (session.containsKey(tableName)) {
+            session.get(tableName).close();
+            session.remove(tableName);
         }
-
-        //createIndexes(tableStructure);
-
-        session.remove(tableName);
     }
+
+
+    //DATA
 
     @Override
     public synchronized StoreStatus create(Table tableStructure, Date timeout) throws Exception {
         String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
+        if (session.containsKey(tableName))
+            throw new ConcurrentModificationException("Write session already open on: "+tableName);
         Collection<Column> columns = tableStructure!=null ? tableStructure.getColumns() : null;
         if (tableName==null || columns==null || columns.size()==0)
             throw new Exception("Invalid table structure.");
@@ -160,6 +109,9 @@ public abstract class DefaultStorage extends H2Database {
 
     @Override
     public synchronized void delete(String tableName) throws Exception {
+        if (session.containsKey(tableName))
+            throw new ConcurrentModificationException("Write session already open on: "+tableName);
+
         Connection connection = getConnection();
         try {
             removeMetadata(tableName, connection);
@@ -224,8 +176,8 @@ public abstract class DefaultStorage extends H2Database {
         if (status==null)
             throw new Exception("Unavailable table: "+tableName);
 
-        Connection connection = getConnection();
-        connection.setAutoCommit(true);
+        boolean sessionOpen = session.containsKey(tableName);
+        Connection connection = sessionOpen ? session.get(tableName) : getConnection();
         try {
             //Take action for 'incomplete' status
             if (status.getStatus()==StoreStatus.Status.incomplete) {
@@ -288,9 +240,13 @@ public abstract class DefaultStorage extends H2Database {
             storeMetadata(tableName, status, connection);
 
             //Close transaction
-            //connection.commit();
+            if (!sessionOpen)
+                connection.commit();
         } catch (Exception ex) {
-            //connection.rollback();
+            if (sessionOpen)
+                connection.close();
+            else
+                connection.rollback();
             //try to set incomplete status
             status.setStatus(StoreStatus.Status.incomplete);
             status.setLastUpdate(referenceDate!=null ? referenceDate : new Date());
@@ -299,7 +255,7 @@ public abstract class DefaultStorage extends H2Database {
             ex.printStackTrace();
             throw ex;
         } finally {
-            if (connection!=null)
+            if (!sessionOpen && connection!=null)
                 connection.close();
         }
 
@@ -674,6 +630,24 @@ public abstract class DefaultStorage extends H2Database {
         return query.toString();
     }
 
+    @Override
+    public String getTableName(String tableName) {
+        return tableName==null ? null : SCHEMA_NAME + '.'+ '"' + tableName + '"';
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+/*
     //Manage default table indexes
     private void dropIndexes(Table tableStructure) throws Exception {
         String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
@@ -743,11 +717,4 @@ public abstract class DefaultStorage extends H2Database {
             }
         }
     }
-
-    @Override
-    public String getTableName(String tableName) {
-        return tableName==null ? null : SCHEMA_NAME + '.'+ '"' + tableName + '"';
-    }
-
-
-}
+*/

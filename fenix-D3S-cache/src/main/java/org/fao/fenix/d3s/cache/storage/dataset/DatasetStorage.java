@@ -18,14 +18,14 @@ public interface DatasetStorage extends Storage {
      * @param table Target table
      * @throws Exception
      */
-    public void beginSession(Table table) throws Exception;
+    public void beginSession(String tableName) throws Exception;
 
     /**
      * Communicate the end of a store session on a specific table
      * @param table Target table
      * @throws Exception
      */
-    public void endSession(Table table) throws Exception;
+    public void endSession(String tableName) throws Exception;
 
     /**
      * Create a new table with the specified structure if it don't exists.

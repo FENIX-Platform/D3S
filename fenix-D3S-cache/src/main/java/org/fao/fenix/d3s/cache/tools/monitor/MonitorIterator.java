@@ -4,6 +4,7 @@ import org.fao.fenix.commons.utils.database.Iterator;
 
 import javax.inject.Inject;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MonitorIterator implements Iterator<Object[]>, Runnable {
@@ -14,13 +15,14 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
 
     private String resourceId;
     private java.util.Iterator<Object[]> source;
+    private ScheduledExecutorService timeoutExecutor;
 
     public void init(String resourceId, java.util.Iterator<Object[]> source, boolean timeout) {
         this.resourceId = resourceId;
         this.source = source;
 
         if (timeout)
-            Executors.newSingleThreadScheduledExecutor().schedule(this, DEFAULT_TIMEOUT_SECS, TimeUnit.SECONDS);
+            (timeoutExecutor = Executors.newSingleThreadScheduledExecutor()).schedule(this, DEFAULT_TIMEOUT_SECS, TimeUnit.SECONDS);
     }
 
 
@@ -85,6 +87,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public void run() {
         close();
         timeout = true;
+        timeoutExecutor.shutdown();
     }
 
 
