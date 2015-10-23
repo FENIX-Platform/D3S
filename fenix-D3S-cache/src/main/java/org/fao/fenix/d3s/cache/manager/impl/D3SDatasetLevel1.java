@@ -11,10 +11,13 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
+import org.fao.fenix.d3s.cache.manager.CacheListener;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.LabelDataIterator;
+import org.fao.fenix.d3s.cache.manager.impl.level1.ResourceStorageExecutor;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
@@ -32,6 +35,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private static final int SOTRE_PAGE_SIZE = 50;
 
+    @Inject private CacheManagerFactory listenersFactory;
     @Inject private DatabaseUtils utils;
     @Inject private DefaultStorage storage;
     @Inject private ResourceMonitor monitor;
@@ -104,7 +108,9 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
             //Store data and unlock resource
-            new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE).start();
+            ResourceStorageExecutor executor = new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
+            //executor.addListener(this);
+            executor.start();
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
@@ -121,8 +127,15 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
+            //Fire starting remove operation event
+            Collection<CacheListener> listeners = listenersFactory.getListeners(metadata, storage, storage.getTableName(id));
+            for (CacheListener listener : listeners)
+                listener.removing(storage.getTableName(id));
             //Delete
             storage.delete(id);
+            //Fire stopping remove operation event
+            for (CacheListener listener : listeners)
+                listener.removed(storage.getTableName(id));
         } finally {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);

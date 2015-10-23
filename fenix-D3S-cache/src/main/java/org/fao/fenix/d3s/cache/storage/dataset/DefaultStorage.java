@@ -22,13 +22,15 @@ public abstract class DefaultStorage extends H2Database {
 
     //SESSION
     @Override
-    public synchronized void beginSession(String tableName) throws Exception {
+    public synchronized Connection beginSession(String tableName) throws Exception {
         if (session.containsKey(tableName))
-            return;
+            return session.get(tableName);
 
         Connection connection = getConnection();
         connection.setAutoCommit(true);
         session.put(tableName, connection);
+
+        return connection;
     }
 
     @Override

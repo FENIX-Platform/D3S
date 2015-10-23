@@ -1,16 +1,18 @@
 package org.fao.fenix.d3s.cache.manager;
 
+import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @ApplicationScoped
 public class CacheManagerFactory {
     private Map<String, Class<? extends CacheManager>> aliasMap = new HashMap<>();
     @Inject private Instance<CacheManager> instanceProducer;
+    @Inject private Instance<CacheListener> listenerInstanceProducer;
 
 
     public void addAlias(String alias, String className) throws ClassNotFoundException {
@@ -26,5 +28,14 @@ public class CacheManagerFactory {
             return manager;
         } else
             return null;
+    }
+
+    public Collection<CacheListener> getListeners(MeIdentification metadata, DatasetStorage storage, String tableName) {
+        Collection<CacheListener> list = new LinkedList<>();
+        CacheListener instance;
+        for (Iterator<CacheListener> i = listenerInstanceProducer.select().iterator(); i.hasNext(); )
+            if ((instance = i.next()).enable(metadata, storage, tableName))
+                list.add(instance);
+        return list;
     }
 }

@@ -4,6 +4,11 @@ import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
+import java.sql.Connection;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.concurrent.Executors;
+
 public abstract class ResourceStorageExecutor implements Runnable {
 
     protected String id;
@@ -33,10 +38,11 @@ public abstract class ResourceStorageExecutor implements Runnable {
 
     @Override
     public void run() {
-
+        Connection connection = null;
         try {
-            storage.beginSession(id);
+            fireBeginSessionEvent(connection = storage.beginSession(id));
             execute();
+            fireEndSessionEvent(connection);
         } catch (Exception ex) {
             error = ex;
         } finally {
@@ -66,4 +72,21 @@ public abstract class ResourceStorageExecutor implements Runnable {
     }
 
     protected abstract void execute() throws Exception;
+
+
+    //Events management
+    private Collection<ExecutorListener> listeners = new LinkedList<>();
+    public void addListener(ExecutorListener listener) {
+        listeners.add(listener);
+    }
+
+    private void fireBeginSessionEvent(Connection connection) {
+        for (ExecutorListener listener : listeners)
+            listener.storeSessionBegin(storage, storage.getTableName(id), connection);
+    }
+    private void fireEndSessionEvent(Connection connection) {
+        for (ExecutorListener listener : listeners)
+            listener.storeSessionEnd(storage, storage.getTableName(id), connection);
+    }
+
 }
