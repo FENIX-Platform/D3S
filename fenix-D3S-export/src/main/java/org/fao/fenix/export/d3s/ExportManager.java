@@ -11,11 +11,11 @@ import org.fao.fenix.export.services.ServletFenixExport;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-@ApplicationScoped
 @WebListener()
 public class ExportManager implements ServletContextListener, InitListener {
     @Inject private MainController d3sController;

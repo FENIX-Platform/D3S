@@ -20,13 +20,15 @@ public class D3SDatasetInputPlugin extends Input {
         MeIdentification metadata = resource!=null ? resource.getMetadata() : null;
         uid = metadata!=null ? metadata.getUid() : null;
         version = metadata!=null ? metadata.getVersion() : null;
-        service = ExportManager.getResourcesService(config.containsKey("lang") ? (String)config.get("lang") : "EN");
+        service = ExportManager.getResourcesService(config!=null && config.containsKey("lang") ? (String)config.get("lang") : "EN");
     }
 
     @Override
     public CoreData getResource() {
         try {
+            long time = System.currentTimeMillis();
             final Resource<DSDDataset,Object[]> data = service.loadResource(uid, version);
+            System.out.println("Time = "+(System.currentTimeMillis()-time));
             if (data!=null)
                 return new CoreData<Object[]>() {
                     @Override
