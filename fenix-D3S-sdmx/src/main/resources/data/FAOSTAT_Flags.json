@@ -1,0 +1,638 @@
+{
+  "metadata" : {
+    "creationDate" : 1441272586989,
+    "language" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "title" : {
+      "EN" : "FAOSTAT Flags"
+    },
+    "dsd" : {
+      "contextSystem" : "FAOSTAT"
+    },
+    "meContent" : {
+      "resourceRepresentationType" : "codelist",
+      "keywords" : [ "flag" ],
+      "seCoverage" : {
+        "coverageSectors" : {
+          "codes" : [ { } ]
+        }
+      },
+      "seCodeList" : {
+        "numberOfLevels" : 1,
+        "typeOfCodeList" : "list"
+      }
+    },
+    "uid" : "FAOSTAT_Flags",
+    "characterSet" : {
+      "codes" : [ {
+        "code" : "106"
+      } ],
+      "idCodeList" : "IANAcharacterSet"
+    },
+    "metadataStandardName" : "FENIX metadata",
+    "contacts" : [ {
+      "organization" : {
+        "EN" : "FAO"
+      },
+      "role" : "distributor",
+      "contactInfo" : { },
+      "organizationUnit" : {
+        "EN" : "ESS-FAOSTAT"
+      }
+    } ],
+    "metadataStandardVersion" : "1.0",
+    "metadataLanguage" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "meAccessibility" : {
+      "seDataDissemination" : {
+        "seDistribution" : { }
+      },
+      "seConfidentiality" : {
+        "confidentialityStatus" : {
+          "version" : "1.0",
+          "codes" : [ {
+            "code" : "F"
+          } ],
+          "idCodeList" : "CL_CONF_STATUS"
+        }
+      }
+    },
+    "meMaintenance" : {
+      "seUpdate" : {
+        "updateDate" : 1441272586989
+      }
+    }
+  },
+  "data" : [ {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official data"
+    },
+    "code" : " ",
+    "rid" : "64_93285",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Unofficial figure"
+    },
+    "code" : "*",
+    "rid" : "64_93286",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Less than 100 000 people undernourished, year refers to last year of 3-year average"
+    },
+    "code" : "<.1A",
+    "rid" : "64_93287",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Less than 100 000 people undernourished"
+    },
+    "code" : "<0.1",
+    "rid" : "64_93288",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Proportion of undernourished less than five percent"
+    },
+    "code" : "<5",
+    "rid" : "64_93289",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Proportion of undernourished less than five percent, year refers to last year of 3-year average"
+    },
+    "code" : "<5A",
+    "rid" : "64_93290",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Aggregate, may include official, semi-official or estimated data"
+    },
+    "code" : "A",
+    "rid" : "64_93291",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Year refers to last year of 3-year average based on projections"
+    },
+    "code" : "AP",
+    "rid" : "64_93292",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "ASTI (Agricultural Science and Technology Indicators). 2013. ASTI database. http://www.asti.cgiar.org/data."
+    },
+    "code" : "AS",
+    "rid" : "64_93293",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Year refers to last year of 3-year average"
+    },
+    "code" : "AV",
+    "rid" : "64_93294",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Balance"
+    },
+    "code" : "B",
+    "rid" : "64_93295",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Calculated"
+    },
+    "code" : "C",
+    "rid" : "64_93296",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAO computation from survey data"
+    },
+    "code" : "CS",
+    "rid" : "64_93300",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Calculated data based on estimated data"
+    },
+    "code" : "Ce",
+    "rid" : "64_93297",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAOSTAT estimate"
+    },
+    "code" : "Cf",
+    "rid" : "64_93298",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "NULLCoefficients"
+    },
+    "code" : "Co",
+    "rid" : "64_93299",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Calculated through value"
+    },
+    "code" : "Cv",
+    "rid" : "64_93301",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Expert sources from FAO (including other divisions)"
+    },
+    "code" : "E",
+    "rid" : "64_93302",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Emissions computed using data from Fertilizer Archive dataset"
+    },
+    "code" : "EA",
+    "rid" : "64_93303",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAO estimate"
+    },
+    "code" : "F",
+    "rid" : "64_93304",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Zero either by algorithm or data insertion"
+    },
+    "code" : "F0",
+    "rid" : "64_93305",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "No data available for these under any subject, namely production and trade"
+    },
+    "code" : "F1",
+    "rid" : "64_93306",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAO estimate based on WFP data"
+    },
+    "code" : "FX",
+    "rid" : "64_93318",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data obtained as a balance"
+    },
+    "code" : "Fb",
+    "rid" : "64_93307",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Calculated data"
+    },
+    "code" : "Fc",
+    "rid" : "64_93308",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "estimates - discontinued time series"
+    },
+    "code" : "Fd",
+    "rid" : "64_93309",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Fao estimates"
+    },
+    "code" : "Ff",
+    "rid" : "64_93310",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Calculated data on the basis of official figures"
+    },
+    "code" : "Fk",
+    "rid" : "64_93311",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Manual Estimation"
+    },
+    "code" : "Fm",
+    "rid" : "64_93312",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Provisional computer calculated data"
+    },
+    "code" : "Fp",
+    "rid" : "64_93313",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Computer calculated data"
+    },
+    "code" : "Fq",
+    "rid" : "64_93314",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Cross Entropy"
+    },
+    "code" : "Fs",
+    "rid" : "64_93315",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Trend data"
+    },
+    "code" : "Ft",
+    "rid" : "64_93316",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "UN estimates"
+    },
+    "code" : "Fu",
+    "rid" : "64_93317",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAO Estimate based on previous years data"
+    },
+    "code" : "Fy",
+    "rid" : "64_93319",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Country data reported by International Organizations where the country is a member (Semi-official) - WTO, EU, UNSD, etc."
+    },
+    "code" : "I",
+    "rid" : "64_93320",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "FAO data based on imputation methodology"
+    },
+    "code" : "Im",
+    "rid" : "64_93321",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Estimated time series for internal users only: not for dissemination to external users"
+    },
+    "code" : "K",
+    "rid" : "64_93322",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data not available"
+    },
+    "code" : "M",
+    "rid" : "64_93323",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Not applicable"
+    },
+    "code" : "NA",
+    "rid" : "64_93324",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "The implied emission factor was not calculated"
+    },
+    "code" : "NC",
+    "rid" : "64_93325",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Number of observations is below 100, statistics are not disseminated"
+    },
+    "code" : "ND",
+    "rid" : "64_93326",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Not reported by country"
+    },
+    "code" : "NR",
+    "rid" : "64_93327",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Not statistically significant"
+    },
+    "code" : "NS",
+    "rid" : "64_93328",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Not statistically significant, year refers to mid-year of 3-year average"
+    },
+    "code" : "NSA",
+    "rid" : "64_93329",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Not available"
+    },
+    "code" : "NV",
+    "rid" : "64_93330",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official data"
+    },
+    "code" : "O",
+    "rid" : "64_93331",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official data - discontinued time series"
+    },
+    "code" : "Od",
+    "rid" : "64_93332",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Provisional official data"
+    },
+    "code" : "P",
+    "rid" : "64_93333",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official data reported on FAO Questionnaires from countries"
+    },
+    "code" : "Q",
+    "rid" : "64_93334",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official data from questionnaires and/or national sources and/or COMTRADE (reporters)"
+    },
+    "code" : "Qm",
+    "rid" : "64_93335",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Official provisional data reported on FAO Questionnaires from countries"
+    },
+    "code" : "Qp",
+    "rid" : "64_93336",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Estimated data using trading partners database"
+    },
+    "code" : "R",
+    "rid" : "64_93337",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Standardized data"
+    },
+    "code" : "S",
+    "rid" : "64_93338",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Statistical Discrepancy"
+    },
+    "code" : "SD",
+    "rid" : "64_93339",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data provided by USDA"
+    },
+    "code" : "SQ",
+    "rid" : "64_93340",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Trend"
+    },
+    "code" : "T",
+    "rid" : "64_93341",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "1: uptrend; 0: same; -1: downtrend"
+    },
+    "code" : "Tr",
+    "rid" : "64_93342",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data reported on country official publications or web sites (Official) or trade country files"
+    },
+    "code" : "W",
+    "rid" : "64_93343",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data reported on country official publications or web sites (Official) or trade country files"
+    },
+    "code" : "Wp",
+    "rid" : "64_93344",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "International reliable sources (USDA, WTO, World Bank, IMF)"
+    },
+    "code" : "X",
+    "rid" : "64_93345",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data provided by WFP"
+    },
+    "code" : "XF",
+    "rid" : "64_93346",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2001"
+    },
+    "code" : "Y1",
+    "rid" : "64_93347",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2002"
+    },
+    "code" : "Y2",
+    "rid" : "64_93348",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2003"
+    },
+    "code" : "Y3",
+    "rid" : "64_93349",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2004"
+    },
+    "code" : "Y4",
+    "rid" : "64_93350",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2005"
+    },
+    "code" : "Y5",
+    "rid" : "64_93351",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Data from 2006"
+    },
+    "code" : "Y6",
+    "rid" : "64_93352",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "When the Fertilizer Utilization Account  (FUA)  does not balance due to utilization from stockpiles, apparent consumption has been set to zero"
+    },
+    "code" : "Z",
+    "rid" : "64_93353",
+    "leaf" : true
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Zero or less than half the unit shown"
+    },
+    "code" : "ZH",
+    "rid" : "64_93354",
+    "leaf" : true
+  } ],
+  "size" : 70
+}

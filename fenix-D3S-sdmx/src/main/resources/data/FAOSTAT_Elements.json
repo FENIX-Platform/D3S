@@ -1,0 +1,3788 @@
+{
+  "metadata" : {
+    "creationDate" : 1441272704288,
+    "language" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "title" : {
+      "EN" : "FAOSTAT Elements"
+    },
+    "dsd" : {
+      "contextSystem" : "FAOSTAT"
+    },
+    "meContent" : {
+      "resourceRepresentationType" : "codelist",
+      "keywords" : [ "element" ],
+      "seCoverage" : {
+        "coverageSectors" : {
+          "codes" : [ { } ]
+        }
+      },
+      "seCodeList" : {
+        "numberOfLevels" : 3,
+        "typeOfCodeList" : "list"
+      }
+    },
+    "uid" : "FAOSTAT_Elements",
+    "characterSet" : {
+      "codes" : [ {
+        "code" : "106"
+      } ],
+      "idCodeList" : "IANAcharacterSet"
+    },
+    "metadataStandardName" : "FENIX metadata",
+    "contacts" : [ {
+      "organization" : {
+        "EN" : "FAO"
+      },
+      "role" : "distributor",
+      "contactInfo" : { },
+      "organizationUnit" : {
+        "EN" : "ESS-FAOSTAT"
+      }
+    } ],
+    "metadataStandardVersion" : "1.0",
+    "metadataLanguage" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "meAccessibility" : {
+      "seDataDissemination" : {
+        "seDistribution" : { }
+      },
+      "seConfidentiality" : {
+        "confidentialityStatus" : {
+          "version" : "1.0",
+          "codes" : [ {
+            "code" : "F"
+          } ],
+          "idCodeList" : "CL_CONF_STATUS"
+        }
+      }
+    },
+    "meMaintenance" : {
+      "seUpdate" : {
+        "updateDate" : 1441272704288
+      }
+    }
+  },
+  "data" : [ {
+    "level" : 1,
+    "title" : {
+      "EN" : "ASTI R&D Indicators"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Researchers by Gender and Degree Level"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Researchers by gender and degree level"
+        },
+        "code" : "6089",
+        "rid" : "64_93465",
+        "leaf" : true
+      } ],
+      "code" : "AR",
+      "rid" : "64_93456",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Researchers by Agency Type"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Researchers by agency type"
+        },
+        "code" : "6087",
+        "rid" : "64_93459",
+        "leaf" : true
+      } ],
+      "code" : "AA",
+      "rid" : "64_93458",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Expenditures"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Expenditures (USD in 2005 prices)"
+        },
+        "code" : "6093",
+        "rid" : "64_93461",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Expenditures (LCU in 2005 prices)"
+        },
+        "code" : "6094",
+        "rid" : "64_93462",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Expenditures (LCU in current prices)"
+        },
+        "code" : "6091",
+        "rid" : "64_93463",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Expenditures (PPP in 2005 prices)"
+        },
+        "code" : "6092",
+        "rid" : "64_93464",
+        "leaf" : true
+      } ],
+      "code" : "AE",
+      "rid" : "64_93460",
+      "leaf" : false
+    } ],
+    "code" : "AS",
+    "rid" : "64_93457",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Food Security"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Suite of Food Security Indicators"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6121",
+        "rid" : "64_93767",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6122",
+        "rid" : "64_93768",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6123",
+        "rid" : "64_93769",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6124",
+        "rid" : "64_93770",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6125",
+        "rid" : "64_93771",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6126",
+        "rid" : "64_93772",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6128",
+        "rid" : "64_93773",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value"
+        },
+        "code" : "6127",
+        "rid" : "64_93774",
+        "leaf" : true
+      } ],
+      "code" : "FS",
+      "rid" : "64_93765",
+      "leaf" : false
+    } ],
+    "code" : "D",
+    "rid" : "64_93766",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Agri-Environmental Indicators"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Active ingredient use in Arable Land & Permanent Crops"
+        },
+        "code" : "5160",
+        "rid" : "64_93455",
+        "leaf" : true
+      } ],
+      "code" : "EP",
+      "rid" : "64_93433",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Soil"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Average soil erosion expressed in GLASOD erosion degree"
+        },
+        "code" : "7219",
+        "rid" : "64_93436",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Average carbon content in the topsoil as a % in weight"
+        },
+        "code" : "7221",
+        "rid" : "64_93437",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Average land degradation in GLASOD erosion degree"
+        },
+        "code" : "7220",
+        "rid" : "64_93438",
+        "leaf" : true
+      } ],
+      "code" : "ES",
+      "rid" : "64_93435",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Air and climate change"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of total NH3 emissions from agriculture"
+        },
+        "code" : "7203",
+        "rid" : "64_93440",
+        "leaf" : true
+      } ],
+      "code" : "EC",
+      "rid" : "64_93439",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Water"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of total water withdrawal"
+        },
+        "code" : "7222",
+        "rid" : "64_93442",
+        "leaf" : true
+      } ],
+      "code" : "EW",
+      "rid" : "64_93441",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Nutrient use on arable and permanent crop area"
+        },
+        "code" : "5159",
+        "rid" : "64_93444",
+        "leaf" : true
+      } ],
+      "code" : "EF",
+      "rid" : "64_93443",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Energy"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Bioenergy production as a % of total renewable energy production"
+        },
+        "code" : "72041",
+        "rid" : "64_93446",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Agriculture and forestry energy use as a % of total Energy use"
+        },
+        "code" : "72040",
+        "rid" : "64_93447",
+        "leaf" : true
+      } ],
+      "code" : "EE",
+      "rid" : "64_93445",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of Agricultural Area"
+        },
+        "code" : "7208",
+        "rid" : "64_93449",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "% annual change (Agricultural area)"
+        },
+        "code" : "7207",
+        "rid" : "64_93450",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of Land Area"
+        },
+        "code" : "7209",
+        "rid" : "64_93451",
+        "leaf" : true
+      } ],
+      "code" : "EL",
+      "rid" : "64_93448",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of Total Livestock"
+        },
+        "code" : "7211",
+        "rid" : "64_93453",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Livestock total per ha of agricultural area"
+        },
+        "code" : "7213",
+        "rid" : "64_93454",
+        "leaf" : true
+      } ],
+      "code" : "EK",
+      "rid" : "64_93452",
+      "leaf" : false
+    } ],
+    "code" : "E",
+    "rid" : "64_93434",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Forestry"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forestry Trade Flows"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5916",
+        "rid" : "64_93567",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5616",
+        "rid" : "64_93636",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "FT",
+      "rid" : "64_93563",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forestry Production and Trade"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5516",
+        "rid" : "64_93566",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5916",
+        "rid" : "64_93567",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5616",
+        "rid" : "64_93636",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "FO",
+      "rid" : "64_93565",
+      "leaf" : false
+    } ],
+    "code" : "F",
+    "rid" : "64_93564",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Food Balance"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Commodity Balances - Crops Primary Equivalent"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Seed"
+        },
+        "code" : "5525",
+        "rid" : "64_93531",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Other uses"
+        },
+        "code" : "5153",
+        "rid" : "64_93557",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Domestic supply quantity"
+        },
+        "code" : "5300",
+        "rid" : "64_93558",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (tonnes)"
+        },
+        "code" : "5141",
+        "rid" : "64_93559",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Processing"
+        },
+        "code" : "5130",
+        "rid" : "64_93560",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Waste"
+        },
+        "code" : "5120",
+        "rid" : "64_93561",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stock Variation"
+        },
+        "code" : "5071",
+        "rid" : "64_93562",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Feed"
+        },
+        "code" : "5520",
+        "rid" : "64_93637",
+        "leaf" : true
+      } ],
+      "code" : "BC",
+      "rid" : "64_93495",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Supply - Crops Primary Equivalent"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Both sexes"
+        },
+        "code" : "511",
+        "rid" : "64_93502",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Protein supply quantity (g/capita/day)"
+        },
+        "code" : "674",
+        "rid" : "64_93503",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (g/capita/day)"
+        },
+        "code" : "646",
+        "rid" : "64_93505",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Fat supply quantity (g/capita/day)"
+        },
+        "code" : "684",
+        "rid" : "64_93506",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (kg/capita/yr)"
+        },
+        "code" : "645",
+        "rid" : "64_93507",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply (kcal/capita/day)"
+        },
+        "code" : "664",
+        "rid" : "64_93508",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (tonnes)"
+        },
+        "code" : "641",
+        "rid" : "64_93509",
+        "leaf" : true
+      } ],
+      "code" : "CC",
+      "rid" : "64_93497",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Balance Sheets"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food"
+        },
+        "code" : "5142",
+        "rid" : "64_93499",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Domestic supply quantity"
+        },
+        "code" : "5301",
+        "rid" : "64_93500",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Other uses"
+        },
+        "code" : "5154",
+        "rid" : "64_93501",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Protein supply quantity (g/capita/day)"
+        },
+        "code" : "674",
+        "rid" : "64_93503",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Fat supply quantity (g/capita/day)"
+        },
+        "code" : "684",
+        "rid" : "64_93506",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5911",
+        "rid" : "64_93510",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (kg/capita/yr)"
+        },
+        "code" : "645",
+        "rid" : "64_93507",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply (kcal/capita/day)"
+        },
+        "code" : "664",
+        "rid" : "64_93508",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5611",
+        "rid" : "64_93511",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stock Variation"
+        },
+        "code" : "5072",
+        "rid" : "64_93512",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Feed"
+        },
+        "code" : "5521",
+        "rid" : "64_93513",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5511",
+        "rid" : "64_93514",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Both sexes"
+        },
+        "code" : "511",
+        "rid" : "64_93502",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Seed"
+        },
+        "code" : "5527",
+        "rid" : "64_93515",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Processing"
+        },
+        "code" : "5131",
+        "rid" : "64_93516",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Waste"
+        },
+        "code" : "5123",
+        "rid" : "64_93517",
+        "leaf" : true
+      } ],
+      "code" : "FBS",
+      "rid" : "64_93498",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Commodity Balances - Livestock and Fish Primary Equivalent"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Seed"
+        },
+        "code" : "5525",
+        "rid" : "64_93531",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Other uses"
+        },
+        "code" : "5153",
+        "rid" : "64_93557",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Domestic supply quantity"
+        },
+        "code" : "5300",
+        "rid" : "64_93558",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (tonnes)"
+        },
+        "code" : "5141",
+        "rid" : "64_93559",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Processing"
+        },
+        "code" : "5130",
+        "rid" : "64_93560",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Waste"
+        },
+        "code" : "5120",
+        "rid" : "64_93561",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stock Variation"
+        },
+        "code" : "5071",
+        "rid" : "64_93562",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Feed"
+        },
+        "code" : "5520",
+        "rid" : "64_93637",
+        "leaf" : true
+      } ],
+      "code" : "BL",
+      "rid" : "64_93530",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Supply - Livestock and Fish Primary Equivalent"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Both sexes"
+        },
+        "code" : "511",
+        "rid" : "64_93502",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Protein supply quantity (g/capita/day)"
+        },
+        "code" : "674",
+        "rid" : "64_93503",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (g/capita/day)"
+        },
+        "code" : "646",
+        "rid" : "64_93505",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Fat supply quantity (g/capita/day)"
+        },
+        "code" : "684",
+        "rid" : "64_93506",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (kg/capita/yr)"
+        },
+        "code" : "645",
+        "rid" : "64_93507",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply (kcal/capita/day)"
+        },
+        "code" : "664",
+        "rid" : "64_93508",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Food supply quantity (tonnes)"
+        },
+        "code" : "641",
+        "rid" : "64_93509",
+        "leaf" : true
+      } ],
+      "code" : "CL",
+      "rid" : "64_93504",
+      "leaf" : false
+    } ],
+    "code" : "FB",
+    "rid" : "64_93496",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Emissions - Agriculture"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Cultivation of Organic Soils"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Cultivation of organic soils)"
+        },
+        "code" : "72308",
+        "rid" : "64_93762",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Cultivation of organic soils)"
+        },
+        "code" : "72298",
+        "rid" : "64_93763",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Cultivation of organic soils)"
+        },
+        "code" : "72318",
+        "rid" : "64_93764",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area"
+        },
+        "code" : "5026",
+        "rid" : "64_93660",
+        "leaf" : true
+      } ],
+      "code" : "GV",
+      "rid" : "64_93466",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure applied to Soils"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content that leaches) (Manure applied)"
+        },
+        "code" : "723812",
+        "rid" : "64_93469",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content that volatilises) (Manure applied)"
+        },
+        "code" : "723811",
+        "rid" : "64_93470",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Manure applied)"
+        },
+        "code" : "72311",
+        "rid" : "64_93471",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq that volatilises) (Manure applied)"
+        },
+        "code" : "723711",
+        "rid" : "64_93472",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Manure applied)"
+        },
+        "code" : "72301",
+        "rid" : "64_93473",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content) (Manure applied)"
+        },
+        "code" : "72381",
+        "rid" : "64_93474",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq that leaches) (Manure applied)"
+        },
+        "code" : "723712",
+        "rid" : "64_93475",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq) (Manure applied)"
+        },
+        "code" : "72371",
+        "rid" : "64_93476",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O) (Manure applied)"
+        },
+        "code" : "72361",
+        "rid" : "64_93477",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (N2O) (Manure applied)"
+        },
+        "code" : "72341",
+        "rid" : "64_93478",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (CO2eq) (Manure applied)"
+        },
+        "code" : "72351",
+        "rid" : "64_93479",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Manure applied)"
+        },
+        "code" : "72291",
+        "rid" : "64_93480",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that leaches) (Manure applied)"
+        },
+        "code" : "723612",
+        "rid" : "64_93481",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that volatilises) (Manure applied)"
+        },
+        "code" : "723611",
+        "rid" : "64_93482",
+        "leaf" : true
+      } ],
+      "code" : "GU",
+      "rid" : "64_93468",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Enteric Fermentation"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Enteric)"
+        },
+        "code" : "72244",
+        "rid" : "64_93484",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Enteric)"
+        },
+        "code" : "72314",
+        "rid" : "64_93485",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stocks"
+        },
+        "code" : "5111",
+        "rid" : "64_93647",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Enteric)"
+        },
+        "code" : "72254",
+        "rid" : "64_93648",
+        "leaf" : true
+      } ],
+      "code" : "GE",
+      "rid" : "64_93483",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Agriculture Total"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4"
+        },
+        "code" : "7244",
+        "rid" : "64_93695",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O"
+        },
+        "code" : "7243",
+        "rid" : "64_93696",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq)"
+        },
+        "code" : "7231",
+        "rid" : "64_93699",
+        "leaf" : true
+      } ],
+      "code" : "GT",
+      "rid" : "64_93649",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Rice Cultivation"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area harvested"
+        },
+        "code" : "5312",
+        "rid" : "64_93534",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Rice cultivation)"
+        },
+        "code" : "72245",
+        "rid" : "64_93536",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Rice cultivation)"
+        },
+        "code" : "72255",
+        "rid" : "64_93537",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Rice cultivation)"
+        },
+        "code" : "72315",
+        "rid" : "64_93538",
+        "leaf" : true
+      } ],
+      "code" : "GR",
+      "rid" : "64_93535",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure left on Pasture"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that volatilises) (Manure on pasture)"
+        },
+        "code" : "723601",
+        "rid" : "64_93701",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that leaches) (Manure on pasture)"
+        },
+        "code" : "723602",
+        "rid" : "64_93702",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq) (Manure on pasture)"
+        },
+        "code" : "72370",
+        "rid" : "64_93703",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Manure on pasture)"
+        },
+        "code" : "72310",
+        "rid" : "64_93704",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content) (Manure on pasture)"
+        },
+        "code" : "72380",
+        "rid" : "64_93705",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content that volatilises) (Manure on pasture)"
+        },
+        "code" : "723801",
+        "rid" : "64_93706",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O) (Manure on pasture)"
+        },
+        "code" : "72360",
+        "rid" : "64_93707",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (N2O) (Manure on pasture)"
+        },
+        "code" : "72340",
+        "rid" : "64_93708",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content that leaches) (Manure on pasture)"
+        },
+        "code" : "723802",
+        "rid" : "64_93709",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (CO2eq) (Manure on pasture)"
+        },
+        "code" : "72350",
+        "rid" : "64_93710",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Manure on pasture)"
+        },
+        "code" : "72290",
+        "rid" : "64_93711",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Manure on pasture)"
+        },
+        "code" : "72300",
+        "rid" : "64_93712",
+        "leaf" : true
+      } ],
+      "code" : "GP",
+      "rid" : "64_93700",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crop Residues"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Residues (Crop residues)"
+        },
+        "code" : "72392",
+        "rid" : "64_93714",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Crop residues)"
+        },
+        "code" : "72292",
+        "rid" : "64_93715",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq) (Crop residues)"
+        },
+        "code" : "72372",
+        "rid" : "64_93716",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (N2O) (Crop residues)"
+        },
+        "code" : "72342",
+        "rid" : "64_93717",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Crop residues)"
+        },
+        "code" : "72312",
+        "rid" : "64_93718",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (CO2eq) (Crop residues)"
+        },
+        "code" : "72352",
+        "rid" : "64_93719",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O) (Crop residues)"
+        },
+        "code" : "72362",
+        "rid" : "64_93720",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Crop residues)"
+        },
+        "code" : "72302",
+        "rid" : "64_93721",
+        "leaf" : true
+      } ],
+      "code" : "GA",
+      "rid" : "64_93713",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Crop Residues"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4 (Burning crop residues)"
+        },
+        "code" : "72447",
+        "rid" : "64_93681",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Burning crop residues)"
+        },
+        "code" : "72257",
+        "rid" : "64_93682",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Burning crop residues)"
+        },
+        "code" : "72297",
+        "rid" : "64_93683",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O (Burning crop residues)"
+        },
+        "code" : "72437",
+        "rid" : "64_93684",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Biomass burned (dry matter)"
+        },
+        "code" : "7245",
+        "rid" : "64_93685",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Burning crop residues)"
+        },
+        "code" : "72247",
+        "rid" : "64_93686",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Burning crop residues)"
+        },
+        "code" : "72307",
+        "rid" : "64_93687",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Burning crop residues)"
+        },
+        "code" : "72317",
+        "rid" : "64_93688",
+        "leaf" : true
+      } ],
+      "code" : "GB",
+      "rid" : "64_93680",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Energy Use"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CO2"
+        },
+        "code" : "719509",
+        "rid" : "64_93723",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Energy)"
+        },
+        "code" : "723110",
+        "rid" : "64_93724",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O (Energy)"
+        },
+        "code" : "724310",
+        "rid" : "64_93725",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4 (Energy)"
+        },
+        "code" : "724410",
+        "rid" : "64_93726",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4"
+        },
+        "code" : "719610",
+        "rid" : "64_93727",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2) (Energy)"
+        },
+        "code" : "719410",
+        "rid" : "64_93728",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O"
+        },
+        "code" : "719710",
+        "rid" : "64_93729",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption in Agriculture"
+        },
+        "code" : "72182",
+        "rid" : "64_93730",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Energy)"
+        },
+        "code" : "723010",
+        "rid" : "64_93731",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Energy)"
+        },
+        "code" : "722510",
+        "rid" : "64_93732",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption in Agriculture"
+        },
+        "code" : "72184",
+        "rid" : "64_93733",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CO2"
+        },
+        "code" : "719510",
+        "rid" : "64_93734",
+        "leaf" : true
+      } ],
+      "code" : "GN",
+      "rid" : "64_93722",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure Management"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Manure (N content) (Manure management)"
+        },
+        "code" : "72386",
+        "rid" : "64_93736",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (CO2eq) (Manure management)"
+        },
+        "code" : "72356",
+        "rid" : "64_93737",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O) (Manure management)"
+        },
+        "code" : "72366",
+        "rid" : "64_93738",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq) (Manure management)"
+        },
+        "code" : "72376",
+        "rid" : "64_93739",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4 (Manure management)"
+        },
+        "code" : "72446",
+        "rid" : "64_93740",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (N2O) (Manure management)"
+        },
+        "code" : "72346",
+        "rid" : "64_93741",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Manure management)"
+        },
+        "code" : "72256",
+        "rid" : "64_93742",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Manure management)"
+        },
+        "code" : "72296",
+        "rid" : "64_93743",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O (Manure management)"
+        },
+        "code" : "72436",
+        "rid" : "64_93744",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Manure management)"
+        },
+        "code" : "72246",
+        "rid" : "64_93745",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Manure management)"
+        },
+        "code" : "72306",
+        "rid" : "64_93746",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Manure management)"
+        },
+        "code" : "72316",
+        "rid" : "64_93747",
+        "leaf" : true
+      } ],
+      "code" : "GM",
+      "rid" : "64_93735",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Synthetic Fertilizers"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (CO2eq) (Synthetic fertilizers)"
+        },
+        "code" : "72373",
+        "rid" : "64_93749",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Synthetic fertilizers)"
+        },
+        "code" : "72293",
+        "rid" : "64_93750",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Nitrogen fertilizer content applied that volatilises"
+        },
+        "code" : "516201",
+        "rid" : "64_93751",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption in nutrients"
+        },
+        "code" : "5162",
+        "rid" : "64_93752",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Nitrogen fertilizer content applied that leaches"
+        },
+        "code" : "516202",
+        "rid" : "64_93753",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption"
+        },
+        "code" : "5163",
+        "rid" : "64_93754",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Synthetic fertilizers)"
+        },
+        "code" : "72313",
+        "rid" : "64_93755",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (N2O) (Synthetic fertilizers)"
+        },
+        "code" : "72343",
+        "rid" : "64_93756",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that leaches) (Synthetic fertilizers)"
+        },
+        "code" : "723632",
+        "rid" : "64_93757",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O that volatilises) (Synthetic fertilizers)"
+        },
+        "code" : "723631",
+        "rid" : "64_93758",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Synthetic fertilizers)"
+        },
+        "code" : "72303",
+        "rid" : "64_93759",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Direct emissions (CO2eq) (Synthetic fertilizers)"
+        },
+        "code" : "72353",
+        "rid" : "64_93760",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Indirect emissions (N2O) (Synthetic fertilizers)"
+        },
+        "code" : "72363",
+        "rid" : "64_93761",
+        "leaf" : true
+      } ],
+      "code" : "GY",
+      "rid" : "64_93748",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Savanna"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Burning - savanna)"
+        },
+        "code" : "72319",
+        "rid" : "64_93673",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Burning - savanna)"
+        },
+        "code" : "72309",
+        "rid" : "64_93674",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Burning - savanna)"
+        },
+        "code" : "72299",
+        "rid" : "64_93675",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O (Burning - savanna)"
+        },
+        "code" : "72439",
+        "rid" : "64_93676",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4 (Burning - savanna)"
+        },
+        "code" : "72449",
+        "rid" : "64_93677",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Burning - savanna)"
+        },
+        "code" : "72259",
+        "rid" : "64_93678",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Burned Area"
+        },
+        "code" : "7246",
+        "rid" : "64_93679",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Biomass burned (dry matter)"
+        },
+        "code" : "7245",
+        "rid" : "64_93685",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Burning - savanna)"
+        },
+        "code" : "72249",
+        "rid" : "64_93689",
+        "leaf" : true
+      } ],
+      "code" : "GH",
+      "rid" : "64_93672",
+      "leaf" : false
+    } ],
+    "code" : "G1",
+    "rid" : "64_93467",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Emissions - Land Use"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Cropland"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net stock change (C) (Cropland)"
+        },
+        "code" : "72160",
+        "rid" : "64_93652",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removal (CO2eq) (Cropland)"
+        },
+        "code" : "72170",
+        "rid" : "64_93653",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for C (Cropland)"
+        },
+        "code" : "72410",
+        "rid" : "64_93654",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removals (CO2) (Cropland)"
+        },
+        "code" : "72330",
+        "rid" : "64_93655",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area"
+        },
+        "code" : "5026",
+        "rid" : "64_93660",
+        "leaf" : true
+      } ],
+      "code" : "GC",
+      "rid" : "64_93651",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forest Land"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CO2"
+        },
+        "code" : "71952",
+        "rid" : "64_93657",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removals (CO2) (Forest land)"
+        },
+        "code" : "72172",
+        "rid" : "64_93658",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removal (CO2eq) (Forest land)"
+        },
+        "code" : "72332",
+        "rid" : "64_93659",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area"
+        },
+        "code" : "5026",
+        "rid" : "64_93660",
+        "leaf" : true
+      } ],
+      "code" : "GF",
+      "rid" : "64_93656",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land Use Total"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4"
+        },
+        "code" : "7244",
+        "rid" : "64_93695",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O"
+        },
+        "code" : "7243",
+        "rid" : "64_93696",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removals (CO2eq)"
+        },
+        "code" : "7217",
+        "rid" : "64_93697",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removals (CO2)"
+        },
+        "code" : "7233",
+        "rid" : "64_93698",
+        "leaf" : true
+      } ],
+      "code" : "GL",
+      "rid" : "64_93666",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Biomass"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) (Burning biomass)"
+        },
+        "code" : "723111",
+        "rid" : "64_93668",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from CH4 (Burning biomass)"
+        },
+        "code" : "724411",
+        "rid" : "64_93669",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (N2O) (Burning biomass)"
+        },
+        "code" : "723011",
+        "rid" : "64_93670",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2) (Burning biomass)"
+        },
+        "code" : "719411",
+        "rid" : "64_93671",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Burned Area"
+        },
+        "code" : "7246",
+        "rid" : "64_93679",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CO2eq) from N2O (Burning biomass)"
+        },
+        "code" : "724311",
+        "rid" : "64_93690",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Biomass burned (dry matter)"
+        },
+        "code" : "7245",
+        "rid" : "64_93685",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Emissions (CH4) (Burning biomass)"
+        },
+        "code" : "722511",
+        "rid" : "64_93691",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for N2O (Burning biomass)"
+        },
+        "code" : "722911",
+        "rid" : "64_93692",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CH4 (Burning biomass)"
+        },
+        "code" : "722411",
+        "rid" : "64_93693",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for CO2"
+        },
+        "code" : "719511",
+        "rid" : "64_93694",
+        "leaf" : true
+      } ],
+      "code" : "GI",
+      "rid" : "64_93667",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Grassland"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net stock change (C) (Grassland)"
+        },
+        "code" : "72161",
+        "rid" : "64_93662",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Implied emission factor for C (Grassland)"
+        },
+        "code" : "72411",
+        "rid" : "64_93663",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removals (CO2) (Grassland)"
+        },
+        "code" : "72331",
+        "rid" : "64_93664",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net emissions/removal (CO2eq) (Grassland)"
+        },
+        "code" : "72171",
+        "rid" : "64_93665",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area"
+        },
+        "code" : "5026",
+        "rid" : "64_93660",
+        "leaf" : true
+      } ],
+      "code" : "GG",
+      "rid" : "64_93661",
+      "leaf" : false
+    } ],
+    "code" : "G2",
+    "rid" : "64_93650",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Investment"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Machinery Archive"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "In Use"
+        },
+        "code" : "5116",
+        "rid" : "64_93614",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5907",
+        "rid" : "64_93615",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5607",
+        "rid" : "64_93618",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "RY",
+      "rid" : "64_93591",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Capital Stock"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Capital Stock (constant 2005 prices)"
+        },
+        "code" : "6115",
+        "rid" : "64_93594",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net Capital Stock (constant 2005 prices)"
+        },
+        "code" : "6116",
+        "rid" : "64_93595",
+        "leaf" : true
+      } ],
+      "code" : "CS",
+      "rid" : "64_93593",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Credit to Agriculture"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$"
+        },
+        "code" : "6110",
+        "rid" : "64_93597",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Agriculture orientation index"
+        },
+        "code" : "6112",
+        "rid" : "64_93600",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Share of Total Credit"
+        },
+        "code" : "6113",
+        "rid" : "64_93612",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value Local Currency"
+        },
+        "code" : "6109",
+        "rid" : "64_93611",
+        "leaf" : true
+      } ],
+      "code" : "IC",
+      "rid" : "64_93596",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Machinery"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "In Use"
+        },
+        "code" : "5116",
+        "rid" : "64_93614",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5907",
+        "rid" : "64_93615",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5607",
+        "rid" : "64_93618",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "RM",
+      "rid" : "64_93613",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Government Expenditure"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$"
+        },
+        "code" : "6110",
+        "rid" : "64_93597",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "% of Total Outlays"
+        },
+        "code" : "6111",
+        "rid" : "64_93599",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Agriculture orientation index"
+        },
+        "code" : "6112",
+        "rid" : "64_93600",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value Local Currency"
+        },
+        "code" : "6109",
+        "rid" : "64_93611",
+        "leaf" : true
+      } ],
+      "code" : "IG",
+      "rid" : "64_93598",
+      "leaf" : false
+    } ],
+    "code" : "I",
+    "rid" : "64_93592",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Macro-Statistics"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Key Indicators"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$"
+        },
+        "code" : "6110",
+        "rid" : "64_93597",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value Local Currency, 2005 prices"
+        },
+        "code" : "6114",
+        "rid" : "64_93603",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Annual growth, 2005 prices"
+        },
+        "code" : "6131",
+        "rid" : "64_93604",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$, 2005 prices"
+        },
+        "code" : "6108",
+        "rid" : "64_93605",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Share of GDP, 2005 prices"
+        },
+        "code" : "6117",
+        "rid" : "64_93606",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$"
+        },
+        "code" : "6119",
+        "rid" : "64_93607",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value US$, 2005 prices"
+        },
+        "code" : "6118",
+        "rid" : "64_93608",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Share of GDP"
+        },
+        "code" : "6103",
+        "rid" : "64_93609",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Annual growth"
+        },
+        "code" : "6129",
+        "rid" : "64_93610",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Value Local Currency"
+        },
+        "code" : "6109",
+        "rid" : "64_93611",
+        "leaf" : true
+      } ],
+      "code" : "MK",
+      "rid" : "64_93601",
+      "leaf" : false
+    } ],
+    "code" : "M",
+    "rid" : "64_93602",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Population"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Annual population"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Female"
+        },
+        "code" : "513",
+        "rid" : "64_93520",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total economically active population in Agr"
+        },
+        "code" : "601",
+        "rid" : "64_93521",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Male"
+        },
+        "code" : "512",
+        "rid" : "64_93522",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total Population - Both sexes"
+        },
+        "code" : "511",
+        "rid" : "64_93502",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Urban population"
+        },
+        "code" : "561",
+        "rid" : "64_93523",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Total economically active population"
+        },
+        "code" : "591",
+        "rid" : "64_93524",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Male economically active population"
+        },
+        "code" : "592",
+        "rid" : "64_93525",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Female economically active population in Agr"
+        },
+        "code" : "603",
+        "rid" : "64_93526",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Rural population"
+        },
+        "code" : "551",
+        "rid" : "64_93527",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Male economically active population in Agr"
+        },
+        "code" : "602",
+        "rid" : "64_93528",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Female economically active population"
+        },
+        "code" : "593",
+        "rid" : "64_93529",
+        "leaf" : true
+      } ],
+      "code" : "OA",
+      "rid" : "64_93518",
+      "leaf" : false
+    } ],
+    "code" : "O",
+    "rid" : "64_93519",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Prices"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Monthly"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "March"
+        },
+        "code" : "7003",
+        "rid" : "64_93784",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "April"
+        },
+        "code" : "7004",
+        "rid" : "64_93785",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "May"
+        },
+        "code" : "7005",
+        "rid" : "64_93786",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "June"
+        },
+        "code" : "7006",
+        "rid" : "64_93787",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "December"
+        },
+        "code" : "7012",
+        "rid" : "64_93788",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "October"
+        },
+        "code" : "7010",
+        "rid" : "64_93789",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "January"
+        },
+        "code" : "7001",
+        "rid" : "64_93790",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "November"
+        },
+        "code" : "7011",
+        "rid" : "64_93791",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "February"
+        },
+        "code" : "7002",
+        "rid" : "64_93792",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "September"
+        },
+        "code" : "7009",
+        "rid" : "64_93793",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "August"
+        },
+        "code" : "7008",
+        "rid" : "64_93794",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "July"
+        },
+        "code" : "7007",
+        "rid" : "64_93795",
+        "leaf" : true
+      } ],
+      "code" : "PM",
+      "rid" : "64_93775",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Annual"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producer Price (SLC/tonne)"
+        },
+        "code" : "5531",
+        "rid" : "64_93778",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producer Price (USD/tonne)"
+        },
+        "code" : "5532",
+        "rid" : "64_93779",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producer Price (LCU/tonne)"
+        },
+        "code" : "5530",
+        "rid" : "64_93780",
+        "leaf" : true
+      } ],
+      "code" : "PP",
+      "rid" : "64_93777",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Price Indices - Annual"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producer Price Index (2004-2006 = 100)"
+        },
+        "code" : "5539",
+        "rid" : "64_93783",
+        "leaf" : true
+      } ],
+      "code" : "PI",
+      "rid" : "64_93782",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Archive"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producer Price (LCU/tonne)"
+        },
+        "code" : "5530",
+        "rid" : "64_93780",
+        "leaf" : true
+      } ],
+      "code" : "PA",
+      "rid" : "64_93781",
+      "leaf" : false
+    } ],
+    "code" : "P",
+    "rid" : "64_93776",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Production"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Value of Agricultural Production"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Value (constant 2004-2006 1000 I$)"
+        },
+        "code" : "152",
+        "rid" : "64_93488",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Value (constant 2004-2006 million US$)"
+        },
+        "code" : "58",
+        "rid" : "64_93489",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Value (current million US$)"
+        },
+        "code" : "57",
+        "rid" : "64_93490",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Value (current million SLC)"
+        },
+        "code" : "56",
+        "rid" : "64_93491",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Value (constant 2004-2006 million SLC)"
+        },
+        "code" : "55",
+        "rid" : "64_93492",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net Production Value (constant 2004-2006 1000 I$)"
+        },
+        "code" : "154",
+        "rid" : "64_93493",
+        "leaf" : true
+      } ],
+      "code" : "QV",
+      "rid" : "64_93487",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Live Animals"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stocks"
+        },
+        "code" : "5114",
+        "rid" : "64_93645",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stocks"
+        },
+        "code" : "5112",
+        "rid" : "64_93646",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Stocks"
+        },
+        "code" : "5111",
+        "rid" : "64_93647",
+        "leaf" : true
+      } ],
+      "code" : "QA",
+      "rid" : "64_93494",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops processed"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      } ],
+      "code" : "QD",
+      "rid" : "64_93638",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Seed"
+        },
+        "code" : "5525",
+        "rid" : "64_93531",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield"
+        },
+        "code" : "5419",
+        "rid" : "64_93533",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area harvested"
+        },
+        "code" : "5312",
+        "rid" : "64_93534",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Extraction Rate"
+        },
+        "code" : "5423",
+        "rid" : "64_93542",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      } ],
+      "code" : "QC",
+      "rid" : "64_93532",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock Processed"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      } ],
+      "code" : "QP",
+      "rid" : "64_93639",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Production Indices"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net Production Index Number (2004-2006 = 100)"
+        },
+        "code" : "436",
+        "rid" : "64_93641",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross per capita Production Index Number (2004-2006 = 100)"
+        },
+        "code" : "434",
+        "rid" : "64_93642",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Gross Production Index Number (2004-2006 = 100)"
+        },
+        "code" : "432",
+        "rid" : "64_93643",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Net per capita Production Index Number (2004-2006 = 100)"
+        },
+        "code" : "438",
+        "rid" : "64_93644",
+        "leaf" : true
+      } ],
+      "code" : "QI",
+      "rid" : "64_93640",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock Primary"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield/Carcass Weight"
+        },
+        "code" : "5417",
+        "rid" : "64_93540",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield"
+        },
+        "code" : "5410",
+        "rid" : "64_93541",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Extraction Rate"
+        },
+        "code" : "5423",
+        "rid" : "64_93542",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producing Animals/Slaughtered"
+        },
+        "code" : "5320",
+        "rid" : "64_93543",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield/Carcass Weight"
+        },
+        "code" : "5424",
+        "rid" : "64_93544",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Producing Animals/Slaughtered"
+        },
+        "code" : "5321",
+        "rid" : "64_93545",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5322",
+        "rid" : "64_93546",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield"
+        },
+        "code" : "5413",
+        "rid" : "64_93547",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5323",
+        "rid" : "64_93548",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5513",
+        "rid" : "64_93550",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield"
+        },
+        "code" : "5422",
+        "rid" : "64_93551",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Prod Popultn"
+        },
+        "code" : "5314",
+        "rid" : "64_93552",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Laying"
+        },
+        "code" : "5313",
+        "rid" : "64_93553",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Yield"
+        },
+        "code" : "5420",
+        "rid" : "64_93554",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Milk Animals"
+        },
+        "code" : "5318",
+        "rid" : "64_93555",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Prod Popultn"
+        },
+        "code" : "5319",
+        "rid" : "64_93556",
+        "leaf" : true
+      } ],
+      "code" : "QL",
+      "rid" : "64_93539",
+      "leaf" : false
+    } ],
+    "code" : "Q",
+    "rid" : "64_93486",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Inputs"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides (trade)"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5600",
+        "rid" : "64_93634",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5900",
+        "rid" : "64_93635",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "RT",
+      "rid" : "64_93568",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption in nutrients"
+        },
+        "code" : "5155",
+        "rid" : "64_93571",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production Quantity in nutrients"
+        },
+        "code" : "5515",
+        "rid" : "64_93572",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity in nutrients"
+        },
+        "code" : "5915",
+        "rid" : "64_93573",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption"
+        },
+        "code" : "5157",
+        "rid" : "64_93574",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity in nutrients"
+        },
+        "code" : "5615",
+        "rid" : "64_93627",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Non-fertilizer use in nutrients"
+        },
+        "code" : "5849",
+        "rid" : "64_93628",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Non-fertilizer use"
+        },
+        "code" : "5850",
+        "rid" : "64_93629",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      } ],
+      "code" : "RF",
+      "rid" : "64_93570",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers - Trade Value"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "RV",
+      "rid" : "64_93620",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides (use)"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Use"
+        },
+        "code" : "5161",
+        "rid" : "64_93631",
+        "leaf" : true
+      } ],
+      "code" : "RP",
+      "rid" : "64_93630",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers archive"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Consumption"
+        },
+        "code" : "5157",
+        "rid" : "64_93574",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Prices Paid by Farmers"
+        },
+        "code" : "5751",
+        "rid" : "64_93576",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Production"
+        },
+        "code" : "5510",
+        "rid" : "64_93549",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      } ],
+      "code" : "RA",
+      "rid" : "64_93575",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Area"
+        },
+        "code" : "5110",
+        "rid" : "64_93633",
+        "leaf" : true
+      } ],
+      "code" : "RL",
+      "rid" : "64_93632",
+      "leaf" : false
+    } ],
+    "code" : "R",
+    "rid" : "64_93569",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Trade"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Trade Indices"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value Index (2004-2006 = 100)"
+        },
+        "code" : "462",
+        "rid" : "64_93580",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value Index (2004-2006 = 100)"
+        },
+        "code" : "492",
+        "rid" : "64_93581",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Unit/Value Index (2004-2006 = 100)"
+        },
+        "code" : "464",
+        "rid" : "64_93582",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity Index (2004-2006 = 100)"
+        },
+        "code" : "465",
+        "rid" : "64_93583",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value Base Price"
+        },
+        "code" : "95",
+        "rid" : "64_93584",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Unit/Value Index (2004-2006 = 100)"
+        },
+        "code" : "494",
+        "rid" : "64_93585",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value Base Quantity"
+        },
+        "code" : "94",
+        "rid" : "64_93586",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value Base Period Quantity"
+        },
+        "code" : "64",
+        "rid" : "64_93587",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value Base Period Price"
+        },
+        "code" : "65",
+        "rid" : "64_93588",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity Index (2004-2006 = 100)"
+        },
+        "code" : "495",
+        "rid" : "64_93589",
+        "leaf" : true
+      } ],
+      "code" : "TI",
+      "rid" : "64_93579",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Detailed trade matrix"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5907",
+        "rid" : "64_93615",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5908",
+        "rid" : "64_93623",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5909",
+        "rid" : "64_93624",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5609",
+        "rid" : "64_93625",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5607",
+        "rid" : "64_93618",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5608",
+        "rid" : "64_93626",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "TM",
+      "rid" : "64_93590",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Live animals"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5907",
+        "rid" : "64_93615",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5908",
+        "rid" : "64_93623",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5909",
+        "rid" : "64_93624",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5609",
+        "rid" : "64_93625",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5607",
+        "rid" : "64_93618",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5608",
+        "rid" : "64_93626",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "TA",
+      "rid" : "64_93617",
+      "leaf" : false
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops and livestock products"
+      },
+      "children" : [ {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Value"
+        },
+        "code" : "5922",
+        "rid" : "64_93616",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Quantity"
+        },
+        "code" : "5610",
+        "rid" : "64_93577",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Export Quantity"
+        },
+        "code" : "5910",
+        "rid" : "64_93621",
+        "leaf" : true
+      }, {
+        "level" : 3,
+        "title" : {
+          "EN" : "Import Value"
+        },
+        "code" : "5622",
+        "rid" : "64_93619",
+        "leaf" : true
+      } ],
+      "code" : "TP",
+      "rid" : "64_93622",
+      "leaf" : false
+    } ],
+    "code" : "T",
+    "rid" : "64_93578",
+    "leaf" : false
+  } ],
+  "size" : 363
+}
