@@ -129,6 +129,7 @@ public abstract class DefaultStorage extends H2Database {
         }
     }
 
+    private static final int MAX_PAGE_SIZE = 100000;
 
     @Override
     public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, Table... tables) throws Exception {
@@ -138,13 +139,11 @@ public abstract class DefaultStorage extends H2Database {
         //Select data
         if (tables!=null && tables.length>0)
             try {
-                for (Table structure : tables) {
-                    ResultSet resultSet = load(connection, ordering, pagination, filter, structure);
-                    if (resultSet!=null) {
+                for (Table structure : tables)
+                    for (ResultSet resultSet : load(connection, ordering, pagination, filter, structure)) {
                         data.add(resultSet);
                         defaults.add(structure.getNoDataValues());
                     }
-                }
             } catch (Exception ex) {
                 if (!connection.isClosed())
                     connection.close();
@@ -154,21 +153,28 @@ public abstract class DefaultStorage extends H2Database {
         return data.size()>0 ? new DataIterator(data,connection,10000l,defaults) : null;
     }
 
-    private ResultSet load(Connection connection, Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
+    private Collection<ResultSet> load(Connection connection, Order ordering, Page pagination, DataFilter filter, Table table) throws Exception {
         //Check table
         StoreStatus status = loadMetadata(table!=null ? table.getTableName() : null);
         if (status==null || status.getStatus()==StoreStatus.Status.incomplete)
             return null;
-        //Create query
-        Collection<Object> params = new LinkedList<>();
-        String query = createFilterQuery(ordering, pagination, filter, table, params, false);
-        //Execute query
-        PreparedStatement statement = connection.prepareStatement(query.toString());
-        int i=1;
-        for (Object param : params)
-            statement.setObject(i++, param);
-        //Return data
-        return statement.executeQuery();
+
+        int size = pagination!=null && pagination.getLength()<Integer.MAX_VALUE && pagination.getLength()>0 ? pagination.getLength() : status.getCount().intValue();
+
+        Collection<ResultSet> resultList = new LinkedList<>();
+        for (int skip = pagination.getSkip(), length = size>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size; length>0; length = (size-=MAX_PAGE_SIZE)>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size, skip+=MAX_PAGE_SIZE) {
+            //Create query
+            Collection<Object> params = new LinkedList<>();
+            String query = createFilterQuery(ordering, new Page(skip,length), filter, table, params, false);
+            //Execute query
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+            int i=1;
+            for (Object param : params)
+                statement.setObject(i++, param);
+            //Return data
+            resultList.add(statement.executeQuery());
+        }
+        return resultList;
     }
 
     @Override

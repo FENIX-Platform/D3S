@@ -16,13 +16,14 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     private String resourceId;
     private java.util.Iterator<Object[]> source;
     private ScheduledExecutorService timeoutExecutor;
+    private long lastActionTime;
 
     public void init(String resourceId, java.util.Iterator<Object[]> source, boolean timeout) {
         this.resourceId = resourceId;
         this.source = source;
 
         if (timeout)
-            (timeoutExecutor = Executors.newSingleThreadScheduledExecutor()).schedule(this, DEFAULT_TIMEOUT_SECS, TimeUnit.SECONDS);
+            (timeoutExecutor = Executors.newSingleThreadScheduledExecutor()).scheduleWithFixedDelay(this, DEFAULT_TIMEOUT_SECS, DEFAULT_TIMEOUT_SECS, TimeUnit.SECONDS);
     }
 
 
@@ -31,6 +32,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public boolean hasNext() {
         if (timeout)
             throw new RuntimeException(new InterruptedException());
+        lastActionTime = System.currentTimeMillis();
 
         boolean hasNext = source.hasNext();
         if (!hasNext)
@@ -43,6 +45,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public Object[] next() {
         if (timeout)
             throw new RuntimeException(new InterruptedException());
+        lastActionTime = System.currentTimeMillis();
 
         Object[] next = source.next();
         if (next==null)
@@ -55,6 +58,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public void remove() {
         if (timeout)
             throw new RuntimeException(new InterruptedException());
+        lastActionTime = System.currentTimeMillis();
 
         source.remove();
     }
@@ -63,6 +67,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public void skip(long amount) {
         if (timeout)
             throw new RuntimeException(new InterruptedException());
+        lastActionTime = System.currentTimeMillis();
 
         if (source instanceof Iterator)
             ((Iterator)source).skip(amount);
@@ -74,6 +79,7 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
     public long getIndex() {
         if (timeout)
             throw new RuntimeException(new InterruptedException());
+        lastActionTime = System.currentTimeMillis();
 
         if (source instanceof Iterator)
             return ((Iterator)source).getIndex();
@@ -85,9 +91,11 @@ public class MonitorIterator implements Iterator<Object[]>, Runnable {
 
     @Override
     public void run() {
-        close();
-        timeout = true;
-        timeoutExecutor.shutdown();
+        if ( (System.currentTimeMillis()-lastActionTime) > (DEFAULT_TIMEOUT_SECS*1000) ) {
+            close();
+            timeout = true;
+            timeoutExecutor.shutdown();
+        }
     }
 
 

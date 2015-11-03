@@ -1,0 +1,716 @@
+{
+  "metadata" : {
+    "creationDate" : 1441272636921,
+    "language" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "title" : {
+      "EN" : "FAOSTAT Groups and Domains"
+    },
+    "dsd" : {
+      "contextSystem" : "FAOSTAT"
+    },
+    "meContent" : {
+      "resourceRepresentationType" : "codelist",
+      "keywords" : [ "group", "domain" ],
+      "seCoverage" : {
+        "coverageSectors" : {
+          "codes" : [ { } ]
+        }
+      },
+      "seCodeList" : {
+        "numberOfLevels" : 2,
+        "typeOfCodeList" : "list"
+      }
+    },
+    "uid" : "FAOSTAT_GroupDomain",
+    "characterSet" : {
+      "codes" : [ {
+        "code" : "106"
+      } ],
+      "idCodeList" : "IANAcharacterSet"
+    },
+    "metadataStandardName" : "FENIX metadata",
+    "contacts" : [ {
+      "organization" : {
+        "EN" : "FAO"
+      },
+      "role" : "distributor",
+      "contactInfo" : { },
+      "organizationUnit" : {
+        "EN" : "ESS-FAOSTAT"
+      }
+    } ],
+    "metadataStandardVersion" : "1.0",
+    "metadataLanguage" : {
+      "version" : "1998",
+      "codes" : [ {
+        "code" : "eng"
+      } ],
+      "idCodeList" : "ISO639-2"
+    },
+    "meAccessibility" : {
+      "seDataDissemination" : {
+        "seDistribution" : { }
+      },
+      "seConfidentiality" : {
+        "confidentialityStatus" : {
+          "version" : "1.0",
+          "codes" : [ {
+            "code" : "F"
+          } ],
+          "idCodeList" : "CL_CONF_STATUS"
+        }
+      }
+    },
+    "meMaintenance" : {
+      "seUpdate" : {
+        "updateDate" : 1441272636921
+      }
+    }
+  },
+  "data" : [ {
+    "level" : 1,
+    "title" : {
+      "EN" : "ASTI R&D Indicators"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Researchers by Gender and Degree Level"
+      },
+      "code" : "AR",
+      "rid" : "64_93364",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Researchers by Agency Type"
+      },
+      "code" : "AA",
+      "rid" : "64_93366",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "ASTI-Expenditures"
+      },
+      "code" : "AE",
+      "rid" : "64_93367",
+      "leaf" : true
+    } ],
+    "code" : "AS",
+    "rid" : "64_93365",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Food Security"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Suite of Food Security Indicators"
+      },
+      "code" : "FS",
+      "rid" : "64_93393",
+      "leaf" : true
+    } ],
+    "code" : "D",
+    "rid" : "64_93394",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Agri-Environmental Indicators"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides"
+      },
+      "code" : "EP",
+      "rid" : "64_93355",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Soil"
+      },
+      "code" : "ES",
+      "rid" : "64_93357",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Air and climate change"
+      },
+      "code" : "EC",
+      "rid" : "64_93358",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Water"
+      },
+      "code" : "EW",
+      "rid" : "64_93359",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers"
+      },
+      "code" : "EF",
+      "rid" : "64_93360",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Energy"
+      },
+      "code" : "EE",
+      "rid" : "64_93361",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land"
+      },
+      "code" : "EL",
+      "rid" : "64_93362",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock"
+      },
+      "code" : "EK",
+      "rid" : "64_93363",
+      "leaf" : true
+    } ],
+    "code" : "E",
+    "rid" : "64_93356",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Forestry"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forestry Trade Flows"
+      },
+      "code" : "FT",
+      "rid" : "64_93395",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forestry Production and Trade"
+      },
+      "code" : "FO",
+      "rid" : "64_93397",
+      "leaf" : true
+    } ],
+    "code" : "F",
+    "rid" : "64_93396",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Food Balance"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Commodity Balances - Crops Primary Equivalent"
+      },
+      "code" : "BC",
+      "rid" : "64_93387",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Supply - Crops Primary Equivalent"
+      },
+      "code" : "CC",
+      "rid" : "64_93389",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Balance Sheets"
+      },
+      "code" : "FBS",
+      "rid" : "64_93390",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Commodity Balances - Livestock and Fish Primary Equivalent"
+      },
+      "code" : "BL",
+      "rid" : "64_93391",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Food Supply - Livestock and Fish Primary Equivalent"
+      },
+      "code" : "CL",
+      "rid" : "64_93392",
+      "leaf" : true
+    } ],
+    "code" : "FB",
+    "rid" : "64_93388",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Emissions - Agriculture"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Cultivation of Organic Soils"
+      },
+      "code" : "GV",
+      "rid" : "64_93368",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure applied to Soils"
+      },
+      "code" : "GU",
+      "rid" : "64_93370",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Enteric Fermentation"
+      },
+      "code" : "GE",
+      "rid" : "64_93371",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Agriculture Total"
+      },
+      "code" : "GT",
+      "rid" : "64_93372",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Rice Cultivation"
+      },
+      "code" : "GR",
+      "rid" : "64_93373",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure left on Pasture"
+      },
+      "code" : "GP",
+      "rid" : "64_93374",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crop Residues"
+      },
+      "code" : "GA",
+      "rid" : "64_93375",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Crop Residues"
+      },
+      "code" : "GB",
+      "rid" : "64_93376",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Energy Use"
+      },
+      "code" : "GN",
+      "rid" : "64_93377",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Manure Management"
+      },
+      "code" : "GM",
+      "rid" : "64_93378",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Synthetic Fertilizers"
+      },
+      "code" : "GY",
+      "rid" : "64_93379",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Savanna"
+      },
+      "code" : "GH",
+      "rid" : "64_93380",
+      "leaf" : true
+    } ],
+    "code" : "G1",
+    "rid" : "64_93369",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Emissions - Land Use"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Cropland"
+      },
+      "code" : "GC",
+      "rid" : "64_93381",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Forest Land"
+      },
+      "code" : "GF",
+      "rid" : "64_93383",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land Use Total"
+      },
+      "code" : "GL",
+      "rid" : "64_93384",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Burning - Biomass"
+      },
+      "code" : "GI",
+      "rid" : "64_93385",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Grassland"
+      },
+      "code" : "GG",
+      "rid" : "64_93386",
+      "leaf" : true
+    } ],
+    "code" : "G2",
+    "rid" : "64_93382",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Investment"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Machinery Archive"
+      },
+      "code" : "RY",
+      "rid" : "64_93405",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Capital Stock"
+      },
+      "code" : "CS",
+      "rid" : "64_93407",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Credit to Agriculture"
+      },
+      "code" : "IC",
+      "rid" : "64_93408",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Machinery"
+      },
+      "code" : "RM",
+      "rid" : "64_93409",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Government Expenditure"
+      },
+      "code" : "IG",
+      "rid" : "64_93410",
+      "leaf" : true
+    } ],
+    "code" : "I",
+    "rid" : "64_93406",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Macro-Statistics"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Key Indicators"
+      },
+      "code" : "MK",
+      "rid" : "64_93411",
+      "leaf" : true
+    } ],
+    "code" : "M",
+    "rid" : "64_93412",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Population"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Annual population"
+      },
+      "code" : "OA",
+      "rid" : "64_93413",
+      "leaf" : true
+    } ],
+    "code" : "O",
+    "rid" : "64_93414",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Prices"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Monthly"
+      },
+      "code" : "PM",
+      "rid" : "64_93415",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Annual"
+      },
+      "code" : "PP",
+      "rid" : "64_93417",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Price Indices - Annual"
+      },
+      "code" : "PI",
+      "rid" : "64_93418",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Producer Prices - Archive"
+      },
+      "code" : "PA",
+      "rid" : "64_93419",
+      "leaf" : true
+    } ],
+    "code" : "P",
+    "rid" : "64_93416",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Production"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Value of Agricultural Production"
+      },
+      "code" : "QV",
+      "rid" : "64_93420",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Live Animals"
+      },
+      "code" : "QA",
+      "rid" : "64_93422",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops processed"
+      },
+      "code" : "QD",
+      "rid" : "64_93423",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops"
+      },
+      "code" : "QC",
+      "rid" : "64_93424",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock Processed"
+      },
+      "code" : "QP",
+      "rid" : "64_93425",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Production Indices"
+      },
+      "code" : "QI",
+      "rid" : "64_93426",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Livestock Primary"
+      },
+      "code" : "QL",
+      "rid" : "64_93427",
+      "leaf" : true
+    } ],
+    "code" : "Q",
+    "rid" : "64_93421",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Inputs"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides (trade)"
+      },
+      "code" : "RT",
+      "rid" : "64_93398",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers"
+      },
+      "code" : "RF",
+      "rid" : "64_93400",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers - Trade Value"
+      },
+      "code" : "RV",
+      "rid" : "64_93401",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Pesticides (use)"
+      },
+      "code" : "RP",
+      "rid" : "64_93402",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Fertilizers archive"
+      },
+      "code" : "RA",
+      "rid" : "64_93403",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Land"
+      },
+      "code" : "RL",
+      "rid" : "64_93404",
+      "leaf" : true
+    } ],
+    "code" : "R",
+    "rid" : "64_93399",
+    "leaf" : false
+  }, {
+    "level" : 1,
+    "title" : {
+      "EN" : "Trade"
+    },
+    "children" : [ {
+      "level" : 2,
+      "title" : {
+        "EN" : "Trade Indices"
+      },
+      "code" : "TI",
+      "rid" : "64_93428",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Detailed trade matrix"
+      },
+      "code" : "TM",
+      "rid" : "64_93430",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Live animals"
+      },
+      "code" : "TA",
+      "rid" : "64_93431",
+      "leaf" : true
+    }, {
+      "level" : 2,
+      "title" : {
+        "EN" : "Crops and livestock products"
+      },
+      "code" : "TP",
+      "rid" : "64_93432",
+      "leaf" : true
+    } ],
+    "code" : "T",
+    "rid" : "64_93429",
+    "leaf" : false
+  } ],
+  "size" : 78
+}

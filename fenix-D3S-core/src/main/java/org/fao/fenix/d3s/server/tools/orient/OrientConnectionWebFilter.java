@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 
-@WebFilter(filterName="OrientConnectionManager", urlPatterns={"/v2/*"})
+@WebFilter(filterName="OrientConnectionManager", urlPatterns={"/*"})
 public class OrientConnectionWebFilter implements Filter {
     @Inject OrientServer client;
     @Inject
