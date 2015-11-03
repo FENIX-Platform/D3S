@@ -11,16 +11,21 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
+import org.fao.fenix.d3s.cache.manager.listener.DatasetAccessInfo;
+import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ExternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.LabelDataIterator;
+import org.fao.fenix.d3s.cache.manager.impl.level1.ResourceStorageExecutor;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +37,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private static final int SOTRE_PAGE_SIZE = 50;
 
+    @Inject private CacheManagerFactory listenersFactory;
     @Inject private DatabaseUtils utils;
     @Inject private DefaultStorage storage;
     @Inject private ResourceMonitor monitor;
@@ -103,8 +109,19 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             //Create table if needed
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+            //Fire created event
+            Connection connection = storage.getConnection();
+            try {
+                DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata, storage, storage.getTableName(id), connection);
+                for (DatasetCacheListener listener : listenersFactory.getListeners(metadata))
+                    listener.removing(datasetInfo);
+            } finally {
+                connection.close();
+            }
             //Store data and unlock resource
-            new ExternalDatasetExecutor(storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE).start();
+            ResourceStorageExecutor executor = new ExternalDatasetExecutor(metadata, listenersFactory, storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
+            //executor.addListener(this);
+            executor.start();
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
@@ -121,6 +138,15 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
         String id = getID(metadata);
         monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
         try {
+            //Fire starting remove operation event
+            Connection connection = storage.getConnection();
+            try {
+                DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata, storage, storage.getTableName(id), null);
+                for (DatasetCacheListener listener : listenersFactory.getListeners(metadata))
+                    listener.removing(datasetInfo);
+            } finally {
+                connection.close();
+            }
             //Delete
             storage.delete(id);
         } finally {
@@ -175,7 +201,7 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
                 for (DSDColumn column : destination.getDsd().getColumns()) // Add all destination column to the filter (including label columns)
                     //filter.addColumn(column.getSubject()!=null ? column.getSubject() : column.getId());
                     filter.addColumn(column.getId());
-                new InternalDatasetExecutor(storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
+                new InternalDatasetExecutor(destination, listenersFactory, storage, monitor, table, filter, overwrite, tables.toArray(new Table[tables.size()]));
         } catch (Exception ex) {
             //Unlock resource
             monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
