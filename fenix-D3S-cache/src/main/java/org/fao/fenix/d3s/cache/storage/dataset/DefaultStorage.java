@@ -162,7 +162,7 @@ public abstract class DefaultStorage extends H2Database {
         int size = pagination!=null && pagination.getLength()<Integer.MAX_VALUE && pagination.getLength()>0 ? pagination.getLength() : status.getCount().intValue();
 
         Collection<ResultSet> resultList = new LinkedList<>();
-        for (int skip = pagination.getSkip(), length = size>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size; length>0; length = (size-=MAX_PAGE_SIZE)>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size, skip+=MAX_PAGE_SIZE) {
+        for (int skip = pagination!=null ? pagination.getSkip() : 0, length = size>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size; length>0; length = (size-=MAX_PAGE_SIZE)>MAX_PAGE_SIZE ? MAX_PAGE_SIZE : size, skip+=MAX_PAGE_SIZE) {
             //Create query
             Collection<Object> params = new LinkedList<>();
             String query = createFilterQuery(ordering, new Page(skip,length), filter, table, params, false);

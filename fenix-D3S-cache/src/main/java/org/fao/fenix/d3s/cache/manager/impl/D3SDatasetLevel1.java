@@ -80,7 +80,11 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             monitor.check(ResourceMonitor.Operation.startRead, id, size);
             try {
                 Iterator<Object[]> data = storage.load(order, page, null, new Table(metadata));
-                return data != null ? monitor.newMonitorDataIterator(id, data) : null;
+                if (data==null) {
+                    monitor.check(ResourceMonitor.Operation.stopRead, id, 0);
+                    return null;
+                } else
+                    return monitor.newMonitorDataIterator(id, data);
             } catch (Exception ex) {
                 //Unlock resources write
                 monitor.check(ResourceMonitor.Operation.stopRead, id, 0);
