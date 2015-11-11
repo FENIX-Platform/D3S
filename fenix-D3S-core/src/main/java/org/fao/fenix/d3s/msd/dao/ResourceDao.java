@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
+    //TODO implement dataset cache synchronization when write metadata operation occurs
 
     //MASSIVE METADATA
     public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {

@@ -113,15 +113,6 @@ public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
             //Create table if needed
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
-            //Fire created event
-            Connection connection = storage.getConnection();
-            try {
-                DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata, storage, storage.getTableName(id), connection);
-                for (DatasetCacheListener listener : listenersFactory.getListeners(metadata))
-                    listener.removing(datasetInfo);
-            } finally {
-                connection.close();
-            }
             //Store data and unlock resource
             ResourceStorageExecutor executor = new ExternalDatasetExecutor(metadata, listenersFactory, storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
             //executor.addListener(this);
