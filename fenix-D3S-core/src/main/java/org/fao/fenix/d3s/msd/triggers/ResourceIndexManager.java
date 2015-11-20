@@ -199,9 +199,9 @@ public class ResourceIndexManager extends LinksManager {
             OIndex index = meIdentityClassO.getClassIndex("MeIdentification."+fieldName);
             if (index==null)
                 if (indexType==OClass.INDEX_TYPE.FULLTEXT)
-                    meIdentityClassO.createIndex("MeIdentification."+fieldName, "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName.replace('|','_'), "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
                 else
-                    meIdentityClassO.createIndex("MeIdentification."+fieldName, indexType, fieldName);
+                    meIdentityClassO.createIndex("MeIdentification."+fieldName.replace('|','_'), indexType, fieldName);
 
         }
     }
