@@ -192,17 +192,17 @@ public class ResourceIndexManager extends LinksManager {
         }
     }
     private void createPropertyIndex(OClass meIdentityClassO, String fieldName, OType type, OType linkedType, OClass.INDEX_TYPE indexType) {
-        String indexName = fieldName.replace('|','_');
+        String indexName = "MeIdentification."+fieldName.replace('|','_');
         OProperty property = meIdentityClassO.getProperty(fieldName);
         if (property==null)
             meIdentityClassO.createProperty(fieldName,type,linkedType);
         if (indexType!=null) {
-            OIndex index = meIdentityClassO.getClassIndex("MeIdentification."+indexName);
+            OIndex index = meIdentityClassO.getClassIndex(indexName);
             if (index==null)
                 if (indexType==OClass.INDEX_TYPE.FULLTEXT)
-                    meIdentityClassO.createIndex("MeIdentification."+indexName, "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
+                    meIdentityClassO.createIndex(indexName, "FULLTEXT", null, null, "LUCENE", new String[] { fieldName });
                 else
-                    meIdentityClassO.createIndex("MeIdentification."+indexName, indexType, fieldName);
+                    meIdentityClassO.createIndex(indexName, indexType, fieldName);
 
         }
     }
