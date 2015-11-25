@@ -130,7 +130,7 @@ public class LabelDataIterator implements org.fao.fenix.commons.utils.database.I
         if (labels!=null && labels.size()>0 && language!=null) {
             String languageCode = language.getCode();
             for (Map.Entry<String, Map<String,String>> labelEntry : labels.entrySet()) {
-                String label = labelEntry.getValue().get(languageCode);
+                String label = labelEntry.getValue()!=null ? labelEntry.getValue().get(languageCode) : null;
                 if (label!=null)
                     languageLabels.put(labelEntry.getKey(), label);
             }
