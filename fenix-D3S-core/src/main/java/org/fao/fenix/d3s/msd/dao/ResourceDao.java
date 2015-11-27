@@ -14,62 +14,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
-    //TODO implement dataset cache synchronization when write metadata operation occurs
-
-    //MASSIVE METADATA
-    public Collection<MeIdentification<M>> insertMetadata (Collection<MeIdentification<M>> metadata) throws Exception {
-        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null) {
-            getConnection().begin();
-            try {
-                for (MeIdentification<M> m : metadata)
-                    storedMetadata.add(insertMetadata(m, false));
-                getConnection().commit();
-            } catch (Exception ex) {
-                getConnection().rollback();
-                throw ex;
-            }
-        }
-        return storedMetadata;
-    }
-    public Collection<MeIdentification<M>> updateMetadata (Collection<MeIdentification<M>> metadata, boolean overwrite) throws Exception {
-        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null) {
-            getConnection().begin();
-            try {
-                for (MeIdentification<M> m : metadata)
-                    storedMetadata.add(updateMetadata(m, overwrite, false));
-                getConnection().commit();
-            } catch (Exception ex) {
-                getConnection().rollback();
-                throw ex;
-            }
-        }
-        return storedMetadata;
-    }
-    public Collection<MeIdentification<M>> replicateMetadata (Collection<String> metadataRid, MeIdentification<M> metadata) throws Exception {
-        Collection<MeIdentification<M>> storedMetadata = new LinkedList<>();
-        if (metadata!=null && metadataRid!=null) {
-            try {
-                metadata.setUid(null);
-                metadata.setVersion(null);
-                getConnection().begin();
-                for (String rid : metadataRid) {
-                    metadata.setRID(rid);
-                    storedMetadata.add(updateMetadata(metadata, false, false));
-                }
-                getConnection().commit();
-            } catch (Exception ex) {
-                getConnection().rollback();
-                throw ex;
-            }
-        }
-        return storedMetadata;
-    }
-
-
-
-
     //LOAD RESOURCE
 
     public MeIdentification<M> loadMetadata(String id, String version) throws Exception {
@@ -105,7 +49,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public MeIdentification<M> insertMetadata (MeIdentification<M> metadata) throws Exception {
         return insertMetadata(metadata, true);
     }
-    private MeIdentification<M> insertMetadata (MeIdentification<M> metadata, boolean transaction) throws Exception {
+    public MeIdentification<M> insertMetadata (MeIdentification<M> metadata, boolean transaction) throws Exception {
         if (metadata.getUid()==null || metadata.getUid().trim().equals("")) {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
@@ -117,7 +61,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite) throws Exception {
         return updateMetadata(metadata, overwrite, true);
     }
-    private MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite, boolean transaction) throws Exception {
+    public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite, boolean transaction) throws Exception {
         if (metadata!=null) {
             if (metadata.getRID()==null) {
                 ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
@@ -166,7 +110,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public boolean deleteMetadata(String id, String version) throws Exception {
         MeIdentification metadata = loadMetadata(id,version);
         if (metadata!=null)
-            deleteMetadata(metadata);
+            deleteMetadata(false,metadata);
         return metadata!=null;
     }
 
@@ -175,46 +119,39 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     }
 
     public boolean deleteResource (MeIdentification<M> metadata) throws Exception {
-        getConnection().begin();
+        transaction();
         try {
             if (metadata!=null) {
-                deleteMetadata(metadata);
+                deleteMetadata(false, metadata);
                 deleteData(metadata);
-                getConnection().commit();
+                commit();
                 return true;
             } else
                 return false;
         } catch (Exception ex) {
-            getConnection().rollback();
+            rollback();
             throw ex;
         }
     }
 
-    public void deleteMetadata(MeIdentification<M> ... metadata) throws Exception {
-        deleteMetadata(true, metadata);
-    }
-    private void deleteMetadata(boolean transaction, MeIdentification<M> ... metadata) throws Exception {
-        OObjectDatabaseTx transactionConnection = transaction ? getConnection() : null;
-
-        if (metadata!=null)
-            try {
-                if (transactionConnection!=null)
-                    transactionConnection.begin();
-
-                OObjectDatabaseTx connection = transactionConnection!=null ? transactionConnection : getConnection();
-                for (MeIdentification<M> m : metadata) {
-                    DSD dsd = m.getDsd();
-                    if (dsd != null)
-                        connection.delete(dsd);
-                    connection.delete(m);
-                }
-                if (transactionConnection!=null)
-                    transactionConnection.commit();
-            } catch (Exception ex) {
-                if (transactionConnection!=null)
-                    transactionConnection.rollback();
-                throw ex;
+    public void deleteMetadata(boolean transaction, MeIdentification<M> ... metadata) throws Exception {
+        try {
+            if (transaction)
+                transaction();
+            OObjectDatabaseTx connection = getConnection();
+            for (MeIdentification<M> m : metadata) {
+                DSD dsd = m.getDsd();
+                if (dsd != null)
+                    connection.delete(dsd);
+                connection.delete(m);
             }
+            if (transaction)
+                commit();
+        } catch (Exception ex) {
+            if (transaction)
+                rollback();
+            throw ex;
+        }
     }
 
 

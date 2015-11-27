@@ -34,6 +34,28 @@ public abstract class OrientDao {
     }
 
 
+    //METADATA TRANSACTION MANAGEMENT
+    private boolean transactionOpen;
+    public void transaction() {
+        if (!transactionOpen) {
+            getConnection().begin();
+            transactionOpen = true;
+        }
+    }
+    public void commit() {
+        if (transactionOpen) {
+            getConnection().commit();
+            transactionOpen = false;
+        }
+    }
+    public void rollback() {
+        if (transactionOpen) {
+            getConnection().rollback();
+            transactionOpen = false;
+        }
+    }
+
+
 
 	//DELETE UTILS
     public boolean delete (String rid) throws Exception  {

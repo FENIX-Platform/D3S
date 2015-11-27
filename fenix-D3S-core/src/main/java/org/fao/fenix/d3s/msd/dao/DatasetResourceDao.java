@@ -89,7 +89,6 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         updateData(metadata, data, true);
     }
 
-
     @Override
     protected void updateData(MeIdentification<DSDDataset> metadata, Collection<Object[]> data, boolean overwrite) throws Exception {
         if (getDatasource(metadata)!=null) {
@@ -123,6 +122,36 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         }
     }
 
+
+
+
+    //Synchronize metadata and data write operations respect to cache activities
+    @Override
+    public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
+        MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
+        SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
+        Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
+        CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        if (updateDate!=null && cache!=null)
+            cache.remove(metadata);
+
+        return super.updateMetadata(metadata, overwrite, transaction);
+    }
+
+    @Override
+    public void deleteMetadata(boolean transaction, MeIdentification<DSDDataset>... metadataList) throws Exception {
+        if (metadataList!=null)
+            for (MeIdentification metadata : metadataList) {
+                MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
+                SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
+                Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
+                CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+                if (updateDate!=null && cache!=null)
+                    cache.remove(metadata);
+            }
+
+        super.deleteMetadata(transaction, metadataList);
+    }
 
 
 
