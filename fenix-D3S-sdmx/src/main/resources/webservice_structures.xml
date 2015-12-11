@@ -1,0 +1,1783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:Structure xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common">
+  <mes:Header>
+    <mes:ID>IDREF1</mes:ID>
+    <mes:Test>false</mes:Test>
+    <mes:Prepared>2015-12-10T10:04:40.882Z</mes:Prepared>
+    <mes:Sender id="Unknown"/>
+    <mes:Receiver id="Unknown"/>
+  </mes:Header>
+  <mes:Structures>
+    <str:OrganisationSchemes>
+      <str:AgencyScheme id="AGENCIES" urn="urn:sdmx:org.sdmx.infomodel.base.AgencyScheme=SDMX:AGENCIES(1.0)" agencyID="SDMX" version="1.0">
+        <com:Name xml:lang="en">SDMX Agency Scheme</com:Name>
+        <str:Agency id="SDMX" urn="urn:sdmx:org.sdmx.infomodel.base.Agency=SDMX">
+          <com:Name xml:lang="en">SDMX</com:Name>
+        </str:Agency>
+        <str:Agency id="FENIX" urn="urn:sdmx:org.sdmx.infomodel.base.Agency=FENIX">
+          <com:Name xml:lang="en">Fenix</com:Name>
+        </str:Agency>
+      </str:AgencyScheme>
+    </str:OrganisationSchemes>
+    <str:Dataflows>
+      <str:Dataflow id="DF_FENIX" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=FENIX:DF_FENIX(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FENIX DataFlow</com:Name>
+        <str:Structure>
+          <Ref id="FAOSTAT_QA" version="1.0" agencyID="FENIX" package="datastructure" class="DataStructure"/>
+        </str:Structure>
+      </str:Dataflow>
+    </str:Dataflows>
+    <str:Codelists>
+      <str:Codelist id="CL_FAOSTAT_COUNTRIES" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FENIX:CL_FAOSTAT_COUNTRIES(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_Countries</com:Name>
+        <str:Code id="1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).1">
+          <com:Name xml:lang="en">1 : Armenia</com:Name>
+        </str:Code>
+        <str:Code id="10" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).10">
+          <com:Name xml:lang="en">10 : Australia</com:Name>
+        </str:Code>
+        <str:Code id="100" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).100">
+          <com:Name xml:lang="en">100 : India</com:Name>
+        </str:Code>
+        <str:Code id="101" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).101">
+          <com:Name xml:lang="en">101 : Indonesia</com:Name>
+        </str:Code>
+        <str:Code id="102" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).102">
+          <com:Name xml:lang="en">102 : Iran (Islamic Republic of)</com:Name>
+        </str:Code>
+        <str:Code id="103" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).103">
+          <com:Name xml:lang="en">103 : Iraq</com:Name>
+        </str:Code>
+        <str:Code id="104" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).104">
+          <com:Name xml:lang="en">104 : Ireland</com:Name>
+        </str:Code>
+        <str:Code id="105" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).105">
+          <com:Name xml:lang="en">105 : Israel</com:Name>
+        </str:Code>
+        <str:Code id="106" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).106">
+          <com:Name xml:lang="en">106 : Italy</com:Name>
+        </str:Code>
+        <str:Code id="107" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).107">
+          <com:Name xml:lang="en">107 : Côte d'Ivoire</com:Name>
+        </str:Code>
+        <str:Code id="108" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).108">
+          <com:Name xml:lang="en">108 : Kazakhstan</com:Name>
+        </str:Code>
+        <str:Code id="109" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).109">
+          <com:Name xml:lang="en">109 : Jamaica</com:Name>
+        </str:Code>
+        <str:Code id="11" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).11">
+          <com:Name xml:lang="en">11 : Austria</com:Name>
+        </str:Code>
+        <str:Code id="110" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).110">
+          <com:Name xml:lang="en">110 : Japan</com:Name>
+        </str:Code>
+        <str:Code id="112" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).112">
+          <com:Name xml:lang="en">112 : Jordan</com:Name>
+        </str:Code>
+        <str:Code id="113" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).113">
+          <com:Name xml:lang="en">113 : Kyrgyzstan</com:Name>
+        </str:Code>
+        <str:Code id="114" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).114">
+          <com:Name xml:lang="en">114 : Kenya</com:Name>
+        </str:Code>
+        <str:Code id="115" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).115">
+          <com:Name xml:lang="en">115 : Cambodia</com:Name>
+        </str:Code>
+        <str:Code id="116" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).116">
+          <com:Name xml:lang="en">116 : Democratic People's Republic of Korea</com:Name>
+        </str:Code>
+        <str:Code id="117" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).117">
+          <com:Name xml:lang="en">117 : Republic of Korea</com:Name>
+        </str:Code>
+        <str:Code id="118" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).118">
+          <com:Name xml:lang="en">118 : Kuwait</com:Name>
+        </str:Code>
+        <str:Code id="119" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).119">
+          <com:Name xml:lang="en">119 : Latvia</com:Name>
+        </str:Code>
+        <str:Code id="12" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).12">
+          <com:Name xml:lang="en">12 : Bahamas</com:Name>
+        </str:Code>
+        <str:Code id="120" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).120">
+          <com:Name xml:lang="en">120 : Lao People's Democratic Republic</com:Name>
+        </str:Code>
+        <str:Code id="121" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).121">
+          <com:Name xml:lang="en">121 : Lebanon</com:Name>
+        </str:Code>
+        <str:Code id="122" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).122">
+          <com:Name xml:lang="en">122 : Lesotho</com:Name>
+        </str:Code>
+        <str:Code id="123" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).123">
+          <com:Name xml:lang="en">123 : Liberia</com:Name>
+        </str:Code>
+        <str:Code id="124" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).124">
+          <com:Name xml:lang="en">124 : Libya</com:Name>
+        </str:Code>
+        <str:Code id="126" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).126">
+          <com:Name xml:lang="en">126 : Lithuania</com:Name>
+        </str:Code>
+        <str:Code id="127" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).127">
+          <com:Name xml:lang="en">127 : Marshall Islands</com:Name>
+        </str:Code>
+        <str:Code id="129" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).129">
+          <com:Name xml:lang="en">129 : Madagascar</com:Name>
+        </str:Code>
+        <str:Code id="13" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).13">
+          <com:Name xml:lang="en">13 : Bahrain</com:Name>
+        </str:Code>
+        <str:Code id="130" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).130">
+          <com:Name xml:lang="en">130 : Malawi</com:Name>
+        </str:Code>
+        <str:Code id="131" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).131">
+          <com:Name xml:lang="en">131 : Malaysia</com:Name>
+        </str:Code>
+        <str:Code id="132" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).132">
+          <com:Name xml:lang="en">132 : Maldives</com:Name>
+        </str:Code>
+        <str:Code id="133" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).133">
+          <com:Name xml:lang="en">133 : Mali</com:Name>
+        </str:Code>
+        <str:Code id="134" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).134">
+          <com:Name xml:lang="en">134 : Malta</com:Name>
+        </str:Code>
+        <str:Code id="136" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).136">
+          <com:Name xml:lang="en">136 : Mauritania</com:Name>
+        </str:Code>
+        <str:Code id="137" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).137">
+          <com:Name xml:lang="en">137 : Mauritius</com:Name>
+        </str:Code>
+        <str:Code id="138" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).138">
+          <com:Name xml:lang="en">138 : Mexico</com:Name>
+        </str:Code>
+        <str:Code id="14" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).14">
+          <com:Name xml:lang="en">14 : Barbados</com:Name>
+        </str:Code>
+        <str:Code id="140" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).140">
+          <com:Name xml:lang="en">140 : Monaco</com:Name>
+        </str:Code>
+        <str:Code id="141" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).141">
+          <com:Name xml:lang="en">141 : Mongolia</com:Name>
+        </str:Code>
+        <str:Code id="143" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).143">
+          <com:Name xml:lang="en">143 : Morocco</com:Name>
+        </str:Code>
+        <str:Code id="144" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).144">
+          <com:Name xml:lang="en">144 : Mozambique</com:Name>
+        </str:Code>
+        <str:Code id="145" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).145">
+          <com:Name xml:lang="en">145 : Micronesia (Federated States of)</com:Name>
+        </str:Code>
+        <str:Code id="146" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).146">
+          <com:Name xml:lang="en">146 : Republic of Moldova</com:Name>
+        </str:Code>
+        <str:Code id="147" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).147">
+          <com:Name xml:lang="en">147 : Namibia</com:Name>
+        </str:Code>
+        <str:Code id="148" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).148">
+          <com:Name xml:lang="en">148 : Nauru</com:Name>
+        </str:Code>
+        <str:Code id="149" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).149">
+          <com:Name xml:lang="en">149 : Nepal</com:Name>
+        </str:Code>
+        <str:Code id="150" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).150">
+          <com:Name xml:lang="en">150 : Netherlands</com:Name>
+        </str:Code>
+        <str:Code id="154" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).154">
+          <com:Name xml:lang="en">154 : The former Yugoslav Republic of Macedonia</com:Name>
+        </str:Code>
+        <str:Code id="155" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).155">
+          <com:Name xml:lang="en">155 : Vanuatu</com:Name>
+        </str:Code>
+        <str:Code id="156" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).156">
+          <com:Name xml:lang="en">156 : New Zealand</com:Name>
+        </str:Code>
+        <str:Code id="157" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).157">
+          <com:Name xml:lang="en">157 : Nicaragua</com:Name>
+        </str:Code>
+        <str:Code id="158" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).158">
+          <com:Name xml:lang="en">158 : Niger</com:Name>
+        </str:Code>
+        <str:Code id="159" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).159">
+          <com:Name xml:lang="en">159 : Nigeria</com:Name>
+        </str:Code>
+        <str:Code id="16" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).16">
+          <com:Name xml:lang="en">16 : Bangladesh</com:Name>
+        </str:Code>
+        <str:Code id="160" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).160">
+          <com:Name xml:lang="en">160 : Niue</com:Name>
+        </str:Code>
+        <str:Code id="162" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).162">
+          <com:Name xml:lang="en">162 : Norway</com:Name>
+        </str:Code>
+        <str:Code id="165" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).165">
+          <com:Name xml:lang="en">165 : Pakistan</com:Name>
+        </str:Code>
+        <str:Code id="166" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).166">
+          <com:Name xml:lang="en">166 : Panama</com:Name>
+        </str:Code>
+        <str:Code id="167" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).167">
+          <com:Name xml:lang="en">167 : Czech Republic</com:Name>
+        </str:Code>
+        <str:Code id="168" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).168">
+          <com:Name xml:lang="en">168 : Papua New Guinea</com:Name>
+        </str:Code>
+        <str:Code id="169" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).169">
+          <com:Name xml:lang="en">169 : Paraguay</com:Name>
+        </str:Code>
+        <str:Code id="170" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).170">
+          <com:Name xml:lang="en">170 : Peru</com:Name>
+        </str:Code>
+        <str:Code id="171" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).171">
+          <com:Name xml:lang="en">171 : Philippines</com:Name>
+        </str:Code>
+        <str:Code id="173" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).173">
+          <com:Name xml:lang="en">173 : Poland</com:Name>
+        </str:Code>
+        <str:Code id="174" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).174">
+          <com:Name xml:lang="en">174 : Portugal</com:Name>
+        </str:Code>
+        <str:Code id="175" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).175">
+          <com:Name xml:lang="en">175 : Guinea-Bissau</com:Name>
+        </str:Code>
+        <str:Code id="176" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).176">
+          <com:Name xml:lang="en">176 : Timor-Leste</com:Name>
+        </str:Code>
+        <str:Code id="178" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).178">
+          <com:Name xml:lang="en">178 : Eritrea</com:Name>
+        </str:Code>
+        <str:Code id="179" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).179">
+          <com:Name xml:lang="en">179 : Qatar</com:Name>
+        </str:Code>
+        <str:Code id="18" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).18">
+          <com:Name xml:lang="en">18 : Bhutan</com:Name>
+        </str:Code>
+        <str:Code id="180" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).180">
+          <com:Name xml:lang="en">180 : Palau</com:Name>
+        </str:Code>
+        <str:Code id="181" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).181">
+          <com:Name xml:lang="en">181 : Zimbabwe</com:Name>
+        </str:Code>
+        <str:Code id="183" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).183">
+          <com:Name xml:lang="en">183 : Romania</com:Name>
+        </str:Code>
+        <str:Code id="184" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).184">
+          <com:Name xml:lang="en">184 : Rwanda</com:Name>
+        </str:Code>
+        <str:Code id="185" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).185">
+          <com:Name xml:lang="en">185 : Russian Federation</com:Name>
+        </str:Code>
+        <str:Code id="188" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).188">
+          <com:Name xml:lang="en">188 : Saint Kitts and Nevis</com:Name>
+        </str:Code>
+        <str:Code id="189" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).189">
+          <com:Name xml:lang="en">189 : Saint Lucia</com:Name>
+        </str:Code>
+        <str:Code id="19" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).19">
+          <com:Name xml:lang="en">19 : Bolivia (Plurinational State of)</com:Name>
+        </str:Code>
+        <str:Code id="191" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).191">
+          <com:Name xml:lang="en">191 : Saint Vincent and the Grenadines</com:Name>
+        </str:Code>
+        <str:Code id="192" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).192">
+          <com:Name xml:lang="en">192 : San Marino</com:Name>
+        </str:Code>
+        <str:Code id="193" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).193">
+          <com:Name xml:lang="en">193 : Sao Tome and Principe</com:Name>
+        </str:Code>
+        <str:Code id="194" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).194">
+          <com:Name xml:lang="en">194 : Saudi Arabia</com:Name>
+        </str:Code>
+        <str:Code id="195" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).195">
+          <com:Name xml:lang="en">195 : Senegal</com:Name>
+        </str:Code>
+        <str:Code id="196" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).196">
+          <com:Name xml:lang="en">196 : Seychelles</com:Name>
+        </str:Code>
+        <str:Code id="197" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).197">
+          <com:Name xml:lang="en">197 : Sierra Leone</com:Name>
+        </str:Code>
+        <str:Code id="198" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).198">
+          <com:Name xml:lang="en">198 : Slovenia</com:Name>
+        </str:Code>
+        <str:Code id="199" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).199">
+          <com:Name xml:lang="en">199 : Slovakia</com:Name>
+        </str:Code>
+        <str:Code id="2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).2">
+          <com:Name xml:lang="en">2 : Afghanistan</com:Name>
+        </str:Code>
+        <str:Code id="20" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).20">
+          <com:Name xml:lang="en">20 : Botswana</com:Name>
+        </str:Code>
+        <str:Code id="200" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).200">
+          <com:Name xml:lang="en">200 : Singapore</com:Name>
+        </str:Code>
+        <str:Code id="201" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).201">
+          <com:Name xml:lang="en">201 : Somalia</com:Name>
+        </str:Code>
+        <str:Code id="202" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).202">
+          <com:Name xml:lang="en">202 : South Africa</com:Name>
+        </str:Code>
+        <str:Code id="203" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).203">
+          <com:Name xml:lang="en">203 : Spain</com:Name>
+        </str:Code>
+        <str:Code id="207" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).207">
+          <com:Name xml:lang="en">207 : Suriname</com:Name>
+        </str:Code>
+        <str:Code id="208" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).208">
+          <com:Name xml:lang="en">208 : Tajikistan</com:Name>
+        </str:Code>
+        <str:Code id="209" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).209">
+          <com:Name xml:lang="en">209 : Swaziland</com:Name>
+        </str:Code>
+        <str:Code id="21" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).21">
+          <com:Name xml:lang="en">21 : Brazil</com:Name>
+        </str:Code>
+        <str:Code id="210" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).210">
+          <com:Name xml:lang="en">210 : Sweden</com:Name>
+        </str:Code>
+        <str:Code id="211" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).211">
+          <com:Name xml:lang="en">211 : Switzerland</com:Name>
+        </str:Code>
+        <str:Code id="212" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).212">
+          <com:Name xml:lang="en">212 : Syrian Arab Republic</com:Name>
+        </str:Code>
+        <str:Code id="213" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).213">
+          <com:Name xml:lang="en">213 : Turkmenistan</com:Name>
+        </str:Code>
+        <str:Code id="215" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).215">
+          <com:Name xml:lang="en">215 : United Republic of Tanzania</com:Name>
+        </str:Code>
+        <str:Code id="216" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).216">
+          <com:Name xml:lang="en">216 : Thailand</com:Name>
+        </str:Code>
+        <str:Code id="217" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).217">
+          <com:Name xml:lang="en">217 : Togo</com:Name>
+        </str:Code>
+        <str:Code id="219" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).219">
+          <com:Name xml:lang="en">219 : Tonga</com:Name>
+        </str:Code>
+        <str:Code id="220" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).220">
+          <com:Name xml:lang="en">220 : Trinidad and Tobago</com:Name>
+        </str:Code>
+        <str:Code id="221" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).221">
+          <com:Name xml:lang="en">221 : Oman</com:Name>
+        </str:Code>
+        <str:Code id="222" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).222">
+          <com:Name xml:lang="en">222 : Tunisia</com:Name>
+        </str:Code>
+        <str:Code id="223" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).223">
+          <com:Name xml:lang="en">223 : Turkey</com:Name>
+        </str:Code>
+        <str:Code id="225" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).225">
+          <com:Name xml:lang="en">225 : United Arab Emirates</com:Name>
+        </str:Code>
+        <str:Code id="226" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).226">
+          <com:Name xml:lang="en">226 : Uganda</com:Name>
+        </str:Code>
+        <str:Code id="227" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).227">
+          <com:Name xml:lang="en">227 : Tuvalu</com:Name>
+        </str:Code>
+        <str:Code id="229" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).229">
+          <com:Name xml:lang="en">229 : United Kingdom</com:Name>
+        </str:Code>
+        <str:Code id="23" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).23">
+          <com:Name xml:lang="en">23 : Belize</com:Name>
+        </str:Code>
+        <str:Code id="230" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).230">
+          <com:Name xml:lang="en">230 : Ukraine</com:Name>
+        </str:Code>
+        <str:Code id="231" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).231">
+          <com:Name xml:lang="en">231 : United States of America</com:Name>
+        </str:Code>
+        <str:Code id="233" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).233">
+          <com:Name xml:lang="en">233 : Burkina Faso</com:Name>
+        </str:Code>
+        <str:Code id="234" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).234">
+          <com:Name xml:lang="en">234 : Uruguay</com:Name>
+        </str:Code>
+        <str:Code id="235" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).235">
+          <com:Name xml:lang="en">235 : Uzbekistan</com:Name>
+        </str:Code>
+        <str:Code id="236" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).236">
+          <com:Name xml:lang="en">236 : Venezuela (Bolivarian Republic of)</com:Name>
+        </str:Code>
+        <str:Code id="237" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).237">
+          <com:Name xml:lang="en">237 : Viet Nam</com:Name>
+        </str:Code>
+        <str:Code id="238" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).238">
+          <com:Name xml:lang="en">238 : Ethiopia</com:Name>
+        </str:Code>
+        <str:Code id="244" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).244">
+          <com:Name xml:lang="en">244 : Samoa</com:Name>
+        </str:Code>
+        <str:Code id="249" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).249">
+          <com:Name xml:lang="en">249 : Yemen</com:Name>
+        </str:Code>
+        <str:Code id="25" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).25">
+          <com:Name xml:lang="en">25 : Solomon Islands</com:Name>
+        </str:Code>
+        <str:Code id="250" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).250">
+          <com:Name xml:lang="en">250 : Democratic Republic of the Congo</com:Name>
+        </str:Code>
+        <str:Code id="251" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).251">
+          <com:Name xml:lang="en">251 : Zambia</com:Name>
+        </str:Code>
+        <str:Code id="255" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).255">
+          <com:Name xml:lang="en">255 : Belgium</com:Name>
+        </str:Code>
+        <str:Code id="256" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).256">
+          <com:Name xml:lang="en">256 : Luxembourg</com:Name>
+        </str:Code>
+        <str:Code id="26" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).26">
+          <com:Name xml:lang="en">26 : Brunei Darussalam</com:Name>
+        </str:Code>
+        <str:Code id="27" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).27">
+          <com:Name xml:lang="en">27 : Bulgaria</com:Name>
+        </str:Code>
+        <str:Code id="272" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).272">
+          <com:Name xml:lang="en">272 : Serbia</com:Name>
+        </str:Code>
+        <str:Code id="273" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).273">
+          <com:Name xml:lang="en">273 : Montenegro</com:Name>
+        </str:Code>
+        <str:Code id="276" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).276">
+          <com:Name xml:lang="en">276 : Sudan</com:Name>
+        </str:Code>
+        <str:Code id="277" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).277">
+          <com:Name xml:lang="en">277 : South Sudan</com:Name>
+        </str:Code>
+        <str:Code id="28" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).28">
+          <com:Name xml:lang="en">28 : Myanmar</com:Name>
+        </str:Code>
+        <str:Code id="29" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).29">
+          <com:Name xml:lang="en">29 : Burundi</com:Name>
+        </str:Code>
+        <str:Code id="3" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).3">
+          <com:Name xml:lang="en">3 : Albania</com:Name>
+        </str:Code>
+        <str:Code id="32" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).32">
+          <com:Name xml:lang="en">32 : Cameroon</com:Name>
+        </str:Code>
+        <str:Code id="33" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).33">
+          <com:Name xml:lang="en">33 : Canada</com:Name>
+        </str:Code>
+        <str:Code id="35" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).35">
+          <com:Name xml:lang="en">35 : Cabo Verde</com:Name>
+        </str:Code>
+        <str:Code id="351" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).351">
+          <com:Name xml:lang="en">351 : China</com:Name>
+        </str:Code>
+        <str:Code id="37" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).37">
+          <com:Name xml:lang="en">37 : Central African Republic</com:Name>
+        </str:Code>
+        <str:Code id="38" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).38">
+          <com:Name xml:lang="en">38 : Sri Lanka</com:Name>
+        </str:Code>
+        <str:Code id="39" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).39">
+          <com:Name xml:lang="en">39 : Chad</com:Name>
+        </str:Code>
+        <str:Code id="4" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).4">
+          <com:Name xml:lang="en">4 : Algeria</com:Name>
+        </str:Code>
+        <str:Code id="40" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).40">
+          <com:Name xml:lang="en">40 : Chile</com:Name>
+        </str:Code>
+        <str:Code id="44" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).44">
+          <com:Name xml:lang="en">44 : Colombia</com:Name>
+        </str:Code>
+        <str:Code id="45" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).45">
+          <com:Name xml:lang="en">45 : Comoros</com:Name>
+        </str:Code>
+        <str:Code id="46" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).46">
+          <com:Name xml:lang="en">46 : Congo</com:Name>
+        </str:Code>
+        <str:Code id="47" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).47">
+          <com:Name xml:lang="en">47 : Cook Islands</com:Name>
+        </str:Code>
+        <str:Code id="48" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).48">
+          <com:Name xml:lang="en">48 : Costa Rica</com:Name>
+        </str:Code>
+        <str:Code id="49" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).49">
+          <com:Name xml:lang="en">49 : Cuba</com:Name>
+        </str:Code>
+        <str:Code id="50" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).50">
+          <com:Name xml:lang="en">50 : Cyprus</com:Name>
+        </str:Code>
+        <str:Code id="52" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).52">
+          <com:Name xml:lang="en">52 : Azerbaijan</com:Name>
+        </str:Code>
+        <str:Code id="53" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).53">
+          <com:Name xml:lang="en">53 : Benin</com:Name>
+        </str:Code>
+        <str:Code id="54" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).54">
+          <com:Name xml:lang="en">54 : Denmark</com:Name>
+        </str:Code>
+        <str:Code id="55" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).55">
+          <com:Name xml:lang="en">55 : Dominica</com:Name>
+        </str:Code>
+        <str:Code id="56" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).56">
+          <com:Name xml:lang="en">56 : Dominican Republic</com:Name>
+        </str:Code>
+        <str:Code id="57" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).57">
+          <com:Name xml:lang="en">57 : Belarus</com:Name>
+        </str:Code>
+        <str:Code id="58" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).58">
+          <com:Name xml:lang="en">58 : Ecuador</com:Name>
+        </str:Code>
+        <str:Code id="59" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).59">
+          <com:Name xml:lang="en">59 : Egypt</com:Name>
+        </str:Code>
+        <str:Code id="6" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).6">
+          <com:Name xml:lang="en">6 : Andorra</com:Name>
+        </str:Code>
+        <str:Code id="60" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).60">
+          <com:Name xml:lang="en">60 : El Salvador</com:Name>
+        </str:Code>
+        <str:Code id="61" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).61">
+          <com:Name xml:lang="en">61 : Equatorial Guinea</com:Name>
+        </str:Code>
+        <str:Code id="63" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).63">
+          <com:Name xml:lang="en">63 : Estonia</com:Name>
+        </str:Code>
+        <str:Code id="66" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).66">
+          <com:Name xml:lang="en">66 : Fiji</com:Name>
+        </str:Code>
+        <str:Code id="67" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).67">
+          <com:Name xml:lang="en">67 : Finland</com:Name>
+        </str:Code>
+        <str:Code id="68" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).68">
+          <com:Name xml:lang="en">68 : France</com:Name>
+        </str:Code>
+        <str:Code id="7" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).7">
+          <com:Name xml:lang="en">7 : Angola</com:Name>
+        </str:Code>
+        <str:Code id="72" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).72">
+          <com:Name xml:lang="en">72 : Djibouti</com:Name>
+        </str:Code>
+        <str:Code id="73" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).73">
+          <com:Name xml:lang="en">73 : Georgia</com:Name>
+        </str:Code>
+        <str:Code id="74" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).74">
+          <com:Name xml:lang="en">74 : Gabon</com:Name>
+        </str:Code>
+        <str:Code id="75" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).75">
+          <com:Name xml:lang="en">75 : Gambia</com:Name>
+        </str:Code>
+        <str:Code id="79" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).79">
+          <com:Name xml:lang="en">79 : Germany</com:Name>
+        </str:Code>
+        <str:Code id="8" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).8">
+          <com:Name xml:lang="en">8 : Antigua and Barbuda</com:Name>
+        </str:Code>
+        <str:Code id="80" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).80">
+          <com:Name xml:lang="en">80 : Bosnia and Herzegovina</com:Name>
+        </str:Code>
+        <str:Code id="81" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).81">
+          <com:Name xml:lang="en">81 : Ghana</com:Name>
+        </str:Code>
+        <str:Code id="83" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).83">
+          <com:Name xml:lang="en">83 : Kiribati</com:Name>
+        </str:Code>
+        <str:Code id="84" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).84">
+          <com:Name xml:lang="en">84 : Greece</com:Name>
+        </str:Code>
+        <str:Code id="86" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).86">
+          <com:Name xml:lang="en">86 : Grenada</com:Name>
+        </str:Code>
+        <str:Code id="89" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).89">
+          <com:Name xml:lang="en">89 : Guatemala</com:Name>
+        </str:Code>
+        <str:Code id="9" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).9">
+          <com:Name xml:lang="en">9 : Argentina</com:Name>
+        </str:Code>
+        <str:Code id="90" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).90">
+          <com:Name xml:lang="en">90 : Guinea</com:Name>
+        </str:Code>
+        <str:Code id="91" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).91">
+          <com:Name xml:lang="en">91 : Guyana</com:Name>
+        </str:Code>
+        <str:Code id="93" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).93">
+          <com:Name xml:lang="en">93 : Haiti</com:Name>
+        </str:Code>
+        <str:Code id="95" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).95">
+          <com:Name xml:lang="en">95 : Honduras</com:Name>
+        </str:Code>
+        <str:Code id="97" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).97">
+          <com:Name xml:lang="en">97 : Hungary</com:Name>
+        </str:Code>
+        <str:Code id="98" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).98">
+          <com:Name xml:lang="en">98 : Croatia</com:Name>
+        </str:Code>
+        <str:Code id="99" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_COUNTRIES(1.0).99">
+          <com:Name xml:lang="en">99 : Iceland</com:Name>
+        </str:Code>
+      </str:Codelist>
+      <str:Codelist id="CL_FAOSTAT_ELEMENTS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FENIX:CL_FAOSTAT_ELEMENTS(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_Elements</com:Name>
+        <str:Code id="AS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).AS">
+          <com:Name xml:lang="en">AS : ASTI R&amp;D Indicators</com:Name>
+        </str:Code>
+        <str:Code id="D" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).D">
+          <com:Name xml:lang="en">D : Food Security</com:Name>
+        </str:Code>
+        <str:Code id="E" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).E">
+          <com:Name xml:lang="en">E : Agri-Environmental Indicators</com:Name>
+        </str:Code>
+        <str:Code id="F" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).F">
+          <com:Name xml:lang="en">F : Forestry</com:Name>
+        </str:Code>
+        <str:Code id="FB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).FB">
+          <com:Name xml:lang="en">FB : Food Balance</com:Name>
+        </str:Code>
+        <str:Code id="G1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).G1">
+          <com:Name xml:lang="en">G1 : Emissions - Agriculture</com:Name>
+        </str:Code>
+        <str:Code id="G2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).G2">
+          <com:Name xml:lang="en">G2 : Emissions - Land Use</com:Name>
+        </str:Code>
+        <str:Code id="I" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).I">
+          <com:Name xml:lang="en">I : Investment</com:Name>
+        </str:Code>
+        <str:Code id="M" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).M">
+          <com:Name xml:lang="en">M : Macro-Statistics</com:Name>
+        </str:Code>
+        <str:Code id="O" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).O">
+          <com:Name xml:lang="en">O : Population</com:Name>
+        </str:Code>
+        <str:Code id="P" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).P">
+          <com:Name xml:lang="en">P : Prices</com:Name>
+        </str:Code>
+        <str:Code id="Q" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).Q">
+          <com:Name xml:lang="en">Q : Production</com:Name>
+        </str:Code>
+        <str:Code id="R" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).R">
+          <com:Name xml:lang="en">R : Inputs</com:Name>
+        </str:Code>
+        <str:Code id="T" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ELEMENTS(1.0).T">
+          <com:Name xml:lang="en">T : Trade</com:Name>
+        </str:Code>
+      </str:Codelist>
+      <str:Codelist id="CL_FAOSTAT_FLAGS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FENIX:CL_FAOSTAT_FLAGS(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_Flags</com:Name>
+        <str:Code id="_0" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._0">
+          <com:Name xml:lang="en">: Official data</com:Name>
+        </str:Code>
+        <str:Code id="_1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._1">
+          <com:Name xml:lang="en">* : Unofficial figure</com:Name>
+        </str:Code>
+        <str:Code id="_2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._2">
+          <com:Name xml:lang="en">&lt;.1A : Less than 100 000 people undernourished, year refers to last year of 3-year average</com:Name>
+        </str:Code>
+        <str:Code id="_3" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._3">
+          <com:Name xml:lang="en">&lt;0.1 : Less than 100 000 people undernourished</com:Name>
+        </str:Code>
+        <str:Code id="_4" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._4">
+          <com:Name xml:lang="en">&lt;5 : Proportion of undernourished less than five percent</com:Name>
+        </str:Code>
+        <str:Code id="_5" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0)._5">
+          <com:Name xml:lang="en">&lt;5A : Proportion of undernourished less than five percent, year refers to last year of 3-year average</com:Name>
+        </str:Code>
+        <str:Code id="A" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).A">
+          <com:Name xml:lang="en">A : Aggregate, may include official, semi-official or estimated data</com:Name>
+        </str:Code>
+        <str:Code id="AP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).AP">
+          <com:Name xml:lang="en">AP : Year refers to last year of 3-year average based on projections</com:Name>
+        </str:Code>
+        <str:Code id="AS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).AS">
+          <com:Name xml:lang="en">AS : ASTI (Agricultural Science and Technology Indicators). 2013. ASTI database. http://www.asti.cgiar.org/data.</com:Name>
+        </str:Code>
+        <str:Code id="AV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).AV">
+          <com:Name xml:lang="en">AV : Year refers to last year of 3-year average</com:Name>
+        </str:Code>
+        <str:Code id="B" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).B">
+          <com:Name xml:lang="en">B : Balance</com:Name>
+        </str:Code>
+        <str:Code id="C" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).C">
+          <com:Name xml:lang="en">C : Calculated</com:Name>
+        </str:Code>
+        <str:Code id="CS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).CS">
+          <com:Name xml:lang="en">CS : FAO computation from survey data</com:Name>
+        </str:Code>
+        <str:Code id="Ce" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Ce">
+          <com:Name xml:lang="en">Ce : Calculated data based on estimated data</com:Name>
+        </str:Code>
+        <str:Code id="Cf" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Cf">
+          <com:Name xml:lang="en">Cf : FAOSTAT estimate</com:Name>
+        </str:Code>
+        <str:Code id="Co" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Co">
+          <com:Name xml:lang="en">Co : NULLCoefficients</com:Name>
+        </str:Code>
+        <str:Code id="Cv" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Cv">
+          <com:Name xml:lang="en">Cv : Calculated through value</com:Name>
+        </str:Code>
+        <str:Code id="E" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).E">
+          <com:Name xml:lang="en">E : Expert sources from FAO (including other divisions)</com:Name>
+        </str:Code>
+        <str:Code id="EA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).EA">
+          <com:Name xml:lang="en">EA : Emissions computed using data from Fertilizer Archive dataset</com:Name>
+        </str:Code>
+        <str:Code id="F" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).F">
+          <com:Name xml:lang="en">F : FAO estimate</com:Name>
+        </str:Code>
+        <str:Code id="F0" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).F0">
+          <com:Name xml:lang="en">F0 : Zero either by algorithm or data insertion</com:Name>
+        </str:Code>
+        <str:Code id="F1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).F1">
+          <com:Name xml:lang="en">F1 : No data available for these under any subject, namely production and trade</com:Name>
+        </str:Code>
+        <str:Code id="FX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).FX">
+          <com:Name xml:lang="en">FX : FAO estimate based on WFP data</com:Name>
+        </str:Code>
+        <str:Code id="Fb" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fb">
+          <com:Name xml:lang="en">Fb : Data obtained as a balance</com:Name>
+        </str:Code>
+        <str:Code id="Fc" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fc">
+          <com:Name xml:lang="en">Fc : Calculated data</com:Name>
+        </str:Code>
+        <str:Code id="Fd" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fd">
+          <com:Name xml:lang="en">Fd : estimates - discontinued time series</com:Name>
+        </str:Code>
+        <str:Code id="Ff" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Ff">
+          <com:Name xml:lang="en">Ff : Fao estimates</com:Name>
+        </str:Code>
+        <str:Code id="Fk" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fk">
+          <com:Name xml:lang="en">Fk : Calculated data on the basis of official figures</com:Name>
+        </str:Code>
+        <str:Code id="Fm" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fm">
+          <com:Name xml:lang="en">Fm : Manual Estimation</com:Name>
+        </str:Code>
+        <str:Code id="Fp" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fp">
+          <com:Name xml:lang="en">Fp : Provisional computer calculated data</com:Name>
+        </str:Code>
+        <str:Code id="Fq" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fq">
+          <com:Name xml:lang="en">Fq : Computer calculated data</com:Name>
+        </str:Code>
+        <str:Code id="Fs" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fs">
+          <com:Name xml:lang="en">Fs : Cross Entropy</com:Name>
+        </str:Code>
+        <str:Code id="Ft" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Ft">
+          <com:Name xml:lang="en">Ft : Trend data</com:Name>
+        </str:Code>
+        <str:Code id="Fu" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fu">
+          <com:Name xml:lang="en">Fu : UN estimates</com:Name>
+        </str:Code>
+        <str:Code id="Fy" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Fy">
+          <com:Name xml:lang="en">Fy : FAO Estimate based on previous years data</com:Name>
+        </str:Code>
+        <str:Code id="I" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).I">
+          <com:Name xml:lang="en">I : Country data reported by International Organizations where the country is a member (Semi-official) - WTO, EU, UNSD, etc.</com:Name>
+        </str:Code>
+        <str:Code id="Im" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Im">
+          <com:Name xml:lang="en">Im : FAO data based on imputation methodology</com:Name>
+        </str:Code>
+        <str:Code id="K" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).K">
+          <com:Name xml:lang="en">K : Estimated time series for internal users only: not for dissemination to external users</com:Name>
+        </str:Code>
+        <str:Code id="M" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).M">
+          <com:Name xml:lang="en">M : Data not available</com:Name>
+        </str:Code>
+        <str:Code id="NA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NA">
+          <com:Name xml:lang="en">NA : Not applicable</com:Name>
+        </str:Code>
+        <str:Code id="NC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NC">
+          <com:Name xml:lang="en">NC : The implied emission factor was not calculated</com:Name>
+        </str:Code>
+        <str:Code id="ND" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).ND">
+          <com:Name xml:lang="en">ND : Number of observations is below 100, statistics are not disseminated</com:Name>
+        </str:Code>
+        <str:Code id="NR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NR">
+          <com:Name xml:lang="en">NR : Not reported by country</com:Name>
+        </str:Code>
+        <str:Code id="NS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NS">
+          <com:Name xml:lang="en">NS : Not statistically significant</com:Name>
+        </str:Code>
+        <str:Code id="NSA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NSA">
+          <com:Name xml:lang="en">NSA : Not statistically significant, year refers to mid-year of 3-year average</com:Name>
+        </str:Code>
+        <str:Code id="NV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).NV">
+          <com:Name xml:lang="en">NV : Not available</com:Name>
+        </str:Code>
+        <str:Code id="O" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).O">
+          <com:Name xml:lang="en">O : Official data</com:Name>
+        </str:Code>
+        <str:Code id="Od" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Od">
+          <com:Name xml:lang="en">Od : Official data - discontinued time series</com:Name>
+        </str:Code>
+        <str:Code id="P" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).P">
+          <com:Name xml:lang="en">P : Provisional official data</com:Name>
+        </str:Code>
+        <str:Code id="Q" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Q">
+          <com:Name xml:lang="en">Q : Official data reported on FAO Questionnaires from countries</com:Name>
+        </str:Code>
+        <str:Code id="Qm" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Qm">
+          <com:Name xml:lang="en">Qm : Official data from questionnaires and/or national sources and/or COMTRADE (reporters)</com:Name>
+        </str:Code>
+        <str:Code id="Qp" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Qp">
+          <com:Name xml:lang="en">Qp : Official provisional data reported on FAO Questionnaires from countries</com:Name>
+        </str:Code>
+        <str:Code id="R" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).R">
+          <com:Name xml:lang="en">R : Estimated data using trading partners database</com:Name>
+        </str:Code>
+        <str:Code id="S" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).S">
+          <com:Name xml:lang="en">S : Standardized data</com:Name>
+        </str:Code>
+        <str:Code id="SD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).SD">
+          <com:Name xml:lang="en">SD : Statistical Discrepancy</com:Name>
+        </str:Code>
+        <str:Code id="SQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).SQ">
+          <com:Name xml:lang="en">SQ : Data provided by USDA</com:Name>
+        </str:Code>
+        <str:Code id="T" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).T">
+          <com:Name xml:lang="en">T : Trend</com:Name>
+        </str:Code>
+        <str:Code id="Tr" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Tr">
+          <com:Name xml:lang="en">Tr : 1: uptrend; 0: same; -1: downtrend</com:Name>
+        </str:Code>
+        <str:Code id="W" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).W">
+          <com:Name xml:lang="en">W : Data reported on country official publications or web sites (Official) or trade country files</com:Name>
+        </str:Code>
+        <str:Code id="Wp" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Wp">
+          <com:Name xml:lang="en">Wp : Data reported on country official publications or web sites (Official) or trade country files</com:Name>
+        </str:Code>
+        <str:Code id="X" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).X">
+          <com:Name xml:lang="en">X : International reliable sources (USDA, WTO, World Bank, IMF)</com:Name>
+        </str:Code>
+        <str:Code id="XF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).XF">
+          <com:Name xml:lang="en">XF : Data provided by WFP</com:Name>
+        </str:Code>
+        <str:Code id="Y1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y1">
+          <com:Name xml:lang="en">Y1 : Data from 2001</com:Name>
+        </str:Code>
+        <str:Code id="Y2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y2">
+          <com:Name xml:lang="en">Y2 : Data from 2002</com:Name>
+        </str:Code>
+        <str:Code id="Y3" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y3">
+          <com:Name xml:lang="en">Y3 : Data from 2003</com:Name>
+        </str:Code>
+        <str:Code id="Y4" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y4">
+          <com:Name xml:lang="en">Y4 : Data from 2004</com:Name>
+        </str:Code>
+        <str:Code id="Y5" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y5">
+          <com:Name xml:lang="en">Y5 : Data from 2005</com:Name>
+        </str:Code>
+        <str:Code id="Y6" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Y6">
+          <com:Name xml:lang="en">Y6 : Data from 2006</com:Name>
+        </str:Code>
+        <str:Code id="Z" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).Z">
+          <com:Name xml:lang="en">Z : When the Fertilizer Utilization Account  (FUA)  does not balance due to utilization from stockpiles, apparent consumption has been set to zero</com:Name>
+        </str:Code>
+        <str:Code id="ZH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_FLAGS(1.0).ZH">
+          <com:Name xml:lang="en">ZH : Zero or less than half the unit shown</com:Name>
+        </str:Code>
+      </str:Codelist>
+      <str:Codelist id="CL_FAOSTAT_GROUPDOMAIN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_GroupDomain</com:Name>
+        <str:Code id="AS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).AS">
+          <com:Name xml:lang="en">AS : ASTI R&amp;D Indicators</com:Name>
+        </str:Code>
+        <str:Code id="D" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).D">
+          <com:Name xml:lang="en">D : Food Security</com:Name>
+        </str:Code>
+        <str:Code id="E" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).E">
+          <com:Name xml:lang="en">E : Agri-Environmental Indicators</com:Name>
+        </str:Code>
+        <str:Code id="F" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).F">
+          <com:Name xml:lang="en">F : Forestry</com:Name>
+        </str:Code>
+        <str:Code id="FB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).FB">
+          <com:Name xml:lang="en">FB : Food Balance</com:Name>
+        </str:Code>
+        <str:Code id="G1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).G1">
+          <com:Name xml:lang="en">G1 : Emissions - Agriculture</com:Name>
+        </str:Code>
+        <str:Code id="G2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).G2">
+          <com:Name xml:lang="en">G2 : Emissions - Land Use</com:Name>
+        </str:Code>
+        <str:Code id="I" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).I">
+          <com:Name xml:lang="en">I : Investment</com:Name>
+        </str:Code>
+        <str:Code id="M" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).M">
+          <com:Name xml:lang="en">M : Macro-Statistics</com:Name>
+        </str:Code>
+        <str:Code id="O" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).O">
+          <com:Name xml:lang="en">O : Population</com:Name>
+        </str:Code>
+        <str:Code id="P" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).P">
+          <com:Name xml:lang="en">P : Prices</com:Name>
+        </str:Code>
+        <str:Code id="Q" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).Q">
+          <com:Name xml:lang="en">Q : Production</com:Name>
+        </str:Code>
+        <str:Code id="R" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).R">
+          <com:Name xml:lang="en">R : Inputs</com:Name>
+        </str:Code>
+        <str:Code id="T" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_GROUPDOMAIN(1.0).T">
+          <com:Name xml:lang="en">T : Trade</com:Name>
+        </str:Code>
+      </str:Codelist>
+      <str:Codelist id="CL_FAOSTAT_ITEMS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FENIX:CL_FAOSTAT_ITEMS(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_Items</com:Name>
+        <str:Code id="101" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).101">
+          <com:Name xml:lang="en">101 : Canary seed</com:Name>
+        </str:Code>
+        <str:Code id="1016" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1016">
+          <com:Name xml:lang="en">1016 : Goats</com:Name>
+        </str:Code>
+        <str:Code id="103" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).103">
+          <com:Name xml:lang="en">103 : Grain, mixed</com:Name>
+        </str:Code>
+        <str:Code id="1049" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1049">
+          <com:Name xml:lang="en">1049 : Swine, market</com:Name>
+        </str:Code>
+        <str:Code id="1051" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1051">
+          <com:Name xml:lang="en">1051 : Swine, breeding</com:Name>
+        </str:Code>
+        <str:Code id="1052" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1052">
+          <com:Name xml:lang="en">1052 : Chickens, layers</com:Name>
+        </str:Code>
+        <str:Code id="1053" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1053">
+          <com:Name xml:lang="en">1053 : Chickens, broilers</com:Name>
+        </str:Code>
+        <str:Code id="1068" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1068">
+          <com:Name xml:lang="en">1068 : Ducks</com:Name>
+        </str:Code>
+        <str:Code id="1079" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1079">
+          <com:Name xml:lang="en">1079 : Turkeys</com:Name>
+        </str:Code>
+        <str:Code id="108" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).108">
+          <com:Name xml:lang="en">108 : Cereals, nes</com:Name>
+        </str:Code>
+        <str:Code id="1096" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1096">
+          <com:Name xml:lang="en">1096 : Horses</com:Name>
+        </str:Code>
+        <str:Code id="1107" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1107">
+          <com:Name xml:lang="en">1107 : Asses</com:Name>
+        </str:Code>
+        <str:Code id="1110" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1110">
+          <com:Name xml:lang="en">1110 : Mules</com:Name>
+        </str:Code>
+        <str:Code id="1126" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1126">
+          <com:Name xml:lang="en">1126 : Camels</com:Name>
+        </str:Code>
+        <str:Code id="116" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).116">
+          <com:Name xml:lang="en">116 : Potatoes</com:Name>
+        </str:Code>
+        <str:Code id="1177" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1177">
+          <com:Name xml:lang="en">1177 : Llamas</com:Name>
+        </str:Code>
+        <str:Code id="122" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).122">
+          <com:Name xml:lang="en">122 : Sweet potatoes</com:Name>
+        </str:Code>
+        <str:Code id="125" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).125">
+          <com:Name xml:lang="en">125 : Cassava</com:Name>
+        </str:Code>
+        <str:Code id="135" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).135">
+          <com:Name xml:lang="en">135 : Yautia (cocoyam)</com:Name>
+        </str:Code>
+        <str:Code id="136" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).136">
+          <com:Name xml:lang="en">136 : Taro (cocoyam)</com:Name>
+        </str:Code>
+        <str:Code id="137" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).137">
+          <com:Name xml:lang="en">137 : Yams</com:Name>
+        </str:Code>
+        <str:Code id="149" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).149">
+          <com:Name xml:lang="en">149 : Roots and tubers, nes</com:Name>
+        </str:Code>
+        <str:Code id="15" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).15">
+          <com:Name xml:lang="en">15 : Wheat</com:Name>
+        </str:Code>
+        <str:Code id="156" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).156">
+          <com:Name xml:lang="en">156 : Sugar cane</com:Name>
+        </str:Code>
+        <str:Code id="157" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).157">
+          <com:Name xml:lang="en">157 : Sugar beet</com:Name>
+        </str:Code>
+        <str:Code id="1601" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1601">
+          <com:Name xml:lang="en">1601 : Sawlogs+Veneer Logs (C)</com:Name>
+        </str:Code>
+        <str:Code id="1602" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1602">
+          <com:Name xml:lang="en">1602 : Pulpwood,Round\u0026Split(C)</com:Name>
+        </str:Code>
+        <str:Code id="1603" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1603">
+          <com:Name xml:lang="en">1603 : Pulpwood,Round\u0026Split(NC)</com:Name>
+        </str:Code>
+        <str:Code id="1604" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1604">
+          <com:Name xml:lang="en">1604 : Sawlogs+Veneer Logs (NC)</com:Name>
+        </str:Code>
+        <str:Code id="1608" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1608">
+          <com:Name xml:lang="en">1608 : Pulpwood+Particles(C)</com:Name>
+        </str:Code>
+        <str:Code id="1609" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1609">
+          <com:Name xml:lang="en">1609 : Recovered Fibre Pulp</com:Name>
+        </str:Code>
+        <str:Code id="161" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).161">
+          <com:Name xml:lang="en">161 : Sugar crops, nes</com:Name>
+        </str:Code>
+        <str:Code id="1611" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1611">
+          <com:Name xml:lang="en">1611 : Pulpwood+Particles(NC)</com:Name>
+        </str:Code>
+        <str:Code id="1612" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1612">
+          <com:Name xml:lang="en">1612 : Uncoated Mechanical</com:Name>
+        </str:Code>
+        <str:Code id="1614" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1614">
+          <com:Name xml:lang="en">1614 : Pulpwood,Round\u0026Split Trd</com:Name>
+        </str:Code>
+        <str:Code id="1615" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1615">
+          <com:Name xml:lang="en">1615 : Uncoated Woodfree</com:Name>
+        </str:Code>
+        <str:Code id="1616" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1616">
+          <com:Name xml:lang="en">1616 : Coated Papers</com:Name>
+        </str:Code>
+        <str:Code id="1617" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1617">
+          <com:Name xml:lang="en">1617 : Case Materials</com:Name>
+        </str:Code>
+        <str:Code id="1618" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1618">
+          <com:Name xml:lang="en">1618 : Folding Boxboard</com:Name>
+        </str:Code>
+        <str:Code id="1619" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1619">
+          <com:Name xml:lang="en">1619 : Chips and Particles</com:Name>
+        </str:Code>
+        <str:Code id="1620" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1620">
+          <com:Name xml:lang="en">1620 : Wood Residues</com:Name>
+        </str:Code>
+        <str:Code id="1621" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1621">
+          <com:Name xml:lang="en">1621 : Wrapping Papers</com:Name>
+        </str:Code>
+        <str:Code id="1622" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1622">
+          <com:Name xml:lang="en">1622 : Other Papers Packaging</com:Name>
+        </str:Code>
+        <str:Code id="1623" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1623">
+          <com:Name xml:lang="en">1623 : Other Indust Roundwd(C)</com:Name>
+        </str:Code>
+        <str:Code id="1625" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1625">
+          <com:Name xml:lang="en">1625 : Other Indust Roundwd Trd</com:Name>
+        </str:Code>
+        <str:Code id="1626" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1626">
+          <com:Name xml:lang="en">1626 : Other Indust Roundwd(NC)</com:Name>
+        </str:Code>
+        <str:Code id="1627" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1627">
+          <com:Name xml:lang="en">1627 : Wood Fuel(C)</com:Name>
+        </str:Code>
+        <str:Code id="1628" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1628">
+          <com:Name xml:lang="en">1628 : Wood Fuel(NC)</com:Name>
+        </str:Code>
+        <str:Code id="1629" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1629">
+          <com:Name xml:lang="en">1629 : Wood Fuel Trd</com:Name>
+        </str:Code>
+        <str:Code id="1630" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1630">
+          <com:Name xml:lang="en">1630 : Wood Charcoal</com:Name>
+        </str:Code>
+        <str:Code id="1632" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1632">
+          <com:Name xml:lang="en">1632 : Sawnwood (C)</com:Name>
+        </str:Code>
+        <str:Code id="1633" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1633">
+          <com:Name xml:lang="en">1633 : Sawnwood (NC)</com:Name>
+        </str:Code>
+        <str:Code id="1634" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1634">
+          <com:Name xml:lang="en">1634 : Veneer Sheets</com:Name>
+        </str:Code>
+        <str:Code id="1640" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1640">
+          <com:Name xml:lang="en">1640 : Plywood</com:Name>
+        </str:Code>
+        <str:Code id="1646" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1646">
+          <com:Name xml:lang="en">1646 : Particle Board</com:Name>
+        </str:Code>
+        <str:Code id="1647" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1647">
+          <com:Name xml:lang="en">1647 : Hardboard</com:Name>
+        </str:Code>
+        <str:Code id="1648" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1648">
+          <com:Name xml:lang="en">1648 : MDF</com:Name>
+        </str:Code>
+        <str:Code id="1649" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1649">
+          <com:Name xml:lang="en">1649 : Fibreboard, Compressed</com:Name>
+        </str:Code>
+        <str:Code id="1650" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1650">
+          <com:Name xml:lang="en">1650 : Insulating Board</com:Name>
+        </str:Code>
+        <str:Code id="1651" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1651">
+          <com:Name xml:lang="en">1651 : Ind Rwd Wir (C)</com:Name>
+        </str:Code>
+        <str:Code id="1654" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1654">
+          <com:Name xml:lang="en">1654 : Mechanical Wood Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1655" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1655">
+          <com:Name xml:lang="en">1655 : Semi-Chemical Wood Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1656" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1656">
+          <com:Name xml:lang="en">1656 : Chemical Wood Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1657" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1657">
+          <com:Name xml:lang="en">1657 : Ind Rwd Wir (NC) Tropica</com:Name>
+        </str:Code>
+        <str:Code id="1660" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1660">
+          <com:Name xml:lang="en">1660 : Unbleached Sulphite Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1661" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1661">
+          <com:Name xml:lang="en">1661 : Bleached Sulphite Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1662" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1662">
+          <com:Name xml:lang="en">1662 : Unbleached Sulphate Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1663" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1663">
+          <com:Name xml:lang="en">1663 : Bleached Sulphate Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1667" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1667">
+          <com:Name xml:lang="en">1667 : Dissolving Wood Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1668" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1668">
+          <com:Name xml:lang="en">1668 : Other Fibre Pulp</com:Name>
+        </str:Code>
+        <str:Code id="1669" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1669">
+          <com:Name xml:lang="en">1669 : Recovered Paper</com:Name>
+        </str:Code>
+        <str:Code id="1670" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1670">
+          <com:Name xml:lang="en">1670 : Ind Rwd Wir (NC) Other</com:Name>
+        </str:Code>
+        <str:Code id="1671" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1671">
+          <com:Name xml:lang="en">1671 : Newsprint</com:Name>
+        </str:Code>
+        <str:Code id="1674" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1674">
+          <com:Name xml:lang="en">1674 : Printing+Writing Paper</com:Name>
+        </str:Code>
+        <str:Code id="1675" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1675">
+          <com:Name xml:lang="en">1675 : Other Paper+Paperboard</com:Name>
+        </str:Code>
+        <str:Code id="1676" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1676">
+          <com:Name xml:lang="en">1676 : Household+Sanitary Paper</com:Name>
+        </str:Code>
+        <str:Code id="1681" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1681">
+          <com:Name xml:lang="en">1681 : Wrapg+Packg Paper+Board</com:Name>
+        </str:Code>
+        <str:Code id="1683" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1683">
+          <com:Name xml:lang="en">1683 : Paper+Paperboard NES</com:Name>
+        </str:Code>
+        <str:Code id="1693" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1693">
+          <com:Name xml:lang="en">1693 : Wood Pellets</com:Name>
+        </str:Code>
+        <str:Code id="1694" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).1694">
+          <com:Name xml:lang="en">1694 : Other Agglomerates</com:Name>
+        </str:Code>
+        <str:Code id="176" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).176">
+          <com:Name xml:lang="en">176 : Beans, dry</com:Name>
+        </str:Code>
+        <str:Code id="181" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).181">
+          <com:Name xml:lang="en">181 : Broad beans, horse beans, dry</com:Name>
+        </str:Code>
+        <str:Code id="187" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).187">
+          <com:Name xml:lang="en">187 : Peas, dry</com:Name>
+        </str:Code>
+        <str:Code id="191" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).191">
+          <com:Name xml:lang="en">191 : Chick peas</com:Name>
+        </str:Code>
+        <str:Code id="195" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).195">
+          <com:Name xml:lang="en">195 : Cow peas, dry</com:Name>
+        </str:Code>
+        <str:Code id="197" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).197">
+          <com:Name xml:lang="en">197 : Pigeon peas</com:Name>
+        </str:Code>
+        <str:Code id="201" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).201">
+          <com:Name xml:lang="en">201 : Lentils</com:Name>
+        </str:Code>
+        <str:Code id="203" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).203">
+          <com:Name xml:lang="en">203 : Bambara beans</com:Name>
+        </str:Code>
+        <str:Code id="205" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).205">
+          <com:Name xml:lang="en">205 : Vetches</com:Name>
+        </str:Code>
+        <str:Code id="210" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).210">
+          <com:Name xml:lang="en">210 : Lupins</com:Name>
+        </str:Code>
+        <str:Code id="211" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).211">
+          <com:Name xml:lang="en">211 : Pulses, nes</com:Name>
+        </str:Code>
+        <str:Code id="216" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).216">
+          <com:Name xml:lang="en">216 : Brazil nuts, with shell</com:Name>
+        </str:Code>
+        <str:Code id="217" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).217">
+          <com:Name xml:lang="en">217 : Cashew nuts, with shell</com:Name>
+        </str:Code>
+        <str:Code id="220" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).220">
+          <com:Name xml:lang="en">220 : Chestnut</com:Name>
+        </str:Code>
+        <str:Code id="221" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).221">
+          <com:Name xml:lang="en">221 : Almonds, with shell</com:Name>
+        </str:Code>
+        <str:Code id="222" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).222">
+          <com:Name xml:lang="en">222 : Walnuts, with shell</com:Name>
+        </str:Code>
+        <str:Code id="223" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).223">
+          <com:Name xml:lang="en">223 : Pistachios</com:Name>
+        </str:Code>
+        <str:Code id="224" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).224">
+          <com:Name xml:lang="en">224 : Kola nuts</com:Name>
+        </str:Code>
+        <str:Code id="225" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).225">
+          <com:Name xml:lang="en">225 : Hazelnuts, with shell</com:Name>
+        </str:Code>
+        <str:Code id="226" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).226">
+          <com:Name xml:lang="en">226 : Areca nuts</com:Name>
+        </str:Code>
+        <str:Code id="234" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).234">
+          <com:Name xml:lang="en">234 : Nuts, nes</com:Name>
+        </str:Code>
+        <str:Code id="236" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).236">
+          <com:Name xml:lang="en">236 : Soybeans</com:Name>
+        </str:Code>
+        <str:Code id="242" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).242">
+          <com:Name xml:lang="en">242 : Groundnuts, with shell</com:Name>
+        </str:Code>
+        <str:Code id="249" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).249">
+          <com:Name xml:lang="en">249 : Coconuts</com:Name>
+        </str:Code>
+        <str:Code id="254" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).254">
+          <com:Name xml:lang="en">254 : Oil, palm fruit</com:Name>
+        </str:Code>
+        <str:Code id="256" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).256">
+          <com:Name xml:lang="en">256 : Palm kernels</com:Name>
+        </str:Code>
+        <str:Code id="257" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).257">
+          <com:Name xml:lang="en">257 : Oil, palm</com:Name>
+        </str:Code>
+        <str:Code id="260" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).260">
+          <com:Name xml:lang="en">260 : Olives</com:Name>
+        </str:Code>
+        <str:Code id="263" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).263">
+          <com:Name xml:lang="en">263 : Karite nuts (sheanuts)</com:Name>
+        </str:Code>
+        <str:Code id="265" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).265">
+          <com:Name xml:lang="en">265 : Castor oil seed</com:Name>
+        </str:Code>
+        <str:Code id="267" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).267">
+          <com:Name xml:lang="en">267 : Sunflower seed</com:Name>
+        </str:Code>
+        <str:Code id="27" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).27">
+          <com:Name xml:lang="en">27 : Rice, paddy</com:Name>
+        </str:Code>
+        <str:Code id="270" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).270">
+          <com:Name xml:lang="en">270 : Rapeseed</com:Name>
+        </str:Code>
+        <str:Code id="275" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).275">
+          <com:Name xml:lang="en">275 : Tung nuts</com:Name>
+        </str:Code>
+        <str:Code id="277" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).277">
+          <com:Name xml:lang="en">277 : Jojoba seed</com:Name>
+        </str:Code>
+        <str:Code id="280" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).280">
+          <com:Name xml:lang="en">280 : Safflower seed</com:Name>
+        </str:Code>
+        <str:Code id="289" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).289">
+          <com:Name xml:lang="en">289 : Sesame seed</com:Name>
+        </str:Code>
+        <str:Code id="292" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).292">
+          <com:Name xml:lang="en">292 : Mustard seed</com:Name>
+        </str:Code>
+        <str:Code id="296" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).296">
+          <com:Name xml:lang="en">296 : Poppy seed</com:Name>
+        </str:Code>
+        <str:Code id="299" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).299">
+          <com:Name xml:lang="en">299 : Melonseed</com:Name>
+        </str:Code>
+        <str:Code id="3010" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).3010">
+          <com:Name xml:lang="en">3010 : Population - Est. \u0026 Proj.</com:Name>
+        </str:Code>
+        <str:Code id="305" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).305">
+          <com:Name xml:lang="en">305 : Tallowtree seed</com:Name>
+        </str:Code>
+        <str:Code id="310" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).310">
+          <com:Name xml:lang="en">310 : Kapok fruit</com:Name>
+        </str:Code>
+        <str:Code id="311" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).311">
+          <com:Name xml:lang="en">311 : Kapokseed in shell</com:Name>
+        </str:Code>
+        <str:Code id="328" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).328">
+          <com:Name xml:lang="en">328 : Seed cotton</com:Name>
+        </str:Code>
+        <str:Code id="329" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).329">
+          <com:Name xml:lang="en">329 : Cottonseed</com:Name>
+        </str:Code>
+        <str:Code id="333" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).333">
+          <com:Name xml:lang="en">333 : Linseed</com:Name>
+        </str:Code>
+        <str:Code id="336" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).336">
+          <com:Name xml:lang="en">336 : Hempseed</com:Name>
+        </str:Code>
+        <str:Code id="339" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).339">
+          <com:Name xml:lang="en">339 : Oilseeds nes</com:Name>
+        </str:Code>
+        <str:Code id="358" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).358">
+          <com:Name xml:lang="en">358 : Cabbages and other brassicas</com:Name>
+        </str:Code>
+        <str:Code id="366" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).366">
+          <com:Name xml:lang="en">366 : Artichokes</com:Name>
+        </str:Code>
+        <str:Code id="367" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).367">
+          <com:Name xml:lang="en">367 : Asparagus</com:Name>
+        </str:Code>
+        <str:Code id="372" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).372">
+          <com:Name xml:lang="en">372 : Lettuce and chicory</com:Name>
+        </str:Code>
+        <str:Code id="373" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).373">
+          <com:Name xml:lang="en">373 : Spinach</com:Name>
+        </str:Code>
+        <str:Code id="378" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).378">
+          <com:Name xml:lang="en">378 : Cassava leaves</com:Name>
+        </str:Code>
+        <str:Code id="388" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).388">
+          <com:Name xml:lang="en">388 : Tomatoes</com:Name>
+        </str:Code>
+        <str:Code id="393" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).393">
+          <com:Name xml:lang="en">393 : Cauliflowers and broccoli</com:Name>
+        </str:Code>
+        <str:Code id="394" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).394">
+          <com:Name xml:lang="en">394 : Pumpkins, squash and gourds</com:Name>
+        </str:Code>
+        <str:Code id="397" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).397">
+          <com:Name xml:lang="en">397 : Cucumbers and gherkins</com:Name>
+        </str:Code>
+        <str:Code id="399" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).399">
+          <com:Name xml:lang="en">399 : Eggplants (aubergines)</com:Name>
+        </str:Code>
+        <str:Code id="401" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).401">
+          <com:Name xml:lang="en">401 : Chillies and peppers, green</com:Name>
+        </str:Code>
+        <str:Code id="402" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).402">
+          <com:Name xml:lang="en">402 : Onions, shallots, green</com:Name>
+        </str:Code>
+        <str:Code id="403" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).403">
+          <com:Name xml:lang="en">403 : Onions, dry</com:Name>
+        </str:Code>
+        <str:Code id="406" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).406">
+          <com:Name xml:lang="en">406 : Garlic</com:Name>
+        </str:Code>
+        <str:Code id="407" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).407">
+          <com:Name xml:lang="en">407 : Leeks, other alliaceous vegetables</com:Name>
+        </str:Code>
+        <str:Code id="414" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).414">
+          <com:Name xml:lang="en">414 : Beans, green</com:Name>
+        </str:Code>
+        <str:Code id="417" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).417">
+          <com:Name xml:lang="en">417 : Peas, green</com:Name>
+        </str:Code>
+        <str:Code id="420" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).420">
+          <com:Name xml:lang="en">420 : Vegetables, leguminous nes</com:Name>
+        </str:Code>
+        <str:Code id="423" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).423">
+          <com:Name xml:lang="en">423 : String beans</com:Name>
+        </str:Code>
+        <str:Code id="426" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).426">
+          <com:Name xml:lang="en">426 : Carrots and turnips</com:Name>
+        </str:Code>
+        <str:Code id="430" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).430">
+          <com:Name xml:lang="en">430 : Okra</com:Name>
+        </str:Code>
+        <str:Code id="44" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).44">
+          <com:Name xml:lang="en">44 : Barley</com:Name>
+        </str:Code>
+        <str:Code id="446" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).446">
+          <com:Name xml:lang="en">446 : Maize, green</com:Name>
+        </str:Code>
+        <str:Code id="449" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).449">
+          <com:Name xml:lang="en">449 : Mushrooms and truffles</com:Name>
+        </str:Code>
+        <str:Code id="459" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).459">
+          <com:Name xml:lang="en">459 : Chicory roots</com:Name>
+        </str:Code>
+        <str:Code id="461" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).461">
+          <com:Name xml:lang="en">461 : Carobs</com:Name>
+        </str:Code>
+        <str:Code id="463" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).463">
+          <com:Name xml:lang="en">463 : Vegetables, fresh nes</com:Name>
+        </str:Code>
+        <str:Code id="486" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).486">
+          <com:Name xml:lang="en">486 : Bananas</com:Name>
+        </str:Code>
+        <str:Code id="489" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).489">
+          <com:Name xml:lang="en">489 : Plantains</com:Name>
+        </str:Code>
+        <str:Code id="490" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).490">
+          <com:Name xml:lang="en">490 : Oranges</com:Name>
+        </str:Code>
+        <str:Code id="495" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).495">
+          <com:Name xml:lang="en">495 : Tangerines, mandarins, clementines, satsumas</com:Name>
+        </str:Code>
+        <str:Code id="497" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).497">
+          <com:Name xml:lang="en">497 : Lemons and limes</com:Name>
+        </str:Code>
+        <str:Code id="5050" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).5050">
+          <com:Name xml:lang="en">5050 : Nitrogen Fertilizers \u003e (List)</com:Name>
+        </str:Code>
+        <str:Code id="507" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).507">
+          <com:Name xml:lang="en">507 : Grapefruit (inc. pomelos)</com:Name>
+        </str:Code>
+        <str:Code id="512" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).512">
+          <com:Name xml:lang="en">512 : Fruit, citrus nes</com:Name>
+        </str:Code>
+        <str:Code id="515" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).515">
+          <com:Name xml:lang="en">515 : Apples</com:Name>
+        </str:Code>
+        <str:Code id="521" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).521">
+          <com:Name xml:lang="en">521 : Pears</com:Name>
+        </str:Code>
+        <str:Code id="523" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).523">
+          <com:Name xml:lang="en">523 : Quinces</com:Name>
+        </str:Code>
+        <str:Code id="526" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).526">
+          <com:Name xml:lang="en">526 : Apricots</com:Name>
+        </str:Code>
+        <str:Code id="530" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).530">
+          <com:Name xml:lang="en">530 : Cherries, sour</com:Name>
+        </str:Code>
+        <str:Code id="531" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).531">
+          <com:Name xml:lang="en">531 : Cherries</com:Name>
+        </str:Code>
+        <str:Code id="534" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).534">
+          <com:Name xml:lang="en">534 : Peaches and nectarines</com:Name>
+        </str:Code>
+        <str:Code id="536" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).536">
+          <com:Name xml:lang="en">536 : Plums and sloes</com:Name>
+        </str:Code>
+        <str:Code id="541" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).541">
+          <com:Name xml:lang="en">541 : Fruit, stone nes</com:Name>
+        </str:Code>
+        <str:Code id="542" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).542">
+          <com:Name xml:lang="en">542 : Fruit, pome nes</com:Name>
+        </str:Code>
+        <str:Code id="544" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).544">
+          <com:Name xml:lang="en">544 : Strawberries</com:Name>
+        </str:Code>
+        <str:Code id="547" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).547">
+          <com:Name xml:lang="en">547 : Raspberries</com:Name>
+        </str:Code>
+        <str:Code id="549" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).549">
+          <com:Name xml:lang="en">549 : Gooseberries</com:Name>
+        </str:Code>
+        <str:Code id="550" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).550">
+          <com:Name xml:lang="en">550 : Currants</com:Name>
+        </str:Code>
+        <str:Code id="552" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).552">
+          <com:Name xml:lang="en">552 : Blueberries</com:Name>
+        </str:Code>
+        <str:Code id="554" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).554">
+          <com:Name xml:lang="en">554 : Cranberries</com:Name>
+        </str:Code>
+        <str:Code id="558" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).558">
+          <com:Name xml:lang="en">558 : Berries nes</com:Name>
+        </str:Code>
+        <str:Code id="56" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).56">
+          <com:Name xml:lang="en">56 : Maize</com:Name>
+        </str:Code>
+        <str:Code id="560" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).560">
+          <com:Name xml:lang="en">560 : Grapes</com:Name>
+        </str:Code>
+        <str:Code id="567" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).567">
+          <com:Name xml:lang="en">567 : Watermelons</com:Name>
+        </str:Code>
+        <str:Code id="568" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).568">
+          <com:Name xml:lang="en">568 : Melons, other (inc.cantaloupes)</com:Name>
+        </str:Code>
+        <str:Code id="569" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).569">
+          <com:Name xml:lang="en">569 : Figs</com:Name>
+        </str:Code>
+        <str:Code id="571" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).571">
+          <com:Name xml:lang="en">571 : Mangoes, mangosteens, guavas</com:Name>
+        </str:Code>
+        <str:Code id="572" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).572">
+          <com:Name xml:lang="en">572 : Avocados</com:Name>
+        </str:Code>
+        <str:Code id="574" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).574">
+          <com:Name xml:lang="en">574 : Pineapples</com:Name>
+        </str:Code>
+        <str:Code id="577" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).577">
+          <com:Name xml:lang="en">577 : Dates</com:Name>
+        </str:Code>
+        <str:Code id="587" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).587">
+          <com:Name xml:lang="en">587 : Persimmons</com:Name>
+        </str:Code>
+        <str:Code id="591" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).591">
+          <com:Name xml:lang="en">591 : Cashewapple</com:Name>
+        </str:Code>
+        <str:Code id="592" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).592">
+          <com:Name xml:lang="en">592 : Kiwi fruit</com:Name>
+        </str:Code>
+        <str:Code id="600" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).600">
+          <com:Name xml:lang="en">600 : Papayas</com:Name>
+        </str:Code>
+        <str:Code id="603" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).603">
+          <com:Name xml:lang="en">603 : Fruit, tropical fresh nes</com:Name>
+        </str:Code>
+        <str:Code id="619" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).619">
+          <com:Name xml:lang="en">619 : Fruit, fresh nes</com:Name>
+        </str:Code>
+        <str:Code id="656" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).656">
+          <com:Name xml:lang="en">656 : Coffee, green</com:Name>
+        </str:Code>
+        <str:Code id="661" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).661">
+          <com:Name xml:lang="en">661 : Cocoa, beans</com:Name>
+        </str:Code>
+        <str:Code id="667" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).667">
+          <com:Name xml:lang="en">667 : Tea</com:Name>
+        </str:Code>
+        <str:Code id="671" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).671">
+          <com:Name xml:lang="en">671 : MatÃ©</com:Name>
+        </str:Code>
+        <str:Code id="6727" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6727">
+          <com:Name xml:lang="en">6727 : Cropland organic soils</com:Name>
+        </str:Code>
+        <str:Code id="6728" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6728">
+          <com:Name xml:lang="en">6728 : Grassland organic soils</com:Name>
+        </str:Code>
+        <str:Code id="6760" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6760">
+          <com:Name xml:lang="en">6760 : Savanna</com:Name>
+        </str:Code>
+        <str:Code id="677" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).677">
+          <com:Name xml:lang="en">677 : Hops</com:Name>
+        </str:Code>
+        <str:Code id="6789" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6789">
+          <com:Name xml:lang="en">6789 : Woody savanna</com:Name>
+        </str:Code>
+        <str:Code id="6791" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6791">
+          <com:Name xml:lang="en">6791 : Closed shrubland</com:Name>
+        </str:Code>
+        <str:Code id="6792" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6792">
+          <com:Name xml:lang="en">6792 : Open shrubland</com:Name>
+        </str:Code>
+        <str:Code id="6794" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).6794">
+          <com:Name xml:lang="en">6794 : Grassland</com:Name>
+        </str:Code>
+        <str:Code id="68" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).68">
+          <com:Name xml:lang="en">68 : Popcorn</com:Name>
+        </str:Code>
+        <str:Code id="687" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).687">
+          <com:Name xml:lang="en">687 : Pepper (piper spp.)</com:Name>
+        </str:Code>
+        <str:Code id="689" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).689">
+          <com:Name xml:lang="en">689 : Chillies and peppers, dry</com:Name>
+        </str:Code>
+        <str:Code id="692" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).692">
+          <com:Name xml:lang="en">692 : Vanilla</com:Name>
+        </str:Code>
+        <str:Code id="693" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).693">
+          <com:Name xml:lang="en">693 : Cinnamon (canella)</com:Name>
+        </str:Code>
+        <str:Code id="698" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).698">
+          <com:Name xml:lang="en">698 : Cloves</com:Name>
+        </str:Code>
+        <str:Code id="702" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).702">
+          <com:Name xml:lang="en">702 : Nutmeg, mace and cardamoms</com:Name>
+        </str:Code>
+        <str:Code id="71" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).71">
+          <com:Name xml:lang="en">71 : Rye</com:Name>
+        </str:Code>
+        <str:Code id="711" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).711">
+          <com:Name xml:lang="en">711 : Anise, badian, fennel, coriander</com:Name>
+        </str:Code>
+        <str:Code id="720" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).720">
+          <com:Name xml:lang="en">720 : Ginger</com:Name>
+        </str:Code>
+        <str:Code id="723" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).723">
+          <com:Name xml:lang="en">723 : Spices, nes</com:Name>
+        </str:Code>
+        <str:Code id="748" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).748">
+          <com:Name xml:lang="en">748 : Peppermint</com:Name>
+        </str:Code>
+        <str:Code id="75" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).75">
+          <com:Name xml:lang="en">75 : Oats</com:Name>
+        </str:Code>
+        <str:Code id="754" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).754">
+          <com:Name xml:lang="en">754 : Pyrethrum, dried</com:Name>
+        </str:Code>
+        <str:Code id="767" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).767">
+          <com:Name xml:lang="en">767 : Cotton lint</com:Name>
+        </str:Code>
+        <str:Code id="773" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).773">
+          <com:Name xml:lang="en">773 : Flax fibre and tow</com:Name>
+        </str:Code>
+        <str:Code id="777" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).777">
+          <com:Name xml:lang="en">777 : Hemp tow waste</com:Name>
+        </str:Code>
+        <str:Code id="778" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).778">
+          <com:Name xml:lang="en">778 : Kapok fibre</com:Name>
+        </str:Code>
+        <str:Code id="780" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).780">
+          <com:Name xml:lang="en">780 : Jute</com:Name>
+        </str:Code>
+        <str:Code id="782" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).782">
+          <com:Name xml:lang="en">782 : Bastfibres, other</com:Name>
+        </str:Code>
+        <str:Code id="788" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).788">
+          <com:Name xml:lang="en">788 : Ramie</com:Name>
+        </str:Code>
+        <str:Code id="789" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).789">
+          <com:Name xml:lang="en">789 : Sisal</com:Name>
+        </str:Code>
+        <str:Code id="79" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).79">
+          <com:Name xml:lang="en">79 : Millet</com:Name>
+        </str:Code>
+        <str:Code id="800" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).800">
+          <com:Name xml:lang="en">800 : Agave fibres nes</com:Name>
+        </str:Code>
+        <str:Code id="809" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).809">
+          <com:Name xml:lang="en">809 : Manila fibre (abaca)</com:Name>
+        </str:Code>
+        <str:Code id="813" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).813">
+          <com:Name xml:lang="en">813 : Coir</com:Name>
+        </str:Code>
+        <str:Code id="821" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).821">
+          <com:Name xml:lang="en">821 : Fibre crops nes</com:Name>
+        </str:Code>
+        <str:Code id="826" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).826">
+          <com:Name xml:lang="en">826 : Tobacco, unmanufactured</com:Name>
+        </str:Code>
+        <str:Code id="83" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).83">
+          <com:Name xml:lang="en">83 : Sorghum</com:Name>
+        </str:Code>
+        <str:Code id="836" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).836">
+          <com:Name xml:lang="en">836 : Rubber, natural</com:Name>
+        </str:Code>
+        <str:Code id="839" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).839">
+          <com:Name xml:lang="en">839 : Gums, natural</com:Name>
+        </str:Code>
+        <str:Code id="89" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).89">
+          <com:Name xml:lang="en">89 : Buckwheat</com:Name>
+        </str:Code>
+        <str:Code id="92" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).92">
+          <com:Name xml:lang="en">92 : Quinoa</com:Name>
+        </str:Code>
+        <str:Code id="94" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).94">
+          <com:Name xml:lang="en">94 : Fonio</com:Name>
+        </str:Code>
+        <str:Code id="946" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).946">
+          <com:Name xml:lang="en">946 : Buffaloes</com:Name>
+        </str:Code>
+        <str:Code id="960" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).960">
+          <com:Name xml:lang="en">960 : Cattle, dairy</com:Name>
+        </str:Code>
+        <str:Code id="961" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).961">
+          <com:Name xml:lang="en">961 : Cattle, non-dairy</com:Name>
+        </str:Code>
+        <str:Code id="97" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).97">
+          <com:Name xml:lang="en">97 : Triticale</com:Name>
+        </str:Code>
+        <str:Code id="976" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FENIX:CL_FAOSTAT_ITEMS(1.0).976">
+          <com:Name xml:lang="en">976 : Sheep</com:Name>
+        </str:Code>
+      </str:Codelist>
+    </str:Codelists>
+    <str:Concepts>
+      <str:ConceptScheme id="CONCEPTS" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.ConceptScheme=Fenix:CONCEPTS(1.0)" agencyID="Fenix" version="1.0">
+        <com:Name xml:lang="en">Fenix Concepts</com:Name>
+        <str:Concept id="DOMAIN" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).DOMAIN">
+          <com:Name xml:lang="en">Domain</com:Name>
+        </str:Concept>
+        <str:Concept id="COUNTRY" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).COUNTRY">
+          <com:Name xml:lang="en">Country</com:Name>
+        </str:Concept>
+        <str:Concept id="YEAR" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).YEAR">
+          <com:Name xml:lang="en">Year</com:Name>
+        </str:Concept>
+        <str:Concept id="ELEMENT" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).ELEMENT">
+          <com:Name xml:lang="en">Indicator</com:Name>
+        </str:Concept>
+        <str:Concept id="ITEM" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).ITEM">
+          <com:Name xml:lang="en">Item</com:Name>
+        </str:Concept>
+        <str:Concept id="VALUE" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).VALUE">
+          <com:Name xml:lang="en">Value</com:Name>
+        </str:Concept>
+        <str:Concept id="UNIT" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).UNIT">
+          <com:Name xml:lang="en">Unit of measure</com:Name>
+        </str:Concept>
+        <str:Concept id="FLAG" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=Fenix:CONCEPTS(1.0).FLAG">
+          <com:Name xml:lang="en">Flag</com:Name>
+        </str:Concept>
+      </str:ConceptScheme>
+    </str:Concepts>
+    <str:DataStructures>
+      <str:DataStructure id="FAOSTAT_QA" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=FENIX:FAOSTAT_QA(1.0)" agencyID="FENIX" version="1.0">
+        <com:Name xml:lang="en">FAOSTAT_QA</com:Name>
+        <str:DataStructureComponents>
+          <str:DimensionList id="DimensionDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DimensionDescriptor=FENIX:FAOSTAT_QA(1.0).DimensionDescriptor">
+            <str:Dimension id="COUNTRY" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=FENIX:FAOSTAT_QA(1.0).COUNTRY" position="1">
+              <str:ConceptIdentity>
+                <Ref id="COUNTRY" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="CL_FAOSTAT_COUNTRIES" version="1.0" agencyID="FENIX" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:TimeDimension id="TIME_PERIOD" urn="urn:sdmx:org.sdmx.infomodel.datastructure.TimeDimension=FENIX:FAOSTAT_QA(1.0).TIME_PERIOD" position="2">
+              <str:ConceptIdentity>
+                <Ref id="YEAR" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+            </str:TimeDimension>
+            <str:Dimension id="ELEMENT" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=FENIX:FAOSTAT_QA(1.0).ELEMENT" position="3">
+              <str:ConceptIdentity>
+                <Ref id="ELEMENT" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="CL_FAOSTAT_ELEMENTS" version="1.0" agencyID="FENIX" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:Dimension id="ITEM" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=FENIX:FAOSTAT_QA(1.0).ITEM" position="4">
+              <str:ConceptIdentity>
+                <Ref id="ITEM" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="CL_FAOSTAT_ITEMS" version="1.0" agencyID="FENIX" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+          </str:DimensionList>
+          <str:AttributeList id="AttributeDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.AttributeDescriptor=FENIX:FAOSTAT_QA(1.0).AttributeDescriptor">
+            <str:Attribute id="DOMAIN" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=FENIX:FAOSTAT_QA(1.0).DOMAIN" assignmentStatus="">
+              <str:ConceptIdentity>
+                <Ref id="DOMAIN" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="UNIT" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=FENIX:FAOSTAT_QA(1.0).UNIT" assignmentStatus="">
+              <str:ConceptIdentity>
+                <Ref id="UNIT" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="FLAG" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=FENIX:FAOSTAT_QA(1.0).FLAG" assignmentStatus="">
+              <str:ConceptIdentity>
+                <Ref id="FLAG" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+          </str:AttributeList>
+          <str:MeasureList id="MeasureDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.MeasureDescriptor=FENIX:FAOSTAT_QA(1.0).MeasureDescriptor">
+            <str:PrimaryMeasure id="OBS_VALUE" urn="urn:sdmx:org.sdmx.infomodel.datastructure.PrimaryMeasure=FENIX:FAOSTAT_QA(1.0).OBS_VALUE">
+              <str:ConceptIdentity>
+                <Ref id="VALUE" maintainableParentID="CONCEPTS" maintainableParentVersion="1.0" agencyID="FENIX" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+            </str:PrimaryMeasure>
+          </str:MeasureList>
+        </str:DataStructureComponents>
+      </str:DataStructure>
+    </str:DataStructures>
+  </mes:Structures>
+</mes:Structure>

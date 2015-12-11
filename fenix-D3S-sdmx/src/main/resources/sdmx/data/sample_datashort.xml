@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<message:StructureSpecificData xmlns:ss="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/structurespecific" xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:ns1="urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=FENIX:DF_FENIX(1.0):ObsLevelDim:AllDimensions" xmlns:message="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:common="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <message:Header>
+        <message:ID>DS1449742250053</message:ID>
+        <message:Test>false</message:Test>
+        <message:Prepared>2015-12-10T10:10:50</message:Prepared>
+        <message:Sender id="MetadataTechnology"></message:Sender>
+        <message:Structure structureID="FENIX_DF_FENIX_1_0" 
+    namespace="urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=FENIX:DF_FENIX(1.0):ObsLevelDim:AllDimensions" 
+    dimensionAtObservation="AllDimensions">
+            <common:StructureUsage>
+                <Ref agencyID="FENIX" id="DF_FENIX" version="1.0"></Ref>
+            </common:StructureUsage>
+        </message:Structure>
+    </message:Header>
+    <message:DataSet ss:dataScope="DataStructure" xsi:type="ns1:DataSetType" ss:structureRef="FENIX_DF_FENIX_1_0">
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1961" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1962" OBS_VALUE="851850.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1963" OBS_VALUE="1001112.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1964" OBS_VALUE="1150000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1965" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1966" OBS_VALUE="1200000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1967" OBS_VALUE="1200000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1968" OBS_VALUE="1328000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1969" OBS_VALUE="1250000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1970" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1971" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1972" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1973" OBS_VALUE="1250000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1974" OBS_VALUE="1250000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1975" OBS_VALUE="1250000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1976" OBS_VALUE="1250000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1977" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1978" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1979" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1980" OBS_VALUE="1295000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1981" OBS_VALUE="1315000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1982" OBS_VALUE="1315000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1983" OBS_VALUE="1315000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1984" OBS_VALUE="1318000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1985" OBS_VALUE="1321000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1986" OBS_VALUE="1325000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1987" OBS_VALUE="1300000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1988" OBS_VALUE="1000000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1989" OBS_VALUE="800000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1990" OBS_VALUE="600000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1991" OBS_VALUE="500000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1992" OBS_VALUE="500000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1993" OBS_VALUE="500000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="F" YEAR="1994" OBS_VALUE="600000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1995" OBS_VALUE="704000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1996" OBS_VALUE="753000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1997" OBS_VALUE="805000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" FLAG="*" YEAR="1998" OBS_VALUE="860000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="1999" OBS_VALUE="919940.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2000" OBS_VALUE="682000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2001" OBS_VALUE="682000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2002" OBS_VALUE="1588000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2003" OBS_VALUE="1598000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2004" OBS_VALUE="1614000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2005" OBS_VALUE="1391000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2006" OBS_VALUE="1215000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2007" OBS_VALUE="1472000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2008" OBS_VALUE="1209000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2009" OBS_VALUE="1322000.0"></Obs>
+        <Obs ELEMENT="5111" UNIT="Head" COUNTRY="2" ITEM="1107" DOMAIN="QA" YEAR="2010" OBS_VALUE="1405000.0"></Obs>
+    </message:DataSet>
+</message:StructureSpecificData>

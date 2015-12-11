@@ -66,6 +66,11 @@
 
         <!-- J2EE -->
         <dependency>
+            <groupId>demo.sdmxsource</groupId>
+            <artifactId>SdmxSourceDemo</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
