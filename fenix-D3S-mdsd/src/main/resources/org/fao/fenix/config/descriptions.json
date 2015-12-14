@@ -15,7 +15,7 @@
          "Reference system"
       ]
    },
-   "OJAxis": {
+   "OjAxis": {
       "type": "object",
       "properties": {
          "axisName": {
@@ -29,14 +29,14 @@
          },
          "resolution": {
             "title": "Resolution",
-            "$ref": "#/definitions/OJMeasure"
+            "$ref": "#/definitions/OjMeasure"
          }
       }
    },
-   "OJMeasure": {
+   "OjMeasure": {
       "type": "object",
       "properties": {
-         "extend": {
+         "extent": {
             "type": "object",
             "title": "Extent",
             "title_i18n": {
