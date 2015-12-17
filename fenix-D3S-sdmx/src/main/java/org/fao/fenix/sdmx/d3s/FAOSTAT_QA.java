@@ -7,7 +7,7 @@ import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 
-import demo.sdmxsource.webservice.main.finalPackage.ExportSDMX;
+//import demo.sdmxsource.webservice.main.finalPackage.ExportSDMX;
 import java.io.OutputStream;
 
 import java.util.Collection;
@@ -27,11 +27,11 @@ public class FAOSTAT_QA {
             }
         }
                 //TODO do something to translate to SDMX
-        ExportSDMX test=new ExportSDMX();
+/*        ExportSDMX test=new ExportSDMX();
        test.execution(dataset,codeLists);
        //test.
      OutputStream Object1 = test.getDatafile();
       OutputStream  Object2=test.getStructurefile();
         System.out.println("All done...");
-    }
+*/    }
 }
