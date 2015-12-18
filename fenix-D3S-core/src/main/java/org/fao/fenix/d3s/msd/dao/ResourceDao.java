@@ -7,13 +7,18 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
+import org.fao.fenix.d3s.msd.listener.MetadataListener;
+import org.fao.fenix.d3s.msd.listener.MetadataListenerFactory;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.NoContentException;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
+    @Inject private MetadataListenerFactory metadataListenerFactory;
+
     //LOAD RESOURCE
 
     public MeIdentification<M> loadMetadata(String id, String version) throws Exception {
@@ -54,8 +59,8 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
-        setMetadataDefaults(metadata, true);
-        return newCustomEntity(false, transaction, metadata);
+        fireMetadataEvent(MetadataEvent.insert,metadata,null);
+        return newCustomEntity(false, transaction, addCreationDate(metadata));
     }
 
     public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite) throws Exception {
@@ -63,17 +68,12 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     }
     public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite, boolean transaction) throws Exception {
         if (metadata!=null) {
-            if (metadata.getRID()==null) {
-                ODocument metadataO = loadMetadataOByUID(metadata.getUid(), metadata.getVersion());
-                metadata.setORID(metadataO!=null ? metadataO.getIdentity() : null);
-            }
-            if (metadata.getRID()!=null) {
+            MeIdentification<M> existingMetadata = metadata.getRID()==null ? loadMetadataByUID(metadata.getUid(), metadata.getVersion()) : loadBean(metadata.getRID(), MeIdentification.class);
+            if (existingMetadata!=null) {
                 if (metadata.isIdentificationOnly())
-                    return loadMetadata(metadata.getRID(), null);
-                else {
-                    setMetadataDefaults(metadata, false);
-                    return saveCustomEntity(overwrite, false, transaction, metadata)[0];
-                }
+                    return existingMetadata;
+                fireMetadataEvent(overwrite ? MetadataEvent.update : MetadataEvent.append, metadata, existingMetadata);
+                return saveCustomEntity(overwrite, false, transaction, addCreationDate(metadata))[0];
             }
         }
         return null;
@@ -81,7 +81,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public MeIdentification<M> insertResource (Resource<M,D> resource) throws Exception {
         getConnection().begin();
         try {
-            MeIdentification<M> metadata = insertMetadata(resource.getMetadata());
+            MeIdentification<M> metadata = insertMetadata(addUpdateDate(resource.getMetadata()));
             if (metadata != null)
                 insertData(metadata, resource.getData());
             getConnection().commit();
@@ -95,7 +95,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public MeIdentification<M> updateResource (Resource<M,D> resource, boolean overwrite) throws Exception {
         getConnection().begin();
         try {
-            MeIdentification<M> metadata = updateMetadata(resource.getMetadata(), overwrite);
+            MeIdentification<M> metadata = updateMetadata(addUpdateDate(resource.getMetadata()), overwrite);
             if (metadata!=null)
                 updateData(metadata, resource.getData(), overwrite);
             getConnection().commit();
@@ -105,6 +105,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             throw ex;
         }
     }
+
 
     //DELETE RESOURCE
     public boolean deleteMetadata(String id, String version) throws Exception {
@@ -140,6 +141,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 transaction();
             OObjectDatabaseTx connection = getConnection();
             for (MeIdentification<M> m : metadata) {
+                fireMetadataEvent(MetadataEvent.delete, null, m);
                 DSD dsd = m.getDsd();
                 if (dsd != null)
                     connection.delete(dsd);
@@ -259,18 +261,62 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         }
     }
 
+    //EVENTS MANAGEMENT
+    private enum MetadataEvent {
+        insert, update, append, delete
+    }
+    private void fireMetadataEvent(MetadataEvent event, MeIdentification<M> newMetadata, MeIdentification<M> existingMetadata) throws Exception {
+        String context = getMetadataContext(newMetadata);
+        if (context==null)
+            context = getMetadataContext(existingMetadata);
+        switch (event) {
+            case insert:
+                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
+                    listener.insert(newMetadata);
+                break;
+            case update:
+                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
+                    listener.update(existingMetadata,newMetadata);
+                break;
+            case append:
+                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
+                    listener.append(existingMetadata,newMetadata);
+                break;
+            case delete:
+                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
+                    listener.remove(existingMetadata);
+                break;
+        }
+    }
 
     //Utils
-    private void setMetadataDefaults(MeIdentification<M> metadata, boolean creation) {
-        Date currentDate = new Date();
-
+    private MeIdentification<M> addCreationDate(MeIdentification<M> metadata) {
         if (metadata!=null) {
-            //Set last update date
-            metadata.setLastUpdate(currentDate);
-            //Set creation date
-            if (creation && metadata.getCreationDate()==null)
-                metadata.setCreationDate(currentDate);
+            Date creationDate = metadata.getCreationDate();
+            if (creationDate==null)
+                metadata.setCreationDate(new Date());
         }
+        return metadata;
+    }
+
+    private MeIdentification<M> addUpdateDate(MeIdentification<M> metadata) {
+        if (metadata!=null) {
+            MeMaintenance meMaintenance = metadata.getMeMaintenance();
+            if (meMaintenance==null)
+                metadata.setMeMaintenance(meMaintenance = new MeMaintenance());
+            SeUpdate seUpdate = meMaintenance.getSeUpdate();
+            if (seUpdate==null)
+                meMaintenance.setSeUpdate(seUpdate=new SeUpdate());
+            Date updateDate = seUpdate.getUpdateDate();
+            if (updateDate==null)
+                seUpdate.setUpdateDate(new Date());
+        }
+        return metadata;
+    }
+
+    private String getMetadataContext(MeIdentification<M> metadata) {
+        DSD dsd = metadata!=null ? metadata.getDsd() : null;
+        return dsd!=null ? dsd.getContextSystem() : null;
     }
 
 }
