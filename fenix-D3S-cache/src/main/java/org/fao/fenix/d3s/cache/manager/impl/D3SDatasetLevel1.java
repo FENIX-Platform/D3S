@@ -11,6 +11,7 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
+import org.fao.fenix.d3s.cache.manager.ManagerName;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetAccessInfo;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
@@ -20,7 +21,7 @@ import org.fao.fenix.d3s.cache.manager.impl.level1.InternalDatasetExecutor;
 import org.fao.fenix.d3s.cache.manager.impl.level1.LabelDataIterator;
 import org.fao.fenix.d3s.cache.manager.impl.level1.ResourceStorageExecutor;
 import org.fao.fenix.d3s.cache.storage.Storage;
-import org.fao.fenix.d3s.cache.storage.dataset.DefaultStorage;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -33,19 +34,22 @@ import java.util.LinkedList;
 
 
 @ApplicationScoped
+@ManagerName("dataset")
 public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
 
     private static final int SOTRE_PAGE_SIZE = 50;
 
     @Inject private CacheManagerFactory listenersFactory;
     @Inject private DatabaseUtils utils;
-    @Inject private DefaultStorage storage;
     @Inject private ResourceMonitor monitor;
-
+    private DatasetStorage storage;
 
     @Override
-    public void init() throws Exception {
-        //Nothing to do here
+    public void init(Storage storage) throws Exception {
+        if (storage instanceof DatasetStorage)
+            this.storage = (DatasetStorage) storage;
+        else
+            throw new UnsupportedOperationException("The selected cache manager can work only on dataset cache storage");
     }
 
     @Override

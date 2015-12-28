@@ -22,7 +22,7 @@ public interface CacheManager<M extends DSD, D> {
      * Start the initialization of the cache manager component. It should be called one time per instance.
      * @throws Exception
      */
-    public void init() throws Exception;
+    public void init(Storage storage) throws Exception;
 
     /**
      * Get the cache manager data block size used during a store activity execution.

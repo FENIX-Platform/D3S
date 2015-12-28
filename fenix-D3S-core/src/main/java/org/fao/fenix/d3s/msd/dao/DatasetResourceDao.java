@@ -27,7 +27,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
     @Override
     public void fetch(MeIdentification<DSDDataset> metadata) throws Exception {
-        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
         if (cache==null)
             throw new UnsupportedOperationException();
 
@@ -36,7 +36,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
     @Override
     public Long getSize(MeIdentification<DSDDataset> metadata) throws Exception {
-        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
         return cache!=null ? cache.size(metadata) : null;
     }
 
@@ -47,7 +47,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     private Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata, Page pagination, Order ordering) throws Exception {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
         if (dsd!=null) {
-            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
             WDSDatasetDao wdsDao = getDao(metadata);
 
             //Use extended dsd in case of cache loading and standard dsd other operations
@@ -96,7 +96,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
-            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache != null)
                 cache.store(metadata, utils.getDataIterator(data), overwrite, null, getCodeLists(metadata));
 
@@ -114,7 +114,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
-            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache!=null)
                 cache.remove(metadata);
 
@@ -131,7 +131,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
         SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
         Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
-        CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+        CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
         if (updateDate!=null && cache!=null)
             cache.remove(metadata);
 
@@ -145,7 +145,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                 MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
                 SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
                 Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
-                CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(D3SCache.fixed);
+                CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
                 if (updateDate!=null && cache!=null)
                     cache.remove(metadata);
             }

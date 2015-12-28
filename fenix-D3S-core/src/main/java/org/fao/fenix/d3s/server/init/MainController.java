@@ -118,13 +118,6 @@ public class MainController implements ServletContextListener {
     private void initCache() throws Exception {
         //Cache servers startup
         cacheServersManager.startup();
-
-        //Init cache manager factory alias
-        for (D3SCache cache : D3SCache.values()) {
-            String pluginClassName = initParameters.getProperty("cache."+cache.name()+".plugin");
-            if (pluginClassName!=null)
-                cacheManagerFactory.addAlias(cache.name(), pluginClassName);
-        }
     }
 
     private void stopCache() throws Exception {

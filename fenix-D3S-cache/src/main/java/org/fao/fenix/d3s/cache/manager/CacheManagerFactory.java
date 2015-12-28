@@ -3,6 +3,8 @@ package org.fao.fenix.d3s.cache.manager;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.manager.listener.Context;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
+import org.fao.fenix.d3s.cache.storage.Storage;
+import org.fao.fenix.d3s.cache.storage.StorageName;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,24 +14,39 @@ import java.util.*;
 
 @ApplicationScoped
 public class CacheManagerFactory {
-    private Map<String, Class<? extends CacheManager>> aliasMap = new HashMap<>();
     @Inject private Instance<CacheManager> instanceProducer;
+    @Inject private Instance<Storage> storageInstanceProducer;
     @Inject private Instance<DatasetCacheListener> listenerInstanceProducer;
 
 
-    public void addAlias(String alias, String className) throws ClassNotFoundException {
-        if (className.trim().length()>0)
-            aliasMap.put(alias, (Class<? extends CacheManager>) Class.forName(className));
+    public CacheManager getInstance(String managerName, String storageName) throws Exception {
+        CacheManager manager = getManagerInstance(managerName);
+        if (manager!=null)
+            manager.init(getStorageInstance(storageName));
+        return manager;
     }
 
-    public CacheManager getInstance(String name) throws Exception {
-        Class<? extends CacheManager> instanceClass = aliasMap.get(name);
-        if (instanceClass!=null) {
-            CacheManager manager = instanceProducer.select(instanceClass).iterator().next();
-            manager.init();
-            return manager;
-        } else
-            return null;
+    private CacheManager getManagerInstance(String managerName) throws Exception {
+        if (managerName!=null)
+            for (Iterator<CacheManager> i = instanceProducer.select().iterator(); i.hasNext(); ) {
+                CacheManager manager = i.next();
+                ManagerName info = manager.getClass().getAnnotation(ManagerName.class);
+                String name = info!=null ? info.value() : null;
+                if (name!=null && name.equals(managerName))
+                    return manager;
+            }
+        return null;
+    }
+    private Storage getStorageInstance(String storageName) throws Exception {
+        if (storageName!=null)
+            for (Iterator<Storage> i = storageInstanceProducer.select().iterator(); i.hasNext(); ) {
+                Storage storage = i.next();
+                StorageName info = storage.getClass().getAnnotation(StorageName.class);
+                String name = info!=null ? info.value() : null;
+                if (name!=null && name.equals(storageName))
+                    return storage;
+            }
+        return null;
     }
 
     //Retrieve cache listeners
