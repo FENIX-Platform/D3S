@@ -11,6 +11,7 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
+import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
 import org.fao.fenix.d3s.cache.manager.ManagerName;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetAccessInfo;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
@@ -35,7 +36,7 @@ import java.util.LinkedList;
 
 @ApplicationScoped
 @ManagerName("dataset")
-public class D3SDatasetLevel1 implements CacheManager<DSDDataset,Object[]> {
+public class D3SDatasetLevel1 implements DatasetCacheManager {
 
     private static final int SOTRE_PAGE_SIZE = 50;
 

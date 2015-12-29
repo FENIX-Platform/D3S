@@ -1,11 +1,11 @@
 package org.fao.fenix.d3s.cache.manager;
 
+import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.manager.listener.Context;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.StorageName;
-import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -14,26 +14,26 @@ import java.util.*;
 
 @ApplicationScoped
 public class CacheManagerFactory {
-    @Inject private Instance<CacheManager> instanceProducer;
+    @Inject private Instance<DatasetCacheManager> datasetInstanceProducer;
     @Inject private Instance<Storage> storageInstanceProducer;
     @Inject private Instance<DatasetCacheListener> listenerInstanceProducer;
 
 
-    public CacheManager getInstance(String managerName, String storageName) throws Exception {
-        CacheManager manager = getManagerInstance(managerName);
+    public CacheManager getInstance(CacheResourceType type, String managerName, String storageName) throws Exception {
+        CacheManager manager = getManagerInstance(type, managerName);
         if (manager!=null)
             manager.init(getStorageInstance(storageName));
         return manager;
     }
 
-    private CacheManager getManagerInstance(String managerName) throws Exception {
+    private CacheManager getManagerInstance(CacheResourceType type, String managerName) throws Exception {
         if (managerName!=null)
-            for (Iterator<CacheManager> i = instanceProducer.select().iterator(); i.hasNext(); ) {
-                CacheManager manager = i.next();
+            for (Iterator i = getManagerInstancer(type).select().iterator(); i.hasNext(); ) {
+                Object manager = i.next();
                 ManagerName info = manager.getClass().getAnnotation(ManagerName.class);
                 String name = info!=null ? info.value() : null;
                 if (name!=null && name.equals(managerName))
-                    return manager;
+                    return (CacheManager) manager;
             }
         return null;
     }
@@ -47,6 +47,16 @@ public class CacheManagerFactory {
                     return storage;
             }
         return null;
+    }
+    private Instance getManagerInstancer(CacheResourceType type) {
+        Instance instancer = null;
+        if (type!=null)
+            switch (type) {
+                case dataset:
+                    instancer = datasetInstanceProducer;
+                    break;
+            }
+        return instancer;
     }
 
     //Retrieve cache listeners

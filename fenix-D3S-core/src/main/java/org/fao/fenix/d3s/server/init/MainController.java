@@ -4,7 +4,6 @@ package org.fao.fenix.d3s.server.init;
 //import org.fao.fenix.d3s.search.SearchStep;
 //import org.fao.fenix.d3s.search.services.impl.SearchOperation;
 import org.fao.fenix.commons.utils.Properties;
-import org.fao.fenix.d3s.cache.D3SCache;
 import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.cache.tools.CacheServers;
 import org.fao.fenix.d3s.server.tools.orient.OrientServer;

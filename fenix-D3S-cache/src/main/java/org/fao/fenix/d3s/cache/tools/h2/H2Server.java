@@ -34,7 +34,7 @@ public class H2Server implements org.fao.fenix.d3s.cache.tools.Server {
         System.out.print("\nStarting up H2 console server... ");
         if (consoleServer ==null) {
             Properties initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    "/org/fao/fenix/config/h2.properties",
+                    "/org/fao/fenix/config/cache/h2.properties",
                     "file:"+CONFIG_FOLDER_PATH + "h2.properties"
             );
 

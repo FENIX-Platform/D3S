@@ -11,9 +11,6 @@ import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 
 import java.sql.Connection;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.concurrent.Executors;
 
 public abstract class ResourceStorageExecutor implements Runnable {
 

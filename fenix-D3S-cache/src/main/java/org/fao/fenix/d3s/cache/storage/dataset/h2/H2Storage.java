@@ -1,9 +1,10 @@
-package org.fao.fenix.d3s.cache.storage.dataset;
+package org.fao.fenix.d3s.cache.storage.dataset.h2;
 
 import org.fao.fenix.commons.find.dto.filter.DataFilter;
 import org.fao.fenix.commons.utils.database.Iterator;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.Server;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.h2.tools.RunScript;
@@ -14,7 +15,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
-public abstract class H2Database implements DatasetStorage {
+public abstract class H2Storage implements DatasetStorage {
     private boolean initialized = false;
     private JdbcConnectionPool pool;
 
@@ -25,9 +26,9 @@ public abstract class H2Database implements DatasetStorage {
     public void open() throws Exception {
         if (!initialized) {
             Map<String, String> initProperties = org.fao.fenix.commons.utils.Properties.getInstance(
-                    "/org/fao/fenix/config/storage.properties",
-                    "file:"+Server.CONFIG_FOLDER_PATH + "storage.properties"
-            ).toMap(getStoragePropertiesPrefix());
+                    "/org/fao/fenix/config/cache/h2.properties",
+                    "file:"+Server.CONFIG_FOLDER_PATH + "h2.properties"
+            ).toMap();
 
             initPool(
                     initProperties.get("url"),
@@ -47,23 +48,11 @@ public abstract class H2Database implements DatasetStorage {
         pool = JdbcConnectionPool.create(url, usr, psw);
         if (maxConnections>0)
             pool.setMaxConnections(maxConnections);
-
-        this.url = url;
-        this.usr = usr;
-        this.psw = psw;
     }
 
-    private void runScript(String filePath) throws FileNotFoundException, SQLException {
-        File file = filePath!=null ? new File(filePath) : null;
-        if (file!=null && file.exists() && file.isFile()) {
-            Connection connection = getConnection();
-            try {
-                RunScript.execute(connection, new FileReader(file));
-            } finally {
-                if (connection != null)
-                    connection.close();
-            }
-        }
+    private void runScript(String resourceFilePath) throws FileNotFoundException, SQLException {
+        if (resourceFilePath!=null && resourceFilePath.trim().length()>0)
+            runScript(H2Storage.class.getResourceAsStream(resourceFilePath));
     }
     private void runScript(InputStream input) throws FileNotFoundException, SQLException {
         if (input!=null) {
@@ -86,13 +75,13 @@ public abstract class H2Database implements DatasetStorage {
 
 
     //Standard utils
-/*    @Override
+    @Override
     public Connection getConnection() throws SQLException {
         Connection connection = pool.getConnection();
         connection.setAutoCommit(false);
         return connection;
     }
-*/
+
     static {
         try {
             Class.forName(org.h2.Driver.class.getName());
@@ -103,14 +92,11 @@ public abstract class H2Database implements DatasetStorage {
 
     private String url, usr, psw;
 
-    @Override
+/*    @Override
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(url,usr,psw);
         connection.setAutoCommit(false);
         return connection;
     }
-
-
-    //H2 specific server methods
-    protected abstract String getStoragePropertiesPrefix();
+*/
 }

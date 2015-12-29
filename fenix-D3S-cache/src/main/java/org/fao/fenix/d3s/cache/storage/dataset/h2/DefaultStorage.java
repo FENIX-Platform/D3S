@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.cache.storage.dataset;
+package org.fao.fenix.d3s.cache.storage.dataset.h2;
 
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.utils.database.*;
@@ -8,13 +8,17 @@ import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.dto.dataset.Type;
+import org.fao.fenix.d3s.cache.storage.StorageName;
 
+import javax.inject.Singleton;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 import java.util.Iterator;
 
-public abstract class DefaultStorage extends H2Database {
+@Singleton
+@StorageName("h2")
+public class DefaultStorage extends H2Storage {
 
     private static String SCHEMA_NAME = "DATA";
     private final Map<String, Connection> session = new HashMap<>();
