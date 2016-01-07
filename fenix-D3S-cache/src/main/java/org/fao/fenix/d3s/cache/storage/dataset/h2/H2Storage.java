@@ -70,7 +70,8 @@ public abstract class H2Storage implements DatasetStorage {
     //SHUTDOWN FLOW
     @Override
     public void close() {
-        pool.dispose();
+        if (pool!=null)
+            pool.dispose();
     }
 
 

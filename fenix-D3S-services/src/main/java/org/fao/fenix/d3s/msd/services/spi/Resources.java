@@ -190,8 +190,9 @@ public interface Resources {
     //RAW Data access
     public Resource loadResource (String id, String version) throws Exception;
     public org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception;
+    public void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
 
-    }
+}
 
 
 

@@ -278,7 +278,7 @@ public class ResourcesService implements Resources {
     public void fetchByUID(String uid, String version) throws Exception {
         fetch(loadMetadata(uid, version));
     }
-    private void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+    public void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         getDao(loadRepresentationType(metadata)).fetch(metadata);
     }
 
