@@ -13,6 +13,21 @@ import java.util.Iterator;
 
 public interface DatasetStorage extends Storage {
 
+
+    /**
+     * Returns a new connection to the database. The connection have to be managed by the calling process. The connection has auto-commit mode disabled.
+     * @return New JDBC connection.
+     * @throws Exception
+     */
+    public Connection getConnection() throws Exception;
+
+    /**
+     * Returns the internal table name associated to a cached resource ID
+     * @param resourceId Cached resource ID
+     * @return Internal table name
+     */
+    public String getTableName(String resourceId);
+
     /**
      * Communicate the begin of a store session on a specific table (useful to enhance performance)
      * @param table Target table
@@ -49,7 +64,7 @@ public interface DatasetStorage extends Storage {
      * @return Selected data.
      * @throws Exception
      */
-    public Iterator<Object[]> load(Order ordering, Page pagination, DataFilter filter, Table ... tables) throws Exception;
+    public Iterator<Object[]> load(Order ordering, Page pagination, Table ... tables) throws Exception;
 
     /**
      * Store data into an existing table.
@@ -67,37 +82,10 @@ public interface DatasetStorage extends Storage {
     public StoreStatus store(Table table, Iterator<Object[]> data, int size, boolean overwrite, Date referenceDate) throws Exception;
 
     /**
-     * Store data into an existing table loading rows from other tables.
-     * Rules about load and store activities are inherited form basic load and store functions.
-     * Metadata will be updated automatically.
-     * @param table Destination table metadata.
-     * @param filter Rows and columns filter.
-     * @param overwrite Flag to set overwrite or append mode.
-     * @param tables Involved source tables metadata.
-     * @return Resource data storage status
-     * @throws Exception
-     */
-    public StoreStatus store(Table table, DataFilter filter, boolean overwrite, Date referenceDate, Table... tables) throws Exception;
-
-    /**
      * Remove an existing table (and related metadata)
      * @param tableName
      * @throws Exception
      */
     public void delete(String tableName) throws Exception;
-
-    /**
-     * Returns a new connection to the database. The connection have to be managed by the calling process. The connection has auto-commit mode disabled.
-     * @return New JDBC connection.
-     * @throws Exception
-     */
-    public Connection getConnection() throws Exception;
-
-    /**
-     * Returns the internal table name associated to a cached resource ID
-     * @param resourceId Cached resource ID
-     * @return Internal table name
-     */
-    public String getTableName(String resourceId);
 
 }

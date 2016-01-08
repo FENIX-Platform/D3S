@@ -46,13 +46,6 @@ public interface Storage {
     public void removeMetadata(String resourceId) throws Exception;
 
     /**
-     * Overwrite/append a set of resources metadata. This function can be used for import purposes.
-     * @param metadata Resources storage metadata.
-     * @param overwrite Flag to set overwrite or append mode.
-     */
-    public void storeMetadata(Map<String,StoreStatus> metadata, boolean overwrite) throws Exception;
-
-    /**
      * Restore a clean status for the storage by metadata validation/update and removing timed out data.
      * @return Number of updated resources.
      * @throws Exception

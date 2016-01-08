@@ -8,10 +8,9 @@ import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.CacheFactory;
-import org.fao.fenix.d3s.cache.D3SCache;
-import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
@@ -47,7 +46,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     private Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata, Page pagination, Order ordering) throws Exception {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
         if (dsd!=null) {
-            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            DatasetCacheManager cache = (DatasetCacheManager) cacheManagerFactory.getDatasetCacheManager(metadata);
             WDSDatasetDao wdsDao = getDao(metadata);
 
             //Use extended dsd in case of cache loading and standard dsd other operations
@@ -96,7 +95,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
-            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            DatasetCacheManager cache = (DatasetCacheManager) cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache != null)
                 cache.store(metadata, utils.getDataIterator(data), overwrite, null, getCodeLists(metadata));
 
