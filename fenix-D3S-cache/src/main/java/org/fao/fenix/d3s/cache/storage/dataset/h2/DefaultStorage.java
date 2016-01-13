@@ -375,30 +375,28 @@ public class DefaultStorage extends H2Storage {
                 tablesName.add(tables.getString("TABLE_NAME"));
             Map<String,StoreStatus> statusMap = loadMetadata();
 
+            Collection<String> invalidTables = new LinkedList<>();
+            Collection<String> orphanMetadataTables = new LinkedList<>();
             for (Map.Entry<String,StoreStatus> statusEntry : statusMap.entrySet()) {
                 StoreStatus status = statusEntry.getValue();
                 String tableName = statusEntry.getKey();
                 Date timeout = status.getTimeout();
 
-                //Remove incomplete and timed out tables
-                if (status.getStatus()==StoreStatus.Status.incomplete || timeout!=null && timeout.compareTo(new Date())>0) {
-                    delete(tableName);
-                    count++;
-                }
-
-                //Remove orphan metadata
-                if (!tablesName.contains(tableName)) {
-                    removeMetadata(tableName);
-                    count++;
-                } else
+                if (tablesName.contains(tableName) && (status.getStatus()==StoreStatus.Status.incomplete || timeout!=null && timeout.compareTo(new Date())>0))
+                    invalidTables.add(tableName);
+                else if (!tablesName.contains(tableName))
+                    orphanMetadataTables.add(tableName);
+                else
                     tablesName.remove(tableName);
             }
 
-            //Remove orphan tables
-            for (String tableName : tablesName) {
+            for (String tableName : invalidTables) //Remove incomplete and timed out tables
+                delete(tableName);
+            for (String tableName : orphanMetadataTables) //Remove orphan metadata
+                removeMetadata(tableName);
+            for (String tableName : tablesName) //Remove orphan tables
                 connection.createStatement().executeUpdate("DROP TABLE " + getTableName(tableName));
-                count++;
-            }
+            count+=invalidTables.size()+orphanMetadataTables.size()+tablesName.size();
 
         } catch (Exception ex) {
             connection.rollback();

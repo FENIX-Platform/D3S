@@ -1,6 +1,5 @@
 package org.fao.fenix.d3s.cache.manager;
 
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.manager.listener.Context;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
@@ -28,7 +27,7 @@ public class CacheManagerFactory {
 
     private CacheManager getManagerInstance(CacheResourceType type, String managerName) throws Exception {
         if (managerName!=null)
-            for (Iterator i = getManagerInstancer(type).select().iterator(); i.hasNext(); ) {
+            for (Iterator i = getManagerInstanceProducer(type).select().iterator(); i.hasNext(); ) {
                 Object manager = i.next();
                 ManagerName info = manager.getClass().getAnnotation(ManagerName.class);
                 String name = info!=null ? info.value() : null;
@@ -48,15 +47,15 @@ public class CacheManagerFactory {
             }
         return null;
     }
-    private Instance getManagerInstancer(CacheResourceType type) {
-        Instance instancer = null;
+    private Instance getManagerInstanceProducer(CacheResourceType type) {
+        Instance instanceProducer = null;
         if (type!=null)
             switch (type) {
                 case dataset:
-                    instancer = datasetInstanceProducer;
+                    instanceProducer = datasetInstanceProducer;
                     break;
             }
-        return instancer;
+        return instanceProducer;
     }
 
     //Retrieve cache listeners

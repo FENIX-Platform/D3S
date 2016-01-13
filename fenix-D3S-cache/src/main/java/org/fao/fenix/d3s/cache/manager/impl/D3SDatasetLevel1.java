@@ -61,7 +61,7 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
 
     @Override
     public int clean() throws Exception {
-        return storage.clean();
+        return storage!=null ? storage.clean() : 0;
     }
 
     @Override
