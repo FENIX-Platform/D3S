@@ -127,25 +127,27 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     //Synchronize metadata and data write operations respect to cache activities
     @Override
     public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
+        //Retrieve new data update date
         MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
         SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
         Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
+        //Update metadata end retrieve a consistent metadata for cache manager identification
+        metadata = super.updateMetadata(metadata, overwrite, transaction);
+        //Retrieve cache manager
         CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+        //If data is changed remove cache info
         if (updateDate!=null && cache!=null)
             cache.remove(metadata);
-
-        return super.updateMetadata(metadata, overwrite, transaction);
+        //Return updated metadata
+        return metadata;
     }
 
     @Override
     public void deleteMetadata(boolean transaction, MeIdentification<DSDDataset>... metadataList) throws Exception {
         if (metadataList!=null)
             for (MeIdentification metadata : metadataList) {
-                MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
-                SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
-                Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
                 CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
-                if (updateDate!=null && cache!=null)
+                if (cache!=null)
                     cache.remove(metadata);
             }
 
