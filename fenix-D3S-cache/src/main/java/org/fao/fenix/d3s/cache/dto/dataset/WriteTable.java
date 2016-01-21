@@ -20,11 +20,11 @@ public class WriteTable extends Table {
 
 
     public WriteTable(String tableName, DSDDataset structure) {
-        init(tableName, structure != null ? structure.extend() : null);
+        init(tableName, structure != null ? structure.extend(true) : null);
     }
     public WriteTable(MeIdentification<DSDDataset> metadata) {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
-        init(getTableName(metadata), dsd!=null ? dsd.extend() : null);
+        init(getTableName(metadata), dsd!=null ? dsd.extend(true) : null);
     }
 
 

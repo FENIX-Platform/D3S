@@ -44,12 +44,6 @@ public abstract class H2Storage implements DatasetStorage {
         }
     }
 
-    private void initPool(String url, String usr, String psw, int maxConnections) {
-        pool = JdbcConnectionPool.create(url, usr, psw);
-        if (maxConnections>0)
-            pool.setMaxConnections(maxConnections);
-    }
-
     private void runScript(String resourceFilePath) throws FileNotFoundException, SQLException {
         if (resourceFilePath!=null && resourceFilePath.trim().length()>0)
             runScript(H2Storage.class.getResourceAsStream(resourceFilePath));
@@ -76,12 +70,20 @@ public abstract class H2Storage implements DatasetStorage {
 
 
     //Standard utils
+/*
+    private void initPool(String url, String usr, String psw, int maxConnections) {
+        pool = JdbcConnectionPool.create(url, usr, psw);
+        if (maxConnections>0)
+            pool.setMaxConnections(maxConnections);
+    }
+
     @Override
     public Connection getConnection() throws SQLException {
         Connection connection = pool.getConnection();
         connection.setAutoCommit(false);
         return connection;
     }
+*/
 
     static {
         try {
@@ -92,12 +94,17 @@ public abstract class H2Storage implements DatasetStorage {
     }
 
     private String url, usr, psw;
+    private void initPool(String url, String usr, String psw, int maxConnections) {
+        this.url = url;
+        this.usr = usr;
+        this.psw = psw;
+    }
 
-/*    @Override
+    @Override
     public Connection getConnection() throws SQLException {
         Connection connection = DriverManager.getConnection(url,usr,psw);
         connection.setAutoCommit(false);
         return connection;
     }
-*/
+
 }

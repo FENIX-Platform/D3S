@@ -51,7 +51,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
             //Use extended dsd in case of cache loading and standard dsd other operations
             Language[] languages = dbParameters.getLanguageInfo();
-            DSDDataset dsdExtended = cache!=null && languages!=null && languages.length>0 ? dsd.extend(languages) : dsd;
+            DSDDataset dsdExtended = cache!=null && languages!=null && languages.length>0 ? dsd.extend(true, languages) : dsd;
 
             metadata.setDsd(dsdExtended);
             Iterator<Object[]> data = null;
@@ -72,7 +72,9 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
                 if (cache!=null && wdsDao!=null) {
                     cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
-                    metadata.setDsd(dsdExtended);
+                    if (languages!=null && languages.length>0)
+                        dsd.extend(false,languages);
+                    metadata.setDsd(dsd);
                     data = cache.load(metadata, ordering, pagination);
                 }
             }

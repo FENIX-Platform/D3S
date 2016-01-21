@@ -86,11 +86,12 @@ public class D3SDocumentDataDao extends WDSDatasetDao {
                         StringBuilder keyBuffer = new StringBuilder();
                         Map<String, Object[]> buffer = new LinkedHashMap<>();
 
-                        for (Object[] row = data.next(); data.hasNext(); row = data.next()) {
-                            for (int i : structure.keyColumnsIndexes)
-                                keyBuffer.append(row[i]);
-                            buffer.put(keyBuffer.toString(), row);
-                        }
+                        if (data!=null)
+                            for (Object[] row = data.next(); data.hasNext(); row = data.next()) {
+                                for (int i : structure.keyColumnsIndexes)
+                                    keyBuffer.append(row[i]);
+                                buffer.put(keyBuffer.toString(), row);
+                            }
 
                         for (Object[] row = existingData.next(); existingData.hasNext(); row = existingData.next()) {
                             for (int i : structure.keyColumnsIndexes)
