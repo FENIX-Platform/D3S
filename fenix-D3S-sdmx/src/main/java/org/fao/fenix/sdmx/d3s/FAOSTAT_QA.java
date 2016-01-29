@@ -7,7 +7,9 @@ import org.fao.fenix.commons.msd.dto.full.DSDColumn;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 
-//import demo.sdmxsource.webservice.main.finalPackage.ExportSDMX;
+import demo.sdmxsource.webservice.main.finalPackage.ExportSDMX;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import java.util.Collection;
@@ -17,21 +19,26 @@ public class FAOSTAT_QA {
 
     public static void main(String[] args) throws Exception {
         //Load dataset
-        Resource<DSDDataset, Object[]> dataset = ResourceFactory.getDatasetInstance("FAOSTAT_QA");
+        Resource<DSDDataset, Object[]> dataset;
+        dataset=ResourceFactory.getDatasetInstance("FAOSTAT_QA");
+//        dataset = ResourceFactory.getDatasetInstance("FAOSTAT_QA");
         //Load codelists
         Collection<Resource<DSDCodelist,Code>> codeLists = new LinkedList<>();
-        for (DSDColumn column : dataset.getMetadata().getDsd().getColumns())
-        {
+        for (DSDColumn column : dataset.getMetadata().getDsd().getColumns()){
             if (column.getDataType()== DataType.code){
                 codeLists.add(ResourceFactory.getCodelistInstance(column.getDomain().getCodes().iterator().next().getIdCodeList()));
             }
         }
+        File structureFile = new File("src/main/resources/sdmx/structures/webservice_structures2.xml");
+        File dataFile = new File("src/main/resources/sdmx/data/sample_data2.xml");
+        OutputStream structurefile=new FileOutputStream(structureFile);
+        OutputStream datafile=new FileOutputStream(dataFile);
                 //TODO do something to translate to SDMX
-/*        ExportSDMX test=new ExportSDMX();
-       test.execution(dataset,codeLists);
+        ExportSDMX test;//Passer les outputStream des fichiers de structure et donnees
+        test = new ExportSDMX();
+       test.execution(dataset,codeLists,structurefile,datafile);
        //test.
-     OutputStream Object1 = test.getDatafile();
-      OutputStream  Object2=test.getStructurefile();
+    
         System.out.println("All done...");
-*/    }
+    }
 }
