@@ -29,8 +29,11 @@ public class FAOSTAT_QA {
                 codeLists.add(ResourceFactory.getCodelistInstance(column.getDomain().getCodes().iterator().next().getIdCodeList()));
             }
         }
-        File structureFile = new File("src/main/resources/sdmx/structures/webservice_structures2.xml");
-        File dataFile = new File("src/main/resources/sdmx/data/sample_data2.xml");
+        File directory = new File("exampleData");
+        directory.mkdirs();
+        System.out.println("Cartella: "+directory.getAbsolutePath());
+        File structureFile = new File(directory, "webservice_structures2.xml");
+        File dataFile = new File(directory, "sample_data2.xml");
         OutputStream structurefile=new FileOutputStream(structureFile);
         OutputStream datafile=new FileOutputStream(dataFile);
                 //TODO do something to translate to SDMX

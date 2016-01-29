@@ -32,13 +32,26 @@
     </build>
 
     <dependencies>
-        <!-- FENIX search commons components -->
+        <!-- FENIX DTO -->
         <dependency>
             <groupId>org.fao.fenix</groupId>
             <artifactId>fenix-commons-dxf</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- FENIX SDMX -->
+        <dependency>
+            <groupId>fenix.sdmx</groupId>
+            <artifactId>fenix-sdmx</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
+        <!-- J2EE -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Jackson utils support -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -51,12 +64,12 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
         <!-- Orient -->
         <dependency>
             <groupId>com.orientechnologies</groupId>
@@ -64,18 +77,6 @@
             <version>${orient.version}</version>
         </dependency>
 
-        <!-- J2EE -->
-        <dependency>
-            <groupId>demo.sdmxsource</groupId>
-            <artifactId>SdmxSourceDemo</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
 
     </dependencies>
 </project>

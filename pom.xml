@@ -16,6 +16,7 @@
         <module>fenix-D3S-core</module>
 
         <module>fenix-D3S-export</module>
+        <module>fenix-D3S-sdmx</module>
         <module>fenix-D3S-mdsd</module>
         <module>fenix-D3S-client</module>
         <module>fenix-D3S-proxy</module>
