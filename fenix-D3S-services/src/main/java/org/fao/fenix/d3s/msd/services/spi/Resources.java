@@ -52,15 +52,15 @@ public interface Resources {
 
     @GET
     @Path("/rid/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
     public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/uid/{uid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
     public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/{uid}/{version}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
     public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @POST
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")

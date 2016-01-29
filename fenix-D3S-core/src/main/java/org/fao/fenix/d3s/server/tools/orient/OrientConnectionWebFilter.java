@@ -1,6 +1,8 @@
 package org.fao.fenix.d3s.server.tools.orient;
 
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import org.apache.tools.ant.taskdefs.Jar;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
@@ -10,9 +12,9 @@ import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 @WebFilter(filterName="OrientConnectionManager", urlPatterns={"/*"})
 public class OrientConnectionWebFilter implements Filter {
@@ -41,7 +43,7 @@ public class OrientConnectionWebFilter implements Filter {
             dbParameters.setPaginationInfo(new Page(servletRequest));
             dbParameters.setLanguageInfo(languages);
 
-            filterChain.doFilter(servletRequest,servletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
         } finally {
             if (connection!=null)
                 connection.close();
