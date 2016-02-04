@@ -2,7 +2,6 @@ package org.fao.fenix.d3s.msd.dao;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.id.ORID;
-import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
@@ -12,7 +11,6 @@ import org.fao.fenix.d3s.msd.listener.MetadataListenerFactory;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.NoContentException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -60,7 +58,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
         fireMetadataEvent(MetadataEvent.insert,metadata,null);
-        return newCustomEntity(false, transaction, addCreationDate(metadata));
+        return newCustomEntity(false, transaction, addCreationDate(setUpdateDate(metadata)));
     }
 
     public MeIdentification<M> updateMetadata (MeIdentification<M> metadata, boolean overwrite) throws Exception {
@@ -82,7 +80,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     public MeIdentification<M> insertResource (Resource<M,D> resource) throws Exception {
         getConnection().begin();
         try {
-            MeIdentification<M> metadata = insertMetadata(addUpdateDate(resource.getMetadata()));
+            MeIdentification<M> metadata = insertMetadata(addCreationDate(setUpdateDate(resource.getMetadata())));
             if (metadata != null)
                 insertData(metadata, resource.getData());
             getConnection().commit();
@@ -98,7 +96,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         try {
             MeIdentification<M> metadata = resource.getMetadata();
             overwrite = overwrite && !metadata.isIdentificationOnly();
-            metadata = updateMetadata(addUpdateDate(resource.getMetadata()), overwrite);
+            metadata = updateMetadata(setUpdateDate(resource.getMetadata()), overwrite);
             if (metadata!=null)
                 updateData(metadata, resource.getData(), overwrite);
             getConnection().commit();
@@ -302,7 +300,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         return metadata;
     }
 
-    private MeIdentification<M> addUpdateDate(MeIdentification<M> metadata) {
+    private MeIdentification<M> setUpdateDate(MeIdentification<M> metadata) {
         if (metadata!=null) {
             MeMaintenance meMaintenance = metadata.getMeMaintenance();
             if (meMaintenance==null)
@@ -310,9 +308,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             SeUpdate seUpdate = meMaintenance.getSeUpdate();
             if (seUpdate==null)
                 meMaintenance.setSeUpdate(seUpdate=new SeUpdate());
-            Date updateDate = seUpdate.getUpdateDate();
-            if (updateDate==null)
-                seUpdate.setUpdateDate(new Date());
+            seUpdate.setUpdateDate(new Date());
         }
         return metadata;
     }
