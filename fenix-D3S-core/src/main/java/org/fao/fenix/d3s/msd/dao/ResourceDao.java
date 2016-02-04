@@ -309,6 +309,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             if (seUpdate==null)
                 meMaintenance.setSeUpdate(seUpdate=new SeUpdate());
             seUpdate.setUpdateDate(new Date());
+            System.out.println("Reset update date for '"+metadata.getUid()+'\'');
         }
         return metadata;
     }

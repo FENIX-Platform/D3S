@@ -1,10 +1,10 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
-import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.object.enhancement.OObjectProxyMethodHandler;
 import javassist.util.proxy.Proxy;
 import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
+import org.apache.log4j.Logger;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.MetadataList;
 import org.fao.fenix.commons.msd.dto.data.ReplicationFilter;
@@ -33,6 +33,9 @@ import java.util.*;
 
 @Path("msd/resources")
 public class ResourcesService implements Resources {
+    private static final Logger LOGGER = Logger.getLogger("access");
+
+
     @Inject private Instance<ResourceDao> daoFactory;
     @Inject private MetadataResourceDao metadataDao;
     @Inject private FilterResourceDao filterResourceDao;
@@ -183,6 +186,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd, boolean export) throws Exception {
+        LOGGER.info("Metadata LOAD: @rid = "+rid);
         return getMetadataProxy(loadMetadata(rid, null), full, dsd, export);
     }
     @Override
@@ -191,6 +195,7 @@ public class ResourcesService implements Resources {
     }
     @Override
     public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd, boolean export) throws Exception {
+        LOGGER.info("Metadata LOAD: @uid = "+uid+" - @version = "+version);
         return getMetadataProxy(loadMetadata(uid, version), full, dsd, export);
     }
 
@@ -198,6 +203,7 @@ public class ResourcesService implements Resources {
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification insertMetadata(T metadata) throws Exception {
         if (metadata==null)
             throw new BadRequestException();
+        LOGGER.info("Metadata INSERT: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.insertMetadata(metadata), MeIdentification.class);
     }
 
@@ -205,6 +211,7 @@ public class ResourcesService implements Resources {
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification updateMetadata(T metadata) throws Exception {
         if (metadata==null)
             throw new BadRequestException();
+        LOGGER.info("Metadata UPDATE: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, true), MeIdentification.class);
     }
 
@@ -212,26 +219,31 @@ public class ResourcesService implements Resources {
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification appendMetadata(T metadata) throws Exception {
         if (metadata==null)
             throw new BadRequestException();
+        LOGGER.info("Metadata APPEND: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, false), MeIdentification.class);
     }
 
     @Override
     public String deleteMetadata(String rid) throws Exception {
+        LOGGER.info("Metadata DELETE: @rid = "+rid);
         return metadataDao.deleteMetadata(rid,null) ? "" : null;
     }
 
     @Override
     public String deleteMetadataByUID(String uid) throws Exception {
+        LOGGER.info("Metadata DELETE: @uid = "+uid);
         return metadataDao.deleteMetadata(uid,null) ? "" : null;
     }
 
     @Override
     public String deleteMetadataByUID(String uid, String version) throws Exception {
+        LOGGER.info("Metadata DELETE: @uid = "+uid+" - @version = "+version);
         return metadataDao.deleteMetadata(uid,version) ? "" : null;
     }
 
     @Override
     public void restoreLinks() throws Exception {
+        LOGGER.info("Metadata LINKS RESTORE");
         metadataDao.restoreLinks();
     }
 
