@@ -252,27 +252,30 @@ public class ResourcesService implements Resources {
 
     @Override
     public Object getDsd(String rid) throws Exception {
+        LOGGER.info("DSD GET: @rid = "+rid);
         Object metadata = metadataDao.loadBean(JSONEntity.toRID(rid));
         return metadata!=null ? ResponseBeanFactory.getInstance(metadata, getDSDProxyClass(metadata)) : null;
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
+        LOGGER.info("DSD UPDATE: @rid = "+metadata.getRID());
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
         return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
+        LOGGER.info("DSD APPEND: @rid = "+metadata.getRID());
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(false, metadata)[0]);
         return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
     }
 
     @Override
     public void deleteDsd(String rid) throws Exception {
+        LOGGER.info("DSD DELETE: @rid = "+rid);
         org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
         metadataDao.updateMetadata(metadata,true);
-
         metadataDao.delete(rid);
     }
 
@@ -280,48 +283,59 @@ public class ResourcesService implements Resources {
 
     @Override
     public void fetch(String rid) throws Exception {
+        LOGGER.info("DATA FETCH by rid: @rid = "+rid);
         fetch(loadMetadata(rid, null));
     }
     @Override
     public void fetchByUID(String uid) throws Exception {
+        LOGGER.info("DATA FETCH by uid: @uid = "+uid);
         fetch(loadMetadata(uid, null));
     }
     @Override
     public void fetchByUID(String uid, String version) throws Exception {
+        LOGGER.info("DATA FETCH by uid adn version: @uid = "+uid+  " @version = "+version);
         fetch(loadMetadata(uid, version));
     }
     public void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        LOGGER.info("DATA FETCH by metadata : @uid = "+metadata.getUid()+  " @version = "+metadata.getVersion());
         getDao(loadRepresentationType(metadata)).fetch(metadata);
     }
 
     @Override
     public Collection getData(String rid) throws Exception {
+        LOGGER.info("DATA GET by rid : @rid = "+rid);
         return getDataProxy(loadMetadata(rid, null));
     }
     @Override
     public Collection getDataByUID(String uid) throws Exception {
+        LOGGER.info("DATA GET by rid : @uid = "+uid);
         return getDataProxy(loadMetadata(uid, null));
     }
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
+        LOGGER.info("DATA GET by uid and version : @uid = "+uid+  " @version = "+version);
         return getDataProxy(loadMetadata(uid, version));
     }
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        LOGGER.info("DATA GET by metadata : @uid = "+metadata.getUid()+  " @version = "+metadata.getVersion());
         return getDataProxy(metadata, loadData(metadata));
     }
 
     @Override
     public String deleteData(String rid) throws Exception {
+        LOGGER.info("DATA DELETE by rid : @rid = "+rid);
         return deleteData(loadMetadata(rid, null));
     }
 
     @Override
     public String deleteDataByUID(String uid) throws Exception {
+        LOGGER.info("DATA DELETE by rid : @uid = "+uid);
         return deleteData(loadMetadata(uid, null));
     }
 
     @Override
     public String deleteDataByUID(String uid, String version) throws Exception {
+        LOGGER.info("DATA DELETE by rid and version : @uid = "+uid+ " @version = "+version);
         return deleteData(loadMetadata(uid, null));
     }
 
@@ -330,6 +344,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export) throws Exception {
+        LOGGER.info("METADATA FIND by filter,businessName,full,dsd,export");
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
         if (resources!=null && resources.size()>0) {
             if (full || dsd) {
