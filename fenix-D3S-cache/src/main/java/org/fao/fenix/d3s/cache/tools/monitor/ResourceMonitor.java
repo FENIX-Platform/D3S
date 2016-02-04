@@ -24,7 +24,7 @@ public class ResourceMonitor {
         Thread currentThread = Thread.currentThread();
         switch (operation) {
             case startWrite:
-                //System.out.println("writing: "+resourceId);
+                System.out.println("writing: "+resourceId);
 
                 if (resourcesSize.containsKey(resourceId))
                     throw new ConcurrentModificationException();
@@ -33,7 +33,7 @@ public class ResourceMonitor {
                 writingThreads.add(currentThread);
                 writingQueueLength++;
 
-                //System.out.println("for: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                System.out.println("for: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
 
                 while (readersCount>0 || (writingQueueLength>1 && writingThreads.get(writingThreadIndex).getId()!=currentThread.getId())) {
                     //System.out.println("write lock: "+resourceId+" - readers: "+readersCount+" - index: "+writingThreadIndex+" - indexed thread: "+writingThreads.get(writingThreadIndex).getId()+ " - current thread: "+currentThread.getId());
@@ -43,7 +43,7 @@ public class ResourceMonitor {
                         throw new InterruptedException("Timeout on write operation");
                 }
 
-                //System.out.println("write: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                System.out.println("write: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
                 break;
             case stepWrite:
                 //System.out.println("step: "+resourceId);
@@ -69,14 +69,14 @@ public class ResourceMonitor {
 
                 break;
             case stopWrite:
-                //System.out.println("write stop: "+resourceId);
+                System.out.println("write stop: "+resourceId);
 
                 resourcesSize.remove(resourceId);
                 writingThreads.remove(writingThreadIndex);
                 if (writingThreadIndex >= --writingQueueLength)
                     writingThreadIndex = 0;
 
-                //System.out.println("write stop done: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                System.out.println("write stop done: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
 
                 notifyAll();
                 break;

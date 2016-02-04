@@ -25,6 +25,8 @@ import java.util.LinkedList;
 @Provider
 @Produces("application/sdmx")
 public class ResourceExportProvider  implements MessageBodyWriter<ResourceProxy> {
+
+
     @Override
     public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
         return true;
