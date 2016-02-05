@@ -43,7 +43,7 @@ public class ResourcesService implements Resources {
 
 
     //MASSIVE METADATA
-
+/*
     @Override
     public Collection<Object> getMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
@@ -55,7 +55,7 @@ public class ResourcesService implements Resources {
         } else
             return null;
     }
-
+*/
     @Override
     public Collection<MeIdentification> insertMetadata(MetadataList metadata) throws Exception {
         return ResponseBeanFactory.getInstances(writeMetadata(metadata, true, true), MeIdentification.class);
@@ -134,6 +134,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public ResourceProxy getResource(String rid, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
+        LOGGER.info("Resource LOAD: @rid = "+rid+" - @full = "+full+" - @dsd = "+dsd+" - @export = "+export);
         return getResourceProxy(loadMetadata(rid, null), full, dsd, export, datasource);
     }
     @Override
@@ -142,6 +143,7 @@ public class ResourcesService implements Resources {
     }
     @Override
     public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
+        LOGGER.info("Resource LOAD: @uid = "+uid+" - @version = "+version+" - @full = "+full+" - @dsd = "+dsd+" - @export = "+export);
         return getResourceProxy(loadMetadata(uid, version), full, dsd, export, datasource);
     }
 
@@ -149,6 +151,7 @@ public class ResourcesService implements Resources {
     public MeIdentification insertResource(Resource resource) throws Exception {
         if (resource==null || resource.getMetadata()==null)
             throw new BadRequestException();
+        LOGGER.info("Resource INSERT: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource), MeIdentification.class);
     }
 
@@ -156,6 +159,7 @@ public class ResourcesService implements Resources {
     public MeIdentification updateResource(Resource resource) throws Exception {
         if (resource==null || resource.getMetadata()==null)
             throw new BadRequestException();
+        LOGGER.info("Resource UPDATE: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true), MeIdentification.class);
     }
 
@@ -163,21 +167,25 @@ public class ResourcesService implements Resources {
     public MeIdentification appendResource(Resource resource) throws Exception {
         if (resource==null || resource.getMetadata()==null)
             throw new BadRequestException();
+        LOGGER.info("Resource APPEND: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class);
     }
 
     @Override
     public String deleteResource(String rid) throws Exception {
+        LOGGER.info("Resource DELETE: @rid = "+rid);
         return deleteResource(loadMetadata(rid, null));
     }
 
     @Override
     public String deleteResourceByUID(String uid) throws Exception {
+        LOGGER.info("Resource DELETE: @uid = "+uid);
         return deleteResource(loadMetadata(uid, null));
     }
 
     @Override
     public String deleteResourceByUID(String uid, String version) throws Exception {
+        LOGGER.info("Resource DELETE: @uid = "+uid+" - @version = "+version);
         return deleteResource(loadMetadata(uid, version));
     }
 
@@ -186,7 +194,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd, boolean export) throws Exception {
-        LOGGER.info("Metadata LOAD: @rid = "+rid);
+        LOGGER.info("Metadata LOAD: @rid = "+rid+" - @full = "+full+" - @dsd = "+dsd+" - @export = "+export);
         return getMetadataProxy(loadMetadata(rid, null), full, dsd, export);
     }
     @Override
@@ -195,7 +203,7 @@ public class ResourcesService implements Resources {
     }
     @Override
     public Object getMetadataByUID(String uid, String version, boolean full, boolean dsd, boolean export) throws Exception {
-        LOGGER.info("Metadata LOAD: @uid = "+uid+" - @version = "+version);
+        LOGGER.info("Metadata LOAD: @uid = "+uid+" - @version = "+version+" - @full = "+full+" - @dsd = "+dsd+" - @export = "+export);
         return getMetadataProxy(loadMetadata(uid, version), full, dsd, export);
     }
 
@@ -283,59 +291,58 @@ public class ResourcesService implements Resources {
 
     @Override
     public void fetch(String rid) throws Exception {
-        LOGGER.info("DATA FETCH by rid: @rid = "+rid);
+        LOGGER.info("Data FETCH: @rid = "+rid);
         fetch(loadMetadata(rid, null));
     }
     @Override
     public void fetchByUID(String uid) throws Exception {
-        LOGGER.info("DATA FETCH by uid: @uid = "+uid);
+        LOGGER.info("Data FETCH: @uid = "+uid);
         fetch(loadMetadata(uid, null));
     }
     @Override
     public void fetchByUID(String uid, String version) throws Exception {
-        LOGGER.info("DATA FETCH by uid adn version: @uid = "+uid+  " @version = "+version);
+        LOGGER.info("Data FETCH: @uid = "+uid+  " @version = "+version);
         fetch(loadMetadata(uid, version));
     }
     public void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
-        LOGGER.info("DATA FETCH by metadata : @uid = "+metadata.getUid()+  " @version = "+metadata.getVersion());
+        LOGGER.info("Data FETCH by metadata : @uid = "+metadata.getUid()+  " @version = "+metadata.getVersion());
         getDao(loadRepresentationType(metadata)).fetch(metadata);
     }
 
     @Override
     public Collection getData(String rid) throws Exception {
-        LOGGER.info("DATA GET by rid : @rid = "+rid);
+        LOGGER.info("Data GET: @rid = "+rid);
         return getDataProxy(loadMetadata(rid, null));
     }
     @Override
     public Collection getDataByUID(String uid) throws Exception {
-        LOGGER.info("DATA GET by rid : @uid = "+uid);
+        LOGGER.info("Data GET: @uid = "+uid);
         return getDataProxy(loadMetadata(uid, null));
     }
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
-        LOGGER.info("DATA GET by uid and version : @uid = "+uid+  " @version = "+version);
+        LOGGER.info("Data GET: @uid = "+uid+  " @version = "+version);
         return getDataProxy(loadMetadata(uid, version));
     }
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
-        LOGGER.info("DATA GET by metadata : @uid = "+metadata.getUid()+  " @version = "+metadata.getVersion());
         return getDataProxy(metadata, loadData(metadata));
     }
 
     @Override
     public String deleteData(String rid) throws Exception {
-        LOGGER.info("DATA DELETE by rid : @rid = "+rid);
+        LOGGER.info("Data DELETE: @rid = "+rid);
         return deleteData(loadMetadata(rid, null));
     }
 
     @Override
     public String deleteDataByUID(String uid) throws Exception {
-        LOGGER.info("DATA DELETE by rid : @uid = "+uid);
+        LOGGER.info("Data DELETE: @uid = "+uid);
         return deleteData(loadMetadata(uid, null));
     }
 
     @Override
     public String deleteDataByUID(String uid, String version) throws Exception {
-        LOGGER.info("DATA DELETE by rid and version : @uid = "+uid+ " @version = "+version);
+        LOGGER.info("Data DELETE: @uid = "+uid+ " @version = "+version);
         return deleteData(loadMetadata(uid, null));
     }
 
@@ -344,7 +351,8 @@ public class ResourcesService implements Resources {
 
     @Override
     public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export) throws Exception {
-        LOGGER.info("METADATA FIND by filter,businessName,full,dsd,export");
+        LOGGER.info("Metadata FIND: @logic = "+businessName+" - @full = "+full+" - @dsd = "+dsd+" - @export = "+export+" - @filterSize = "+(filter!=null?filter.size():0));
+        LOGGER.debug("Metadata FIND: @filter... "+filter);
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
         if (resources!=null && resources.size()>0) {
             if (full || dsd) {

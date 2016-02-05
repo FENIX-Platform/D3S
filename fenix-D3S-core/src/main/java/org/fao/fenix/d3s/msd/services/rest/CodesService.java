@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.services.rest;
 
+import org.apache.log4j.Logger;
 import org.fao.fenix.commons.find.dto.filter.CodesFilter;
 import org.fao.fenix.commons.msd.dto.full.MeContent;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
@@ -15,6 +16,8 @@ import java.util.*;
 
 @Path("msd/codes")
 public class CodesService implements Codes {
+    private static final Logger LOGGER = Logger.getLogger("access");
+
     @Inject private CodeListResourceDao dao;
 
 
@@ -22,6 +25,8 @@ public class CodesService implements Codes {
 
     @Override
     public Collection<Code> getCodes(CodesFilter filter, boolean tree) throws Exception {
+        LOGGER.info("Codes FILTER: @tree = "+tree);
+        LOGGER.debug("Codes FILTER: @filter... "+filter);
         MeIdentification metadata = filter.rid!=null ? dao.loadMetadata(filter.rid,null) : dao.loadMetadata(filter.uid,filter.version);
         return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
     }

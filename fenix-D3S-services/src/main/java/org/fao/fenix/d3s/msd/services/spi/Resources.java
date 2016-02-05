@@ -16,11 +16,12 @@ import java.util.Collection;
 public interface Resources {
 
     //MASSIVE METADATA
-    @POST
+/*    @POST
     @Path("/massive/load")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
+*/
     @POST
     @Path("/massive")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
