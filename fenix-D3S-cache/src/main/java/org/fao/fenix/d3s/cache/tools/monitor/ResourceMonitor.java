@@ -1,6 +1,8 @@
 package org.fao.fenix.d3s.cache.tools.monitor;
 
 
+import org.apache.log4j.Logger;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,6 +15,8 @@ import java.util.*;
 @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
 public class ResourceMonitor {
+    private static final Logger LOGGER = Logger.getLogger(ResourceMonitor.class);
+
     public enum Operation { startRead, stopRead, startWrite, stepWrite, stopWrite }
 
     private static final long WRITE_TIMEOUT = 5*60*1000; //5 minutes
@@ -24,7 +28,7 @@ public class ResourceMonitor {
         Thread currentThread = Thread.currentThread();
         switch (operation) {
             case startWrite:
-                System.out.println("writing: "+resourceId);
+                LOGGER.debug("writing: "+resourceId);
 
                 if (resourcesSize.containsKey(resourceId))
                     throw new ConcurrentModificationException();
@@ -33,20 +37,20 @@ public class ResourceMonitor {
                 writingThreads.add(currentThread);
                 writingQueueLength++;
 
-                System.out.println("for: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                LOGGER.debug("for: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
 
                 while (readersCount>0 || (writingQueueLength>1 && writingThreads.get(writingThreadIndex).getId()!=currentThread.getId())) {
-                    //System.out.println("write lock: "+resourceId+" - readers: "+readersCount+" - index: "+writingThreadIndex+" - indexed thread: "+writingThreads.get(writingThreadIndex).getId()+ " - current thread: "+currentThread.getId());
+                    LOGGER.debug("write lock: "+resourceId+" - readers: "+readersCount+" - index: "+writingThreadIndex+" - indexed thread: "+writingThreads.get(writingThreadIndex).getId()+ " - current thread: "+currentThread.getId());
                     long time = System.currentTimeMillis();
                     wait(WRITE_TIMEOUT);
                     if ((System.currentTimeMillis()-time)>WRITE_TIMEOUT)
                         throw new InterruptedException("Timeout on write operation");
                 }
 
-                System.out.println("write: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                LOGGER.debug("write: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
                 break;
             case stepWrite:
-                //System.out.println("step: "+resourceId);
+                LOGGER.debug("step: "+resourceId);
 
                 resourcesSize.put(resourceId,size+resourcesSize.get(resourceId));
                 writingThreads.set(writingThreadIndex, currentThread); //refresh current writing thread for the resource
@@ -57,7 +61,7 @@ public class ResourceMonitor {
                 notifyAll();
 
                 while (readersCount>0 || (writingQueueLength>1 && writingThreads.get(writingThreadIndex).getId()!=currentThread.getId())) {
-                    //System.out.println("step lock: "+resourceId+" - readers: "+readersCount+" - index: "+writingThreadIndex+" - indexed thread: "+writingThreads.get(writingThreadIndex).getId()+ " - current thread: "+currentThread.getId());
+                    LOGGER.debug("step lock: "+resourceId+" - readers: "+readersCount+" - index: "+writingThreadIndex+" - indexed thread: "+writingThreads.get(writingThreadIndex).getId()+ " - current thread: "+currentThread.getId());
                     long time = System.currentTimeMillis();
                     wait(WRITE_TIMEOUT);
                     if ((System.currentTimeMillis()-time)>WRITE_TIMEOUT)
@@ -65,39 +69,39 @@ public class ResourceMonitor {
                 }
 
 
-                //System.out.println("step done: " + resourceId + " - queue index: "+writingThreadIndex+" - queue length: "+writingQueueLength);
+                LOGGER.debug("step done: " + resourceId + " - queue index: "+writingThreadIndex+" - queue length: "+writingQueueLength);
 
                 break;
             case stopWrite:
-                System.out.println("write stop: "+resourceId);
+                LOGGER.debug("write stop: "+resourceId);
 
                 resourcesSize.remove(resourceId);
                 writingThreads.remove(writingThreadIndex);
                 if (writingThreadIndex >= --writingQueueLength)
                     writingThreadIndex = 0;
 
-                System.out.println("write stop done: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
+                LOGGER.debug("write stop done: " + resourceId + " - threads size: "+writingThreads.size()+" - queue length: "+writingQueueLength);
 
                 notifyAll();
                 break;
             case startRead:
-                //System.out.println("reading: "+resourceId+" - size: "+size+" - thread: "+currentThread.getId());
+                LOGGER.debug("reading: "+resourceId+" - size: "+size+" - thread: "+currentThread.getId());
 
                 for (Long currentSize = resourcesSize.get(resourceId); currentSize!=null && (size<=0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
                     wait();
                 readersCount++;
 
-                //System.out.println("read: "+resourceId+" - readers: "+readersCount+" - thread: "+currentThread.getId());
+                LOGGER.debug("read: "+resourceId+" - readers: "+readersCount+" - thread: "+currentThread.getId());
                 break;
             case stopRead:
-                //System.out.println("read stop: "+resourceId+" - size: "+size+" - thread: "+currentThread.getId());
+                LOGGER.debug("read stop: "+resourceId+" - size: "+size+" - thread: "+currentThread.getId());
 
                 if (--readersCount==0) {
-                    //System.out.println("notify after read");
+                    LOGGER.debug("notify after read");
                     notifyAll();
                 }
 
-                //System.out.println("read stopped: " + resourceId + " - readers: " + readersCount + " - thread: " + currentThread.getId());
+                LOGGER.debug("read stopped: " + resourceId + " - readers: " + readersCount + " - thread: " + currentThread.getId());
                 break;
         }
     }

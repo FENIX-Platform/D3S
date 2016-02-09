@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.cache.manager.impl;
 
+import org.apache.log4j.Logger;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.utils.Order;
@@ -33,6 +34,7 @@ import java.util.LinkedList;
 @ApplicationScoped
 @ManagerName("dataset")
 public class D3SDatasetLevel1 implements DatasetCacheManager {
+    private static final Logger LOGGER = Logger.getLogger(D3SDatasetLevel1.class);
 
     private static final int SOTRE_PAGE_SIZE = 50;
 
@@ -71,16 +73,19 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
         int size = !ordering && page!=null && page.perPage>0 ? page.skip+page.length : 0;
         //Check resource status and resource (and related codelists) last update date
         StoreStatus status = storage.loadMetadata(id);
+        LOGGER.debug("Loading data from cache: id = "+id+" status -> "+status);
         if (status!=null) {
             if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
                 throw new IncompleteException(id);
             if (!checkUpdateDateIsValid(metadata,status)) {
+                LOGGER.debug("Deleting non valid data from cache: id = "+id);
                 storage.delete(id);
                 return null;
             }
             monitor.check(ResourceMonitor.Operation.startRead, id, size);
             try {
                 Iterator<Object[]> data = storage.load(order, page, new Table(metadata));
+                LOGGER.debug("Loaded data from cache storage: id = "+id+" data = "+(data!=null ? true : false));
                 if (data==null) {
                     monitor.check(ResourceMonitor.Operation.stopRead, id, 0);
                     return null;

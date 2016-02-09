@@ -54,4 +54,16 @@ public class StoreStatus {
     public void setTimeout(Date timeout) {
         this.timeout = timeout;
     }
+
+
+    //Utils
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("status = ").append(status)
+                .append("update date = ").append(lastUpdate)
+                .append("size = ").append(count)
+                .toString();
+    }
 }

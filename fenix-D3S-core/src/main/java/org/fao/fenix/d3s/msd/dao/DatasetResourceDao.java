@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.msd.dao;
 
+import org.apache.log4j.Logger;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
@@ -18,6 +19,8 @@ import javax.inject.Inject;
 import java.util.*;
 
 public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
+    private static final Logger LOGGER = Logger.getLogger(DatasetResourceDao.class);
+
     @Inject private DatabaseUtils utils;
     @Inject private WDSDaoFactory wdsFactory;
     @Inject private CacheFactory cacheManagerFactory;
@@ -58,7 +61,9 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (cache!=null)
                 try {
                     data = cache.load(metadata, ordering, pagination);
+                    LOGGER.debug("Loaded data from cache: uid = "+metadata.getUid()+" - version = "+metadata.getVersion()+" data = "+(data!=null ? true : false));
                 } catch (IncompleteException ex) {
+                    LOGGER.debug("IncompleteException from cache: uid = "+metadata.getUid()+" - version = "+metadata.getVersion());
                     cache.remove(metadata);
                 }
 

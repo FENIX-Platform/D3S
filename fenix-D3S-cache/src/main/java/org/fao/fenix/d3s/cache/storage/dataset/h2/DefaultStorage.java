@@ -522,11 +522,15 @@ public class DefaultStorage extends H2Storage {
             query.append(orderingSQL = ordering.toH2SQL(columnsByName.keySet().toArray(new String[columnsByName.size()])));
 
         //Add pagination
+        /*
         if (pagination!=null)
             if (pagination.toH2SQLWhereCondition()!=null && (orderingSQL==null || orderingSQL.trim().length()==0) && (whereContitionSQL==null || whereContitionSQL.trim().length()==0))
                 query.append(" WHERE ").append(pagination.toH2SQLWhereCondition());
             else
                 query.append(' ').append(pagination.toH2SQL());
+                */
+        if (pagination!=null)
+            query.append(' ').append(pagination.toH2SQL());
 
         //Add for update option
         if (forUpdate)
