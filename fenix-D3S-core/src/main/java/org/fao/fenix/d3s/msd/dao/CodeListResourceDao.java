@@ -62,6 +62,14 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
 
 
     //Codes selection
+    public Code getCode(String uid, String version, String code) throws Exception {
+        return getCode(loadMetadata(uid,version), code);
+    }
+    public Code getCode(MeIdentification<DSDCodelist> metadata, String code) throws Exception {
+        Collection<Code> result = loadData(metadata,null,null,code);
+        return result!=null && result.size()==1 ? result.iterator().next() : null;
+    }
+
     public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata, String label, Integer level, String ... codes) throws Exception {
         if (metadata==null)
             return null;

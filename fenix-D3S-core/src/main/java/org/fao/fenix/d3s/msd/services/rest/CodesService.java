@@ -2,6 +2,7 @@ package org.fao.fenix.d3s.msd.services.rest;
 
 import org.apache.log4j.Logger;
 import org.fao.fenix.commons.find.dto.filter.CodesFilter;
+import org.fao.fenix.commons.msd.dto.data.Direction;
 import org.fao.fenix.commons.msd.dto.full.MeContent;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
@@ -21,6 +22,16 @@ public class CodesService implements Codes {
     @Inject private CodeListResourceDao dao;
 
 
+    @Override
+    public org.fao.fenix.commons.msd.dto.full.Code getCodeHierarchy(String uid, String code, Integer depth, Direction direction) throws Exception {
+        return getCodeHierarchy(uid, null, code, depth, direction);
+    }
+
+    @Override
+    public org.fao.fenix.commons.msd.dto.full.Code getCodeHierarchy(String uid, String version, String code, Integer depth, Direction direction) throws Exception {
+        LOGGER.info("Codes HIERARCHY: @uid = "+uid+" - @version = "+version+" - @code = "+code+" - @depth = "+depth+" - @direction = "+direction);
+        return getHierarchy(dao.getCode(uid,version,code), depth, direction);
+    }
 
 
     @Override
@@ -101,6 +112,24 @@ public class CodesService implements Codes {
                     child.addParent(clone);
                 }
             }
+    }
+
+    private org.fao.fenix.commons.msd.dto.full.Code getHierarchy (org.fao.fenix.commons.msd.dto.full.Code rawCode, Integer depth, Direction direction) throws CloneNotSupportedException {
+        if (depth==null)
+            depth = Integer.MAX_VALUE;
+
+        org.fao.fenix.commons.msd.dto.full.Code code = rawCode!=null ? (org.fao.fenix.commons.msd.dto.full.Code) rawCode.clone() : null;
+        if (code!=null) {
+            Collection<org.fao.fenix.commons.msd.dto.full.Code> children = depth>1 && (direction==null || direction==Direction.down) ? rawCode.getChildren() : null;
+            Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = depth>1 && (direction==null || direction==Direction.up) ? rawCode.getParents() : null;
+            if (children!=null)
+                for (org.fao.fenix.commons.msd.dto.full.Code child : children)
+                    code.addChild(getHierarchy(child,depth-1,Direction.down));
+            if (parents!=null)
+                for (org.fao.fenix.commons.msd.dto.full.Code parent : parents)
+                    code.addParent(getHierarchy(parent,depth-1,Direction.up));
+        }
+        return code;
     }
 
 
