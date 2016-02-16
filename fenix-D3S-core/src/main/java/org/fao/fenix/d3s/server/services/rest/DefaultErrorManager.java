@@ -1,7 +1,9 @@
 package org.fao.fenix.d3s.server.services.rest;
 
 import org.apache.log4j.Logger;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -15,15 +17,22 @@ public class DefaultErrorManager implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable e) {
+        HttpServletRequest httpRequest = DatabaseStandards.request.get();
+        Response response = null;
 
         if (e instanceof NoContentException)
-            return Response.noContent().entity("").build();
+            response = Response.noContent().entity("").build();
         else if (e instanceof WebApplicationException) {
             LOGGER.error("Uncaught error.",e);
-            return e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
+            response = e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
         } else {
             LOGGER.error("Uncaught error.",e);
-            return Response.serverError().entity(e.getMessage()).build();
+            response = Response.serverError().entity(e.getMessage()).build();
         }
+
+        if (response!=null)
+            httpRequest.setAttribute("errorEntity", response.getEntity());
+
+        return response;
     }
 }

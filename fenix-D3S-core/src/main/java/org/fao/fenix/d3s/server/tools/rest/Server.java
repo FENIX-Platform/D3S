@@ -33,6 +33,7 @@ public class Server implements Runnable {
 
             ScatteredArchive application = new ScatteredArchive("D3S", ScatteredArchive.Type.WAR);
             addClassPath(application);
+            addWebAppDescriptors(application);
 
             Deployer deployer = glassfish.getDeployer();
             deployer.deploy(application.toURI(), "--contextroot=/");
@@ -43,6 +44,12 @@ public class Server implements Runnable {
         }
 
 
+    }
+
+    private static void addWebAppDescriptors(ScatteredArchive application) throws IOException {
+        File web_xml_file = new File("config/deployment/web.xml");
+        if (web_xml_file.exists() && web_xml_file.isFile())
+            application.addMetadata(web_xml_file);
     }
 
     private static void addClassPath(ScatteredArchive application) throws IOException {
