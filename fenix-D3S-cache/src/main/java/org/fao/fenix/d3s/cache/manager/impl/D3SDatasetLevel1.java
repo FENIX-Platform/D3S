@@ -36,7 +36,7 @@ import java.util.LinkedList;
 public class D3SDatasetLevel1 implements DatasetCacheManager {
     private static final Logger LOGGER = Logger.getLogger(D3SDatasetLevel1.class);
 
-    private static final int SOTRE_PAGE_SIZE = 50;
+    private static final int SOTRE_PAGE_SIZE = 1000;//50;
 
     @Inject private CacheManagerFactory listenersFactory;
     @Inject private DatabaseUtils utils;
