@@ -33,7 +33,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         if (cache==null)
             throw new UnsupportedOperationException();
 
-        loadData(metadata, new Page(0, 1), null);
+        for (Object[] row : loadData(metadata, new Page(0, 1), null));
     }
 
     @Override
