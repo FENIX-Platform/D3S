@@ -7,8 +7,9 @@ import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.utils.Language;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
-import org.fao.fenix.commons.utils.database.DatabaseUtils;
+import org.fao.fenix.commons.utils.database.*;
 import org.fao.fenix.d3s.cache.CacheFactory;
+import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
@@ -17,6 +18,7 @@ import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.Iterator;
 
 public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     private static final Logger LOGGER = Logger.getLogger(DatasetResourceDao.class);
@@ -47,47 +49,35 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         return loadData(metadata, getPage(), getOrder());
     }
     private Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata, Page pagination, Order ordering) throws Exception {
+        Iterator<Object[]> data = null;
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
+
         if (dsd!=null) {
             DatasetCacheManager cache = (DatasetCacheManager) cacheManagerFactory.getDatasetCacheManager(metadata);
-            WDSDatasetDao wdsDao = getDao(metadata);
-
-            //Use extended dsd in case of cache loading and standard dsd other operations
-            Language[] languages = dbParameters.getLanguageInfo();
-            DSDDataset dsdExtended = cache!=null && languages!=null && languages.length>0 ? dsd.extend(true, languages) : dsd;
-
-            metadata.setDsd(dsdExtended);
-            Iterator<Object[]> data = null;
-            if (cache!=null)
-                try {
-                    data = cache.load(metadata, ordering, pagination);
-                    LOGGER.debug("Loaded data from cache: uid = "+metadata.getUid()+" - version = "+metadata.getVersion()+" data = "+(data!=null ? true : false));
-                } catch (IncompleteException ex) {
-                    LOGGER.debug("IncompleteException from cache: uid = "+metadata.getUid()+" - version = "+metadata.getVersion());
+            if (cache!=null) {
+                //Fill cache
+                StoreStatus status = cache.status(metadata);
+                Date dataUpdateDateByMetadata = getDataUpdateDate(metadata);
+                if (status==null || status.getStatus()==StoreStatus.Status.incomplete || (dataUpdateDateByMetadata!=null && status.getLastUpdate().before(dataUpdateDateByMetadata))) {
                     cache.remove(metadata);
+                    cache.store(metadata, loadRawData(metadata), true, null, getCodeLists(metadata));
                 }
-
-            if (data==null) {
-                if (wdsDao == null) {
-                    data = new LinkedList<Object[]>().iterator();
-                } else {
-                    metadata.setDsd(dsd);
-                    data = wdsDao.loadData(metadata);
-                }
-
-                if (cache!=null && wdsDao!=null) {
-                    cache.store(metadata, utils.getDataIterator(data), true, null, getCodeLists(metadata));
-                    if (languages!=null && languages.length>0)
-                        dsd.extend(false,languages);
-                    metadata.setDsd(dsd);
-                    data = cache.load(metadata, ordering, pagination);
-                }
-            }
-
-            return toList(data);
+                //Add labels to the required dataset
+                Language[] languages = dbParameters.getLanguageInfo();
+                if (languages!=null && languages.length>0)
+                    dsd.extend(languages);
+                //Load data
+                data = cache.load(metadata, ordering, pagination);
+                LOGGER.debug("Loaded data from cache: uid = "+metadata.getUid()+" - version = "+metadata.getVersion()+" data = "+(data!=null ? true : false));
+            } else
+                data = loadRawData(metadata);
         }
 
-        return null;
+        return data!=null ? toList(data) : null;
+    }
+    private Iterator<Object[]> loadRawData(MeIdentification<DSDDataset> metadata) throws Exception {
+        WDSDatasetDao wdsDao = getDao(metadata);
+        return wdsDao!=null ? wdsDao.loadData(metadata) : new LinkedList<Object[]>().iterator();
     }
 
     @Override
@@ -135,9 +125,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     @Override
     public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
         //Retrieve new data update date
-        MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
-        SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
-        Date updateDate = seUpdate!=null ? seUpdate.getUpdateDate() : null;
+        Date updateDate = getDataUpdateDate(metadata);
         //Update metadata end retrieve a consistent metadata for cache manager identification
         metadata = super.updateMetadata(metadata, overwrite, transaction);
         //Retrieve cache manager
@@ -199,6 +187,14 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         String[] datasources = dsd!=null ? dsd.getDatasources() : null;
         return datasources!=null && datasources.length>0 ? datasources[0] : null;
     }
+
+
+    private Date getDataUpdateDate(MeIdentification<DSDDataset> metadata) {
+        MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
+        SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
+        return seUpdate!=null ? seUpdate.getUpdateDate() : null;
+    }
+
 
 
 }

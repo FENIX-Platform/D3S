@@ -5,6 +5,7 @@ import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.dto.dataset.TableScope;
 import org.fao.fenix.d3s.cache.storage.Storage;
 
 import java.sql.Connection;
@@ -49,7 +50,7 @@ public interface DatasetStorage extends Storage {
      * @param timeout Table timeout timestamp (useful to clean temporary tables)
      * @throws Exception
      */
-    public StoreStatus create(Table tableStructure, Date timeout) throws Exception;
+    public StoreStatus create(Table tableStructure, Date timeout, TableScope scope) throws Exception;
 
     /**
      * Load data from existing tables. There's no check about data quality or data structure. The execution is synchronous and produced data is volatile.

@@ -8,6 +8,7 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.DatabaseUtils;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.dto.dataset.TableScope;
 import org.fao.fenix.d3s.cache.dto.dataset.WriteTable;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
@@ -122,7 +123,7 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
             }
             //Create table if needed
             if (status == null)
-                storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null);
+                storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null, TableScope.data);
             //Store data and unlock resource
             ResourceStorageExecutor executor = new ExternalDatasetExecutor(metadata, listenersFactory, storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
             //executor.addListener(this);

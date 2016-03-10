@@ -7,6 +7,7 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
 import org.fao.fenix.d3s.cache.dto.dataset.Column;
 import org.fao.fenix.d3s.cache.dto.dataset.Table;
+import org.fao.fenix.d3s.cache.dto.dataset.TableScope;
 import org.fao.fenix.d3s.cache.dto.dataset.Type;
 import org.fao.fenix.d3s.cache.storage.StorageName;
 
@@ -49,7 +50,7 @@ public class DefaultStorage extends H2Storage {
     //DATA
 
     @Override
-    public synchronized StoreStatus create(Table tableStructure, Date timeout) throws Exception {
+    public synchronized StoreStatus create(Table tableStructure, Date timeout, TableScope scope) throws Exception {
         String tableName = tableStructure!=null ? tableStructure.getTableName() : null;
         if (session.containsKey(tableName))
             throw new ConcurrentModificationException("Write session already open on: "+tableName);
@@ -91,6 +92,10 @@ public class DefaultStorage extends H2Storage {
             query.append(queryIndex).append(')');
         } else
             query.append(')');
+
+        //Check for temporary RAM table
+        if (scope==TableScope.temporary)
+            query.append(" NOT PERSISTENT");
 
         //Execute query and update metadata
         StoreStatus status = new StoreStatus(StoreStatus.Status.loading, 0l, new Date(), timeout);
