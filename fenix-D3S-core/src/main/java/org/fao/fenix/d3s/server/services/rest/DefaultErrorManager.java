@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -22,8 +23,11 @@ public class DefaultErrorManager implements ExceptionMapper<Throwable> {
 
         if (e instanceof NoContentException)
             response = Response.noContent().entity("").build();
-        else if (e instanceof WebApplicationException) {
-            LOGGER.error("Uncaught error.",e);
+        else if (e instanceof BadRequestException) {
+            LOGGER.error("Bad request error.",e);
+            response = Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } else if (e instanceof WebApplicationException) {
+            LOGGER.error("Uncaught error.", e);
             response = e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
         } else {
             LOGGER.error("Uncaught error.",e);

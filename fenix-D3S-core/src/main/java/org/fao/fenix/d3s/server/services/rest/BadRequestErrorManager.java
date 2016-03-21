@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.BadRequestException;
 import java.io.IOException;
 
-@WebFilter(filterName="BadRequestErrorManager", urlPatterns={"/v2/*"})
+//@WebFilter(filterName="BadRequestErrorManager", urlPatterns={"/v2/*"})
 public class BadRequestErrorManager  implements Filter {
 
     @Override

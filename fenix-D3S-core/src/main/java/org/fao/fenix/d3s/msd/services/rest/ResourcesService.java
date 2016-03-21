@@ -166,7 +166,7 @@ public class ResourcesService implements Resources {
     @Override
     public MeIdentification appendResource(Resource resource) throws Exception {
         if (resource==null || resource.getMetadata()==null)
-            throw new BadRequestException();
+            throw new NoContentException("No metadata");
         LOGGER.info("Resource APPEND: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class);
     }
