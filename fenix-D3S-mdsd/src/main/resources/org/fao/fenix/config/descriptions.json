@@ -707,5 +707,40 @@
             "format": "date"
          }
       }
+   },
+   "OjScale":{
+      "type":"object",
+      "properties": {
+         "minScaleFactor":{
+            "title":"Min Scale Factor",
+            "title_i18n": {
+               "en": "Min Scale Factor",
+               "fr": "",
+               "es": ""
+            },
+            "description": "",
+            "description_i18n": {
+               "en": "Min Scale Factor",
+               "fr": "",
+               "es": ""
+            },
+            "type": "number"
+         },
+         "maxScaleFactor":{
+            "title":"Max Scale Factor",
+            "title_i18n": {
+               "en": "Max Scale Factor",
+               "fr": "",
+               "es": ""
+            },
+            "description": "",
+            "description_i18n": {
+               "en": "Max Scale Factor.",
+               "fr": "",
+               "es": ""
+            },
+            "type": "number"
+         }
+      }
    }
 }

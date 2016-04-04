@@ -48,6 +48,7 @@ CREATE CLASS MeResourceStructure;
 CREATE CLASS MeSpatialRepresentation;
   CREATE CLASS SeBoundingBox;
     CREATE CLASS SeGridSpatialRepresentation;
+        CREATE CLASS SeBand;
     CREATE CLASS SeVectorSpatialRepresentation;
 
 
@@ -64,6 +65,7 @@ CREATE CLASS OjContact;
 CREATE CLASS OjCitation;
 CREATE CLASS OjCodeList;
 CREATE CLASS OjCode;
+CREATE CLASS OjScale;
 CREATE CLASS OjMeasure;
 CREATE CLASS OjAxis;
 CREATE CLASS OjPeriod;
@@ -138,9 +140,8 @@ CREATE PROPERTY OjAxis.axisName STRING;
 CREATE PROPERTY OjAxis.axisSize INTEGER;
 CREATE PROPERTY OjAxis.resolution EMBEDDED OjMeasure;
 
-
-
-
+CREATE PROPERTY OjScale.minScaleFactor DOUBLE;
+CREATE PROPERTY OjScale.maxScaleFactor DOUBLE;
 
 CREATE PROPERTY DSDColumnSubject.name STRING;
 CREATE PROPERTY DSDColumnSubject.link STRING;
@@ -357,9 +358,20 @@ CREATE PROPERTY MeIdentification.meSpatialRepresentation EMBEDDED MeSpatialRepre
       CREATE PROPERTY SeGridSpatialRepresentation.cellGeometry STRING;
       CREATE PROPERTY SeGridSpatialRepresentation.cellOfOrigin STRING;
       CREATE PROPERTY SeGridSpatialRepresentation.xyPosition STRING;
+      CREATE PROPERTY SeGridSpatialRepresentation.mdBand EMBEDDEDLIST SeBand;
+        CREATE PROPERTY SeBand.maxValue DOUBLE;
+        CREATE PROPERTY SeBand.minValue DOUBLE;
+        CREATE PROPERTY SeBand.bitsterValue INTEGER;
+        CREATE PROPERTY SeBand.scaleFactor DOUBLE;
+        CREATE PROPERTY SeBand.offset DOUBLE;
+
+
     CREATE PROPERTY SeBoundingBox.seVectorSpatialRepresentation EMBEDDED SeVectorSpatialRepresentation;
       CREATE PROPERTY SeVectorSpatialRepresentation.topologyLevel EMBEDDED OjCodeList;
       CREATE PROPERTY SeVectorSpatialRepresentation.geometricObjects STRING;
+      CREATE PROPERTY SeVectorSpatialRepresentation.mapUnit EMBEDDED OjCodeList;
+      CREATE PROPERTY SeVectorSpatialRepresentation.scaleRange EMBEDDED OjScale;
+
 CREATE PROPERTY MeIdentification.meStatisticalProcessing EMBEDDED MeStatisticalProcessing;
   CREATE PROPERTY MeStatisticalProcessing.seDataSource EMBEDDED SeDataSource;
     CREATE PROPERTY SeDataSource.sePrimaryDataCollection EMBEDDED SePrimaryDataCollection;
