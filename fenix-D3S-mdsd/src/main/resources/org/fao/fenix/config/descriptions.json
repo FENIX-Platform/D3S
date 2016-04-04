@@ -742,5 +742,99 @@
             "type": "number"
          }
       }
+   },
+   "SeBand":{
+      "title": "Se band",
+      "title_i18n": {
+         "en": "Se band",
+         "fr": "",
+         "es": ""
+      },
+      "description": "Se band",
+      "description_i18n": {
+         "en": "Se band",
+         "fr": "",
+         "es": ""
+      },
+      "type":"object",
+      "properties":{
+         "maxValue":{
+            "title": "Max Value",
+            "title_i18n": {
+               "en": "Max Value",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Max Value",
+            "description_i18n": {
+               "en": "Max Value",
+               "fr": "",
+               "es": ""
+            },
+            "type":"number"
+
+
+         },
+         "minValue":{
+            "title": "Min Value",
+            "title_i18n": {
+               "en": "Min Value",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Min Value",
+            "description_i18n": {
+               "en": "Min Value",
+               "fr": "",
+               "es": ""
+            },
+            "type":"number"
+         },
+         "bitsterValue":{
+            "title": "Bitster Value",
+            "title_i18n": {
+               "en": "Bitster Value",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Bitster Value",
+            "description_i18n": {
+               "en": "Bitster Value",
+               "fr": "",
+               "es": ""
+            },
+            "type":"number"
+         },
+         "scaleFactor":{
+            "title": "Scale Factor",
+            "title_i18n": {
+               "en": "Scale Factor",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Scale Factor",
+            "description_i18n": {
+               "en": "Scale Factor",
+               "fr": "",
+               "es": ""
+            },
+            "type":"number"
+         },
+         "offset":{
+            "title": "Offset",
+            "title_i18n": {
+               "en": "Offset",
+               "fr": "",
+               "es": ""
+            },
+            "description": "Offset",
+            "description_i18n": {
+               "en": "Offset",
+               "fr": "",
+               "es": ""
+            },
+            "type":"number"
+         }
+      }
    }
 }
