@@ -68,8 +68,6 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         if (metadata!=null) {
             MeIdentification<M> existingMetadata = metadata.getRID()==null ? loadMetadataByUID(metadata.getUid(), metadata.getVersion()) : loadBean(metadata.getRID(), MeIdentification.class);
             if (existingMetadata!=null) {
-                if (metadata.isIdentificationOnly())
-                    return existingMetadata;
                 metadata.setRID(existingMetadata.getRID());
                 fireMetadataEvent(overwrite ? MetadataEvent.update : MetadataEvent.append, metadata, existingMetadata);
                 return saveCustomEntity(overwrite, false, transaction, addCreationDate(metadata))[0];
