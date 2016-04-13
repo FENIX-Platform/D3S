@@ -314,16 +314,19 @@ public class ResourcesService implements Resources {
         LOGGER.info("Data GET: @rid = "+rid);
         return getDataProxy(loadMetadata(rid, null));
     }
+    
     @Override
     public Collection getDataByUID(String uid) throws Exception {
         LOGGER.info("Data GET: @uid = "+uid);
         return getDataProxy(loadMetadata(uid, null));
     }
+
     @Override
     public Collection getDataByUID(String uid, String version) throws Exception {
         LOGGER.info("Data GET: @uid = "+uid+  " @version = "+version);
         return getDataProxy(loadMetadata(uid, version));
     }
+
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         return getDataProxy(metadata, loadData(metadata));
     }
@@ -426,18 +429,31 @@ public class ResourcesService implements Resources {
         return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
     }
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-        Collection data = loadData(metadata);
-        Long size = getSize(metadata);
-        size = size!=null ? size : (data!=null ? (long)data.size() : null);
+        if(metadata.getDsd()!= null && metadata.getDsd().getDatasources()!= null && metadata.getDsd().getDatasources().length>0 ) {
+            Collection data = loadData(metadata);
+            Long size = getSize(metadata);
+            size = size != null ? size : (data != null ? (long) data.size() : null);
 
-        RepresentationType type = loadRepresentationType(metadata);
+            RepresentationType type = loadRepresentationType(metadata);
 
-        return new ResourceProxy(
-                ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
-                data, getTemplateDataClass(type),
-                datasource ? getDatasources(metadata) : null,
-                size
-        );
+            return new ResourceProxy(
+                    ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
+                    data, getTemplateDataClass(type),
+                    datasource ? getDatasources(metadata) : null,
+                    size
+            );
+        }else {
+            Long size = ((Integer)(0)).longValue();
+            RepresentationType type = loadRepresentationType(metadata);
+
+            return new ResourceProxy(
+                    ResponseBeanFactory.getInstance(metadata, getMetadataProxyClass(type, full, dsd, export)),
+                    null, getTemplateDataClass(type),
+                    null,
+                    size
+            );
+
+        }
     }
     //Representation type based proxy class selections
     private RepresentationType loadRepresentationType(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
