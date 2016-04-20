@@ -17,22 +17,22 @@ public class SubjectsService implements Subjects {
 
     @Override
     public DSDColumnSubject getSubject(String rid) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.getSubject(rid), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(DSDColumnSubject.class, dao.getSubject(rid));
     }
 
     @Override
     public DSDColumnSubject insertSubject(org.fao.fenix.commons.msd.dto.full.DSDColumnSubject subject) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.newCustomEntity(subject), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(DSDColumnSubject.class, dao.newCustomEntity(subject));
     }
 
     @Override
     public DSDColumnSubject updateSubject(org.fao.fenix.commons.msd.dto.full.DSDColumnSubject subject) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(true, subject), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(DSDColumnSubject.class, dao.saveCustomEntity(true, subject));
     }
 
     @Override
     public DSDColumnSubject appendSubject(org.fao.fenix.commons.msd.dto.full.DSDColumnSubject subject) throws Exception {
-        return ResponseBeanFactory.getInstance(dao.saveCustomEntity(false, subject), DSDColumnSubject.class);
+        return ResponseBeanFactory.getInstance(DSDColumnSubject.class, dao.saveCustomEntity(false, subject));
     }
 
 }

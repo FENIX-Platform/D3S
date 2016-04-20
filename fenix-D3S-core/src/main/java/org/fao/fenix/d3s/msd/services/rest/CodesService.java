@@ -62,7 +62,7 @@ public class CodesService implements Codes {
                 else if (levels!=null)
                     data = getInjectLevelDataWrapper(data, levels);
 
-                return ResponseBeanFactory.getInstances(data, Code.class);
+                return ResponseBeanFactory.getInstances(Code.class, data);
             }
         }
         return null;

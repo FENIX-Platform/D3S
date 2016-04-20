@@ -63,17 +63,17 @@ public class ResourcesService implements Resources {
 */
     @Override
     public Collection<MeIdentification> insertMetadata(MetadataList metadata) throws Exception {
-        return ResponseBeanFactory.getInstances(writeMetadata(metadata, true, true), MeIdentification.class);
+        return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(writeMetadata(metadata, true, true)));
     }
 
     @Override
     public Collection<MeIdentification> updateMetadata(MetadataList metadata) throws Exception {
-        return ResponseBeanFactory.getInstances(writeMetadata(metadata, false, true), MeIdentification.class);
+        return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(writeMetadata(metadata, false, true)));
     }
 
     @Override
     public Collection<MeIdentification> appendMetadata(MetadataList metadata) throws Exception {
-        return ResponseBeanFactory.getInstances(writeMetadata(metadata, false, false), MeIdentification.class);
+        return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(writeMetadata(metadata, false, false)));
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, String businessName) throws Exception {
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification<T>> storedMetadata = new LinkedList<>();
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> storedMetadata = new LinkedList<>();
 
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(replicationFilter.getFilter(), businessName);
         if (resources != null && resources.size() > 0) {
@@ -131,7 +131,7 @@ public class ResourcesService implements Resources {
             }
         }
 
-        return ResponseBeanFactory.getInstances(storedMetadata, MeIdentification.class);
+        return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(storedMetadata));
     }
 
 
@@ -158,24 +158,42 @@ public class ResourcesService implements Resources {
     public MeIdentification insertResource(Resource resource) throws Exception {
         if (resource == null || resource.getMetadata() == null)
             throw new BadRequestException();
+<<<<<<< HEAD
         LOGGER.info("Resource INSERT: @uid = " + resource.getMetadata().getUid() + " - @version = " + resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource), MeIdentification.class);
+=======
+        LOGGER.info("Resource INSERT: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource);
+        return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
     public MeIdentification updateResource(Resource resource) throws Exception {
         if (resource == null || resource.getMetadata() == null)
             throw new BadRequestException();
+<<<<<<< HEAD
         LOGGER.info("Resource UPDATE: @uid = " + resource.getMetadata().getUid() + " - @version = " + resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true), MeIdentification.class);
+=======
+        LOGGER.info("Resource UPDATE: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true);
+        return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
     public MeIdentification appendResource(Resource resource) throws Exception {
         if (resource == null || resource.getMetadata() == null)
             throw new NoContentException("No metadata");
+<<<<<<< HEAD
         LOGGER.info("Resource APPEND: @uid = " + resource.getMetadata().getUid() + " - @version = " + resource.getMetadata().getVersion());
         return ResponseBeanFactory.getInstance(getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false), MeIdentification.class);
+=======
+        LOGGER.info("Resource APPEND: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false);
+        return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
@@ -220,24 +238,39 @@ public class ResourcesService implements Resources {
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification insertMetadata(T metadata) throws Exception {
         if (metadata == null)
             throw new BadRequestException();
+<<<<<<< HEAD
         LOGGER.info("Metadata INSERT: @uid = " + metadata.getUid() + " - @version = " + metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.insertMetadata(metadata), MeIdentification.class);
+=======
+        LOGGER.info("Metadata INSERT: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
+        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.insertMetadata(metadata).loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification updateMetadata(T metadata) throws Exception {
         if (metadata == null)
             throw new BadRequestException();
+<<<<<<< HEAD
         LOGGER.info("Metadata UPDATE: @uid = " + metadata.getUid() + " - @version = " + metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, true), MeIdentification.class);
+=======
+        LOGGER.info("Metadata UPDATE: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
+        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.updateMetadata(metadata, true).loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification appendMetadata(T metadata) throws Exception {
         if (metadata == null)
             throw new BadRequestException();
+<<<<<<< HEAD
         LOGGER.info("Metadata APPEND: @uid = " + metadata.getUid() + " - @version = " + metadata.getVersion());
         return ResponseBeanFactory.getInstance(metadataDao.updateMetadata(metadata, false), MeIdentification.class);
+=======
+        LOGGER.info("Metadata APPEND: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
+        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.updateMetadata(metadata, false).loadHierarchy());
+>>>>>>> feature/Hierarchy
     }
 
     @Override
@@ -271,21 +304,25 @@ public class ResourcesService implements Resources {
     public Object getDsd(String rid) throws Exception {
         LOGGER.info("DSD GET: @rid = " + rid);
         Object metadata = metadataDao.loadBean(JSONEntity.toRID(rid));
+<<<<<<< HEAD
         return metadata != null ? ResponseBeanFactory.getInstance(metadata, getDSDProxyClass(metadata)) : null;
+=======
+        return metadata!=null ? ResponseBeanFactory.getInstance(getDSDProxyClass(metadata), metadata) : null;
+>>>>>>> feature/Hierarchy
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
         LOGGER.info("DSD UPDATE: @rid = " + metadata.getRID());
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
-        return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        return ResponseBeanFactory.getInstance(org.fao.fenix.commons.msd.dto.templates.identification.DSD.class, metadata);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
         LOGGER.info("DSD APPEND: @rid = " + metadata.getRID());
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(false, metadata)[0]);
-        return ResponseBeanFactory.getInstance(metadata, org.fao.fenix.commons.msd.dto.templates.identification.DSD.class);
+        return ResponseBeanFactory.getInstance(org.fao.fenix.commons.msd.dto.templates.identification.DSD.class, metadata);
     }
 
     @Override
@@ -376,7 +413,7 @@ public class ResourcesService implements Resources {
                     result.add(getMetadataProxy(resource, full, dsd, export));
                 return result;
             } else
-                return ResponseBeanFactory.getInstances(resources, MeIdentification.class);
+                return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(resources));
         } else
             return null;
     }
@@ -441,17 +478,26 @@ public class ResourcesService implements Resources {
     //Retrieve info proxy
     private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export) throws Exception {
         Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, export);
+<<<<<<< HEAD
         return metadataProxyClass != null ? ResponseBeanFactory.getInstance(metadata, metadataProxyClass) : null;
+=======
+        return metadataProxyClass!=null ? ResponseBeanFactory.getInstance(metadataProxyClass, metadata.loadHierarchy()) : null;
+>>>>>>> feature/Hierarchy
     }
 
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data) throws Exception {
         Class dataProxyClass = getTemplateDataClass(loadRepresentationType(metadata));
+<<<<<<< HEAD
         return dataProxyClass != null && data != null ? ResponseBeanFactory.getInstances(data, dataProxyClass) : data;
+=======
+        return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(dataProxyClass, data) : data;
+>>>>>>> feature/Hierarchy
     }
 
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
         RepresentationType type = loadRepresentationType(metadata);
 
+<<<<<<< HEAD
         if (type != RepresentationType.dataset || (metadata.getDsd() != null
                 && metadata.getDsd().getDatasources() != null
                 && metadata.getDsd().getDatasources().length > 0
@@ -480,6 +526,14 @@ public class ResourcesService implements Resources {
             );
 
         }
+=======
+        return new ResourceProxy(
+                ResponseBeanFactory.getInstance(getMetadataProxyClass(type, full, dsd, export), metadata.loadHierarchy()),
+                data, getTemplateDataClass(type),
+                datasource ? getDatasources(metadata) : null,
+                size
+        );
+>>>>>>> feature/Hierarchy
     }
 
     //Representation type based proxy class selections
@@ -589,4 +643,13 @@ public class ResourcesService implements Resources {
         }
         return storedMetadata;
     }
+
+
+    private Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification[]> getHierarchy(Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> metadataList) {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification[]> hierarchy = new LinkedList<>();
+        for (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata : metadataList)
+            hierarchy.add(metadata.loadHierarchy());
+        return hierarchy;
+    }
+
 }

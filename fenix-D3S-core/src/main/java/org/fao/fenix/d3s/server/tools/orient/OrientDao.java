@@ -17,6 +17,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
+import org.fao.fenix.commons.msd.dto.MetadataEntity;
 import org.fao.fenix.commons.utils.Order;
 import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
@@ -277,6 +278,10 @@ public abstract class OrientDao {
             throw new NoContentException("Cannot find bean '"+bean.getRID()+'\'');
         if (buffer!=null && !embedded)
             buffer.put(bean,beanProxy);
+
+        //Avoid to update identification only entities
+        if (bean instanceof MetadataEntity && ((MetadataEntity)bean).isIdentificationOnly())
+            return beanProxy;
 
         //Retrieve fields value and apply recursion
         boolean empty = true;

@@ -6,11 +6,14 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
+import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.listener.MetadataListener;
 import org.fao.fenix.d3s.msd.listener.MetadataListenerFactory;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -57,6 +60,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             UUID uid = UUID.randomUUID();
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
+        linkMetadataParents(metadata);
         fireMetadataEvent(MetadataEvent.insert,metadata,null);
         return newCustomEntity(false, transaction, addCreationDate(setUpdateDate(metadata)));
     }
@@ -68,9 +72,8 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         if (metadata!=null) {
             MeIdentification<M> existingMetadata = metadata.getRID()==null ? loadMetadataByUID(metadata.getUid(), metadata.getVersion()) : loadBean(metadata.getRID(), MeIdentification.class);
             if (existingMetadata!=null) {
-                if (metadata.isIdentificationOnly())
-                    return existingMetadata;
                 metadata.setRID(existingMetadata.getRID());
+                linkMetadataParents(metadata);
                 fireMetadataEvent(overwrite ? MetadataEvent.update : MetadataEvent.append, metadata, existingMetadata);
                 return saveCustomEntity(overwrite, false, transaction, addCreationDate(metadata))[0];
             }
@@ -142,6 +145,10 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 transaction();
             OObjectDatabaseTx connection = getConnection();
             for (MeIdentification<M> m : metadata) {
+
+                Collection<MeIdentification> children = select(MeIdentification.class,"select from MeIdentification where parents in [ ? ]", m.getORID());
+                if (children!=null && children.size()>0)
+                    throw new BadRequestException("Metadata "+m.getUid()+" - "+m.getVersion()+" have children and cannot be deleted. Update children 'parents' field before");
                 fireMetadataEvent(MetadataEvent.delete, null, m);
                 DSD dsd = m.getDsd();
                 if (dsd != null)
@@ -319,4 +326,34 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         return dsd!=null ? dsd.getContextSystem() : null;
     }
 
+
+    private void linkMetadataParents(MeIdentification<M> metadata) throws Exception {
+        Collection<MeIdentification> parents = metadata.getParents();
+        RepresentationType resourceType = getResourceType(metadata);
+        if (parents!=null && parents.size()>0) {
+            Collection<MeIdentification> updateParents = new LinkedList<>();
+            for (MeIdentification parent : parents) {
+                MeIdentification proxy = loadMetadataByUID(parent.getUid(), parent.getVersion());
+                if (proxy==null)
+                    throw new NotFoundException("Parent with uid = '"+parent.getUid()+"' and version = '"+parent.getVersion()+"' not found");
+                if (getResourceType(proxy)!=resourceType)
+                    throw new BadRequestException("Parent with uid = '"+parent.getUid()+"' and version = '"+parent.getVersion()+"' has an incompatible resource type");
+                MeIdentification updateParent = new MeIdentification();
+                updateParent.setORID(proxy.getORID());
+                updateParents.add(updateParent);
+            }
+            metadata.setParents(updateParents);
+        }
+    }
+
+    private RepresentationType getResourceType(MeIdentification<M> metadata) throws Exception {
+        MeContent content = metadata.getMeContent();
+        RepresentationType resourceType = content!=null ? content.getResourceRepresentationType() : null;
+        if (resourceType == null) {
+            MeIdentification proxy = loadMetadataByUID(metadata.getUid(), metadata.getVersion());
+            content = proxy.getMeContent();
+            resourceType = content!=null ? content.getResourceRepresentationType() : null;
+        }
+        return resourceType;
+    }
 }

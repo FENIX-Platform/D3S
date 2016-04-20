@@ -2,12 +2,17 @@ package org.fao.fenix.d3s.wds.dataset;
 
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
-import org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.MetadataDSD;
+import org.fao.fenix.commons.msd.dto.templates.export.combined.dataset.MetadataDSD;
 import org.fao.fenix.d3s.wds.WDSDao;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 public abstract class WDSDatasetDao extends WDSDao<Iterator<Object[]>> {
+
+    protected MetadataDSD getMetadataProxy(MeIdentification metadata) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+            return metadata!=null ? ResponseBeanFactory.getInstance(MetadataDSD.class, metadata.loadHierarchy()) : null;
+    }
 
     protected DatasetStructure getStructure(MeIdentification resource) {
         return new DatasetStructure(resource);
