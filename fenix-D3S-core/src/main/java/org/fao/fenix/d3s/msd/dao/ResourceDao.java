@@ -145,6 +145,10 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 transaction();
             OObjectDatabaseTx connection = getConnection();
             for (MeIdentification<M> m : metadata) {
+
+                Collection<MeIdentification> children = select(MeIdentification.class,"select from MeIdentification where parents in [ ? ]", m.getORID());
+                if (children!=null && children.size()>0)
+                    throw new BadRequestException("Metadata "+m.getUid()+" - "+m.getVersion()+" have children and cannot be deleted. Update children 'parents' field before");
                 fireMetadataEvent(MetadataEvent.delete, null, m);
                 DSD dsd = m.getDsd();
                 if (dsd != null)
