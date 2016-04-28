@@ -351,6 +351,10 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         RepresentationType resourceType = content!=null ? content.getResourceRepresentationType() : null;
         if (resourceType == null) {
             MeIdentification proxy = loadMetadataByUID(metadata.getUid(), metadata.getVersion());
+            if (proxy==null)
+                proxy = loadBean(metadata.getRID(), MeIdentification.class);
+            if (proxy==null)
+                throw new NotFoundException("Metadata with uid = '"+metadata.getUid()+"' and version = '"+metadata.getVersion()+"' not found");
             content = proxy.getMeContent();
             resourceType = content!=null ? content.getResourceRepresentationType() : null;
         }
