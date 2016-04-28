@@ -148,11 +148,14 @@ public class DefaultStorage extends H2Storage {
         //Select data
         if (tables!=null && tables.length>0)
             try {
-                for (Table structure : tables)
-                    for (ResultSet resultSet : load(connection, ordering, pagination, structure)) {
-                        data.add(resultSet);
-                        defaults.add(structure.getNoDataValues());
-                    }
+                for (Table structure : tables) {
+                    Collection<ResultSet> results = load(connection, ordering, pagination, structure);
+                    if (results!=null)
+                        for (ResultSet resultSet : results) {
+                            data.add(resultSet);
+                            defaults.add(structure.getNoDataValues());
+                        }
+                }
             } catch (Exception ex) {
                 if (!connection.isClosed())
                     connection.close();
