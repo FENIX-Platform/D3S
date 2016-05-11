@@ -27,8 +27,10 @@ public class WriteTable extends Table {
     }
     public WriteTable(MeIdentification<DSDDataset> metadata) {
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
-        if (dsd!=null)
+        if (dsd!=null) {
+            dsd = dsd.clone();
             dsd.extend();
+        }
         init(getTableName(metadata), dsd);
     }
 
