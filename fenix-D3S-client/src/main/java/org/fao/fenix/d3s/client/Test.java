@@ -22,7 +22,7 @@ public class Test {
         client.initRest("http://localhost:7777/v2");
 
         Resources proxy = client.getProxy(Resources.class, "msd", "resources");
-        MeIdentification metadata = (MeIdentification) proxy.getMetadataByUID("UAE_TRADE",true, true, true);
+        MeIdentification metadata = (MeIdentification) proxy.getMetadataByUID("UAE_TRADE",true, true, true, null);
 
         System.out.println(metadata);
 

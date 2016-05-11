@@ -89,15 +89,15 @@ public interface Resources {
     @GET
     @Path("/metadata/rid/{rid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+    public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @GET
     @Path("/metadata/uid/{uid}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
-    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+    public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @POST
     @Path("/metadata")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")

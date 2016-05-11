@@ -48,6 +48,10 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         Collection<MeIdentification> resources = select(MeIdentification.class, "select from MeIdentification where dsd = ?", dsdRid);
         return resources.size()>0 ? resources.iterator().next() : null;
     }
+    public Collection<MeIdentification> loadChildren(MeIdentification<M> root) throws Exception {
+        ORID rid = root!=null ? root.getORID() : null;
+        return rid!=null ? select(MeIdentification.class, "select from MeIdentification where parents in [ ? ]", rid) : new LinkedList<MeIdentification>();
+    }
 
 
     //STORE RESOURCE
