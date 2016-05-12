@@ -14,7 +14,6 @@ import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.ResponseHandler;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
-import org.fao.fenix.commons.msd.dto.templates.identification.DSDDataset;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.MetadataDSD;
 import org.fao.fenix.commons.msd.dto.templates.identification.MeIdentification;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.Metadata;

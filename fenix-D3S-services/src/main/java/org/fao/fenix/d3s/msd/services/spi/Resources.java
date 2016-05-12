@@ -37,8 +37,8 @@ public interface Resources {
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<MeIdentification> appendMetadata(MetadataList metadata) throws Exception;
-    @DELETE
-    @Path("/massive")
+    @POST
+    @Path("/massive/delete")
     public Integer deleteMetadata(StandardFilter filter, @QueryParam("logic") String businessName) throws Exception;
 
     @PATCH
