@@ -404,5 +404,6 @@ CREATE INDEX Code.indexLabel FULLTEXT ENGINE LUCENE;
 CREATE INDEX DSDGeographic.workspace_layerName ON DSDGeographic (workspace, layerName) UNIQUE;
 
 CREATE INDEX MeIdentification.dsd NOTUNIQUE;
+CREATE INDEX MeIdentification.parents NOTUNIQUE;
 
 DISCONNECT;

@@ -382,7 +382,7 @@ public class ResourcesService implements Resources {
                     result.add(getMetadataProxy(resource, full, dsd, export, null));
                 return result;
             } else
-                return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(resources));
+                return ResponseBeanFactory.getInstances(MeIdentification.class, resources);
         } else
             return null;
     }
