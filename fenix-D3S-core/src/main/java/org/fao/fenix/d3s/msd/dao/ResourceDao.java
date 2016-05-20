@@ -79,7 +79,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 metadata.setRID(existingMetadata.getRID());
                 linkMetadataParents(metadata);
                 fireMetadataEvent(overwrite ? MetadataEvent.update : MetadataEvent.append, metadata, existingMetadata);
-                return saveCustomEntity(overwrite, false, transaction, addCreationDate(metadata))[0];
+                return saveCustomEntity(overwrite, false, transaction, metadata)[0];
             }
         }
         return null;
