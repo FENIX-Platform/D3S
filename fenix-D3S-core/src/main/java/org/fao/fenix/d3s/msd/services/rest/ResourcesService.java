@@ -446,12 +446,12 @@ public class ResourcesService implements Resources {
     //Retrieve info proxy
     private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, Integer levels) throws Exception {
         Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, export);
-        return getMetadataProxy(
+        return getMetadataProxyLogic(
                 metadata,
                 metadataProxyClass,
                 getDao(loadRepresentationType(metadata)),
                 getSetChildrenMethod(metadataProxyClass),
-                levels!=null && levels<=0 ? Integer.MAX_VALUE : null
+                levels!=null ? (levels<=0 ? Integer.MAX_VALUE : levels) : null
         );
     }
     private Method getSetChildrenMethod (Class metadataProxyClass) {
@@ -461,7 +461,7 @@ public class ResourcesService implements Resources {
         return setChildrenMethod;
     }
 
-    private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Class metadataProxyClass, ResourceDao dao, Method setChildrenMethod, Integer levels) throws Exception {
+    private Object getMetadataProxyLogic(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Class metadataProxyClass, ResourceDao dao, Method setChildrenMethod, Integer levels) throws Exception {
         if (metadata==null || metadataProxyClass==null)
             return null;
         Object proxy = ResponseBeanFactory.getInstance(metadataProxyClass, metadata.loadHierarchy());
@@ -469,7 +469,7 @@ public class ResourcesService implements Resources {
         if (setChildrenMethod!=null && levels!=null && levels>1) {
             Collection childrenProxy = new LinkedList();
             for (org.fao.fenix.commons.msd.dto.full.MeIdentification child : (Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification>)dao.loadChildren(metadata))
-                childrenProxy.add(getMetadataProxy(child,metadataProxyClass,dao,setChildrenMethod,levels-1));
+                childrenProxy.add(getMetadataProxyLogic(child,metadataProxyClass,dao,setChildrenMethod,levels-1));
             if (childrenProxy.size()>0)
                 setChildrenMethod.invoke(proxy, childrenProxy);
         }
@@ -535,6 +535,8 @@ public class ResourcesService implements Resources {
                     return daoFactory.select(CodeListResourceDao.class).iterator().next();
                 case dataset:
                     return daoFactory.select(DatasetResourceDao.class).iterator().next();
+                case geographic:
+                    return daoFactory.select(MetadataResourceDao.class).iterator().next();
             }
         return null;
     }
@@ -553,19 +555,8 @@ public class ResourcesService implements Resources {
 
         if (templateClassName != null)
             return Class.forName((export ? exportTemplatesBasePackage : standardTemplatesBasePackage) + '.' + representationType + '.' + templateClassName);
-
-        switch (representationType) {
-            case codelist:
-                return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
-            case dataset:
-                return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
-            case document:
-                return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
-            case geographic:
-                return org.fao.fenix.commons.msd.dto.templates.codeList.MeIdentification.class;
-            default:
-                return null;
-        }
+        else
+            return MeIdentification.class;
     }
 
     private Class<? extends ResponseHandler> getTemplateDataClass(RepresentationType representationType) {
