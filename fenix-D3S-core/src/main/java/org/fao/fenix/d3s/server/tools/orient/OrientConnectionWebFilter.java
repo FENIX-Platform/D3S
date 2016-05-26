@@ -42,6 +42,7 @@ public class OrientConnectionWebFilter implements Filter {
             dbParameters.setOrderingInfo(new Order(servletRequest,languages));
             dbParameters.setPaginationInfo(new Page(servletRequest));
             dbParameters.setLanguageInfo(languages);
+            dbParameters.setLimit(servletRequest.getParameter("maxSize"));
 
             filterChain.doFilter(servletRequest, servletResponse);
         } finally {

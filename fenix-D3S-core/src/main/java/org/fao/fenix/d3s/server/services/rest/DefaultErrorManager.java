@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.server.services.rest;
 
 import org.apache.log4j.Logger;
+import org.fao.fenix.commons.utils.LimitedListExceedException;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +30,16 @@ public class DefaultErrorManager implements ExceptionMapper<Throwable> {
         } else if (e instanceof WebApplicationException) {
             LOGGER.error("Uncaught error.", e);
             response = e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
+        } else if (e instanceof LimitedListExceedException) {
+            LOGGER.warn("Result limit exceeded exception", e);
+            response = Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE).entity("Result limit exceeded exception").build();
         } else {
             LOGGER.error("Uncaught error.",e);
             response = Response.serverError().entity(e.getMessage()).build();
         }
 
         if (response!=null)
-            httpRequest.setAttribute("errorEntity", response.getEntity());
+            httpRequest.setAttribute("errorEntity", response.getEntity()!=null ? response.getEntity() : "Unexpected error");
 
         return response;
     }

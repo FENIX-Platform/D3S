@@ -21,6 +21,7 @@ import org.fao.fenix.commons.msd.dto.templates.standard.combined.DSD;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.*;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 
 import javax.enterprise.inject.Instance;
@@ -37,14 +38,11 @@ public class ResourcesService implements Resources {
     private static final Logger LOGGER = Logger.getLogger("access");
 
 
-    @Inject
-    private Instance<ResourceDao> daoFactory;
-    @Inject
-    private MetadataResourceDao metadataDao;
-    @Inject
-    private FilterResourceDao filterResourceDao;
-    @Inject
-    private WDSDaoFactory wdsDaoFactory;
+    @Inject private Instance<ResourceDao> daoFactory;
+    @Inject private MetadataResourceDao metadataDao;
+    @Inject private FilterResourceDao filterResourceDao;
+    @Inject private WDSDaoFactory wdsDaoFactory;
+    @Inject private DatabaseStandards parameters;
 
 
     //MASSIVE METADATA
@@ -501,7 +499,7 @@ public class ResourcesService implements Resources {
                     ResponseBeanFactory.getInstance(getMetadataProxyClass(type, full, dsd, export), metadata.loadHierarchy()),
                     data, getTemplateDataClass(type),
                     datasource ? getDatasources(metadata) : null,
-                    size
+                    size, parameters.getLimit()
             );
         } else {
             Long size = ((Integer) (0)).longValue();
@@ -510,7 +508,7 @@ public class ResourcesService implements Resources {
                     ResponseBeanFactory.getInstance(getMetadataProxyClass(type, full, dsd, export), metadata.loadHierarchy()),
                     null, getTemplateDataClass(type),
                     null,
-                    size
+                    size, parameters.getLimit()
             );
 
         }

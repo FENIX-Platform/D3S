@@ -13,6 +13,7 @@ public class DatabaseStandards {
     public static ThreadLocal<Page> paginationInfo = new ThreadLocal<>();
     public static ThreadLocal<Order> orderingInfo = new ThreadLocal<>();
     public static ThreadLocal<Language[]> languageInfo = new ThreadLocal<>();
+    public static ThreadLocal<Integer> limit = new ThreadLocal<>();
 
 
     public OObjectDatabaseTx getConnection() {
@@ -45,6 +46,16 @@ public class DatabaseStandards {
 
     public void setRequest(HttpServletRequest r) {
         request.set(r);
+    }
+
+    public Integer getLimit() {
+        return limit.get();
+    }
+
+    public void setLimit(String limit) {
+        try {
+            this.limit.set(limit != null ? new Integer(limit) : null);
+        } catch (NumberFormatException ex) {}
     }
 
     public static Language[] getLanguageInfo() {
