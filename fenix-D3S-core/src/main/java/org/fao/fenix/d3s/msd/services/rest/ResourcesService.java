@@ -169,7 +169,7 @@ public class ResourcesService implements Resources {
             throw new BadRequestException();
         LOGGER.info("Resource UPDATE: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true);
-        return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
+        return proxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy()) : null;
     }
 
     @Override
@@ -178,7 +178,7 @@ public class ResourcesService implements Resources {
             throw new NoContentException("No metadata");
         LOGGER.info("Resource APPEND: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
         org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false);
-        return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
+        return proxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy()) : null;
     }
 
     @Override
