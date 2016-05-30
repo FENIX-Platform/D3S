@@ -1,17 +1,15 @@
 package org.fao.fenix.d3s.server.services.rest;
 
 import org.apache.log4j.Logger;
-import org.fao.fenix.commons.utils.LimitedListExceedException;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAcceptableException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Provider
 public class DefaultErrorManager implements ExceptionMapper<Throwable> {
@@ -27,12 +25,12 @@ public class DefaultErrorManager implements ExceptionMapper<Throwable> {
         else if (e instanceof BadRequestException) {
             LOGGER.error("Bad request error.",e);
             response = Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } else if (e instanceof NotAcceptableException) {
+            LOGGER.warn("Result limit exceeded exception", e);
+            response = Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE).entity("Result limit exceeded exception").build();
         } else if (e instanceof WebApplicationException) {
             LOGGER.error("Uncaught error.", e);
             response = e.getCause() != null ? Response.serverError().entity(e.getCause().getMessage()).build() : ((WebApplicationException) e).getResponse();
-        } else if (e instanceof LimitedListExceedException) {
-            LOGGER.warn("Result limit exceeded exception", e);
-            response = Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE).entity("Result limit exceeded exception").build();
         } else {
             LOGGER.error("Uncaught error.",e);
             response = Response.serverError().entity(e.getMessage()).build();
