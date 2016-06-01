@@ -232,7 +232,8 @@ public class ResourcesService implements Resources {
         if (metadata == null)
             throw new BadRequestException();
         LOGGER.info("Metadata UPDATE: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
-        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.updateMetadata(metadata, true).loadHierarchy());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification updatedMetadata = metadataDao.updateMetadata(metadata, true);
+        return updatedMetadata!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, updatedMetadata.loadHierarchy()) : null;
     }
 
     @Override
@@ -240,7 +241,8 @@ public class ResourcesService implements Resources {
         if (metadata == null)
             throw new BadRequestException();
         LOGGER.info("Metadata APPEND: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
-        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.updateMetadata(metadata, false).loadHierarchy());
+        org.fao.fenix.commons.msd.dto.full.MeIdentification updatedMetadata = metadataDao.updateMetadata(metadata, false);
+        return updatedMetadata!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, updatedMetadata.loadHierarchy()) : null;
     }
 
     @Override
