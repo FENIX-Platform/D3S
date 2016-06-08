@@ -304,7 +304,7 @@ public class DefaultStorage extends H2Storage {
             PreparedStatement statement = connection.prepareStatement("SELECT status, rowsCount, lastUpdate, timeout FROM Metadata WHERE id = ?");
             statement.setString(1,resourceId);
             ResultSet result = statement.executeQuery();
-            return result.next() ? new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getLong(3), result.getTimestamp(4), result.getTimestamp(5)) : null;
+            return result.next() ? new StoreStatus(StoreStatus.Status.valueOf(result.getString(1)), result.getLong(2), result.getTimestamp(3), result.getTimestamp(4)) : null;
         } finally {
             connection.close();
         }
