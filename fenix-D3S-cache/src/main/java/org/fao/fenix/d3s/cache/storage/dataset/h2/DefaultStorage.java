@@ -59,7 +59,7 @@ public class DefaultStorage extends H2Storage {
             throw new Exception("Invalid table structure.");
 
         //Check if table exists
-        if (loadMetadata().containsKey(tableName))
+        if (loadMetadata(tableName)!=null)
             throw new Exception("Duplicate table error.");
 
         //Create query
@@ -107,7 +107,6 @@ public class DefaultStorage extends H2Storage {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
-            loadMetadata().remove(tableName);
             ex.printStackTrace();
             throw ex;
         } finally {
@@ -284,32 +283,31 @@ public class DefaultStorage extends H2Storage {
 
 
     //METADATA
-    private Map<String, StoreStatus> metadata;
-
     @Override
     public Map<String, StoreStatus> loadMetadata() throws Exception {
-        if (metadata==null) {
-            Connection connection = getConnection();
-            try {
-                metadata = new HashMap<>();
-                ResultSet result = connection.createStatement().executeQuery("SELECT id, status, rowsCount, lastUpdate, timeout FROM Metadata");
-                while (result.next())
-                    metadata.put(result.getString(1), new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getLong(3), result.getTimestamp(4), result.getTimestamp(5)));
-            } catch (Exception ex) {
-                metadata = null;
-                ex.printStackTrace();
-                throw ex;
-            } finally {
-                if (connection!=null)
-                    connection.close();
-            }
+        Map<String, StoreStatus> metadata = new HashMap<>();
+        Connection connection = getConnection();
+        try {
+            ResultSet result = connection.createStatement().executeQuery("SELECT id, status, rowsCount, lastUpdate, timeout FROM Metadata");
+            while (result.next())
+                metadata.put(result.getString(1), new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getLong(3), result.getTimestamp(4), result.getTimestamp(5)));
+            return metadata;
+        } finally {
+            connection.close();
         }
-        return metadata;
     }
 
     @Override
     public StoreStatus loadMetadata(String resourceId) throws Exception {
-        return loadMetadata().get(resourceId);
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT status, rowsCount, lastUpdate, timeout FROM Metadata WHERE id = ?");
+            statement.setString(1,resourceId);
+            ResultSet result = statement.executeQuery();
+            return result.next() ? new StoreStatus(StoreStatus.Status.valueOf(result.getString(2)), result.getLong(3), result.getTimestamp(4), result.getTimestamp(5)) : null;
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
@@ -328,7 +326,7 @@ public class DefaultStorage extends H2Storage {
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
-        PreparedStatement statement = connection.prepareStatement(loadMetadata().put(resourceId, status) == null ?
+        PreparedStatement statement = connection.prepareStatement(loadMetadata(resourceId) != null ?
                         "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)" :
                         "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
         );
@@ -354,7 +352,6 @@ public class DefaultStorage extends H2Storage {
             connection.commit();
         } catch (Exception ex) {
             connection.rollback();
-            ex.printStackTrace();
             throw ex;
         } finally {
             if (connection!=null)
@@ -363,11 +360,7 @@ public class DefaultStorage extends H2Storage {
 
     }
     public synchronized void removeMetadata(String resourceId, Connection connection) throws Exception {
-        Map<String, StoreStatus> metadata = loadMetadata();
-        if (metadata.containsKey(resourceId)) {
-            connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id='" + resourceId + '\'');
-            metadata.remove(resourceId);
-        }
+        connection.createStatement().executeUpdate("DELETE FROM Metadata WHERE id='" + resourceId + '\'');
     }
 
 
@@ -411,7 +404,6 @@ public class DefaultStorage extends H2Storage {
             ex.printStackTrace();
             throw ex;
         } finally {
-            this.metadata = null; //Force metadata reload
             connection.close();
         }
 
