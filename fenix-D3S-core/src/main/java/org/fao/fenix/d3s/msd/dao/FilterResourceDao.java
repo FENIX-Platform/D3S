@@ -53,7 +53,7 @@ public class FilterResourceDao extends ResourceDao {
         try {
             Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : org.fao.fenix.d3s.find.filter.impl.StandardFilter.class;
             Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
-            return resources.size()>0 ? resources : null;
+            return resources.size()>0 ? resources : new LinkedList<MeIdentification>();
         } catch (ClassNotFoundException ex) {
             throw new Exception("Cannot find specified filtering logic implementation class: "+queryBuildersPackage+businessName);
         } catch (ClassCastException ex){
