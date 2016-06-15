@@ -376,7 +376,9 @@ public class ResourcesService implements Resources {
         LOGGER.info("Metadata FIND: @logic = " + businessName + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export + " - @filterSize = " + (filter != null ? filter.size() : 0));
         LOGGER.debug("Metadata FIND: @filter... " + filter);
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
-        if (resources.size()>MAX_METADATA_LIST_SIZE)
+
+        Integer maxSize = parameters.getLimit();
+        if (resources.size()>(maxSize!=null && maxSize>0? maxSize : MAX_METADATA_LIST_SIZE))
             throw new NotAcceptableException();
         if (resources != null && resources.size() > 0) {
             if (full || dsd) {
