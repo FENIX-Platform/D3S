@@ -326,7 +326,7 @@ public class DefaultStorage extends H2Storage {
         }
     }
     private synchronized void storeMetadata(String resourceId, StoreStatus status, Connection connection) throws Exception {
-        PreparedStatement statement = connection.prepareStatement(loadMetadata(resourceId) != null ?
+        PreparedStatement statement = connection.prepareStatement(loadMetadata(resourceId) == null ?
                         "INSERT INTO Metadata (status, rowsCount, lastUpdate, timeout, id) VALUES (?,?,?,?,?)" :
                         "UPDATE Metadata SET status=?, rowsCount=?, lastUpdate=?, timeout=? WHERE id=?"
         );
