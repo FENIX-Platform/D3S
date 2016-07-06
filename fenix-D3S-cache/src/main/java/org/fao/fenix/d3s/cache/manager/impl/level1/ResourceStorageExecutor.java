@@ -46,12 +46,11 @@ public abstract class ResourceStorageExecutor implements Runnable {
     @Override
     public void run() {
         Connection connection = null;
+        DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata,storage,storage.getTableName(id),connection);
         try {
             connection = storage.beginSession(id);
-            DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata,storage,storage.getTableName(id),connection);
             fireBeginSessionEvent(datasetInfo);
             execute();
-            fireEndSessionEvent(datasetInfo);
         } catch (Exception ex) {
             error = ex;
             try {
@@ -77,6 +76,11 @@ public abstract class ResourceStorageExecutor implements Runnable {
                 }
         }
 
+        try {
+            fireEndSessionEvent(datasetInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         done = true;
 

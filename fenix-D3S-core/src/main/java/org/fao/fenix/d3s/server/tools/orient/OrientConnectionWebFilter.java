@@ -19,8 +19,7 @@ import java.util.*;
 @WebFilter(filterName="OrientConnectionManager", urlPatterns={"/*"})
 public class OrientConnectionWebFilter implements Filter {
     @Inject OrientServer client;
-    @Inject
-    DatabaseStandards dbParameters;
+    @Inject DatabaseStandards dbParameters;
 
 
     @Override public void init(FilterConfig filterConfig) throws ServletException { }
