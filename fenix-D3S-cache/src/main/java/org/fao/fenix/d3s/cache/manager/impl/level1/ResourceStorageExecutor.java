@@ -45,10 +45,9 @@ public abstract class ResourceStorageExecutor implements Runnable {
 
     @Override
     public void run() {
-        Connection connection = null;
-        DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata,storage,storage.getTableName(id),connection);
+        DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata,storage,storage.getTableName(id),null);
         try {
-            connection = storage.beginSession(id);
+            datasetInfo.setConnection(storage.beginSession(id));
             fireBeginSessionEvent(datasetInfo);
             execute();
         } catch (Exception ex) {
