@@ -37,6 +37,13 @@ public interface DatasetStorage extends Storage {
     public Connection beginSession(String tableName) throws Exception;
 
     /**
+     * Communicate the begin of a store session on a specific table (useful to enhance performance)
+     * @param table Target table
+     * @throws Exception
+     */
+//    public boolean containsSession(String tableName) throws Exception;
+
+    /**
      * Communicate the end of a store session on a specific table
      * @param table Target table
      * @throws Exception

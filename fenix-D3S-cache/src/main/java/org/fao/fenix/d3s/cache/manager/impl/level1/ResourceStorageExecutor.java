@@ -56,7 +56,9 @@ public abstract class ResourceStorageExecutor implements Runnable {
                 StoreStatus status = storage.loadMetadata(id);
                 status.setStatus(StoreStatus.Status.incomplete);
                 storage.storeMetadata(id, status);
-            } catch (Exception e) { }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 storage.endSession(id);

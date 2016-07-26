@@ -152,6 +152,9 @@ public class ResourcesService implements Resources {
     @Override
     public ResourceProxy getResourceByUID(String uid, String version, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
         LOGGER.info("Resource LOAD: @uid = " + uid + " - @version = " + version + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export);
+        String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
+        LOGGER.info("PAgination parameters are there: "+ paginationInfo);
+
         return getResourceProxy(loadMetadata(uid, version), full, dsd, export, datasource);
     }
 
@@ -206,6 +209,7 @@ public class ResourcesService implements Resources {
     @Override
     public Object getMetadata(String rid, boolean full, boolean dsd, boolean export, Integer levels) throws Exception {
         LOGGER.info("Metadata LOAD: @rid = " + rid + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export);
+
         return getMetadataProxy(loadMetadata(rid, null), full, dsd, export, levels);
     }
 
@@ -408,6 +412,8 @@ public class ResourcesService implements Resources {
     }
 
     private Collection loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+        String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
+        LOGGER.info("PAgination parameters are there: "+ paginationInfo);
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));
         return dataDao != null ? dataDao.loadData(metadata) : null;
     }
@@ -451,6 +457,10 @@ public class ResourcesService implements Resources {
 
     //Retrieve info proxy
     private Object getMetadataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, Integer levels) throws Exception {
+
+        String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
+        LOGGER.info("PAgination parameters are there: "+ paginationInfo);
+
         Class metadataProxyClass = getMetadataProxyClass(loadRepresentationType(metadata), full, dsd, export);
         return getMetadataProxyLogic(
                 metadata,
@@ -485,11 +495,16 @@ public class ResourcesService implements Resources {
 
 
     private Collection getDataProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, Collection data) throws Exception {
+        String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
+        LOGGER.info("PAgination parameters are there: "+ paginationInfo);
         Class dataProxyClass = getTemplateDataClass(loadRepresentationType(metadata));
         return dataProxyClass!=null && data!=null ? ResponseBeanFactory.getInstances(dataProxyClass, data) : data;
     }
 
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
+
+        String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
+        LOGGER.info("PAgination parameters are there: "+ paginationInfo);
         RepresentationType type = loadRepresentationType(metadata);
 
         if (type != RepresentationType.dataset || (metadata.getDsd() != null

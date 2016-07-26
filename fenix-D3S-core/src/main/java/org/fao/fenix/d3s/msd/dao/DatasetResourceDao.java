@@ -10,13 +10,17 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.*;
 import org.fao.fenix.d3s.cache.CacheFactory;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
+import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
+import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import java.util.*;
 import java.util.Iterator;
 
@@ -122,23 +126,22 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
 
 
-
+/*
     //Synchronize metadata and data write operations respect to cache activities
     @Override
     public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
         //Retrieve new data update date
         Date updateDate = getDataUpdateDate(metadata);
-        //Update metadata end retrieve a consistent metadata for cache manager identification
-        metadata = super.updateMetadata(metadata, overwrite, transaction);
         //Retrieve cache manager
         CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
-        //If data is changed remove cache info
-        if (updateDate!=null && cache!=null)
-            cache.remove(metadata);
-        //Return updated metadata
-        return metadata;
+        DatasetStorage cacheStorage = cache!=null ? (DatasetStorage) cache.getStorage() : null;
+        //If data is changing from other process and last update date is changing throw exception
+        if (updateDate!=null && cacheStorage!=null && cacheStorage.containsSession(cacheStorage.getTableName(new Table(metadata).getTableName())))
+            throw new BadRequestException("cannot update metadata because another process is loading data into the first cache level");
+        else //Update metadata end retrieve a consistent metadata for cache manager identification
+            return super.updateMetadata(metadata, overwrite, transaction);
     }
-
+*/
     @Override
     public void deleteMetadata(boolean transaction, MeIdentification<DSDDataset>... metadataList) throws Exception {
         if (metadataList!=null)
