@@ -103,8 +103,9 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         try {
             MeIdentification<M> metadata = resource.getMetadata();
             boolean metadataOverwrite = overwrite && !metadata.isIdentificationOnly();
-            if (loadMetadata(metadata.getUid(), metadata.getVersion())!=null)
-                updateData(metadata, resource.getData(), overwrite);
+            MeIdentification<M> existingMetadata = loadMetadata(metadata.getUid(), metadata.getVersion());
+            if (existingMetadata!=null)
+                updateData(existingMetadata, resource.getData(), overwrite);
             metadata = updateMetadata(setUpdateDate(metadata), metadataOverwrite);
             getConnection().commit();
             return metadata;

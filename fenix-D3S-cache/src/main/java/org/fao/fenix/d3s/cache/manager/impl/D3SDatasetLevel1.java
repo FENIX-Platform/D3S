@@ -26,6 +26,7 @@ import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -209,10 +210,11 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
 
 
     private boolean checkUpdateDateIsValid(MeIdentification<DSDDataset> metadata, StoreStatus status) {
-        if (metadata!=null && status!=null) {
+        if (metadata != null && status != null) {
             Date cacheLastUpdate = status.getLastUpdate();
-            for (Date lastUpdate : getDatasetLastUpdateDates(metadata)) //Check last update date
-                if (cacheLastUpdate.before(lastUpdate))
+            for (Date lastUpdate : getDatasetLastUpdateDates(metadata))
+                //Check last update date
+                if (cacheLastUpdate.getTime() < lastUpdate.getTime())
                     return false;
         }
         return true;

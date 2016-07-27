@@ -32,6 +32,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Path("msd/resources")
@@ -502,7 +503,6 @@ public class ResourcesService implements Resources {
     }
 
     private ResourceProxy getResourceProxy(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata, boolean full, boolean dsd, boolean export, boolean datasource) throws Exception {
-
         String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
         LOGGER.info("PAgination parameters are there: "+ paginationInfo);
         RepresentationType type = loadRepresentationType(metadata);
