@@ -152,7 +152,8 @@
       "enum": [
          "Owner",
          "Distributor",
-         "Other"
+         "Other",
+         "Producer"
       ]
    },
    "OjContact": {
