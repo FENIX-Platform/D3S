@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.cache.manager.impl.level1;
 
+import org.apache.log4j.Logger;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
@@ -13,6 +14,8 @@ import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
 import java.sql.Connection;
 
 public abstract class ResourceStorageExecutor implements Runnable {
+
+    private static final Logger LOGGER = Logger.getLogger(ResourceStorageExecutor.class);
 
     protected String id;
     private ResourceMonitor monitor;
@@ -51,7 +54,9 @@ public abstract class ResourceStorageExecutor implements Runnable {
             fireBeginSessionEvent(datasetInfo);
             execute();
         } catch (Exception ex) {
+            // TODO: unhandled exception that is not thrown and not visible(ex: index with wrong column id)
             error = ex;
+            LOGGER.error(error.getMessage());
             try {
                 StoreStatus status = storage.loadMetadata(id);
                 status.setStatus(StoreStatus.Status.incomplete);

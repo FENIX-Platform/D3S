@@ -77,8 +77,6 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
         StoreStatus status = storage.loadMetadata(id);
         LOGGER.debug("Loading data from cache: id = "+id+" status -> "+status);
         if (status!=null) {
-            if (status.getStatus()==StoreStatus.Status.incomplete) //Check status
-                throw new IncompleteException(id);
             if (!checkUpdateDateIsValid(metadata,status)) {
                 LOGGER.debug("Deleting non valid data from cache: id = "+id);
                 storage.delete(id);
@@ -86,6 +84,11 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
             }
             monitor.check(ResourceMonitor.Operation.startRead, id, size);
             try {
+                //Check status
+                status = storage.loadMetadata(id);
+                if (status.getStatus()==StoreStatus.Status.incomplete)
+                    throw new IncompleteException(id);
+
                 Iterator<Object[]> data = storage.load(order, page, new Table(metadata));
                 LOGGER.debug("Loaded data from cache storage: id = "+id+" data = "+(data!=null ? true : false));
                 if (data==null) {
