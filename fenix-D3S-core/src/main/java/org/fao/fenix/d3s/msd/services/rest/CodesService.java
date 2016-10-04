@@ -42,6 +42,23 @@ public class CodesService implements Codes {
         return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
     }
 
+    @Override
+    public Code getRoot(Collection<String> codes, String uid, Integer depth) throws Exception {
+        return getRoot(codes, uid, null, depth);
+    }
+
+    @Override
+    public Code getRoot(Collection<String> codes, String uid, String version, Integer depth) throws Exception {
+        //Retrieve data
+        org.fao.fenix.commons.msd.dto.full.Code data = dao.getRoot(uid, version, codes);
+        if (data!=null) {
+            if (depth!=null)
+                Code.levelInfo.set(new Integer[]{data.getLevel(), data.getLevel() + depth - 1});
+            return ResponseBeanFactory.getInstance(Code.class, data);
+        }
+        return null;
+    }
+
 
     //Logic
     private Collection<Code> loadCodes(MeIdentification metadata, Integer level, Integer levels, Collection<String> codes, String label, boolean tree) throws Exception {

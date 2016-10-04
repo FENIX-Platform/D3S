@@ -26,7 +26,8 @@ public class MetadataListProvider extends JsonProvider implements MessageBodyRea
 
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return true;
+        String typeString = type.toString();
+        return typeString.contains("MetadataList") || typeString.contains("MeIdentification");
     }
 
     @Override

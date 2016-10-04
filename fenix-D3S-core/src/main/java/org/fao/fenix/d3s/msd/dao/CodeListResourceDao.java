@@ -8,6 +8,7 @@ import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.server.tools.orient.DocumentTrigger;
 
+import javax.ws.rs.NotFoundException;
 import java.io.BufferedReader;
 import java.text.CollationElementIterator;
 import java.util.*;
@@ -59,6 +60,11 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         deleteData(metadata, toDelete);
     }
 
+    @Override
+    public void deleteData(MeIdentification<DSDCodelist> metadata) throws Exception {
+        if (metadata!=null)
+            command("delete from Code where codeList = ?", metadata.getORID());
+    }
 
 
     //Codes selection
@@ -101,16 +107,73 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
         return select(Code.class, query.toString(),null,null, params.toArray());
     }
 
+    //Root coode
+    public Code getRoot(String uid, String version, Collection<String> codes) throws Exception {
+        codes = codes!=null ? new HashSet<>(codes) : new HashSet<String>();
+        if (codes.size()==0)
+            return null;
+        //Load codes
+        Collection<Code> loadedCodes = loadData(loadMetadata(uid,version), null, null, codes.toArray(new String[codes.size()]));
+        //Mix paths
+        Collection<LinkedList<Code>> longestPaths = null;
+        for (Code code : loadedCodes)
+            if (longestPaths==null)
+                longestPaths = getPath(code);
+            else
+                longestPaths = getLongestPaths(longestPaths, getPath(code));
+        //Take the last element if exists
+        Collection<Code> commonRoot = getPathsFootCode(longestPaths);
+        return commonRoot!=null && commonRoot.size()!=1 ? null : commonRoot.iterator().next();
+    }
+    private Set<Code> getPathsFootCode(Collection<LinkedList<Code>> paths) {
+        if (paths==null)
+            return null;
+        Set<Code> footCodes = new HashSet<>();
+        for (LinkedList<Code> path : paths)
+            footCodes.add(path.getLast());
+        return footCodes;
+    }
+    private Collection<LinkedList<Code>> getLongestPaths(Collection<LinkedList<Code>> paths1, Collection<LinkedList<Code>> paths2) {
+        Collection<LinkedList<Code>> paths = new LinkedList<>();
+        int maxSize = 0;
 
+        for (Collection<Code> path1 : paths1)
+            for (Collection<Code> path2 : paths2) {
+                LinkedList<Code> path = new LinkedList<>(path1);
+                path.retainAll(path2);
+                paths.add(path);
+                maxSize = Math.max(maxSize, path.size());
+            }
+        for (Iterator<LinkedList<Code>> pathIterator = paths.iterator(); pathIterator.hasNext();)
+            if (pathIterator.next().size()<maxSize)
+                pathIterator.remove();
+
+        return paths;
+    }
+    private Collection<LinkedList<Code>> getPath(Code code) {
+        if (code==null)
+            return null;
+
+        Collection<LinkedList<Code>> paths = new LinkedList<>();
+        if (code.getParents()!=null)
+            for (Code parent : code.getParents())
+                paths.addAll(getPath(parent));
+        if (paths.size()==0)
+            paths.add(new LinkedList<Code>());
+
+        for (Collection<Code> path : paths)
+            path.add(code);
+
+        return paths;
+    }
+
+
+
+    //delete utils
     public int deleteData(MeIdentification<DSDCodelist> metadata, Collection<String> codes) throws Exception {
         return metadata!=null && codes!=null && codes.size()>0 ? command("delete from Code where codeList = ? and code in ?", metadata.getORID(), codes) : 0;
     }
 
-    @Override
-    public void deleteData(MeIdentification<DSDCodelist> metadata) throws Exception {
-        if (metadata!=null)
-            command("delete from Code where codeList = ?", metadata.getORID());
-    }
 
 
     //Utils
