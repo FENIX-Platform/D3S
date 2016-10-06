@@ -21,6 +21,9 @@ import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotSupportedException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.Iterator;
@@ -153,6 +156,26 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             }
 
         super.deleteMetadata(transaction, metadataList);
+    }
+
+
+    public Collection<String> getCodedColumnDistinct(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
+        if (metadata!=null) {
+            Collection<String> distinct = new LinkedList<>();
+            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            if (cache==null)
+                throw new NotSupportedException("D3S cache not available for this dataset");
+            DatasetStorage storage = (DatasetStorage)cache.getStorage();
+            Connection connection = storage.getConnection();
+            try {
+                for (ResultSet result = connection.createStatement().executeQuery("SELECT DISTINCT "+columnId+" FROM "+storage.getTableName(cache.getID(metadata))); result.next();)
+                    distinct.add(result.getString(1));
+            } finally {
+                connection.close();
+            }
+            return distinct;
+        }
+        return null;
     }
 
 

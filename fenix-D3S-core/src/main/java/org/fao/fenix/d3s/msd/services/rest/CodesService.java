@@ -3,16 +3,29 @@ package org.fao.fenix.d3s.msd.services.rest;
 import org.apache.log4j.Logger;
 import org.fao.fenix.commons.find.dto.filter.CodesFilter;
 import org.fao.fenix.commons.msd.dto.data.Direction;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.full.MeContent;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.full.OjCodeList;
 import org.fao.fenix.commons.msd.dto.templates.ResponseBeanFactory;
 import org.fao.fenix.commons.msd.dto.templates.codeList.Code;
+import org.fao.fenix.commons.msd.dto.type.DataType;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
+import org.fao.fenix.d3s.cache.CacheFactory;
+import org.fao.fenix.d3s.cache.manager.CacheManager;
+import org.fao.fenix.d3s.cache.storage.Storage;
+import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.msd.dao.CodeListResourceDao;
+import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
 import org.fao.fenix.d3s.msd.services.spi.Codes;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.Path;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.*;
 
 @Path("msd/codes")
@@ -20,6 +33,8 @@ public class CodesService implements Codes {
     private static final Logger LOGGER = Logger.getLogger("access");
 
     @Inject private CodeListResourceDao dao;
+    @Inject private DatasetResourceDao datasetDao;
+
 
 
     @Override
@@ -57,6 +72,29 @@ public class CodesService implements Codes {
             return ResponseBeanFactory.getInstance(Code.class, data);
         }
         return null;
+    }
+
+    @Override
+    public Collection<Code> distinct(String uid, String columnId) throws Exception {
+        return distinct(uid, null, columnId);
+    }
+
+    @Override
+    public Collection<Code> distinct(String uid, String version, String columnId) throws Exception {
+        //Retrieve data
+        MeIdentification<DSDDataset> datasetMetadata = datasetDao.loadMetadata(uid,version);
+        if (datasetMetadata==null)
+            throw new NotFoundException("Dataset not found");
+        MeIdentification<DSDCodelist> codelistMetadata = findDatasetColumnCodelist(datasetMetadata, columnId);
+        if (codelistMetadata==null)
+            throw new NotFoundException("Codelist not found");
+        Collection<String> distinct = datasetDao.getCodedColumnDistinct(datasetMetadata, columnId);
+        Collection<org.fao.fenix.commons.msd.dto.full.Code> originalCodes = dao.loadData(codelistMetadata, null, null, distinct.toArray(new String[distinct.size()]));
+        //Create tree
+        Collection<org.fao.fenix.commons.msd.dto.full.Code> codes = new LinkedList<>();
+        for (org.fao.fenix.commons.msd.dto.full.Code code : originalCodes)
+            codes.add(getHierarchy(code,null,Direction.up));
+        return ResponseBeanFactory.getInstances(Code.class, mergeBranches(codes));
     }
 
 
@@ -131,6 +169,8 @@ public class CodesService implements Codes {
             }
     }
 
+
+    //Hierarchy
     private org.fao.fenix.commons.msd.dto.full.Code getHierarchy (org.fao.fenix.commons.msd.dto.full.Code rawCode, Integer depth, Direction direction) throws CloneNotSupportedException {
         if (depth==null)
             depth = Integer.MAX_VALUE;
@@ -140,13 +180,77 @@ public class CodesService implements Codes {
             Collection<org.fao.fenix.commons.msd.dto.full.Code> children = depth>1 && (direction==null || direction==Direction.down) ? rawCode.getChildren() : null;
             Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = depth>1 && (direction==null || direction==Direction.up) ? rawCode.getParents() : null;
             if (children!=null)
-                for (org.fao.fenix.commons.msd.dto.full.Code child : children)
-                    code.addChild(getHierarchy(child,depth-1,Direction.down));
+                for (org.fao.fenix.commons.msd.dto.full.Code child : children) {
+                    org.fao.fenix.commons.msd.dto.full.Code newChild = getHierarchy(child, depth - 1, Direction.down);
+                    code.addChild(newChild);
+                    newChild.addParent(code);
+                }
             if (parents!=null)
-                for (org.fao.fenix.commons.msd.dto.full.Code parent : parents)
-                    code.addParent(getHierarchy(parent,depth-1,Direction.up));
+                for (org.fao.fenix.commons.msd.dto.full.Code parent : parents) {
+                    org.fao.fenix.commons.msd.dto.full.Code newParent = getHierarchy(parent, depth - 1, Direction.up);
+                    code.addParent(newParent);
+                    newParent.addChild(code);
+                }
         }
         return code;
+    }
+
+    private Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches(Collection<org.fao.fenix.commons.msd.dto.full.Code> sourceCodes) {
+        Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap = new LinkedHashMap<>();
+        Map<String, Set<String>> parentCodesMap = new HashMap<>();
+        Map<String, Set<String>> childrenCodesMap = new HashMap<>();
+
+        fillMergeCodesMap(sourceCodes, mergeCodesMap, parentCodesMap, childrenCodesMap);
+        Collection<org.fao.fenix.commons.msd.dto.full.Code> root = mergeBranches(mergeCodesMap,parentCodesMap,childrenCodesMap);
+
+        return root.size()>0 ? root : null;
+    }
+    private Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches (Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap, Map<String, Set<String>> parentCodesMap, Map<String, Set<String>> childrenCodesMap) {
+        Collection<org.fao.fenix.commons.msd.dto.full.Code> root = new LinkedList<>();
+        for (org.fao.fenix.commons.msd.dto.full.Code code : mergeCodesMap.values()) {
+            code.setParents(null);
+            code.setChildren(null);
+
+            Collection<String> parentsCode = parentCodesMap.get(code.getCode());
+            if (parentsCode!=null && parentsCode.size()>0)
+                for (String parentCode : parentsCode)
+                    code.addParent(mergeCodesMap.get(parentCode));
+            else
+                root.add(code);
+
+            Collection<String> childrenCode = childrenCodesMap.get(code.getCode());
+            if (childrenCode!=null)
+                for (String childCode : childrenCode)
+                    code.addChild(mergeCodesMap.get(childCode));
+        }
+        return root;
+    }
+    private void fillMergeCodesMap(Collection<org.fao.fenix.commons.msd.dto.full.Code> leafs, Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap, Map<String, Set<String>> parentCodesMap, Map<String, Set<String>> childrenCodesMap) {
+        if (leafs!=null) {
+            for (org.fao.fenix.commons.msd.dto.full.Code code : leafs) {
+                Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = code.getParents();
+                Collection<org.fao.fenix.commons.msd.dto.full.Code> children = code.getChildren();
+
+                mergeCodesMap.put(code.getCode(), code);
+                if (parents!=null) {
+                    Set<String> parentsCode = parentCodesMap.get(code.getCode());
+                    if (parentsCode == null)
+                        parentCodesMap.put(code.getCode(), parentsCode = new TreeSet<>());
+                    for (org.fao.fenix.commons.msd.dto.full.Code parent : parents)
+                        parentsCode.add(parent.getCode());
+                }
+                if (children!=null) {
+                    Set<String> childrenCode = childrenCodesMap.get(code.getCode());
+                    if (childrenCode == null)
+                        childrenCodesMap.put(code.getCode(), childrenCode = new TreeSet<>());
+                    for (org.fao.fenix.commons.msd.dto.full.Code child : children)
+                        childrenCode.add(child.getCode());
+                }
+
+                fillMergeCodesMap(parents, mergeCodesMap, parentCodesMap, childrenCodesMap);
+                //fillMergeCodesMap(children, mergeCodesMap, parentCodesMap, childrenCodesMap);
+            }
+        }
     }
 
 
@@ -187,5 +291,30 @@ public class CodesService implements Codes {
                 };
             }
         };
+    }
+
+    private MeIdentification<DSDCodelist> findDatasetColumnCodelist(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
+        if (metadata!=null) {
+            DSDColumn column = null;
+            DSDDataset dsd = metadata.getDsd();
+            Collection<DSDColumn> columns = dsd != null ? dsd.getColumns() : null;
+            if (columns != null)
+                for (DSDColumn c : columns)
+                    if (c.getId().equals(columnId))
+                        column = c;
+            if (column == null)
+                throw new BadRequestException("Dataset column not found: " + metadata.getUid() + " - " + metadata.getVersion() + " - " + columnId);
+            if (column.getDataType() != DataType.code)
+                throw new BadRequestException("Dataset column isn't coded: " + metadata.getUid() + " - " + metadata.getVersion() + " - " + columnId);
+            DSDDomain domain = column.getDomain();
+            Collection<OjCodeList> codeLists = domain != null ? domain.getCodes() : null;
+            OjCodeList codeList = codeLists != null && codeLists.size() == 1 ? codeLists.iterator().next() : null;
+            String codeListUid = codeList != null ? codeList.getIdCodeList() : null;
+            String codeListVersion = codeList != null ? codeList.getVersion() : null;
+            if (codeListUid == null)
+                throw new BadRequestException("Column codelist not declared");
+            return dao.loadMetadata(codeListUid, codeListVersion);
+        }
+        return null;
     }
 }

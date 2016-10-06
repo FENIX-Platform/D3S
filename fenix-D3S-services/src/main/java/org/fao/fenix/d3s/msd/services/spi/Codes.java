@@ -36,4 +36,13 @@ public interface Codes {
     @Consumes(MediaType.APPLICATION_JSON)
     Code getRoot(Collection<String> codes, @PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("depth") Integer depth) throws Exception;
 
+    @GET
+    @Path("/distinct/{uid}/{columnId}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    Collection<Code> distinct(@PathParam("uid") String uid, @PathParam("columnId") String columnId) throws Exception;
+    @GET
+    @Path("/distinct/{uid}/{version}/{columnId}")
+    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    Collection<Code> distinct(@PathParam("uid") String uid, @PathParam("version") String version, @PathParam("columnId") String columnId) throws Exception;
+
 }
