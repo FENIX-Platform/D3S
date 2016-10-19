@@ -53,6 +53,7 @@ public abstract class ResourceStorageExecutor implements Runnable {
             datasetInfo.setConnection(storage.beginSession(id));
             fireBeginSessionEvent(datasetInfo);
             execute();
+            fireEndSessionEvent(datasetInfo);
         } catch (Exception ex) {
             // TODO: unhandled exception that is not thrown and not visible(ex: index with wrong column id)
             error = ex;
@@ -80,12 +81,6 @@ public abstract class ResourceStorageExecutor implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-        }
-
-        try {
-            fireEndSessionEvent(datasetInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         done = true;
