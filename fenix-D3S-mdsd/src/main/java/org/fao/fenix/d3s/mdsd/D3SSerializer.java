@@ -27,6 +27,7 @@ public class D3SSerializer implements JsonSerializer<MeIdentification> {
         jo.addProperty("type", "object");
         jo.addProperty("title", "MDSD");
         jo.addProperty("description", "D3S 2nd Level Metadata");
+        jo.addProperty("additionalProperties", false);
 
         /* Load custom definitions. */
         String path = "org/fao/fenix/config/descriptions.json";
