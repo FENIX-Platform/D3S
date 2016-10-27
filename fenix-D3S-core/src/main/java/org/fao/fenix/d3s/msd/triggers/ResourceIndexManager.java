@@ -42,61 +42,63 @@ public class ResourceIndexManager extends LinksManager {
 
 
     //LOGIC
-
     @Override
     protected RESULT onUpdate(ODocument document, ODatabase connection) throws Exception {
         resourceLinksManager.onUpdate(document, connection);
         dsdDatasetLinksManager.onUpdate(document, connection);
 
-        //ID
-        String uid = document.field("uid");
-        String version = document.field("version");
-        if (uid!=null)
-            document.field("index|id", uid + (version!=null && !version.trim().equals("")? '|'+version : ""));
+        if (document!=null && "MeIdentification".equals(document.getClassName())) {
+            //ID
+            String uid = document.field("uid");
+            String version = document.field("version");
+            if (uid!=null)
+                document.field("index|id", uid + (version!=null && !version.trim().equals("")? '|'+version : ""));
 
-        //Other standard fields
-        if (document!=null && "MeIdentification".equals(document.getClassName()))
+            //Freetext search support
+            document.field("index|freetext", getFreeTextValue(document));
 
-            for (int i=0; i<indexedFields.length; i++) {            //Indexing standard properties
-                String fieldName = indexedFields[i].replace('.','|');
+            //Other standard fields
+            for (int i = 0; i < indexedFields.length; i++) {            //Indexing standard properties
+                String fieldName = indexedFields[i].replace('.', '|');
                 FieldType fieldType = fieldTypes[i];
-                Collection fieldValues = getFields(document,indexedFields[i]);
+                Collection fieldValues = getFields(document, indexedFields[i]);
                 Long[] period;
 
                 switch (fieldType) {
                     case enumeration:
-                        document.field("index|" + fieldName, fieldValues!=null && fieldValues.size()>0 ? fieldValues.iterator().next() : null, OType.STRING);
+                        document.field("index|" + fieldName, fieldValues != null && fieldValues.size() > 0 ? fieldValues.iterator().next() : null, OType.STRING);
                         break;
                     case OjPeriod:
-                        ODocument periodO = fieldValues!=null && fieldValues.size()>0 ? (ODocument)fieldValues.iterator().next() : null;
-                        if (periodO!=null) {
+                        ODocument periodO = fieldValues != null && fieldValues.size() > 0 ? (ODocument) fieldValues.iterator().next() : null;
+                        if (periodO != null) {
                             period = datePeriodToPeriod((Date) periodO.field("from"), (Date) periodO.field("to"));
                             document.field("index|" + fieldName + "|from", period[0], OType.LONG);
                             document.field("index|" + fieldName + "|to", period[1], OType.LONG);
                         }
                         break;
                     case date:
-                        Date date = fieldValues!=null && fieldValues.size()>0 ? (Date)fieldValues.iterator().next() : null;
-                        if (date!=null) {
+                        Date date = fieldValues != null && fieldValues.size() > 0 ? (Date) fieldValues.iterator().next() : null;
+                        if (date != null) {
                             period = dateToPeriod(date);
                             document.field("index|" + fieldName + "|from", period[0], OType.LONG);
                             document.field("index|" + fieldName + "|to", period[1], OType.LONG);
                         }
                     case OjCodeList:
                     case OjCodeListCollection:
-                        Collection<String> codes = fieldValues!=null && fieldValues.size()>0 ? getCodes(fieldValues) : null;
-                        document.field("index|" + fieldName, codes!=null && codes.size()>0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
+                        Collection<String> codes = fieldValues != null && fieldValues.size() > 0 ? getCodes(fieldValues) : null;
+                        document.field("index|" + fieldName, codes != null && codes.size() > 0 ? codes : null, OType.EMBEDDEDLIST, OType.STRING);
                         break;
                     case OjResponsibleParty:
                     case OjResponsiblePartyCollection:
-                        for (Map.Entry<String, String> contactEntry : ((Map<String,String>)getContacts(fieldValues)).entrySet())
+                        for (Map.Entry<String, String> contactEntry : ((Map<String, String>) getContacts(fieldValues)).entrySet())
                             document.field("index|" + fieldName + '|' + contactEntry.getKey(), contactEntry.getValue(), OType.STRING);
                         break;
                     case other:
-                        System.out.println("Undefined index type for "+fieldName);
+                        System.out.println("Undefined index type for " + fieldName);
                         break;
                 }
             }
+        }
         //Save changes
         //document.save();
         return RESULT.RECORD_CHANGED;
@@ -164,6 +166,7 @@ public class ResourceIndexManager extends LinksManager {
     //Create single properties index
     public void createPropertiesIndex(OClass meIdentityClassO) {
         createPropertyIndex(meIdentityClassO, "index|id", OType.STRING, null, OClass.INDEX_TYPE.UNIQUE_HASH_INDEX);
+        createPropertyIndex(meIdentityClassO, "index|freetext", OType.STRING, null, OClass.INDEX_TYPE.FULLTEXT);
 
         for (int i=0; i<indexedFields.length; i++) {
             String fieldName = indexedFields[i].replace('.','|');
@@ -238,8 +241,52 @@ public class ResourceIndexManager extends LinksManager {
         return period;
     }
 
+    private String getFreeTextValue(ODocument meIdentification) throws Exception {
+        //Retrieve free text data
+        Collection<String> uid = getFields(meIdentification, "uid");
+        Collection<String> version = getFields(meIdentification, "version");
+        Collection<Map<String, String>> title = getFields(meIdentification, "title");
+        Collection<Map<String, String>> description = getFields(meIdentification, "meContent.description");
+        Collection<String> keywords = getFields(meIdentification, "meContent.keywords");
+        Collection<String> type = getFields(meIdentification, "meContent.resourceRepresentationType");
+        Map<String,Map<String,Map<String,Map<String,String>>>> coverageGeographicLabels = getCodesLabel(getFields(meIdentification, "meContent.seCoverage.coverageGeographic"));
+        Map<String,String> contacts = getContacts(getFields(meIdentification, "contacts"));
 
+        //Build text
+        StringBuilder textBuilder = new StringBuilder(" ");
+        for (String t : uid)
+            if (t!=null)
+                textBuilder.append(t).append(' ');
+        for (String t : version)
+            if (t!=null)
+                textBuilder.append(t).append(' ');
+        for (Map<String, String> l : title)
+            for (String t : l.values())
+                if (t!=null)
+                    textBuilder.append(t).append(' ');
+        for (Map<String, String> l : description)
+            for (String t : l.values())
+                if (t!=null)
+                    textBuilder.append(t).append(' ');
+        for (String t : keywords)
+            if (t!=null)
+                textBuilder.append(t).append(' ');
+        for (String t : type)
+            if (t!=null)
+                textBuilder.append(t).append(' ');
+        for (Map<String,Map<String,Map<String,String>>> cl : coverageGeographicLabels.values())
+            for (Map<String,Map<String,String>> c : cl.values())
+                for (Map<String,String> l : c.values())
+                    for (String t : l.values())
+                        if (t!=null)
+                            textBuilder.append(t).append(' ');
+        for (String t : contacts.values())
+            if (t!=null)
+                textBuilder.append(t).append(' ');
 
+        //Return normalized text
+        return textBuilder.toString().replaceAll("\\s.{1,3}\\s"," ").replaceAll("\\s+"," ").replaceAll("^\\s","").replaceAll("\\s$","");
+    }
 
     private OProperty getProperty(OClass classO, String[] propertyName) {
         OProperty property = null;
@@ -302,6 +349,50 @@ public class ResourceIndexManager extends LinksManager {
                 addParentsToo(parent, codes, codeListID);
     }
 
+
+    //OJCodelist labels extraction
+    //Return: Map< codelistId, Map< code, Map< field, Map< language, text >>>>
+    private Map<String,Map<String,Map<String,Map<String,String>>>> getCodesLabel(Collection<ODocument> ojCodelistCollectionO) throws Exception {
+        Map<String,Map<String,Map<String,Map<String,String>>>> codes = new HashMap<>();
+        if (ojCodelistCollectionO!=null)
+            for (ODocument ojCodelistO : ojCodelistCollectionO) {
+                String uid = ojCodelistO.field("idCodeList");
+                String version = ojCodelistO.field("version");
+                codes.put(uid + '|' + (version!=null ? version : ""), getCodesLabel(ojCodelistO));
+            }
+        return codes;
+    }
+    private Map<String,Map<String,Map<String,String>>> getCodesLabel(ODocument ojCodelistO) throws Exception {
+        Map<String,Map<String,Map<String,String>>> codes = new HashMap<>();
+        if (ojCodelistO!=null) {
+            Collection<ODocument> ojCodesO = ojCodelistO.field("codes");
+            if (ojCodesO!=null)
+                for (ODocument ojCodeO : ojCodesO)
+                    try {
+                        ODocument linkedCodeO = ojCodeO.field("linkedCode");
+                        if (linkedCodeO != null) {
+                            Map<String,Map<String,String>> code = new HashMap<>();
+                            codes.put((String)linkedCodeO.field("code"), code);
+
+                            Map<String, String> label = linkedCodeO.field("shortTitle");
+                            if (label!=null)
+                                code.put("shortTitle",label);
+                            label = linkedCodeO.field("title");
+                            if (label!=null)
+                                code.put("title",label);
+                            label = linkedCodeO.field("description");
+                            if (label!=null)
+                                code.put("description",label);
+                            label = linkedCodeO.field("supplemental");
+                            if (label!=null)
+                                code.put("supplemental",label);
+                        }
+                    } catch (ClassCastException ex) {
+                        ojCodeO.field("linkedCode", null, OType.LINK); //if linked code is a broken link the field method returns an ORID object
+                    }
+        }
+        return codes;
+    }
 
     //OJResponsibleParty label extraction
 

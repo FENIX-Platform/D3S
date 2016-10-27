@@ -23,6 +23,7 @@ public class StandardFilter extends Filter {
                     queryFilter.append(')');
                     break;
                 case contact:
+                case free:
                     params.addAll(filterCondition.values);
                     queryFilter.append(" AND ").append(filterCondition.indexedFieldName).append(" LUCENE ?");
                     break;

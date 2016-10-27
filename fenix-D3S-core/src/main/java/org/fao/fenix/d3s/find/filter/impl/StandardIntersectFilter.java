@@ -36,7 +36,9 @@ public class StandardIntersectFilter extends Filter {
             String operator = null;
             switch (filterCondition.filterType) {
                 case code: operator = "CONTAINS"; break;
-                case contact: operator = "LUCENE"; break;
+                case contact:
+                case free:
+                    operator = "LUCENE"; break;
                 case id:
                 case enumeration: operator = "="; break;
                 default:

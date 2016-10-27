@@ -35,6 +35,7 @@ public class StandardRetainFilter extends Filter {
                     resources.addAll(select(MeIdentification.class, query.toString(), value));
                 break;
             case contact:
+            case free:
                 query.append(filter.indexedFieldName).append(" LUCENE ?");
                 for (Object value : filter.values)
                     resources.addAll(select(MeIdentification.class, query.toString(), value));

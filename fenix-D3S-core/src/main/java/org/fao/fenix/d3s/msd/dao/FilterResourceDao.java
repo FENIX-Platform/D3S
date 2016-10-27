@@ -100,6 +100,9 @@ public class FilterResourceDao extends ResourceDao {
                             for (Map.Entry<String, String> contactsFilterEntry : contactsFilter.entrySet())
                                 normalizedFilter.add(new ConditionFilter(fieldName, indexedFieldName+'|'+contactsFilterEntry.getKey(), filterType, Arrays.asList((Object)contactsFilterEntry.getValue())));
                             break;
+                        case free:
+                            normalizedFilter.add(new ConditionFilter(fieldName, indexedFieldName, filterType, Arrays.asList((Object)fieldFilter.freeText)));
+                            break;
                         case enumeration:
                             Collection<Object> enumeration = new LinkedList<>();
                             enumeration.addAll(fieldFilter.enumeration);
