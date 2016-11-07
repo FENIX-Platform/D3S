@@ -87,7 +87,7 @@ public class ResourceMonitor {
             case startRead:
                 LOGGER.debug("reading: "+resourceId+" - size: "+size+" - thread: "+currentThread.getId());
 
-                for (Long currentSize = resourcesSize.get(resourceId); currentSize!=null && (size<=0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
+                for (Long currentSize = resourcesSize.get(resourceId); currentSize!=null && (size<0 || size>currentSize); currentSize = resourcesSize.get(resourceId))
                     wait();
                 readersCount++;
 

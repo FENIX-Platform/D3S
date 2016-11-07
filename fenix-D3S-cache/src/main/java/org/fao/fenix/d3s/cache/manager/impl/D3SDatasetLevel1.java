@@ -72,7 +72,7 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
     public Iterator<Object[]> load(MeIdentification<DSDDataset> metadata, Order order, Page page) throws Exception {
         String id = getID(metadata);
         boolean ordering = order!=null && order.size()>0;
-        int size = !ordering && page!=null && page.perPage>0 ? page.skip+page.length : 0;
+        int size = !ordering && page!=null && page.perPage>0 ? page.skip+page.length : -1;
         //Check resource status and resource (and related codelists) last update date
         StoreStatus status = storage.loadMetadata(id);
         LOGGER.debug("Loading data from cache: id = "+id+" status -> "+status);
