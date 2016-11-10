@@ -1,5 +1,6 @@
 package org.fao.fenix.d3s.cache.manager;
 
+import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.cache.manager.listener.Context;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
@@ -61,12 +62,14 @@ public class CacheManagerFactory {
     //Retrieve cache listeners
     public Collection<DatasetCacheListener> getListeners(MeIdentification metadata) {
         Collection<DatasetCacheListener> list = new LinkedList<>();
-        String context = metadata.getDsd().getContextSystem();
+        DSD dsd = metadata!=null ? metadata.getDsd() : null;
+        String context = dsd!=null ? dsd.getContextSystem() : null;
         DatasetCacheListener instance;
 
-        for (Iterator<DatasetCacheListener> i = listenerInstanceProducer.select().iterator(); i.hasNext(); )
-            if (validateContext(context, instance=i.next()))
-                list.add(instance);
+        if (context!=null)
+            for (Iterator<DatasetCacheListener> i = listenerInstanceProducer.select().iterator(); i.hasNext(); )
+                if (validateContext(context, instance=i.next()))
+                    list.add(instance);
         return list;
     }
 
