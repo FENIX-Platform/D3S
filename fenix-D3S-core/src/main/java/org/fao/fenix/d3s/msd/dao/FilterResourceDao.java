@@ -66,7 +66,7 @@ public class FilterResourceDao extends ResourceDao {
 
     //Utils
     private ConditionFilter[] normalizedFilter(StandardFilter filter) throws Exception {
-        Collection<ConditionFilter> normalizedFilter = new LinkedList<>();
+        LinkedList<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
                 String fieldName = filterEntry.getKey();
@@ -101,7 +101,7 @@ public class FilterResourceDao extends ResourceDao {
                                 normalizedFilter.add(new ConditionFilter(fieldName, indexedFieldName+'|'+contactsFilterEntry.getKey(), filterType, Arrays.asList((Object)contactsFilterEntry.getValue())));
                             break;
                         case free:
-                            normalizedFilter.add(new ConditionFilter(fieldName, indexedFieldName, filterType, Arrays.asList((Object)fieldFilter.freeText)));
+                            normalizedFilter.addFirst(new ConditionFilter(fieldName, indexedFieldName, filterType, Arrays.asList((Object)fieldFilter.text)));
                             break;
                         case enumeration:
                             Collection<Object> enumeration = new LinkedList<>();

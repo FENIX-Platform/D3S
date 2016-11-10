@@ -212,6 +212,7 @@ CREATE PROPERTY MeIdentification.metadataStandardVersion STRING;
 CREATE PROPERTY MeIdentification.metadataLanguage EMBEDDED OjCodeList;
 CREATE PROPERTY MeIdentification.contacts EMBEDDEDLIST OjResponsibleParty;
 CREATE PROPERTY MeIdentification.noDataValue STRING;
+CREATE PROPERTY MeIdentification.additions EMBEDDEDMAP;
 
 CREATE PROPERTY MeIdentification.meDocuments EMBEDDEDLIST MeDocuments;
   CREATE PROPERTY MeDocuments.document EMBEDDED OjCitation;
