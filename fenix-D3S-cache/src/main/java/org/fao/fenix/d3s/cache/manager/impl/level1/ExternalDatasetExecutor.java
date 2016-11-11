@@ -8,6 +8,8 @@ import org.fao.fenix.d3s.cache.dto.dataset.Table;
 import org.fao.fenix.d3s.cache.manager.CacheManagerFactory;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
+import org.fao.fenix.d3s.server.dto.DatabaseStandardsCopy;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -23,8 +25,8 @@ public class ExternalDatasetExecutor extends ResourceStorageExecutor {
     private int storePageSize;
 
 
-    public ExternalDatasetExecutor(MeIdentification<DSDDataset> metadata, CacheManagerFactory cacheFactory, DatasetStorage storage, ResourceMonitor monitor, Table structure, Iterator<Object[]> data, boolean overwrite, int pageSize) {
-        super(metadata, cacheFactory, storage, structure, monitor);
+    public ExternalDatasetExecutor(DatabaseStandards globalParameters, MeIdentification<DSDDataset> metadata, CacheManagerFactory cacheFactory, DatasetStorage storage, ResourceMonitor monitor, Table structure, Iterator<Object[]> data, boolean overwrite, int pageSize) {
+        super(globalParameters, metadata, cacheFactory, storage, structure, monitor);
 
         this.storage = storage;
         this.monitor = monitor;

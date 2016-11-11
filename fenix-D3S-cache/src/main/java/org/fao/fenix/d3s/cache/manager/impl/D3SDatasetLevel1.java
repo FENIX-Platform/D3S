@@ -22,6 +22,7 @@ import org.fao.fenix.d3s.cache.manager.impl.level1.ResourceStorageExecutor;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
 import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -43,6 +44,7 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
     @Inject private CacheManagerFactory listenersFactory;
     @Inject private DatabaseUtils utils;
     @Inject private ResourceMonitor monitor;
+    @Inject private DatabaseStandards databaseStandards;
     private DatasetStorage storage;
 
     @Override
@@ -129,7 +131,8 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
             if (status == null)
                 storage.create(tableMetadata, timeout != null ? new Date(System.currentTimeMillis() + timeout) : null, TableScope.data);
             //Store data and unlock resource
-            ResourceStorageExecutor executor = new ExternalDatasetExecutor(metadata, listenersFactory, storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
+
+            ResourceStorageExecutor executor = new ExternalDatasetExecutor(databaseStandards, metadata, listenersFactory, storage, monitor, tableMetadata, data, overwrite, SOTRE_PAGE_SIZE);
             //executor.addListener(this);
             executor.start();
         } catch (Exception ex) {

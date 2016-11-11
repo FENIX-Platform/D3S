@@ -65,4 +65,15 @@ public class DatabaseStandards {
     public static void setLanguageInfo(Language[] l) {
         languageInfo.set(l);
     }
+
+
+    //Utils
+    public void clone(DatabaseStandards clone) {
+        clone.setConnection(getConnection());
+        clone.setLimit(getLimit()!=null?String.valueOf(getLimit()):null);
+        clone.setOrderingInfo(getOrderingInfo());
+        clone.setPaginationInfo(getPaginationInfo());
+        clone.setRequest(getRequest());
+    }
+
 }
