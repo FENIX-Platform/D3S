@@ -120,32 +120,37 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
-            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
-            if (cache!=null)
-                cache.remove(metadata);
-
             wdsDao.deleteData(metadata);
         }
     }
 
-
-
-/*
-    //Synchronize metadata and data write operations respect to cache activities
     @Override
-    public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
-        //Retrieve new data update date
-        Date updateDate = getDataUpdateDate(metadata);
-        //Retrieve cache manager
-        CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
-        DatasetStorage cacheStorage = cache!=null ? (DatasetStorage) cache.getStorage() : null;
-        //If data is changing from other process and last update date is changing throw exception
-        if (updateDate!=null && cacheStorage!=null && cacheStorage.containsSession(cacheStorage.getTableName(new Table(metadata).getTableName())))
-            throw new BadRequestException("cannot update metadata because another process is loading data into the first cache level");
-        else //Update metadata end retrieve a consistent metadata for cache manager identification
-            return super.updateMetadata(metadata, overwrite, transaction);
+    public void clean(MeIdentification<DSDDataset> metadata) throws Exception {
+        if (metadata!=null) {
+            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            if (cache != null)
+                cache.remove(metadata);
+        }
+
     }
-*/
+
+
+    /*
+        //Synchronize metadata and data write operations respect to cache activities
+        @Override
+        public MeIdentification<DSDDataset> updateMetadata(MeIdentification<DSDDataset> metadata, boolean overwrite, boolean transaction) throws Exception {
+            //Retrieve new data update date
+            Date updateDate = getDataUpdateDate(metadata);
+            //Retrieve cache manager
+            CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            DatasetStorage cacheStorage = cache!=null ? (DatasetStorage) cache.getStorage() : null;
+            //If data is changing from other process and last update date is changing throw exception
+            if (updateDate!=null && cacheStorage!=null && cacheStorage.containsSession(cacheStorage.getTableName(new Table(metadata).getTableName())))
+                throw new BadRequestException("cannot update metadata because another process is loading data into the first cache level");
+            else //Update metadata end retrieve a consistent metadata for cache manager identification
+                return super.updateMetadata(metadata, overwrite, transaction);
+        }
+    */
     @Override
     public void deleteMetadata(boolean transaction, MeIdentification<DSDDataset>... metadataList) throws Exception {
         if (metadataList!=null)

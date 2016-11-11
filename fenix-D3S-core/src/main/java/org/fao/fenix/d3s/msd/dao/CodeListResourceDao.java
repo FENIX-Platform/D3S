@@ -66,6 +66,9 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
             command("delete from Code where codeList = ?", metadata.getORID());
     }
 
+    @Override
+    public void clean(MeIdentification<DSDCodelist> metadata) throws Exception { }
+
 
     //Codes selection
     public Code getCode(String uid, String version, String code) throws Exception {

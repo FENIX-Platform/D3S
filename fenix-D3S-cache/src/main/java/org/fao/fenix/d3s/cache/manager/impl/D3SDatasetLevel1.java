@@ -146,22 +146,24 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
     public void remove(MeIdentification<DSDDataset> metadata) throws Exception {
         //Lock resource
         String id = getID(metadata);
-        monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
-        try {
-            //Fire starting remove operation event
-            Connection connection = storage.getConnection();
+        if (id!=null) {
+            monitor.check(ResourceMonitor.Operation.startWrite, id, 0);
             try {
-                DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata, storage, storage.getTableName(id), null);
-                for (DatasetCacheListener listener : listenersFactory.getListeners(metadata))
-                    listener.removing(datasetInfo);
+                //Fire starting remove operation event
+                Connection connection = storage.getConnection();
+                try {
+                    DatasetAccessInfo datasetInfo = new DatasetAccessInfo(metadata, storage, storage.getTableName(id), null);
+                    for (DatasetCacheListener listener : listenersFactory.getListeners(metadata))
+                        listener.removing(datasetInfo);
+                } finally {
+                    connection.close();
+                }
+                //Delete
+                storage.delete(id);
             } finally {
-                connection.close();
+                //Unlock resource
+                monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
             }
-            //Delete
-            storage.delete(id);
-        } finally {
-            //Unlock resource
-            monitor.check(ResourceMonitor.Operation.stopWrite, id, 0);
         }
     }
 

@@ -47,6 +47,10 @@ public class FilterResourceDao extends ResourceDao {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void clean(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
 
     public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {

@@ -134,6 +134,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             if (metadata!=null) {
                 deleteMetadata(false, metadata);
                 deleteData(metadata);
+                clean(metadata);
                 commit();
                 return true;
             } else
@@ -178,6 +179,7 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
     protected abstract void insertData(MeIdentification<M> metadata, Collection<D> data) throws Exception;
     protected abstract void updateData(MeIdentification<M> metadata, Collection<D> data, boolean overwrite) throws Exception;
     public abstract void deleteData(MeIdentification<M> metadata) throws Exception;
+    public abstract void clean(MeIdentification<M> metadata) throws Exception;
 
     //Utils
     Pattern ridPattern = Pattern.compile("^\\d+_\\d+$");

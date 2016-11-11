@@ -37,6 +37,10 @@ public class MetadataResourceDao extends ResourceDao {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void clean(MeIdentification metadata) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
 
 }

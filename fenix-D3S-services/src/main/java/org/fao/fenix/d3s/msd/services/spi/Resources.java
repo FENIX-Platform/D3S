@@ -121,7 +121,7 @@ public interface Resources {
     public String deleteMetadataByUID(@PathParam("uid") String uid) throws Exception;
     @DELETE
     @Path("/metadata/{uid}/{version}")
-    public String deleteMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
+    public String deleteMetadata(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
     @PUT
     @Path("/metadata/links")
     public void restoreLinks() throws Exception;

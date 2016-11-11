@@ -32,7 +32,6 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.NoContentException;
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Path("msd/resources")
@@ -253,20 +252,29 @@ public class ResourcesService implements Resources {
 
     @Override
     public String deleteMetadata(String rid) throws Exception {
-        LOGGER.info("Metadata DELETE: @rid = " + rid);
-        return metadataDao.deleteMetadata(rid, null) ? "" : null;
+        return deleteMetadata(rid, null);
     }
 
     @Override
     public String deleteMetadataByUID(String uid) throws Exception {
-        LOGGER.info("Metadata DELETE: @uid = " + uid);
-        return metadataDao.deleteMetadata(uid, null) ? "" : null;
+        return deleteMetadata(uid, null);
     }
 
     @Override
-    public String deleteMetadataByUID(String uid, String version) throws Exception {
-        LOGGER.info("Metadata DELETE: @uid = " + uid + " - @version = " + version);
-        return metadataDao.deleteMetadata(uid, version) ? "" : null;
+    public String deleteMetadata(String id, String version) throws Exception {
+        LOGGER.info("Metadata DELETE: @id = " + id + " - @version = " + version);
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = loadMetadata(id, version);
+        if (metadata==null)
+            return null;
+
+        ResourceDao dao = getDao(loadRepresentationType(metadata));
+        if (dao==null)
+            dao = metadataDao;
+        else
+            dao.clean(metadata);
+
+        dao.deleteMetadata(false, metadata);
+        return  "";
     }
 
     @Override
