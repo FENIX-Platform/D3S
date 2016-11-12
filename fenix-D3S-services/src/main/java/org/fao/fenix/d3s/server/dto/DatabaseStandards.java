@@ -68,12 +68,14 @@ public class DatabaseStandards {
 
 
     //Utils
-    public void clone(DatabaseStandards clone) {
+    public DatabaseStandardsCopy clone(DatabaseStandardsCopy clone) {
         clone.setConnection(getConnection());
         clone.setLimit(getLimit()!=null?String.valueOf(getLimit()):null);
         clone.setOrderingInfo(getOrderingInfo());
         clone.setPaginationInfo(getPaginationInfo());
         clone.setRequest(getRequest());
+        clone.setLanguageInfo(getLanguageInfo());
+        return clone;
     }
 
 }

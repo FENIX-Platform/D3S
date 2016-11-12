@@ -27,7 +27,7 @@ public abstract class ResourceStorageExecutor implements Runnable {
     private ResourceStorageExecutor next;
     public Exception error;
     public boolean done;
-    private DatabaseStandards globalParametersClone;
+    private DatabaseStandardsCopy globalParametersClone;
 
 
     protected ResourceStorageExecutor(DatabaseStandards globalParameters, MeIdentification<DSDDataset> metadata, CacheManagerFactory cacheFactory, DatasetStorage storage, Table structure, ResourceMonitor monitor) {
@@ -37,7 +37,7 @@ public abstract class ResourceStorageExecutor implements Runnable {
         this.cacheFactory = cacheFactory;
         this.id = structure.getTableName();
 
-        globalParameters.clone(globalParametersClone=new DatabaseStandardsCopy());
+        globalParametersClone = globalParameters.clone(new DatabaseStandardsCopy());
 
     }
 
