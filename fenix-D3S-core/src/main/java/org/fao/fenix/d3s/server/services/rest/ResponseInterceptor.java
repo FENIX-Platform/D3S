@@ -12,7 +12,10 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 @Provider
 public class ResponseInterceptor implements ContainerResponseFilter {
@@ -32,7 +35,11 @@ public class ResponseInterceptor implements ContainerResponseFilter {
         //Support paginated select
         if (containerRequestContext.getMethod().equals("GET") && Response.Status.OK.equals(containerResponseContext.getStatusInfo()) && httpRequest.getParameter("perPage")!=null)
             containerResponseContext.getHeaders().putSingle("Location", createPagePath(httpRequest));
+
+        //Add UTF-8 as character set
+        addCharsetToResponseContentType(containerResponseContext);
     }
+
 
 
     //Utils
@@ -48,4 +55,20 @@ public class ResponseInterceptor implements ContainerResponseFilter {
         Page pageInfo = new Page(httpRequest);
         return httpRequest.getRequestURL().toString()+'?'+"perPage="+pageInfo.perPage+"&page="+(pageInfo.page+1);
     }
+
+    private void addCharsetToResponseContentType(ContainerResponseContext containerResponseContext) {
+        List types = containerResponseContext.getHeaders().get("content-type");
+        if (types == null)
+            types = new LinkedList();
+        if (types.size()==0)
+            types.add("text/plain");
+
+        List utf8types = new LinkedList();
+
+        for (Object t : types)
+            utf8types.add(t.toString()+(t.toString().toLowerCase().contains("utf-8")?"":"; charset=UTF-8"));
+
+        containerResponseContext.getHeaders().put("content-type", utf8types);
+    }
+
 }

@@ -18,23 +18,23 @@ public interface Resources {
     //MASSIVE METADATA
 /*    @POST
     @Path("/massive/load")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
 */
     @POST
     @Path("/massive")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<MeIdentification> insertMetadata(MetadataList metadata) throws Exception;
     @PUT
     @Path("/massive")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<MeIdentification> updateMetadata(MetadataList metadata) throws Exception;
     @PATCH
     @Path("/massive")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<MeIdentification> appendMetadata(MetadataList metadata) throws Exception;
     @POST
@@ -43,7 +43,7 @@ public interface Resources {
 
     @PATCH
     @Path("/replication")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @QueryParam("logic") String businessName) throws Exception;
 
@@ -53,26 +53,26 @@ public interface Resources {
 
     @GET
     @Path("/rid/{rid}")
-    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
+    @Produces({MediaType.APPLICATION_JSON, "application/sdmx"})
     public ResourceProxy getResource(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/uid/{uid}")
-    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
+    @Produces({MediaType.APPLICATION_JSON, "application/sdmx"})
     public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @GET
     @Path("/{uid}/{version}")
-    @Produces({MediaType.APPLICATION_JSON+"; charset=utf-8", "application/sdmx"})
+    @Produces({MediaType.APPLICATION_JSON, "application/sdmx"})
     public ResourceProxy getResourceByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("datasource") @DefaultValue("false") boolean datasource) throws Exception;
     @POST
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
     public MeIdentification insertResource(Resource resource) throws Exception;
     @PUT
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
     public MeIdentification updateResource(Resource resource) throws Exception;
     @PATCH
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON, "application/csv"})
     public MeIdentification appendResource(Resource resource) throws Exception;
     @DELETE
@@ -88,29 +88,29 @@ public interface Resources {
 
     @GET
     @Path("/metadata/rid/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getMetadata(@PathParam("rid") String rid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @GET
     @Path("/metadata/uid/{uid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getMetadataByUID(@PathParam("uid") String uid, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @GET
     @Path("/metadata/{uid}/{version}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getMetadataByUID(@PathParam("uid") String uid, @PathParam("version") String version, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export, @QueryParam("levels") Integer levels) throws Exception;
     @POST
     @Path("/metadata")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification insertMetadata(T metadata) throws Exception;
     @PUT
     @Path("/metadata")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification updateMetadata(T metadata) throws Exception;
     @PATCH
     @Path("/metadata")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.MeIdentification> MeIdentification appendMetadata(T metadata) throws Exception;
     @DELETE
@@ -129,16 +129,16 @@ public interface Resources {
 
     @GET
     @Path("/dsd/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getDsd(@PathParam("rid") String rid) throws Exception;
     @PUT
     @Path("/dsd")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> DSD updateDsd(T metadata) throws Exception;
     @PATCH
     @Path("/dsd")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> DSD appendDsd(T metadata) throws Exception;
     @DELETE
@@ -148,15 +148,15 @@ public interface Resources {
 
     @GET
     @Path("/data/rid/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getData(@PathParam("rid") String rid) throws Exception;
     @GET
     @Path("/data/uid/{uid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getDataByUID(@PathParam("uid") String uid) throws Exception;
     @GET
     @Path("/data/{uid}/{version}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     public Object getDataByUID(@PathParam("uid") String uid, @PathParam("version") String version) throws Exception;
 
     @DELETE
@@ -183,7 +183,7 @@ public interface Resources {
 
     @POST
     @Path("/find")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
 
@@ -201,32 +201,32 @@ public interface Resources {
 
 /*    @PUT
     @Path("/data/rid/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification updateData(@PathParam("rid") String rid, Collection data) throws Exception;
     @PUT
     @Path("/data/uid/{uid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification updateDataByUid(@PathParam("uid") String uid, Collection data) throws Exception;
     @PUT
     @Path("/data/{uid}/{version}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification updateDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
     @PATCH
     @Path("/data/rid/{rid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification appendData(@PathParam("rid") String rid, Collection data) throws Exception;
     @PATCH
     @Path("/data/uid/{uid}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification appendDataByUid(@PathParam("uid") String uid, Collection data) throws Exception;
     @PATCH
     @Path("/data/{uid}/{version}")
-    @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public MeIdentification appendDataByUid(@PathParam("uid") String uid, @PathParam("version") String version, Collection data) throws Exception;
 */
