@@ -325,25 +325,7 @@ public class CodesService implements Codes {
     }
 
 
-    public Collection<org.fao.fenix.commons.msd.dto.full.Code> normalize(Collection<org.fao.fenix.commons.msd.dto.full.Code> children) throws CloneNotSupportedException {
-        Collection<org.fao.fenix.commons.msd.dto.full.Code> codes = null;
-        try {
-            codes = new LinkedList<>();
-            for (org.fao.fenix.commons.msd.dto.full.Code child : children) {
-                org.fao.fenix.commons.msd.dto.full.Code raw = (org.fao.fenix.commons.msd.dto.full.Code) child.clone();
-                raw.setParents(null);
-                if (raw.getChildren() != null)
-                    raw.setChildren(normalize(raw.getChildren()));
-                codes.add(raw);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return codes;
-    }
-
-
-    public org.fao.fenix.commons.msd.dto.full.Code normalize(org.fao.fenix.commons.msd.dto.full.Code rawCode, Direction direction) throws CloneNotSupportedException {
+    private org.fao.fenix.commons.msd.dto.full.Code normalize(org.fao.fenix.commons.msd.dto.full.Code rawCode, Direction direction) throws CloneNotSupportedException {
         org.fao.fenix.commons.msd.dto.full.Code code = rawCode != null ? (org.fao.fenix.commons.msd.dto.full.Code) rawCode.clone() : null;
 
         if (code != null) {
@@ -360,7 +342,7 @@ public class CodesService implements Codes {
 
             if (direction == Direction.up ) {
                 code.setChildren(null);
-                //remove the childrens
+                //remove the children
                 if (rawCode.getParents() != null) {
                     Collection<org.fao.fenix.commons.msd.dto.full.Code> parents = new LinkedList<>();
                     for (org.fao.fenix.commons.msd.dto.full.Code parent : rawCode.getParents())
@@ -372,20 +354,7 @@ public class CodesService implements Codes {
         return code;
     }
 
-
 }
 
 
-
-
-       /* org.fao.fenix.commons.msd.dto.full.Code result = (org.fao.fenix.commons.msd.dto.full.Code) code.clone();
-        result.setParents(null);
-        Collection<org.fao.fenix.commons.msd.dto.full.Code> children = code.getChildren();
-        if(children!= null)
-            for (org.fao.fenix.commons.msd.dto.full.Code child : children) {
-                result.addChild(normalize(child));
-            }
-
-        return result;
-    }*/
 
