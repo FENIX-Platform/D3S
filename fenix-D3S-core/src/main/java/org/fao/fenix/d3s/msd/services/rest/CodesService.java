@@ -46,8 +46,7 @@ public class CodesService implements Codes {
     @Override
     public org.fao.fenix.commons.msd.dto.full.Code getCodeHierarchy(String uid, String version, String code, Integer depth, Direction direction) throws Exception {
         LOGGER.info("Codes HIERARCHY: @uid = " + uid + " - @version = " + version + " - @code = " + code + " - @depth = " + depth + " - @direction = " + direction);
-        org.fao.fenix.commons.msd.dto.full.Code rootCode = getHierarchy(dao.getCode(uid, version, code), depth, direction);
-        return normalize(rootCode, direction);
+        return normalize(getHierarchy(dao.getCode(uid, version, code), depth, direction), direction);
     }
 
 
