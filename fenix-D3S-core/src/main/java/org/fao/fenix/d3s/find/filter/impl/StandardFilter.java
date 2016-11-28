@@ -40,14 +40,11 @@ public class StandardFilter extends Filter {
                     queryFilter.append(" AND (");
                     for (Object timeObject : filterCondition.values) {
                         ConditionTime time = (ConditionTime)timeObject;
-                        if (time.from!=null) {
-                            queryFilter.append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? OR ");
-                            params.add(time.getFrom(14));
-                        }
-                        if (time.to!=null) {
-                            queryFilter.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? OR ");
-                            params.add(time.getTo(14));
-                        }
+
+                        queryFilter.append('(').append(filterCondition.indexedFieldName).append(ConditionTime.toFieldNameSuffix).append(" >= ? AND ");
+                        queryFilter.append(filterCondition.indexedFieldName).append(ConditionTime.fromFieldNameSuffix).append(" <= ? ) OR ");
+                        params.add(time.getFrom(14,false));
+                        params.add(time.getTo(14,false));
                     }
                     queryFilter.setLength(queryFilter.length()-4);
                     queryFilter.append(')');

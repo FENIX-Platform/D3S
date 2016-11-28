@@ -1,6 +1,7 @@
 package org.fao.fenix.d3s.msd.dao;
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
+import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
@@ -114,7 +115,9 @@ public class FilterResourceDao extends ResourceDao {
                             break;
                         case time:
                             Collection<Object> timeFilters = new LinkedList<>();
-                            timeFilters.addAll(fieldFilter.time);
+                            if (fieldFilter.time!=null)
+                                for (TimeFilter time : fieldFilter.time)
+                                    timeFilters.add(new ConditionTime(time.from, time.to));
                             normalizedFilter.add(new ConditionFilter(fieldName, indexedFieldName, filterType, timeFilters));
                         default:
                     }

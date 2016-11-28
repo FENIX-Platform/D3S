@@ -61,6 +61,7 @@ public class EnumerationsService implements Enumerations {
         availableEnumerations.put("RepresentationType", RepresentationType.class);
         availableEnumerations.put("ResponsiblePartyRole", ResponsiblePartyRole.class);
         availableEnumerations.put("XYPosition", XYPosition.class);
+        availableEnumerations.put("YesNo", YesNo.class);
     }
 
 }
