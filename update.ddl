@@ -1,5 +1,5 @@
 ddl="
 
-CREATE INDEX MeIdentification.parents NOTUNIQUE;
+CREATE PROPERTY DSD.userName STRING;
 
 "

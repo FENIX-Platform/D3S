@@ -23,6 +23,7 @@ public class ResourceIndexManager extends LinksManager {
             "uid",
             "version",
             "dsd.contextSystem",
+            "dsd.userName",
 //            "dsd.workspace",
 //            "dsd.layerName",
             "meContent.resourceRepresentationType",
