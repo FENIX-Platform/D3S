@@ -42,7 +42,7 @@ public class D3SMetadataInputPlugin extends Input {
             final MeIdentification<DSDDataset> metadata = service.loadMetadata(uid, version);
             if (metadata != null) {
                 Properties properties = getProperties();
-                JsonNode mdsd = existsTemplate(properties) ? JSONUtils.decode(new FileUtils().readTextFile(properties.get(this.config.get(TEMPLATE)).toString()), JsonNode.class) : JSONUtils.decode(new MDSDGenerator().generate(), JsonNode.class);
+                JsonNode mdsd = existsTemplate(properties) ? JSONUtils.decode(new FileUtils().readTextFileFromURL(properties.get(this.config.get(TEMPLATE)).toString()), JsonNode.class) : JSONUtils.decode(new MDSDGenerator().generate(), JsonNode.class);
                 return new CoreMetaData(metadata, null, mdsd);
             }
         } catch (Exception e) {
