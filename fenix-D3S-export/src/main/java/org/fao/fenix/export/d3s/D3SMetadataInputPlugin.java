@@ -41,7 +41,7 @@ public class D3SMetadataInputPlugin extends Input {
         try {
             final MeIdentification<DSDDataset> metadata = service.loadMetadata(uid, version);
             if (metadata != null) {
-                Properties properties = getProperties();
+                Properties properties = org.fao.fenix.commons.utils.Properties.getProperties(Thread.currentThread().getContextClassLoader(), PROPERTIES_FILE);
                 JsonNode mdsd = existsTemplate(properties) ? JSONUtils.decode(new FileUtils().readTextFileFromURL(properties.get(this.config.get(TEMPLATE)).toString()), JsonNode.class) : JSONUtils.decode(new MDSDGenerator().generate(), JsonNode.class);
                 return new CoreMetaData(metadata, null, mdsd);
             }
@@ -59,17 +59,5 @@ public class D3SMetadataInputPlugin extends Input {
     }
 
 
-    private java.util.Properties getProperties() {
-        java.util.Properties properties = new java.util.Properties();
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        try {
-            InputStream input = classLoader.getResourceAsStream(PROPERTIES_FILE);
-            if (input != null) {
-                properties.load(input);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
+
 }
