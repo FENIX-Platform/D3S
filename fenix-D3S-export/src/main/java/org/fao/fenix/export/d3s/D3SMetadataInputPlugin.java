@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.msd.dto.templates.standard.combined.Metadata;
 import org.fao.fenix.commons.utils.FileUtils;
 import org.fao.fenix.commons.utils.JSONUtils;
 import org.fao.fenix.d3s.mdsd.MDSDGenerator;
@@ -39,11 +40,12 @@ public class D3SMetadataInputPlugin extends Input {
     @Override
     public CoreData getResource() {
         try {
+           Metadata mdTemplate = (Metadata)service.getResourceByUID(uid,version,true,false,false,false).getMetadata();
             final MeIdentification<DSDDataset> metadata = service.loadMetadata(uid, version);
             if (metadata != null) {
                 Properties properties = org.fao.fenix.commons.utils.Properties.getProperties(Thread.currentThread().getContextClassLoader(), PROPERTIES_FILE);
                 JsonNode mdsd = existsTemplate(properties) ? JSONUtils.decode(new FileUtils().readTextFileFromURL(properties.get(this.config.get(TEMPLATE)).toString()), JsonNode.class) : JSONUtils.decode(new MDSDGenerator().generate(), JsonNode.class);
-                return new CoreMetaData(metadata, null, mdsd);
+                return new CoreMetaData(metadata, null, mdsd, (org.fao.fenix.commons.msd.dto.templates.standard.combined.dataset.Metadata) mdTemplate);
             }
         } catch (Exception e) {
             e.printStackTrace();
