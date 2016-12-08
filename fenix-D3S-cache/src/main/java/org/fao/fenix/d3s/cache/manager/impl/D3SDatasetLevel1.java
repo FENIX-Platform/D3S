@@ -216,8 +216,8 @@ public class D3SDatasetLevel1 implements DatasetCacheManager {
         return seUpdate!=null ? seUpdate.getUpdateDate() : null;
     }
 
-
-    private boolean checkUpdateDateIsValid(MeIdentification<DSDDataset> metadata, StoreStatus status) {
+    @Override
+    public boolean checkUpdateDateIsValid(MeIdentification<DSDDataset> metadata, StoreStatus status) {
         if (metadata != null && status != null) {
             Date cacheLastUpdate = status.getLastUpdate();
             for (Date lastUpdate : getDatasetLastUpdateDates(metadata))

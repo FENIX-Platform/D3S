@@ -67,8 +67,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (cache!=null) {
                 //Fill cache
                 StoreStatus status = cache.status(metadata);
-                Date dataUpdateDateByMetadata = getDataUpdateDate(metadata);
-                if (status==null || status.getStatus()==StoreStatus.Status.incomplete || (dataUpdateDateByMetadata!=null && status.getLastUpdate().before(dataUpdateDateByMetadata))) {
+                if (status==null || status.getStatus()==StoreStatus.Status.incomplete || !cache.checkUpdateDateIsValid(metadata, status)) {
                     cache.remove(metadata);
                     cache.store(metadata, loadRawData(metadata), true, null, getCodeLists(metadata));
                 }
@@ -220,13 +219,6 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         DSD dsd = metadata!=null ? metadata.getDsd() : null;
         String[] datasources = dsd!=null ? dsd.getDatasources() : null;
         return datasources!=null && datasources.length>0 ? datasources[0] : null;
-    }
-
-
-    private Date getDataUpdateDate(MeIdentification<DSDDataset> metadata) {
-        MeMaintenance meMaintenance = metadata!=null ? metadata.getMeMaintenance() : null;
-        SeUpdate seUpdate = meMaintenance!=null ? meMaintenance.getSeUpdate() : null;
-        return seUpdate!=null ? seUpdate.getUpdateDate() : null;
     }
 
 

@@ -81,6 +81,14 @@ public interface CacheManager<M extends DSD, D> {
     public StoreStatus status(MeIdentification<M> metadata) throws Exception;
 
     /**
+     * Retrieve the cached resource validity comparing metadata and cached resource dates.
+     * @param metadata Referenced resource metadata.
+     * @return Store status. Null if resource don't exists.
+     * @throws Exception
+     */
+    public boolean checkUpdateDateIsValid(MeIdentification<M> metadata, StoreStatus status) throws Exception;
+
+    /**
      * Retrive the resource's data block size. The unit depends on the kind of data stored into the cache (e.g. the number of rows for a dataset or the number of codes for a codelist).
      * @param metadata Referenced resource metadata.
      * @return Data block size. Null if resource don't exists.
