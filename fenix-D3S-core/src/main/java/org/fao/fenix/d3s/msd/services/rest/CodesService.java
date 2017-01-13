@@ -174,7 +174,7 @@ public class CodesService implements Codes {
 
 
     //Hierarchy
-    private org.fao.fenix.commons.msd.dto.full.Code getHierarchy(org.fao.fenix.commons.msd.dto.full.Code rawCode, Integer depth, Direction direction) throws CloneNotSupportedException {
+    public org.fao.fenix.commons.msd.dto.full.Code getHierarchy(org.fao.fenix.commons.msd.dto.full.Code rawCode, Integer depth, Direction direction) throws CloneNotSupportedException {
         if (depth == null)
             depth = Integer.MAX_VALUE;
 
@@ -198,7 +198,7 @@ public class CodesService implements Codes {
         return code;
     }
 
-    private Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches(Collection<org.fao.fenix.commons.msd.dto.full.Code> sourceCodes) {
+    public Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches(Collection<org.fao.fenix.commons.msd.dto.full.Code> sourceCodes) {
         Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap = new LinkedHashMap<>();
         Map<String, Set<String>> parentCodesMap = new HashMap<>();
         Map<String, Set<String>> childrenCodesMap = new HashMap<>();
@@ -209,7 +209,7 @@ public class CodesService implements Codes {
         return root.size() > 0 ? root : null;
     }
 
-    private Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches(Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap, Map<String, Set<String>> parentCodesMap, Map<String, Set<String>> childrenCodesMap) {
+    public Collection<org.fao.fenix.commons.msd.dto.full.Code> mergeBranches(Map<String, org.fao.fenix.commons.msd.dto.full.Code> mergeCodesMap, Map<String, Set<String>> parentCodesMap, Map<String, Set<String>> childrenCodesMap) {
         Collection<org.fao.fenix.commons.msd.dto.full.Code> root = new LinkedList<>();
         for (org.fao.fenix.commons.msd.dto.full.Code code : mergeCodesMap.values()) {
             code.setParents(null);

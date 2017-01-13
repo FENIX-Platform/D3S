@@ -182,6 +182,25 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         return null;
     }
 
+    public Collection getColumnDistinct(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
+        if (metadata!=null) {
+            Collection distinct = new LinkedList();
+            CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
+            if (cache==null)
+                throw new NotSupportedException("D3S cache not available for this dataset");
+            DatasetStorage storage = (DatasetStorage)cache.getStorage();
+            Connection connection = storage.getConnection();
+            try {
+                for (ResultSet result = connection.createStatement().executeQuery("SELECT DISTINCT "+columnId+" FROM "+storage.getTableName(cache.getID(metadata))); result.next();)
+                    distinct.add(result.getObject(1));
+            } finally {
+                connection.close();
+            }
+            return distinct;
+        }
+        return null;
+    }
+
 
 
     //Utils
