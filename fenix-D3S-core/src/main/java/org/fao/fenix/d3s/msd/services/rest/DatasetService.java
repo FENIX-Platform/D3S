@@ -13,8 +13,7 @@ import org.fao.fenix.d3s.msd.dao.DatasetResourceDao;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 @Path("dataset")
 @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
@@ -41,17 +40,26 @@ public class DatasetService {
         //Retrieve column
         DSDColumn column = getColumn(datasetMetadata, columnId);
         //Retrieve data
-        Collection distinct = datasetDao.getColumnDistinct(datasetMetadata, columnId);
+        List distinct = datasetDao.getColumnDistinct(datasetMetadata, columnId);
         //Format data
         if (column.getDataType()==DataType.code)
             return createCodelistTree(distinct, column);
-        else
-            return distinct;
+        Collections.sort(distinct, new Comparator<Object>() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    try {
+                        return ((Comparable)o1).compareTo(o2);
+                    } catch (ClassCastException e) {
+                        return -1;
+                    }
+                }
+            });
+        return distinct;
     }
 
 
-    Collection<org.fao.fenix.commons.msd.dto.templates.codeList.Code> createCodelistTree(Collection data, DSDColumn column) throws Exception {
-        Collection<String> distinct = toStringList(data);
+    private Collection<org.fao.fenix.commons.msd.dto.templates.codeList.Code> createCodelistTree(List data, DSDColumn column) throws Exception {
+        List<String> distinct = toStringList(data);
 
         MeIdentification<DSDCodelist> codelistMetadata = findCodelist(column);
         if (codelistMetadata == null)
@@ -64,7 +72,7 @@ public class DatasetService {
         return ResponseBeanFactory.getInstances(Code.class, codesService.mergeBranches(codes));
     }
 
-    DSDColumn getColumn(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
+    private DSDColumn getColumn(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
         DSDColumn column = null;
         DSDDataset dsd = metadata.getDsd();
         Collection<DSDColumn> columns = dsd != null ? dsd.getColumns() : null;
@@ -90,8 +98,8 @@ public class DatasetService {
 
 
     //Utils
-    private Collection<String> toStringList (Collection data) {
-        Collection<String> stringList = new LinkedList<>();
+    private List<String> toStringList (List data) {
+        List<String> stringList = new LinkedList<>();
         for (Object item : data)
             stringList.add(item!=null ? item.toString() : null);
         return stringList;
