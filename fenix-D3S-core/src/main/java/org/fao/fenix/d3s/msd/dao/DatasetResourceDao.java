@@ -182,9 +182,9 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         return null;
     }
 
-    public Collection getColumnDistinct(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
+    public List getColumnDistinct(MeIdentification<DSDDataset> metadata, String columnId) throws Exception {
         if (metadata!=null) {
-            Collection distinct = new LinkedList();
+            List distinct = new LinkedList();
             CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache==null)
                 throw new NotSupportedException("D3S cache not available for this dataset");
