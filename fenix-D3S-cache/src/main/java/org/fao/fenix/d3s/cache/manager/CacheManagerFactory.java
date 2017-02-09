@@ -2,7 +2,7 @@ package org.fao.fenix.d3s.cache.manager;
 
 import org.fao.fenix.commons.msd.dto.full.DSD;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.cache.manager.listener.Context;
+import org.fao.fenix.commons.utils.Context;
 import org.fao.fenix.d3s.cache.manager.listener.DatasetCacheListener;
 import org.fao.fenix.d3s.cache.storage.Storage;
 import org.fao.fenix.d3s.cache.storage.StorageName;

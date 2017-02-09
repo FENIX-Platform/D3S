@@ -20,6 +20,8 @@ import org.fao.fenix.commons.msd.dto.templates.standard.combined.Metadata;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.DSD;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.*;
+import org.fao.fenix.d3s.msd.listener.ResourceEventType;
+import org.fao.fenix.d3s.msd.listener.ResourceListenerFactory;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
@@ -44,6 +46,8 @@ public class ResourcesService implements Resources {
     @Inject private FilterResourceDao filterResourceDao;
     @Inject private WDSDaoFactory wdsDaoFactory;
     @Inject private DatabaseStandards parameters;
+
+    @Inject private ResourceListenerFactory resourceListenerFactory;
 
 
     //MASSIVE METADATA
@@ -80,16 +84,28 @@ public class ResourcesService implements Resources {
     @Override
     public Integer deleteMetadata(StandardFilter filter, String businessName) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+
         if (resources != null) {
             try {
+                Collection<String[]> removedResourcesId = new LinkedList<>();
+
                 metadataDao.transaction();
                 for (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata : resources) {
+                    String[] metadataId = new String[]{metadata.getUid(), metadata.getVersion(), getContext(metadata)};
+                    resourceListenerFactory.fireResourceEvent(ResourceEventType.removingMetadata, metadata, null, null, null, metadataId[2]);
+
                     ResourceDao dao = getDao(loadRepresentationType(metadata));
                     if (dao == null)
                         dao = metadataDao;
                     dao.deleteMetadata(false, metadata);
+
+                    removedResourcesId.add(metadataId);
                 }
                 metadataDao.commit();
+
+                for (String[] metadataId : removedResourcesId)
+                    resourceListenerFactory.fireResourceEvent(ResourceEventType.removedMetadata, null, null, metadataId[0], metadataId[1], metadataId[2]);
+
                 return resources.size();
             } catch (Exception ex) {
                 metadataDao.rollback();
@@ -102,35 +118,45 @@ public class ResourcesService implements Resources {
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, String businessName) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> storedMetadata = new LinkedList<>();
+        org.fao.fenix.commons.msd.dto.full.MeIdentification<T> metadata = replicationFilter.getMetadata();
 
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(replicationFilter.getFilter(), businessName);
-        if (resources != null && resources.size() > 0) {
-            Collection<String> resourcesId = new LinkedList<>();
-            for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
-                resourcesId.add(resource.getRID());
+        if (metadata!=null) {
+            Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(replicationFilter.getFilter(), businessName);
+            if (resources != null && resources.size() > 0) {
 
-            org.fao.fenix.commons.msd.dto.full.MeIdentification<T> metadata = replicationFilter.getMetadata();
-            ResourceDao dao = getDao(loadRepresentationType(resources.iterator().next()));
-            if (dao == null)
-                dao = metadataDao;
+                ResourceDao dao = getDao(loadRepresentationType(resources.iterator().next()));
+                if (dao == null)
+                    dao = metadataDao;
 
-            if (metadata != null && resourcesId.size() > 0) {
-                try {
-                    metadata.setUid(null);
-                    metadata.setVersion(null);
-                    metadataDao.transaction();
-                    for (String rid : resourcesId) {
-                        metadata.setRID(rid);
+                Collection<String> resourcesId = new LinkedList<>();
+                for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources) {
+                    metadata.setUid(resource.getUid());
+                    metadata.setVersion(resource.getVersion());
+                    resourceListenerFactory.fireResourceEvent(ResourceEventType.appendingMetadata, metadata, null, null, null, getContext(resource));
 
-                        storedMetadata.add(dao.updateMetadata(metadata, false, false));
+                    resourcesId.add(resource.getRID());
+                }
+
+                if (resourcesId.size() > 0) {
+                    try {
+                        metadata.setUid(null);
+                        metadata.setVersion(null);
+                        metadataDao.transaction();
+                        for (String rid : resourcesId) {
+                            metadata.setRID(rid);
+                            storedMetadata.add(dao.updateMetadata(metadata, false, false));
+                        }
+                        metadataDao.commit();
+                    } catch (Exception ex) {
+                        metadataDao.rollback();
+                        throw ex;
                     }
-                    metadataDao.commit();
-                } catch (Exception ex) {
-                    metadataDao.rollback();
-                    throw ex;
                 }
             }
         }
+
+        for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : storedMetadata)
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.appendedMetadata, resource, null, null, null, getContext(resource));
 
         return ResponseBeanFactory.getInstances(MeIdentification.class, getHierarchy(storedMetadata));
     }
@@ -163,7 +189,13 @@ public class ResourcesService implements Resources {
         if (resource == null || resource.getMetadata() == null)
             throw new BadRequestException();
         LOGGER.info("Resource INSERT: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.insertingResource, resource,null,null,null,getContext(resource.getMetadata()));
+
         org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).insertResource(resource);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.insertedResource, null,proxy,null,null,getContext(proxy));
+
         return ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy());
     }
 
@@ -172,7 +204,17 @@ public class ResourcesService implements Resources {
         if (resource == null || resource.getMetadata() == null)
             throw new BadRequestException();
         LOGGER.info("Resource UPDATE: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification existingMetadata = loadMetadata(resource.getMetadata().getUid(), resource.getMetadata().getVersion());
+        if (existingMetadata==null)
+            return null;
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingResource, resource,null,null,null,getContext(existingMetadata));
+
         org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, true);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedResource, null,proxy,null,null,getContext(proxy));
+
         return proxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy()) : null;
     }
 
@@ -181,7 +223,17 @@ public class ResourcesService implements Resources {
         if (resource == null || resource.getMetadata() == null)
             throw new NoContentException("No metadata");
         LOGGER.info("Resource APPEND: @uid = "+resource.getMetadata().getUid()+" - @version = "+resource.getMetadata().getVersion());
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification existingMetadata = loadMetadata(resource.getMetadata().getUid(), resource.getMetadata().getVersion());
+        if (existingMetadata==null)
+            return null;
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendingResource, resource,null,null,null,getContext(existingMetadata));
+
         org.fao.fenix.commons.msd.dto.full.MeIdentification proxy = getDao(loadRepresentationType(resource.getMetadata())).updateResource(resource, false);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendedResource, null,proxy, null,null,getContext(proxy));
+
         return proxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, proxy.loadHierarchy()) : null;
     }
 
@@ -229,7 +281,14 @@ public class ResourcesService implements Resources {
         if (metadata == null)
             throw new BadRequestException();
         LOGGER.info("Metadata INSERT: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
-        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataDao.insertMetadata(metadata).loadHierarchy());
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.insertingMetadata, metadata, null, null,null,getContext(metadata));
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.insertMetadata(metadata);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.insertedMetadata, metadataProxy, null, null,null,getContext(metadataProxy));
+
+        return ResponseBeanFactory.getInstance(MeIdentification.class, metadataProxy.loadHierarchy());
     }
 
     @Override
@@ -237,8 +296,18 @@ public class ResourcesService implements Resources {
         if (metadata == null)
             throw new BadRequestException();
         LOGGER.info("Metadata UPDATE: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
-        org.fao.fenix.commons.msd.dto.full.MeIdentification updatedMetadata = metadataDao.updateMetadata(metadata, true);
-        return updatedMetadata!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, updatedMetadata.loadHierarchy()) : null;
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification existingMetadata = loadMetadata(metadata.getUid(), metadata.getVersion());
+        if (existingMetadata==null)
+            return null;
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingMetadata, metadata, null, null,null,getContext(existingMetadata));
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.updateMetadata(metadata, true);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedMetadata, metadataProxy, null, null,null,getContext(metadataProxy));
+
+        return metadataProxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, metadataProxy.loadHierarchy()) : null;
     }
 
     @Override
@@ -246,8 +315,18 @@ public class ResourcesService implements Resources {
         if (metadata == null)
             throw new BadRequestException();
         LOGGER.info("Metadata APPEND: @uid = "+metadata.getUid()+" - @version = "+metadata.getVersion());
-        org.fao.fenix.commons.msd.dto.full.MeIdentification updatedMetadata = metadataDao.updateMetadata(metadata, false);
-        return updatedMetadata!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, updatedMetadata.loadHierarchy()) : null;
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification existingMetadata = loadMetadata(metadata.getUid(), metadata.getVersion());
+        if (existingMetadata==null)
+            return null;
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendingMetadata, metadata, null, null,null,getContext(existingMetadata));
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.updateMetadata(metadata, false);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendedMetadata, metadataProxy, null, null,null,getContext(metadataProxy));
+
+        return metadataProxy!=null ? ResponseBeanFactory.getInstance(MeIdentification.class, metadataProxy.loadHierarchy()) : null;
     }
 
     @Override
@@ -267,6 +346,9 @@ public class ResourcesService implements Resources {
         if (metadata==null)
             return null;
 
+        String[] metadataId = new String[]{metadata.getUid(),metadata.getVersion(),getContext(metadata)};
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.removingMetadata, metadata, null, null,null,metadataId[2]);
+
         ResourceDao dao = getDao(loadRepresentationType(metadata));
         if (dao==null)
             dao = metadataDao;
@@ -274,6 +356,9 @@ public class ResourcesService implements Resources {
             dao.clean(metadata);
 
         dao.deleteMetadata(false, metadata);
+
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.removedMetadata, null, null, metadataId[0],metadataId[1],metadataId[2]);
+
         return  "";
     }
 
@@ -295,24 +380,55 @@ public class ResourcesService implements Resources {
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD updateDsd(T metadata) throws Exception {
-        LOGGER.info("DSD UPDATE: @rid = " + metadata.getRID());
+        String rid = metadata!=null ? metadata.getRID() : null;
+        LOGGER.info("DSD UPDATE: @rid = " + rid);
+        if (rid==null)
+            return null;
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingDSD, metadata, metadataProxy, null, null, getContext(metadataProxy));
+
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(true, metadata)[0]);
+
+        metadataProxy = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedDSD, null, metadataProxy, null, null, getContext(metadataProxy));
+
         return ResponseBeanFactory.getInstance(org.fao.fenix.commons.msd.dto.templates.identification.DSD.class, metadata);
     }
 
     @Override
     public <T extends org.fao.fenix.commons.msd.dto.full.DSD> org.fao.fenix.commons.msd.dto.templates.identification.DSD appendDsd(T metadata) throws Exception {
-        LOGGER.info("DSD APPEND: @rid = " + metadata.getRID());
+        String rid = metadata!=null ? metadata.getRID() : null;
+        LOGGER.info("DSD APPEND: @rid = " + rid);
+        if (rid==null)
+            return null;
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendingDSD, metadata, metadataProxy, null, null, getContext(metadataProxy));
+
         updateLastUpdateDate(metadata = metadataDao.saveCustomEntity(false, metadata)[0]);
+
+        metadataProxy = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.appendedDSD, null, metadataProxy, null, null, getContext(metadataProxy));
+
         return ResponseBeanFactory.getInstance(org.fao.fenix.commons.msd.dto.templates.identification.DSD.class, metadata);
     }
 
     @Override
     public void deleteDsd(String rid) throws Exception {
         LOGGER.info("DSD DELETE: @rid = " + rid);
-        org.fao.fenix.commons.msd.dto.full.MeIdentification metadata = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
-        metadataDao.updateMetadata(metadata, true);
+
+        org.fao.fenix.commons.msd.dto.full.MeIdentification metadataProxy = metadataDao.loadMetadataByDSD(JSONEntity.toRID(rid));
+        String context = getContext(metadataProxy);
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.removingDSD, null, metadataProxy, null, null, context);
+
+
+        metadataProxy.setDsd(null);
+        metadataDao.updateMetadata(metadataProxy, true);
         metadataDao.delete(rid);
+
+        metadataProxy = (org.fao.fenix.commons.msd.dto.full.MeIdentification) metadataDao.loadBean(metadataProxy.getORID());
+        resourceListenerFactory.fireResourceEvent(ResourceEventType.removedDSD, null, metadataProxy, null, null, context);
     }
 
     //DATA
@@ -450,7 +566,12 @@ public class ResourcesService implements Resources {
 
     private String deleteData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         if (metadata != null) {
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.removingData, null, metadata, null, null, getContext(metadata));
+
             getDao(loadRepresentationType(metadata)).deleteData(metadata);
+            getDao(loadRepresentationType(metadata)).clean(metadata);
+
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.removedData, null, metadata, null, null, getContext(metadata));
             return "";
         } else
             return null;
@@ -458,7 +579,13 @@ public class ResourcesService implements Resources {
 
     private String deleteResource(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         if (metadata != null) {
+            String[] metadataId = new String[] {metadata.getUid(), metadata.getVersion(), getContext(metadata)};
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.removingResource, null, metadata, null, null, metadataId[2]);
+
             getDao(loadRepresentationType(metadata)).deleteResource(metadata);
+
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.removedResource, null, null, metadataId[0], metadataId[1], metadataId[2]);
+
             return "";
         } else
             return null;
@@ -620,19 +747,31 @@ public class ResourcesService implements Resources {
     //Massive metadata write
     private Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> writeMetadata(Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> metadata, boolean insert, boolean overwrite) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> storedMetadata = new LinkedList<>();
+
         if (metadata != null) {
             metadataDao.transaction();
             try {
                 for (org.fao.fenix.commons.msd.dto.full.MeIdentification m : metadata) {
+                    if (insert)
+                        resourceListenerFactory.fireResourceEvent(ResourceEventType.insertingMetadata, m, null, null,null,getContext(m));
+
                     ResourceDao dao = getDao(loadRepresentationType(m));
-                    if (dao == null && !insert) {
+                    if (!insert) {
                         org.fao.fenix.commons.msd.dto.full.MeIdentification mProxy = m.getRID() != null ? metadataDao.loadMetadata(m.getRID(), null) : metadataDao.loadMetadata(m.getUid(), m.getVersion());
                         if (mProxy == null)
                             throw new NotFoundException();
-                        dao = getDao(loadRepresentationType(mProxy));
+
+                        if (overwrite)
+                            resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingMetadata, m, null, null,null,getContext(mProxy));
+                        else
+                            resourceListenerFactory.fireResourceEvent(ResourceEventType.appendingMetadata, m, null, null,null,getContext(mProxy));
+
+                        if (dao == null)
+                            dao = getDao(loadRepresentationType(mProxy));
                     }
                     if (dao == null)
                         dao = metadataDao;
+
                     storedMetadata.add(insert ? dao.insertMetadata(m, false) : dao.updateMetadata(m, overwrite, false));
                 }
                 metadataDao.commit();
@@ -641,7 +780,24 @@ public class ResourcesService implements Resources {
                 throw ex;
             }
         }
+
+        for (org.fao.fenix.commons.msd.dto.full.MeIdentification mProxy : storedMetadata)
+            if (insert)
+                resourceListenerFactory.fireResourceEvent(ResourceEventType.insertedMetadata, mProxy, null, null,null,getContext(mProxy));
+            else if (overwrite)
+                resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedMetadata, mProxy, null, null,null,getContext(mProxy));
+            else
+                resourceListenerFactory.fireResourceEvent(ResourceEventType.appendedMetadata, mProxy, null, null,null,getContext(mProxy));
+
         return storedMetadata;
+    }
+
+
+    //Utils
+
+    private String getContext (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) {
+        org.fao.fenix.commons.msd.dto.full.DSD dsd = metadata!=null ? metadata.getDsd() : null;
+        return dsd!=null ? dsd.getContextSystem() : null;
     }
 
 

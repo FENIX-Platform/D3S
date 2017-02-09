@@ -7,8 +7,8 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
-import org.fao.fenix.d3s.msd.listener.MetadataListener;
-import org.fao.fenix.d3s.msd.listener.MetadataListenerFactory;
+import org.fao.fenix.d3s.msd.listener.ResourceListener;
+import org.fao.fenix.d3s.msd.listener.ResourceListenerFactory;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
-    @Inject private MetadataListenerFactory metadataListenerFactory;
+    @Inject private ResourceListenerFactory metadataListenerFactory;
 
     //LOAD RESOURCE
 
@@ -65,7 +65,6 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             metadata.setUid("D3S_"+Math.abs(uid.getMostSignificantBits())+Math.abs(uid.getLeastSignificantBits()));
         }
         linkMetadataParents(metadata);
-        fireMetadataEvent(MetadataEvent.insert,metadata,null);
         return newCustomEntity(false, transaction, addCreationDate(setUpdateDate(metadata)));
     }
 
@@ -78,7 +77,6 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             if (existingMetadata!=null) {
                 metadata.setRID(existingMetadata.getRID());
                 linkMetadataParents(metadata);
-                fireMetadataEvent(overwrite ? MetadataEvent.update : MetadataEvent.append, metadata, existingMetadata);
                 return saveCustomEntity(overwrite, false, transaction, metadata)[0];
             }
         }
@@ -155,7 +153,6 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
                 Collection<MeIdentification> children = select(MeIdentification.class,"select from MeIdentification where parents in [ ? ]", m.getORID());
                 if (children!=null && children.size()>0)
                     throw new BadRequestException("Metadata "+m.getUid()+" - "+m.getVersion()+" have children and cannot be deleted. Update children 'parents' field before");
-                fireMetadataEvent(MetadataEvent.delete, null, m);
                 DSD dsd = m.getDsd();
                 if (dsd != null)
                     connection.delete(dsd);
@@ -273,34 +270,6 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
             ODocument resource = resources.next();
             resource.setDirty();
             connection.save(resource);
-        }
-    }
-
-    //EVENTS MANAGEMENT
-    private enum MetadataEvent {
-        insert, update, append, delete
-    }
-    private void fireMetadataEvent(MetadataEvent event, MeIdentification<M> newMetadata, MeIdentification<M> existingMetadata) throws Exception {
-        String context = getMetadataContext(newMetadata);
-        if (context==null)
-            context = getMetadataContext(existingMetadata);
-        switch (event) {
-            case insert:
-                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
-                    listener.insert(newMetadata);
-                break;
-            case update:
-                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
-                    listener.update(existingMetadata,newMetadata);
-                break;
-            case append:
-                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
-                    listener.append(existingMetadata,newMetadata);
-                break;
-            case delete:
-                for (MetadataListener listener : metadataListenerFactory.getListeners(context))
-                    listener.remove(existingMetadata);
-                break;
         }
     }
 
