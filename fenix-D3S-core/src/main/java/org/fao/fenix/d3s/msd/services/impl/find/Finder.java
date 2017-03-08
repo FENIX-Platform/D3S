@@ -1,76 +1,48 @@
-package org.fao.fenix.d3s.msd.dao;
+package org.fao.fenix.d3s.msd.services.impl.find;
+
 
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
-import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.find.filter.Filter;
+import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
+import org.fao.fenix.d3s.msd.find.engine.SearchEngineFactory;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
 
-public class FilterResourceDao extends ResourceDao {
-    @Inject private CodeListResourceDao codeListResourceDao;
-    @Inject private Instance<Filter> queryBuilders;
-    private static String queryBuildersPackage = Filter.class.getPackage().getName()+".impl.";
+public class Finder {
+
+    @Inject SearchEngineFactory searchEngineFactory;
+    @Inject DatabaseStandards databaseStandards;
+
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, String engineName) throws Exception {
+        Collection<String> contexts = getContext(normalizeFilter(filter));
+
+        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engineName);
+
+        Collection<String> uids = new LinkedList<>();
+        for (SearchEngine engine : searchEngines)
+            uids = engine.getUids(normalizeFilter(filter));
+
+        System.out.println("stop");
 
 
-    @Override
-    public void fetch(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
 
-    @Override
-    public Long getSize(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+        // creation of the plugin
 
-    @Override
-    public Collection loadData(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected void insertData(MeIdentification metadata, Collection data) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected void updateData(MeIdentification metadata, Collection data, boolean overwrite) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void deleteData(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void clean(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-
-    public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {
-        try {
-            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : org.fao.fenix.d3s.find.filter.impl.StandardFilter.class;
-            Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
-            return resources.size()>0 ? resources : new LinkedList<MeIdentification>();
-        } catch (ClassNotFoundException ex) {
-            throw new Exception("Cannot find specified filtering logic implementation class: "+queryBuildersPackage+businessName);
-        } catch (ClassCastException ex){
-            throw new Exception("Filtering logic class must extend class "+Filter.class.getName());
-        }
+        // get of the uids
+        // get of the resources
+        return null;
     }
 
 
 
 
     //Utils
-    private ConditionFilter[] normalizedFilter(StandardFilter filter) throws Exception {
+    private ConditionFilter[] normalizeFilter(StandardFilter filter) throws Exception {
         LinkedList<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
@@ -126,6 +98,7 @@ public class FilterResourceDao extends ResourceDao {
         return normalizedFilter.toArray(new ConditionFilter[normalizedFilter.size()]);
     }
 
+
     private Collection<String> getFilterCodes(CodesFilter codesFilter) throws Exception {
         Collection<String> codes = new LinkedList<>();
         if (codesFilter!=null) {
@@ -140,5 +113,37 @@ public class FilterResourceDao extends ResourceDao {
         }
         return codes;
     }
+
+
+    private Collection<String> getContext (ConditionFilter[] filters) {
+        Collection<String> contexts = new LinkedList<>();
+        for(ConditionFilter filter: filters)
+            if(filter.fieldName.equals("dsd.contextSystem"))
+                for(Object value: filter.values)
+                    contexts.add(value.toString());
+        return contexts;
+
+    }
+
+
+
+    private String getContext (StandardFilter filter) {
+
+        return null;
+
+    }
+
+    // Get of the uids
+
+/*    private Map<String,Integer> createMapIds (Collection<SearchEngine> searchEngines) {
+        Map<String,Integer> mapIds = new HashMap<>();
+        for(SearchEngine engine: searchEngines) {
+            engine.getUids()
+        }
+
+    }
+    */
+
+
 
 }

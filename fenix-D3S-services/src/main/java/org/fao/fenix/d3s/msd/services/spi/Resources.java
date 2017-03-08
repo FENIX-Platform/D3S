@@ -191,7 +191,7 @@ public interface Resources {
             @QueryParam("full") @DefaultValue("false") boolean full,
             @QueryParam("dsd") @DefaultValue("false") boolean dsd,
             @QueryParam("export") @DefaultValue("false") boolean export,
-            @QueryParam("engine")  String engine) throws Exception;
+            @QueryParam("engine")  @DefaultValue("fenix") String engine) throws Exception;
 
 
     //RAW Data access

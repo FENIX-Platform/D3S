@@ -5,7 +5,6 @@ import javassist.util.proxy.Proxy;
 import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 import org.apache.log4j.Logger;
-import org.fao.fenix.commons.find.dto.filter.FieldFilter;
 import org.fao.fenix.commons.msd.dto.JSONEntity;
 import org.fao.fenix.commons.msd.dto.data.MetadataList;
 import org.fao.fenix.commons.msd.dto.data.ReplicationFilter;
@@ -21,10 +20,9 @@ import org.fao.fenix.commons.msd.dto.templates.standard.combined.Metadata;
 import org.fao.fenix.commons.msd.dto.templates.standard.combined.DSD;
 import org.fao.fenix.commons.msd.dto.type.RepresentationType;
 import org.fao.fenix.d3s.msd.dao.*;
-import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
-import org.fao.fenix.d3s.msd.find.engine.SearchEngineFactory;
 import org.fao.fenix.d3s.msd.listener.ResourceEventType;
 import org.fao.fenix.d3s.msd.listener.ResourceListenerFactory;
+import org.fao.fenix.d3s.msd.services.impl.find.Finder;
 import org.fao.fenix.d3s.msd.services.spi.Resources;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
@@ -46,12 +44,12 @@ public class ResourcesService implements Resources {
 
     @Inject private Instance<ResourceDao> daoFactory;
     @Inject private MetadataResourceDao metadataDao;
-    @Inject private FilterResourceDao filterResourceDao;
+  //  @Inject private FilterResourceDao filterResourceDao;
     @Inject private WDSDaoFactory wdsDaoFactory;
     @Inject private DatabaseStandards parameters;
 
+    @Inject private Finder finder;
     @Inject private ResourceListenerFactory resourceListenerFactory;
-    @Inject private SearchEngineFactory searchEngineFactory;
 
 
     //MASSIVE METADATA
@@ -87,7 +85,7 @@ public class ResourcesService implements Resources {
 
     @Override
     public Integer deleteMetadata(StandardFilter filter, String businessName) throws Exception {
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName, null);
 
         if (resources != null) {
             try {
@@ -125,7 +123,7 @@ public class ResourcesService implements Resources {
         org.fao.fenix.commons.msd.dto.full.MeIdentification<T> metadata = replicationFilter.getMetadata();
 
         if (metadata!=null) {
-            Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(replicationFilter.getFilter(), businessName);
+            Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(replicationFilter.getFilter(), businessName, null);
             if (resources != null && resources.size() > 0) {
 
                 ResourceDao dao = getDao(loadRepresentationType(resources.iterator().next()));
@@ -505,30 +503,10 @@ public class ResourcesService implements Resources {
     private final int MAX_METADATA_LIST_SIZE = 250;
 
     @Override
-    public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export, String engine) throws Exception {
+    public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export, String engineName) throws Exception {
         LOGGER.info("Metadata FIND: @logic = " + businessName + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export + " - @filterSize = " + (filter != null ? filter.size() : 0));
         LOGGER.debug("Metadata FIND: @filter... " + filter);
-
-        Collection<String> uids = new LinkedList<>();
-        List<String> contexts = (List<String>) getContext(filter);
-        Collection<SearchEngine> engines = null;
-        for(String context: contexts)
-            engines.addAll(searchEngineFactory.getEngines(context, engine));
-
-        for(SearchEngine searchEngine : engines)
-            uids.addAll(searchEngine.getUids(filter));
-
-        /*Set<String> uids = searchEngineFactory.getEngines()*/
-
-
-/*
-        return null;
-*/
-
-
-
-
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName,engineName);
 
         Integer maxSize = parameters.getLimit();
         if (resources.size()>(maxSize!=null && maxSize>0? maxSize : MAX_METADATA_LIST_SIZE))
@@ -543,7 +521,6 @@ public class ResourcesService implements Resources {
                 return ResponseBeanFactory.getInstances(MeIdentification.class, resources);
         } else
             return null;
-
     }
 
 
@@ -831,14 +808,6 @@ public class ResourcesService implements Resources {
         for (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata : metadataList)
             hierarchy.add(metadata.loadHierarchy());
         return hierarchy;
-    }
-
-    private Collection<String> getContext (StandardFilter standardFilter) {
-        List<String> contexts = new LinkedList<>();
-        for(String key: standardFilter.keySet())
-            if(key.equals("dsd.contextSystem"))
-                contexts.add(standardFilter.get(key).toString());
-        return contexts;
     }
 
 }
