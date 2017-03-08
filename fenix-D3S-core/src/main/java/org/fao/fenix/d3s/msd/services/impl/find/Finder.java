@@ -1,6 +1,4 @@
 package org.fao.fenix.d3s.msd.services.impl.find;
-
-
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
@@ -15,6 +13,7 @@ import java.util.*;
 
 public class Finder {
 
+    @Inject Bridge bridge;
     @Inject SearchEngineFactory searchEngineFactory;
     @Inject DatabaseStandards databaseStandards;
 
@@ -24,18 +23,21 @@ public class Finder {
         Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engineName);
 
         Collection<String> uids = new LinkedList<>();
-        for (SearchEngine engine : searchEngines)
-            uids = engine.getUids(normalizeFilter(filter));
+        for (SearchEngine engine : searchEngines) {
+            Collection<String> ids = engine.getUids(normalizeFilter(filter));
+            if(ids!= null)
+                uids.addAll(engine.getUids(normalizeFilter(filter)));
+        }
 
-        System.out.println("stop");
-
+        Collection<String> sortedIds = sortByValue(createPriorityMap(uids)).keySet();
+        System.out.println("here");
+        return bridge.getMetadata(sortedIds);
 
 
         // creation of the plugin
 
         // get of the uids
         // get of the resources
-        return null;
     }
 
 
@@ -126,23 +128,43 @@ public class Finder {
     }
 
 
+    private Map<String, Integer> createPriorityMap ( Collection<String> ids) {
 
-    private String getContext (StandardFilter filter) {
+        Map<String, Integer> priorityMap = new HashMap<>();
+        if(priorityMap == null)
+            priorityMap = new HashMap<>();
 
-        return null;
-
-    }
-
-    // Get of the uids
-
-/*    private Map<String,Integer> createMapIds (Collection<SearchEngine> searchEngines) {
-        Map<String,Integer> mapIds = new HashMap<>();
-        for(SearchEngine engine: searchEngines) {
-            engine.getUids()
+        for(String id: ids) {
+            if (!priorityMap.containsKey(id))
+                priorityMap.put(id, 0);
+            priorityMap.put(id,priorityMap.get(id)+1);
         }
-
+        return priorityMap;
     }
-    */
+
+
+    private  Map<String, Integer> sortByValue(Map<String, Integer> unsortedMap) {
+
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(unsortedMap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
+
+
+
+
+
 
 
 
