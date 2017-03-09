@@ -12,6 +12,7 @@ import org.fao.fenix.commons.utils.PATCH;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
+import java.util.List;
 
 public interface Resources {
 
@@ -191,7 +192,7 @@ public interface Resources {
             @QueryParam("full") @DefaultValue("false") boolean full,
             @QueryParam("dsd") @DefaultValue("false") boolean dsd,
             @QueryParam("export") @DefaultValue("false") boolean export,
-            @QueryParam("engine")  @DefaultValue("fenix") String engine) throws Exception;
+            @QueryParam("engine")  @DefaultValue("fenix") List<String> engine) throws Exception;
 
 
     //RAW Data access

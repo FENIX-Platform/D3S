@@ -11,23 +11,23 @@ import java.util.*;
 @ApplicationScoped
 public class SearchEngineFactory {
     @Inject  Instance<SearchEngine> searchEngineInstances;
-    private final String DEFAULT_ENGINE = "fenix";
+    private final String DEFAULT_ENGINE_NAME = "fenix";
 
     //Retrieve metadata listeners
-    public Collection<SearchEngine> getEngines(Collection<String> contexts, String engineName) {
+    public Collection<SearchEngine> getEngines(Collection<String> contexts, List<String> engineNames) {
         List<String> engines = new LinkedList<>();
 
-        // Add custom engine and default search engine if it does not contain it
+       /* // Add custom engine and default search engine if it does not contain it
         if(!engineName.equals( DEFAULT_ENGINE))
             engines.add(DEFAULT_ENGINE);
         engines.add(engineName);
-
+*/
         Collection<SearchEngine> list = new LinkedList<>();
         SearchEngine instance;
-        for(String e : engines) {
+        for(String e : engineNames) {
             for (Iterator<SearchEngine> i = searchEngineInstances.select().iterator(); i.hasNext(); ) {
                 instance = i.next();
-                boolean isValidContext = (contexts == null || contexts.isEmpty() || e.equals("fenix")) ? validateContext(e, instance.getClass().getAnnotation(Engine.class).value()) : validateContext(contexts, e, instance);
+                boolean isValidContext = (contexts == null || contexts.isEmpty() || e.equals(DEFAULT_ENGINE_NAME)) ? validateContext(e, instance.getClass().getAnnotation(Engine.class).value()) : validateContext(contexts, e, instance);
                 if (isValidContext)
                     list.add(instance);
             }

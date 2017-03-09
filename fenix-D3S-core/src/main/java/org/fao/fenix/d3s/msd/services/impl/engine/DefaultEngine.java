@@ -58,24 +58,24 @@ public class DefaultEngine extends OrientDao implements SearchEngine {
                 default:
             }
         }
-        return "SELECT "+ID_FIELD+" FROM MeIdentification" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "") + " group by "+ID_FIELD+ "";
+        return "SELECT " + ID_FIELD + " FROM MeIdentification" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "") + " group by " + ID_FIELD + "";
     }
 
-
-    public Collection<String> getUids(Collection<Object> params, ConditionFilter... filter) throws Exception {
-        Collection<ODocument> ids = select(createQuery(params, filter), params.toArray());
-        return (ids != null && !ids.isEmpty()) ? getIDS(ids) : new LinkedList<String>();
-    }
 
     @Override
     public Collection<String> getUids(ConditionFilter... filter) throws Exception {
         Collection<Object> params = new LinkedList<>();
-        return  getUids(params, filter);
+        return getUids(params, filter);
     }
 
 
+    private Collection<String> getUids(Collection<Object> params, ConditionFilter... filter) throws Exception {
+        Collection<ODocument> ids = select(createQuery(params, filter), params.toArray());
+        return (ids != null && !ids.isEmpty()) ? getIdsFromDocument(ids) : new LinkedList<String>();
+    }
+
     //Utils
-    private Collection<String> getIDS(Collection<ODocument> collection) {
+    private Collection<String> getIdsFromDocument(Collection<ODocument> collection) {
         Collection<String> ids = new LinkedList<>();
         for (ODocument document : collection)
             ids.add(document.field(ID_FIELD).toString());

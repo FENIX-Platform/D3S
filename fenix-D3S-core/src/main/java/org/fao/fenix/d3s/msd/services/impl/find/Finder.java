@@ -22,7 +22,7 @@ public class Finder {
     @Inject DatabaseStandards databaseStandards;
 
     //business
-    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, String engineName) throws Exception {
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, List<String> engines) throws Exception {
 
         if(filter == null || filter.isEmpty())
             throw new Exception("Please fill the filter fields before");
@@ -32,7 +32,7 @@ public class Finder {
         Collection<String> contexts = getContext(normalizedFilter);
 
         // creation of the search engine plugins and the business plugin
-        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engineName);
+        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engines);
         Business business = businessFactory.getBusiness(businessName);
 
         // creation of the map with the values taken from the plugins
