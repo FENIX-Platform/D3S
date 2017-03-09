@@ -1,21 +1,19 @@
-package org.fao.fenix.d3s.msd.services.impl.filter;
+package org.fao.fenix.d3s.msd.services.impl.engine;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.commons.utils.Engine;
+import org.fao.fenix.commons.utils.find.Engine;
 import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
 import javax.enterprise.context.Dependent;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Objects;
 
 @Engine("fenix")
 @Dependent
-public class Filter extends OrientDao implements SearchEngine {
+public class DefaultEngine extends OrientDao implements SearchEngine {
 
     private final String ID_FIELD = "index|id";
 

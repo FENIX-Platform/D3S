@@ -4,6 +4,9 @@ import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
+import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.d3s.msd.find.business.Business;
+import org.fao.fenix.d3s.msd.find.business.BusinessFactory;
 import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
 import org.fao.fenix.d3s.msd.find.engine.SearchEngineFactory;
 import org.fao.fenix.d3s.server.dto.DatabaseStandards;
@@ -15,32 +18,37 @@ public class Finder {
 
     @Inject Bridge bridge;
     @Inject SearchEngineFactory searchEngineFactory;
+    @Inject BusinessFactory businessFactory;
     @Inject DatabaseStandards databaseStandards;
 
+    //business
     public Collection<MeIdentification> filter (StandardFilter filter, String businessName, String engineName) throws Exception {
-        Collection<String> contexts = getContext(normalizeFilter(filter));
 
+        if(filter == null || filter.isEmpty())
+            throw new Exception("Please fill the filter fields before");
+
+        // Get the context from the filter
+        ConditionFilter[] normalizedFilter = normalizeFilter(filter);
+        Collection<String> contexts = getContext(normalizedFilter);
+
+        // creation of the search engine plugins and the business plugin
         Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engineName);
+        Business business = businessFactory.getBusiness(businessName);
 
-        Collection<String> uids = new LinkedList<>();
+        // creation of the map with the values taken from the plugins
+        Map<String,LinkedList<String>> idsSearchEngine = new HashMap<>();
         for (SearchEngine engine : searchEngines) {
-            Collection<String> ids = engine.getUids(normalizeFilter(filter));
-            if(ids!= null)
-                uids.addAll(engine.getUids(normalizeFilter(filter)));
+            Collection<String> ids = engine.getUids(normalizedFilter);
+            if( ids!= null && ids.size()>0)
+                 idsSearchEngine.put(engine.getClass().getAnnotation(Engine.class).value(), (LinkedList<String>) ids);
         }
 
-        Collection<String> sortedIds = sortByValue(createPriorityMap(uids)).keySet();
-        System.out.println("here");
-        return bridge.getMetadata(sortedIds);
+        if(idsSearchEngine.isEmpty())
+            return new LinkedList<>();
 
-
-        // creation of the plugin
-
-        // get of the uids
-        // get of the resources
+        // Put all the results with the business plugin
+        return bridge.getMetadata(business.getOrderedUid(idsSearchEngine));
     }
-
-
 
 
     //Utils
@@ -126,11 +134,12 @@ public class Finder {
         return contexts;
 
     }
-
+/*
 
     private Map<String, Integer> createPriorityMap ( Collection<String> ids) {
 
         Map<String, Integer> priorityMap = new HashMap<>();
+
         if(priorityMap == null)
             priorityMap = new HashMap<>();
 
@@ -162,6 +171,7 @@ public class Finder {
     }
 
 
+*/
 
 
 

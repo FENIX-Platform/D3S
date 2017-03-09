@@ -53,7 +53,7 @@ public class CodesService implements Codes {
     @Override
     public Collection<Code> getCodes(CodesFilter filter, boolean tree) throws Exception {
         LOGGER.info("Codes FILTER: @tree = " + tree);
-        LOGGER.debug("Codes FILTER: @filter... " + filter);
+        LOGGER.debug("Codes FILTER: @engine... " + filter);
         MeIdentification metadata = filter.rid != null ? dao.loadMetadata(filter.rid, null) : dao.loadMetadata(filter.uid, filter.version);
         return loadCodes(metadata, filter.level, filter.levels, filter.codes, filter.label, tree);
     }

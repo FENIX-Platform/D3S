@@ -55,8 +55,8 @@ public class ResourcesService implements Resources {
     //MASSIVE METADATA
 /*
     @Override
-    public Collection<Object> getMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export) throws Exception {
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.filter(filter, businessName);
+    public Collection<Object> getMetadata(StandardFilter engine, String businessName, boolean full, boolean dsd, boolean export) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = filterResourceDao.engine(engine, businessName);
         if (resources!=null && resources.size()>0) {
             Collection result = new LinkedList();
             for (org.fao.fenix.commons.msd.dto.full.MeIdentification resource : resources)
@@ -505,7 +505,7 @@ public class ResourcesService implements Resources {
     @Override
     public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export, String engineName) throws Exception {
         LOGGER.info("Metadata FIND: @logic = " + businessName + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export + " - @filterSize = " + (filter != null ? filter.size() : 0));
-        LOGGER.debug("Metadata FIND: @filter... " + filter);
+        LOGGER.debug("Metadata FIND: @engine... " + filter);
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName,engineName);
 
         Integer maxSize = parameters.getLimit();

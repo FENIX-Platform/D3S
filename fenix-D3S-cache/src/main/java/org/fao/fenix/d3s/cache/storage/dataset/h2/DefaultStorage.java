@@ -452,14 +452,14 @@ public class DefaultStorage extends H2Storage {
                 FieldFilter fieldFilter = conditionEntry.getValue();
 
                 if (column==null)
-                    throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                    throw new Exception("Wrong table structure for engine:"+table.getTableName()+'.'+fieldName);
 
                 Type columnType = column.getType();
                 if (fieldFilter!=null) {
                     switch (fieldFilter.retrieveFilterType()) {
                         case enumeration:
                             if (columnType!=Type.string)
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                                throw new Exception("Wrong table structure for engine:"+table.getTableName()+'.'+fieldName);
                             whereContition.append(" AND ").append(fieldName).append(" IN (");
                             for (String value : fieldFilter.enumeration) {
                                 whereContition.append("?,");
@@ -469,7 +469,7 @@ public class DefaultStorage extends H2Storage {
                             break;
                         case time:
                             if (columnType!=Type.integer)
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                                throw new Exception("Wrong table structure for engine:"+table.getTableName()+'.'+fieldName);
                             whereContition.append(" AND (");
                             for (TimeFilter timeFilter : fieldFilter.time) {
                                 if (timeFilter.from!=null) {
@@ -507,7 +507,7 @@ public class DefaultStorage extends H2Storage {
                                 whereContition.setLength(whereContition.length()-4);
                                 whereContition.append(')');
                             } else
-                                throw new Exception("Wrong table structure for filter:"+table.getTableName()+'.'+fieldName);
+                                throw new Exception("Wrong table structure for engine:"+table.getTableName()+'.'+fieldName);
                     }
 
                 }
