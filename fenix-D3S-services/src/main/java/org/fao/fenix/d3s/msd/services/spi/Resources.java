@@ -192,6 +192,7 @@ public interface Resources {
     public Resource loadResource (String id, String version) throws Exception;
     public org.fao.fenix.commons.msd.dto.full.MeIdentification loadMetadata(String id, String version) throws Exception;
     public void fetch(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
+    public Collection loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception;
 
 }
 

@@ -24,6 +24,9 @@ public enum ResourceEventType {
     removingDSD,
     removedDSD,
     removingData,
-    removedData
+    removedData,
+    updatingData,
+    updatedData,
+
 
 }

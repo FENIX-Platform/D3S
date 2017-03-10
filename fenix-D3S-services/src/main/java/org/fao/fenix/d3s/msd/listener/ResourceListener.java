@@ -39,7 +39,8 @@ public interface ResourceListener {
     //data
     void removingData (MeIdentification metadata);
     void removedData (MeIdentification metadata);
-
+    void updatingData (MeIdentification metadata);
+    void updatedData (MeIdentification metadata);
 
 
 }

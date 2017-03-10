@@ -536,7 +536,7 @@ public class ResourcesService implements Resources {
         return metadata;
     }
 
-    private Collection loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
+    public Collection loadData(org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) throws Exception {
         String  paginationInfo =(parameters.getPaginationInfo() != null)? "yes, with : "+parameters.getPaginationInfo().getPerPage()+ " per page": "no";
         LOGGER.info("PAgination parameters are there: "+ paginationInfo);
         ResourceDao dataDao = getDao(loadRepresentationType(metadata));

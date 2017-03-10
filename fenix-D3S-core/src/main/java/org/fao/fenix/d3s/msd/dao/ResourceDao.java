@@ -26,19 +26,13 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         return isRID(id,version) ? loadBean(id, MeIdentification.class) : loadMetadataByUID(id,version);
     }
     public MeIdentification<M> loadMetadataByUID(String uid, String version) throws Exception {
-        if (uid==null)
-            return null;
-        Collection<MeIdentification> resources = version==null ?
-                select(MeIdentification.class, "select from MeIdentification where index|uid = ?", null, null, uid) :
-                select(MeIdentification.class, "select from MeIdentification where index|uid = ? and index|version = ?", null, null, uid, version);
-        return resources.size()>0 ? resources.iterator().next() : null;
+        String id = getId(uid,version);
+        Collection<MeIdentification> resources = id!=null ? select(MeIdentification.class, "select from MeIdentification where index|id = ?", null, null, id) : null;
+        return resources!=null && resources.size()>0 ? resources.iterator().next() : null;
     }
     public ODocument loadMetadataOByUID(String uid, String version) throws Exception {
-        if (uid==null)
-            return null;
-        Collection<ODocument> resources =  version==null ?
-                select("select from MeIdentification where index|uid = ?", null, null, uid) :
-                select("select from MeIdentification where index|uid = ? and index|version = ?", null, null, uid, version);
+        String id = getId(uid,version);
+        Collection<ODocument> resources =  version==null ? select("select from MeIdentification where index|id = ?", null, null, id) : null;
         return resources.size()>0 ? resources.iterator().next() : null;
     }
     public MeIdentification<M> loadMetadataByDSD(ORID dsdRid) throws Exception {
@@ -336,4 +330,9 @@ public abstract class ResourceDao<M extends DSD, D> extends OrientDao {
         }
         return resourceType;
     }
+
+    private String getId(String uid, String version) {
+        return uid!=null ? uid+(version!=null && !version.trim().equals("") ? '|'+version : "") : null;
+    }
+
 }

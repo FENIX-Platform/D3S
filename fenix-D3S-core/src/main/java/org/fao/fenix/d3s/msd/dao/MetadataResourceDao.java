@@ -3,7 +3,6 @@ package org.fao.fenix.d3s.msd.dao;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 public class MetadataResourceDao extends ResourceDao {
 

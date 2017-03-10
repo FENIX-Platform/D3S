@@ -60,6 +60,8 @@ public class ResourceListenerFactory {
                 case removedDSD: listener.removedDSD(relatedMetadata); break;
                 case removingData: listener.removingData(relatedMetadata); break;
                 case removedData: listener.removedData(relatedMetadata); break;
+                case updatingData: listener.updatingData(relatedMetadata); break;
+                case updatedData: listener.updatedData(relatedMetadata); break;
             }
     }
 
