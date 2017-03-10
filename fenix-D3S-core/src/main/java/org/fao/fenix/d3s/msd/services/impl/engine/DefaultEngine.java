@@ -58,7 +58,7 @@ public class DefaultEngine extends OrientDao implements SearchEngine {
                 default:
             }
         }
-        return "SELECT " + ID_FIELD + " FROM MeIdentification" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "") + " group by " + ID_FIELD + "";
+        return "SELECT " + ID_FIELD + " FROM MetadataIndex" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "") + " group by " + ID_FIELD + "";
     }
 
 
