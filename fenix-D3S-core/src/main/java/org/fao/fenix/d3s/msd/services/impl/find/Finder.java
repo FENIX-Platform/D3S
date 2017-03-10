@@ -1,76 +1,58 @@
-package org.fao.fenix.d3s.msd.dao;
-
+package org.fao.fenix.d3s.msd.services.impl.find;
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
-import org.fao.fenix.commons.find.dto.filter.StandardFilter;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.find.filter.Filter;
+import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.d3s.msd.find.business.Business;
+import org.fao.fenix.d3s.msd.find.business.BusinessFactory;
+import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
+import org.fao.fenix.d3s.msd.find.engine.SearchEngineFactory;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
 
-public class FilterResourceDao extends ResourceDao {
-    @Inject private CodeListResourceDao codeListResourceDao;
-    @Inject private Instance<Filter> queryBuilders;
-    private static String queryBuildersPackage = Filter.class.getPackage().getName()+".impl.";
+public class Finder {
 
+    @Inject Bridge bridge;
+    @Inject SearchEngineFactory searchEngineFactory;
+    @Inject BusinessFactory businessFactory;
+    @Inject DatabaseStandards databaseStandards;
 
-    @Override
-    public void fetch(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+    //business
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, List<String> engines) throws Exception {
 
-    @Override
-    public Long getSize(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+        if(filter == null || filter.isEmpty())
+            throw new Exception("Please fill the filter fields before");
 
-    @Override
-    public Collection loadData(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+        // Get the context from the filter
+        ConditionFilter[] normalizedFilter = normalizeFilter(filter);
+        Collection<String> contexts = getContext(normalizedFilter);
 
-    @Override
-    protected void insertData(MeIdentification metadata, Collection data) throws Exception {
-        throw new UnsupportedOperationException();
-    }
+        // creation of the search engine plugins and the business plugin
+        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engines);
+        Business business = businessFactory.getBusiness(businessName);
 
-    @Override
-    protected void updateData(MeIdentification metadata, Collection data, boolean overwrite) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void deleteData(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void clean(MeIdentification metadata) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-
-    public Collection<MeIdentification> filter (StandardFilter filter, String businessName) throws Exception {
-        try {
-            Class<? extends Filter> businessClass = businessName!=null ? (Class<? extends Filter>) Class.forName(queryBuildersPackage+businessName) : org.fao.fenix.d3s.find.filter.impl.StandardFilter.class;
-            Collection<MeIdentification> resources = queryBuilders.select(businessClass).iterator().next().filter(normalizedFilter(filter));
-            return resources.size()>0 ? resources : new LinkedList<MeIdentification>();
-        } catch (ClassNotFoundException ex) {
-            throw new Exception("Cannot find specified filtering logic implementation class: "+queryBuildersPackage+businessName);
-        } catch (ClassCastException ex){
-            throw new Exception("Filtering logic class must extend class "+Filter.class.getName());
+        // creation of the map with the values taken from the plugins
+        Map<String,LinkedList<String>> idsSearchEngine = new HashMap<>();
+        for (SearchEngine engine : searchEngines) {
+            Collection<String> ids = engine.getUids(normalizedFilter);
+            if( ids!= null && ids.size()>0)
+                 idsSearchEngine.put(engine.getClass().getAnnotation(Engine.class).value(), (LinkedList<String>) ids);
         }
+
+        if(idsSearchEngine.isEmpty())
+            return new LinkedList<>();
+
+        // Put all the results with the business plugin
+        return bridge.getMetadata(business.getOrderedUid(idsSearchEngine));
     }
-
-
 
 
     //Utils
-    private ConditionFilter[] normalizedFilter(StandardFilter filter) throws Exception {
+    private ConditionFilter[] normalizeFilter(StandardFilter filter) throws Exception {
         LinkedList<ConditionFilter> normalizedFilter = new LinkedList<>();
         if (filter!=null)
             for (Map.Entry<String, FieldFilter> filterEntry : filter.entrySet()) {
@@ -126,6 +108,7 @@ public class FilterResourceDao extends ResourceDao {
         return normalizedFilter.toArray(new ConditionFilter[normalizedFilter.size()]);
     }
 
+
     private Collection<String> getFilterCodes(CodesFilter codesFilter) throws Exception {
         Collection<String> codes = new LinkedList<>();
         if (codesFilter!=null) {
@@ -140,4 +123,59 @@ public class FilterResourceDao extends ResourceDao {
         }
         return codes;
     }
+
+
+    private Collection<String> getContext (ConditionFilter[] filters) {
+        Collection<String> contexts = new LinkedList<>();
+        for(ConditionFilter filter: filters)
+            if(filter.fieldName.equals("dsd.contextSystem"))
+                for(Object value: filter.values)
+                    contexts.add(value.toString());
+        return contexts;
+
+    }
+/*
+
+    private Map<String, Integer> createPriorityMap ( Collection<String> ids) {
+
+        Map<String, Integer> priorityMap = new HashMap<>();
+
+        if(priorityMap == null)
+            priorityMap = new HashMap<>();
+
+        for(String id: ids) {
+            if (!priorityMap.containsKey(id))
+                priorityMap.put(id, 0);
+            priorityMap.put(id,priorityMap.get(id)+1);
+        }
+        return priorityMap;
+    }
+
+
+    private  Map<String, Integer> sortByValue(Map<String, Integer> unsortedMap) {
+
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(unsortedMap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
+
+
+*/
+
+
+
+
+
+
 }

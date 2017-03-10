@@ -9,7 +9,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName="CodesServiceParametersManager", urlPatterns={"/v2/msd/codes/filter"})
+@WebFilter(filterName="CodesServiceParametersManager", urlPatterns={"/v2/msd/codes/engine"})
 public class CodesServiceWebFilter implements Filter {
     @Inject OrientServer client;
     @Inject

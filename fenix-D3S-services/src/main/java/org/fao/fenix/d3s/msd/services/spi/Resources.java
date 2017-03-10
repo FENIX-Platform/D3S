@@ -12,6 +12,7 @@ import org.fao.fenix.commons.utils.PATCH;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
+import java.util.List;
 
 public interface Resources {
 
@@ -20,7 +21,7 @@ public interface Resources {
     @Path("/massive/load")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection<Object> getMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
+    public Collection<Object> getMetadata(StandardFilter engine, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("true") boolean full, @QueryParam("dsd") @DefaultValue("true") boolean dsd, @QueryParam("export") @DefaultValue("true") boolean export) throws Exception;
 */
     @POST
     @Path("/massive")
@@ -185,7 +186,13 @@ public interface Resources {
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection findMetadata(StandardFilter filter, @QueryParam("logic") String businessName, @QueryParam("full") @DefaultValue("false") boolean full, @QueryParam("dsd") @DefaultValue("false") boolean dsd, @QueryParam("export") @DefaultValue("false") boolean export) throws Exception;
+    public Collection findMetadata(
+            StandardFilter filter,
+            @QueryParam("logic") @DefaultValue("union") String businessName,
+            @QueryParam("full") @DefaultValue("false") boolean full,
+            @QueryParam("dsd") @DefaultValue("false") boolean dsd,
+            @QueryParam("export") @DefaultValue("false") boolean export,
+            @QueryParam("engine")  @DefaultValue("fenix") List<String> engine) throws Exception;
 
 
     //RAW Data access

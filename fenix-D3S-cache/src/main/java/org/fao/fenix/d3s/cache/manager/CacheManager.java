@@ -51,7 +51,7 @@ public interface CacheManager<M extends DSD, D> {
 
     /**
      * Store/append/overwrite resource data into the cache. The execution is asynchronous and the 'status' function can be used to know the status.
-     * If an exception is catch during the creation, the resource data will be set to 'incomplete' and will be unavailable as a source for other load/filter operations.
+     * If an exception is catch during the creation, the resource data will be set to 'incomplete' and will be unavailable as a source for other load/engine operations.
      * If overwrite is true, old data will be erased.
      * If overwrite is false, resource status will be checked.
      *   If it is 'incomplete' the store function will try to use the Iterator skip function. If the skip is unavailable the store function will overwrite the data.
