@@ -10,21 +10,18 @@ import org.fao.fenix.commons.utils.Page;
 import org.fao.fenix.commons.utils.database.*;
 import org.fao.fenix.d3s.cache.CacheFactory;
 import org.fao.fenix.d3s.cache.dto.StoreStatus;
-import org.fao.fenix.d3s.cache.dto.dataset.Table;
-import org.fao.fenix.d3s.cache.error.IncompleteException;
 import org.fao.fenix.d3s.cache.manager.CacheManager;
 import org.fao.fenix.d3s.cache.manager.DatasetCacheManager;
 import org.fao.fenix.d3s.cache.storage.dataset.DatasetStorage;
-import org.fao.fenix.d3s.cache.tools.monitor.ResourceMonitor;
+import org.fao.fenix.d3s.msd.listener.ResourceEventType;
+import org.fao.fenix.d3s.msd.listener.ResourceListenerFactory;
 import org.fao.fenix.d3s.wds.WDSDaoFactory;
 import org.fao.fenix.d3s.wds.dataset.WDSDatasetDao;
 
 import javax.inject.Inject;
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotSupportedException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.Iterator;
 
@@ -38,7 +35,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
 
 
     @Override
-    public void fetch(MeIdentification<DSDDataset> metadata) throws Exception {
+    public void fetch(MeIdentification metadata) throws Exception {
         CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
         if (cache==null)
             throw new UnsupportedOperationException();
@@ -49,15 +46,17 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     }
 
     @Override
-    public Long getSize(MeIdentification<DSDDataset> metadata) throws Exception {
+    public Long getSize(MeIdentification metadata) throws Exception {
         CacheManager<DSDDataset,Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
         return cache!=null ? cache.size(metadata) : null;
     }
 
     @Override
-    public Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata) throws Exception {
+    public Collection<Object[]> loadData(MeIdentification metadata) throws Exception {
         return loadData(metadata, getPage(), getOrder());
     }
+    @Inject private ResourceListenerFactory resourceListenerFactory;
+
     private Collection<Object[]> loadData(MeIdentification<DSDDataset> metadata, Page pagination, Order ordering) throws Exception {
         Iterator<Object[]> data = null;
         DSDDataset dsd = metadata!=null ? metadata.getDsd() : null;
@@ -68,8 +67,10 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                 //Fill cache
                 StoreStatus status = cache.status(metadata);
                 if (status==null || status.getStatus()==StoreStatus.Status.incomplete || !cache.checkUpdateDateIsValid(metadata, status)) {
+                    resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingData, null, metadata, null, null, getContext(metadata));
                     cache.remove(metadata);
                     cache.store(metadata, loadRawData(metadata), true, null, getCodeLists(metadata));
+                    resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedData, null, metadata, null, null, getContext(metadata));
                 }
                 //Add labels to the required dataset
                 Language[] languages = dbParameters.getLanguageInfo();
@@ -113,7 +114,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     }
 
     @Override
-    public void deleteData(MeIdentification<DSDDataset> metadata) throws Exception {
+    public void deleteData(MeIdentification metadata) throws Exception {
         if (getDatasource(metadata)!=null) {
             WDSDatasetDao wdsDao = getDao(metadata);
             if (wdsDao==null)
@@ -124,7 +125,7 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     }
 
     @Override
-    public void clean(MeIdentification<DSDDataset> metadata) throws Exception {
+    public void clean(MeIdentification metadata) throws Exception {
         if (metadata!=null) {
             CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache != null)
@@ -240,6 +241,10 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
         return datasources!=null && datasources.length>0 ? datasources[0] : null;
     }
 
+    private String getContext (org.fao.fenix.commons.msd.dto.full.MeIdentification metadata) {
+        org.fao.fenix.commons.msd.dto.full.DSD dsd = metadata!=null ? metadata.getDsd() : null;
+        return dsd!=null ? dsd.getContextSystem() : null;
+    }
 
 
 }

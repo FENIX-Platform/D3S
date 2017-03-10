@@ -8,7 +8,6 @@ import org.fao.fenix.d3s.msd.services.spi.Enumerations;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 

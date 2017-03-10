@@ -61,13 +61,13 @@ public interface DatasetStorage extends Storage {
 
     /**
      * Load data from existing tables. There's no check about data quality or data structure. The execution is synchronous and produced data is volatile.
-     * If a source table don't have a column specified in the rows filter the correspondent data will be discarded.
-     * The result will contain all the columns specified into the columns filter. If the columns filter is null or empty:
+     * If a source table don't have a column specified in the rows engine the correspondent data will be discarded.
+     * The result will contain all the columns specified into the columns engine. If the columns engine is null or empty:
      *   if there's only one valid source table all of the table columns will be included.
      *   if there are more than one valid table, it will be included only columns available in all tables.
      * @param ordering Ordering parameters.
      * @param pagination Pagination parameters.
-     * @param filter Rows and columns filter.
+     * @param filter Rows and columns engine.
      * @param tables Involved source tables metadata.
      * @return Selected data.
      * @throws Exception

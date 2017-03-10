@@ -1,0 +1,1417 @@
+{
+  "type": "object",
+  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeIdentification",
+  "title": "Lorg/fao/fenix/commons/msd/dto/full/MeIdentification;",
+  "properties": {
+    "meAccessibility": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeAccessibility",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeAccessibility;",
+      "properties": {
+        "seDataDissemination": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDataDissemination",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDataDissemination;",
+          "properties": {
+            "seDistribution": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDistribution",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDistribution;",
+              "properties": {
+                "onlineResource": {
+                  "type": "string"
+                },
+                "disseminationFormat": {
+                  "type": "array",
+                  "title": "Ljava/util/Collection<Ljava/lang/String;>;",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "rid": {
+                  "type": "string"
+                }
+              }
+            },
+            "seReleasePolicy": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeReleasePolicy",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeReleasePolicy;",
+              "properties": {
+                "embargoTime": {
+                  "type": "object",
+                  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjPeriod",
+                  "title": "Lorg/fao/fenix/commons/msd/dto/full/OjPeriod;",
+                  "properties": {
+                    "from": {
+                      "type": "integer",
+                      "format": "UTC_MILLISEC"
+                    },
+                    "to": {
+                      "type": "integer",
+                      "format": "UTC_MILLISEC"
+                    },
+                    "rid": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "releaseCalendar": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "disseminationPeriodicity": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "releaseCalendarAccess": {
+                  "type": "string"
+                }
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seConfidentiality": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeConfidentiality",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeConfidentiality;",
+          "properties": {
+            "confidentialityPolicy": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "confidentialityStatus": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "rid": {
+              "type": "string"
+            },
+            "confidentialityDataTreatment": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        },
+        "seClarity": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeClarity",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeClarity;",
+          "properties": {
+            "clarity": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "metadataCompletenessRate": {
+              "type": "integer"
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "meSpatialRepresentation": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeSpatialRepresentation",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeSpatialRepresentation;",
+      "properties": {
+        "layerType": {
+          "type": "string",
+          "enum": [
+            "vector",
+            "raster"
+          ]
+        },
+        "typeOfProduct": {
+          "type": "object",
+          "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+        },
+        "seBoundingBox": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeBoundingBox",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeBoundingBox;",
+          "properties": {
+            "ymin": {
+              "type": "number"
+            },
+            "xmin": {
+              "type": "number"
+            },
+            "seVectorSpatialRepresentation": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeVectorSpatialRepresentation",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeVectorSpatialRepresentation;",
+              "properties": {
+                "geometricObjects": {
+                  "type": "string",
+                  "enum": [
+                    "curve",
+                    "point",
+                    "solid",
+                    "surface"
+                  ]
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "topologyLevel": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+                }
+              }
+            },
+            "ymax": {
+              "type": "number"
+            },
+            "xmax": {
+              "type": "number"
+            },
+            "seGridSpatialRepresentation": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeGridSpatialRepresentation",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeGridSpatialRepresentation;",
+              "properties": {
+                "numberOfDimensions": {
+                  "type": "integer"
+                },
+                "cellOfOrigin": {
+                  "type": "string",
+                  "enum": [
+                    "lowerLeft",
+                    "upperLeft"
+                  ]
+                },
+                "xyPosition": {
+                  "type": "string",
+                  "enum": [
+                    "centre",
+                    "corner"
+                  ]
+                },
+                "axisDimensionProperties": {
+                  "type": "object",
+                  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjAxis",
+                  "title": "Lorg/fao/fenix/commons/msd/dto/full/OjAxis;",
+                  "properties": {
+                    "axisSize": {
+                      "type": "integer"
+                    },
+                    "axisName": {
+                      "type": "string",
+                      "enum": [
+                        "row",
+                        "column",
+                        "vertical",
+                        "time"
+                      ]
+                    },
+                    "rid": {
+                      "type": "string"
+                    },
+                    "resolution": {
+                      "type": "object",
+                      "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjMeasure"
+                    }
+                  }
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "cellGeometry": {
+                  "type": "string",
+                  "enum": [
+                    "point",
+                    "area"
+                  ]
+                }
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "noDataValue": {
+          "type": "string"
+        },
+        "processing": {
+          "type": "object",
+          "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "characterSet": {
+      "type": "object",
+      "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+    },
+    "identificationOnly": {
+      "type": "boolean"
+    },
+    "metadataStandardName": {
+      "type": "string"
+    },
+    "meDocuments": {
+      "type": "array",
+      "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/MeDocuments;>;",
+      "items": {
+        "type": "object",
+        "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeDocuments",
+        "title": "Lorg/fao/fenix/commons/msd/dto/full/MeDocuments;",
+        "properties": {
+          "referenceElement": {
+            "type": "string"
+          },
+          "document": {
+            "type": "object",
+            "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCitation"
+          },
+          "referenceEntity": {
+            "type": "string",
+            "enum": [
+              "meIdentification",
+              "meContent",
+              "meInstitutionalMandate",
+              "meComparability",
+              "meStatisticalProcessing",
+              "meDataQuality",
+              "meAccessibility",
+              "meMaintenance",
+              "meDocuments",
+              "meResourceDimensions",
+              "meSpatialRepresentation",
+              "meReferenceSystem"
+            ]
+          },
+          "rid": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "language": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/OjCodeList;",
+      "properties": {
+        "codes": {
+          "type": "array",
+          "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/OjCode;>;",
+          "items": {
+            "type": "object",
+            "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCode",
+            "title": "Lorg/fao/fenix/commons/msd/dto/full/OjCode;",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "label": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "rid": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "codeListResources": {
+          "type": "array",
+          "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/OjCitation;>;",
+          "items": {
+            "type": "object",
+            "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCitation",
+            "title": "Lorg/fao/fenix/commons/msd/dto/full/OjCitation;",
+            "properties": {
+              "date": {
+                "type": "integer",
+                "format": "UTC_MILLISEC"
+              },
+              "documentContact": {
+                "type": "object",
+                "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjResponsibleParty"
+              },
+              "documentKind": {
+                "type": "string",
+                "enum": [
+                  "scientificPaper",
+                  "methodologicalNotes",
+                  "legalDocument",
+                  "handbook",
+                  "guidelines",
+                  "adHocPress",
+                  "news",
+                  "website",
+                  "other"
+                ]
+              },
+              "notes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "issn": {
+                "type": "string"
+              },
+              "isbn": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              },
+              "title": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "rid": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "idCodeList": {
+          "type": "string"
+        },
+        "contactInfo": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjResponsibleParty",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/OjResponsibleParty;",
+          "properties": {
+            "role": {
+              "type": "string",
+              "enum": [
+                "owner",
+                "distributor",
+                "other"
+              ]
+            },
+            "contactInfo": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjContact",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/OjContact;",
+              "properties": {
+                "emailAddress": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "hoursOfService": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "contactInstruction": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "organization": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "specify": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "organizationUnit": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "position": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            },
+            "pointOfContact": {
+              "type": "string"
+            }
+          }
+        },
+        "extendedName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "link": {
+          "type": "string"
+        },
+        "rid": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "title": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "rid": {
+      "type": "string"
+    },
+    "meResourceStructure": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeResourceStructure",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeResourceStructure;",
+      "properties": {
+        "seResourceDimensions": {
+          "type": "array",
+          "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/SeResourceDimensions;>;",
+          "items": {
+            "type": "object",
+            "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeResourceDimensions",
+            "title": "Lorg/fao/fenix/commons/msd/dto/full/SeResourceDimensions;",
+            "properties": {
+              "dimensionType": {
+                "type": "string",
+                "enum": [
+                  "freeText",
+                  "coded",
+                  "number"
+                ]
+              },
+              "dimensionContent": {
+                "type": "any"
+              },
+              "dimensionMU": {
+                "type": "object",
+                "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjMeasure"
+              },
+              "dimensionSubject": {
+                "type": "object",
+                "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+              },
+              "rid": {
+                "type": "string"
+              },
+              "dimensionName": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        },
+        "seResourceRecords": {
+          "type": "array",
+          "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/SeResourceRecords;>;",
+          "items": {
+            "type": "object",
+            "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeResourceRecords",
+            "title": "Lorg/fao/fenix/commons/msd/dto/full/SeResourceRecords;",
+            "properties": {
+              "recordID": {
+                "type": "string"
+              },
+              "confidentialityStatus": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "shared",
+                  "restricted"
+                ]
+              },
+              "observationStatus": {
+                "type": "object",
+                "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+              },
+              "originOfCollectedValue": {
+                "type": "object",
+                "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+              },
+              "dataReliabilityQualifier": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "creationDate": {
+                "type": "integer",
+                "format": "UTC_MILLISEC"
+              },
+              "dataReliabilityIndicator": {
+                "type": "number"
+              },
+              "rid": {
+                "type": "string"
+              },
+              "remarks": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "uid": {
+      "type": "string"
+    },
+    "metadataStandardVersion": {
+      "type": "string"
+    },
+    "metadataLanguage": {
+      "type": "object",
+      "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+    },
+    "languageDetails": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "meMaintenance": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeMaintenance",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeMaintenance;",
+      "properties": {
+        "maintenanceAgency": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "seMetadataMaintenance": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeMetadataMaintenance",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeMetadataMaintenance;",
+          "properties": {
+            "metadataLastCertified": {
+              "type": "integer",
+              "format": "UTC_MILLISEC"
+            },
+            "metadataLastUpdate": {
+              "type": "integer",
+              "format": "UTC_MILLISEC"
+            },
+            "metadataLastPosted": {
+              "type": "integer",
+              "format": "UTC_MILLISEC"
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seUpdate": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeUpdate",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeUpdate;",
+          "properties": {
+            "updateDate": {
+              "type": "integer",
+              "format": "UTC_MILLISEC"
+            },
+            "updatePeriodicity": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "meContent": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeContent",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeContent;",
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "title": "Ljava/util/Collection<Ljava/lang/String;>;",
+          "items": {
+            "type": "string"
+          }
+        },
+        "seCodeList": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeCodeList",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeCodeList;",
+          "properties": {
+            "typeOfCodeList": {
+              "type": "string",
+              "enum": [
+                "list",
+                "tree",
+                "balancedTree",
+                "orientedGraph"
+              ]
+            },
+            "rid": {
+              "type": "string"
+            },
+            "numberOfLevels": {
+              "type": "integer"
+            }
+          }
+        },
+        "seReferencePopulation": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeReferencePopulation",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeReferencePopulation;",
+          "properties": {
+            "referencePeriod": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "statisticalUnit": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "referenceArea": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "rid": {
+              "type": "string"
+            },
+            "statisticalPopulation": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "resourceRepresentationType": {
+          "type": "string",
+          "enum": [
+            "dataset",
+            "document",
+            "geographic",
+            "codelist",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "seCoverage": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeCoverage",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeCoverage;",
+          "properties": {
+            "coverageSectorsDetails": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "coverageTime": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjPeriod"
+            },
+            "coverageSectors": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "rid": {
+              "type": "string"
+            },
+            "coverageGeographic": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        },
+        "statisticalConceptsDefinitions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "creationDate": {
+      "type": "integer",
+      "format": "UTC_MILLISEC"
+    },
+    "meDataQuality": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeDataQuality",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeDataQuality;",
+      "properties": {
+        "qualityAssurance": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "qualityAssessment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "seComparability": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeComparability",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeComparability;",
+          "properties": {
+            "coherenceIntern": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "comparabilityGeographical": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "comparabilityTime": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seAccuracy": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeAccuracy",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeAccuracy;",
+          "properties": {
+            "accuracySampling": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "accuracyNonSampling": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "qualityManagement": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "seDataRevision": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDataRevision",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDataRevision;",
+          "properties": {
+            "revisionPractice": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "revisionPolicy": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seRelevance": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeRelevance",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeRelevance;",
+          "properties": {
+            "userNeeds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "completenessPercentage": {
+              "type": "number"
+            },
+            "userSatisfaction": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "completeness": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seTimelinessPunctuality": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeTimelinessPunctuality",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeTimelinessPunctuality;",
+          "properties": {
+            "timeliness": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "punctuality": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "version": {
+      "type": "string"
+    },
+    "parentIdentifiers": {
+      "type": "array",
+      "title": "Ljava/util/Collection<Ljava/lang/String;>;",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dsd": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:DSD",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/DSD;",
+      "properties": {
+        "contextSystem": {
+          "type": "string"
+        },
+        "cache": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:DSDCache",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/DSDCache;",
+          "properties": {
+            "manager": {
+              "type": "string"
+            },
+            "storage": {
+              "type": "string"
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "datasources": {
+          "type": "array",
+          "title": "[Ljava/lang/String;",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contextExtension": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "any"
+          }
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "meReferenceSystem": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeReferenceSystem",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeReferenceSystem;",
+      "properties": {
+        "referenceSystemIdentifier": {
+          "type": "string"
+        },
+        "seEllipsoid": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeEllipsoid",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeEllipsoid;",
+          "properties": {
+            "ellipsoidName": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "seEllipsoidParameters": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeEllipsoidParameters",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeEllipsoidParameters;",
+              "properties": {
+                "semiMajorAxis": {
+                  "type": "number"
+                },
+                "axisUnits": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjMeasure"
+                },
+                "denominatorOfFlatteringRatio": {
+                  "type": "number"
+                },
+                "rid": {
+                  "type": "string"
+                }
+              }
+            },
+            "rid": {
+              "type": "string"
+            },
+            "ellipsoid": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            }
+          }
+        },
+        "referenceSystemAuthority": {
+          "type": "object",
+          "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjResponsibleParty"
+        },
+        "referenceSystemName": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "rid": {
+          "type": "string"
+        },
+        "seProjection": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeProjection",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeProjection;",
+          "properties": {
+            "seProjectionParameters": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeProjectionParameters",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeProjectionParameters;",
+              "properties": {
+                "latitudeOfProjectionOrigin": {
+                  "type": "number"
+                },
+                "heightOfProspectivePointAboveSurface": {
+                  "type": "number"
+                },
+                "longitudeOfProjectionCenter": {
+                  "type": "number"
+                },
+                "straightVerticalLongitudeFromPole": {
+                  "type": "number"
+                },
+                "scaleFactorAtProjectionOrigin": {
+                  "type": "number"
+                },
+                "longitudeOfCentralMeridian": {
+                  "type": "number"
+                },
+                "falseNorthing": {
+                  "type": "number"
+                },
+                "seObliqueLinePoint": {
+                  "type": "object",
+                  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeObliqueLinePoint",
+                  "title": "Lorg/fao/fenix/commons/msd/dto/full/SeObliqueLinePoint;",
+                  "properties": {
+                    "obliqueLineLongitude": {
+                      "type": "number"
+                    },
+                    "rid": {
+                      "type": "string"
+                    },
+                    "obliqueLineLatitude": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "latitudeOfProjectionCenter": {
+                  "type": "number"
+                },
+                "scaleFactorAtCenterLine": {
+                  "type": "number"
+                },
+                "falseEastingNorthingUnits": {
+                  "type": "object",
+                  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjMeasure",
+                  "title": "Lorg/fao/fenix/commons/msd/dto/full/OjMeasure;",
+                  "properties": {
+                    "extent": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "composedMU": {
+                      "type": "boolean"
+                    },
+                    "conversionToStandard": {
+                      "type": "number"
+                    },
+                    "measurementSystem": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "nameMU": {
+                      "type": "string"
+                    },
+                    "rid": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "zone": {
+                  "type": "integer"
+                },
+                "standardParallel": {
+                  "type": "number"
+                },
+                "seObliqueLineAzimuth": {
+                  "type": "object",
+                  "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeObliqueLineAzimuth",
+                  "title": "Lorg/fao/fenix/commons/msd/dto/full/SeObliqueLineAzimuth;",
+                  "properties": {
+                    "azimuthMeasurePointLongitude": {
+                      "type": "number"
+                    },
+                    "azimuthAngle": {
+                      "type": "number"
+                    },
+                    "rid": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "falseEasting": {
+                  "type": "number"
+                },
+                "scaleFactorAtEquator": {
+                  "type": "number"
+                }
+              }
+            },
+            "projectionName": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "projection": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seDatum": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDatum",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDatum;",
+          "properties": {
+            "datum": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            },
+            "datumName": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "meStatisticalProcessing": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeStatisticalProcessing",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeStatisticalProcessing;",
+      "properties": {
+        "seDataValidation": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDataValidation",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDataValidation;",
+          "properties": {
+            "dataValidationSource": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "dataValidationIntermediate": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            },
+            "dataValidationOutput": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "seDataSource": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDataSource",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDataSource;",
+          "properties": {
+            "sePrimaryDataCollection": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SePrimaryDataCollection",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SePrimaryDataCollection;",
+              "properties": {
+                "dataCollector": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjResponsibleParty"
+                },
+                "samplingProcedure": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "dataCollection": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "typeOfCollection": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+                },
+                "collectionPeriodicity": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+                }
+              }
+            },
+            "seSecondaryDataCollection": {
+              "type": "object",
+              "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeSecondaryDataCollection",
+              "title": "Lorg/fao/fenix/commons/msd/dto/full/SeSecondaryDataCollection;",
+              "properties": {
+                "originOfCollectedData": {
+                  "type": "object",
+                  "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+                },
+                "organization": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "rawDataDescription": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "rid": {
+                  "type": "string"
+                },
+                "dataCollection": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "rid": {
+              "type": "string"
+            }
+          }
+        },
+        "seDataCompilation": {
+          "type": "object",
+          "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:SeDataCompilation",
+          "title": "Lorg/fao/fenix/commons/msd/dto/full/SeDataCompilation;",
+          "properties": {
+            "indexType": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "basePeriod": {
+              "type": "integer",
+              "format": "UTC_MILLISEC"
+            },
+            "missingData": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "aggregationFormula": {
+              "type": "string"
+            },
+            "aggregationProcessing": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "weights": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rid": {
+              "type": "string"
+            },
+            "dataAdjustmentDetails": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "dataAdjustment": {
+              "type": "object",
+              "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjCodeList"
+            }
+          }
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "noDataValue": {
+      "type": "string"
+    },
+    "meInstitutionalMandate": {
+      "type": "object",
+      "id": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:MeInstitutionalMandate",
+      "title": "Lorg/fao/fenix/commons/msd/dto/full/MeInstitutionalMandate;",
+      "properties": {
+        "legalActsAgreements": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "institutionalMandateDataSharing": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "rid": {
+          "type": "string"
+        }
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "title": "Ljava/util/Collection<Lorg/fao/fenix/commons/msd/dto/full/OjResponsibleParty;>;",
+      "items": {
+        "$ref": "urn:jsonschema:org:fao:fenix:commons:msd:dto:full:OjResponsibleParty"
+      }
+    }
+  }
+}

@@ -6,11 +6,7 @@ import com.orientechnologies.orient.core.storage.ORecordDuplicatedException;
 import org.fao.fenix.commons.msd.dto.full.Code;
 import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.d3s.server.tools.orient.DocumentTrigger;
 
-import javax.ws.rs.NotFoundException;
-import java.io.BufferedReader;
-import java.text.CollationElementIterator;
 import java.util.*;
 
 public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
@@ -34,14 +30,14 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
     }
 
     @Override
-    public Long getSize(MeIdentification<DSDCodelist> metadata) throws Exception {
+    public Long getSize(MeIdentification metadata) throws Exception {
         ORID metadataORid = metadata!=null ? metadata.getORID() : null;
         Collection<ODocument> size = metadataORid!=null ? select("select count(*) as size from Code where codeList = ?",metadataORid) : null;
         return size!=null && size.size()>0 ? (Long)size.iterator().next().field("size") : null;
     }
 
     @Override
-    public Collection<Code> loadData(MeIdentification<DSDCodelist> metadata) throws Exception {
+    public Collection<Code> loadData(MeIdentification metadata) throws Exception {
         return loadData(metadata, null, 1);
     }
 
@@ -61,13 +57,13 @@ public class CodeListResourceDao extends ResourceDao<DSDCodelist, Code> {
     }
 
     @Override
-    public void deleteData(MeIdentification<DSDCodelist> metadata) throws Exception {
+    public void deleteData(MeIdentification metadata) throws Exception {
         if (metadata!=null)
             command("delete from Code where codeList = ?", metadata.getORID());
     }
 
     @Override
-    public void clean(MeIdentification<DSDCodelist> metadata) throws Exception { }
+    public void clean(MeIdentification metadata) throws Exception { }
 
 
     //Codes selection
