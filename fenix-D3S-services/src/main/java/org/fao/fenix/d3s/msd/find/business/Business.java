@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface Business {
 
-    public Collection<String> getOrderedUid(Map<String, LinkedList<String>> id) throws Exception;
+    public Collection<String> getOrderedUid(Map<String, Collection<String>> id) throws Exception;
 }

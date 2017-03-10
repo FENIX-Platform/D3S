@@ -1,4 +1,4 @@
-package org.fao.fenix.d3s.msd.services.impl.engine;
+package org.fao.fenix.d3s.msd.services.impl.find.engine;
 
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
@@ -12,12 +12,24 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 @Engine("fenix")
-@Dependent
 public class DefaultEngine extends OrientDao implements SearchEngine {
 
     private final String ID_FIELD = "index|id";
 
-    public String createQuery(Collection<Object> params, ConditionFilter... filter) throws Exception {
+    @Override
+    public Collection<String> getUids(ConditionFilter... filter) throws Exception {
+        Collection<Object> params = new LinkedList<>();
+        return getUids(params, filter);
+    }
+
+    private Collection<String> getUids(Collection<Object> params, ConditionFilter... filter) throws Exception {
+        Collection<ODocument> ids = select(createQuery(params, filter), params.toArray());
+        return (ids != null && !ids.isEmpty()) ? getIdsFromDocument(ids) : new LinkedList<String>();
+    }
+
+
+
+    private String createQuery(Collection<Object> params, ConditionFilter... filter) throws Exception {
         StringBuilder queryFilter = new StringBuilder();
         for (ConditionFilter filterCondition : filter) {
             switch (filterCondition.filterType) {
@@ -58,21 +70,9 @@ public class DefaultEngine extends OrientDao implements SearchEngine {
                 default:
             }
         }
-        return "SELECT " + ID_FIELD + " FROM MetadataIndex" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "") + " group by " + ID_FIELD + "";
+        return "SELECT " + ID_FIELD + " FROM MetadataIndex" + (queryFilter.length() > 0 ? " WHERE " + queryFilter.substring(4) : "");
     }
 
-
-    @Override
-    public Collection<String> getUids(ConditionFilter... filter) throws Exception {
-        Collection<Object> params = new LinkedList<>();
-        return getUids(params, filter);
-    }
-
-
-    private Collection<String> getUids(Collection<Object> params, ConditionFilter... filter) throws Exception {
-        Collection<ODocument> ids = select(createQuery(params, filter), params.toArray());
-        return (ids != null && !ids.isEmpty()) ? getIdsFromDocument(ids) : new LinkedList<String>();
-    }
 
     //Utils
     private Collection<String> getIdsFromDocument(Collection<ODocument> collection) {

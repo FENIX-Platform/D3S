@@ -40,13 +40,13 @@ public interface Resources {
     public Collection<MeIdentification> appendMetadata(MetadataList metadata) throws Exception;
     @POST
     @Path("/massive/delete")
-    public Integer deleteMetadata(StandardFilter filter, @QueryParam("logic") String businessName) throws Exception;
+    public Integer deleteMetadata(StandardFilter filter, @QueryParam("logic") @DefaultValue("union") String businessName, @QueryParam("engine") @DefaultValue("fenix") List<String> engine) throws Exception;
 
     @PATCH
     @Path("/replication")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @QueryParam("logic") String businessName) throws Exception;
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, @QueryParam("logic") @DefaultValue("union") String businessName, @QueryParam("engine") @DefaultValue("fenix") List<String> engine) throws Exception;
 
 
 

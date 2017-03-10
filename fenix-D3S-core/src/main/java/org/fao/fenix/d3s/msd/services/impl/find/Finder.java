@@ -5,6 +5,7 @@ import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.msd.find.business.Business;
 import org.fao.fenix.d3s.msd.find.business.BusinessFactory;
 import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
@@ -16,38 +17,44 @@ import java.util.*;
 
 public class Finder {
 
-    @Inject Bridge bridge;
     @Inject SearchEngineFactory searchEngineFactory;
     @Inject BusinessFactory businessFactory;
     @Inject DatabaseStandards databaseStandards;
 
+    @Inject MetadataResourceDao metadataDao;
+
     //business
-    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, List<String> engines) throws Exception {
+    public Collection<MeIdentification> filter (StandardFilter filter, String businessName, Collection<String> engines) throws Exception {
 
         if(filter == null || filter.isEmpty())
             throw new Exception("Please fill the filter fields before");
 
         // Get the context from the filter
         ConditionFilter[] normalizedFilter = normalizeFilter(filter);
-        Collection<String> contexts = getContext(normalizedFilter);
 
         // creation of the search engine plugins and the business plugin
-        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(contexts, engines);
+        Collection<SearchEngine> searchEngines = searchEngineFactory.getEngines(engines);
         Business business = businessFactory.getBusiness(businessName);
 
         // creation of the map with the values taken from the plugins
-        Map<String,LinkedList<String>> idsSearchEngine = new HashMap<>();
+        Map<String,Collection<String>> idsSearchEngine = new HashMap<>();
         for (SearchEngine engine : searchEngines) {
             Collection<String> ids = engine.getUids(normalizedFilter);
             if( ids!= null && ids.size()>0)
-                 idsSearchEngine.put(engine.getClass().getAnnotation(Engine.class).value(), (LinkedList<String>) ids);
+                 idsSearchEngine.put(engine.getClass().getAnnotation(Engine.class).value(), ids);
         }
 
-        if(idsSearchEngine.isEmpty())
-            return new LinkedList<>();
+        //Merge ids lists
+        Collection<String> ids = idsSearchEngine.isEmpty() ? new LinkedList<String>() : business.getOrderedUid(idsSearchEngine);
 
-        // Put all the results with the business plugin
-        return bridge.getMetadata(business.getOrderedUid(idsSearchEngine));
+        //Return correspondent metadata
+        Collection<MeIdentification> metadataList = new LinkedList<>();
+        for (String id : ids) {
+            MeIdentification metadata = metadataDao.loadMetadata(id, null);
+            if (metadata!=null)
+                metadataList.add(metadata);
+        }
+        return metadataList;
     }
 
 
@@ -123,57 +130,6 @@ public class Finder {
         }
         return codes;
     }
-
-
-    private Collection<String> getContext (ConditionFilter[] filters) {
-        Collection<String> contexts = new LinkedList<>();
-        for(ConditionFilter filter: filters)
-            if(filter.fieldName.equals("dsd.contextSystem"))
-                for(Object value: filter.values)
-                    contexts.add(value.toString());
-        return contexts;
-
-    }
-/*
-
-    private Map<String, Integer> createPriorityMap ( Collection<String> ids) {
-
-        Map<String, Integer> priorityMap = new HashMap<>();
-
-        if(priorityMap == null)
-            priorityMap = new HashMap<>();
-
-        for(String id: ids) {
-            if (!priorityMap.containsKey(id))
-                priorityMap.put(id, 0);
-            priorityMap.put(id,priorityMap.get(id)+1);
-        }
-        return priorityMap;
-    }
-
-
-    private  Map<String, Integer> sortByValue(Map<String, Integer> unsortedMap) {
-
-        List<Map.Entry<String, Integer>> list = new LinkedList<>(unsortedMap.entrySet());
-
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2) {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-
-        Map<String, Integer> sortedMap = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : list) {
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedMap;
-    }
-
-
-*/
-
-
 
 
 

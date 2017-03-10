@@ -44,7 +44,6 @@ public class ResourcesService implements Resources {
 
     @Inject private Instance<ResourceDao> daoFactory;
     @Inject private MetadataResourceDao metadataDao;
-    @Inject private FilterResourceDao filterResourceDao;
     @Inject private WDSDaoFactory wdsDaoFactory;
     @Inject private DatabaseStandards parameters;
 
@@ -84,8 +83,8 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public Integer deleteMetadata(StandardFilter filter, String businessName) throws Exception {
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName, null);
+    public Integer deleteMetadata(StandardFilter filter, String businessName, List<String> engine) throws Exception {
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName, engine);
 
         if (resources != null) {
             try {
@@ -118,12 +117,12 @@ public class ResourcesService implements Resources {
     }
 
     @Override
-    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, String businessName) throws Exception {
+    public <T extends org.fao.fenix.commons.msd.dto.full.DSD> Collection<MeIdentification> appendReplicationMetadata(ReplicationFilter<T> replicationFilter, String businessName, List<String> engine) throws Exception {
         Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> storedMetadata = new LinkedList<>();
         org.fao.fenix.commons.msd.dto.full.MeIdentification<T> metadata = replicationFilter.getMetadata();
 
         if (metadata != null) {
-            Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(replicationFilter.getFilter(), businessName, null);
+            Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(replicationFilter.getFilter(), businessName, engine);
             if (resources != null && resources.size() > 0) {
 
                 ResourceDao dao = getDao(loadRepresentationType(resources.iterator().next()));
