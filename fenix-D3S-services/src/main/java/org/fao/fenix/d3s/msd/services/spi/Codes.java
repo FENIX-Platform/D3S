@@ -20,7 +20,7 @@ public interface Codes {
     org.fao.fenix.commons.msd.dto.full.Code getCodeHierarchy(@PathParam("uid") String uid,@PathParam("code") String code, @QueryParam("depth") Integer depth, @QueryParam("direction") Direction direction) throws Exception;
 
     @POST
-    @Path("/engine")
+    @Path("/filter")
     @Produces(MediaType.APPLICATION_JSON+"; charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<Code> getCodes(CodesFilter filter, @QueryParam("tree") @DefaultValue("false") boolean tree) throws Exception;

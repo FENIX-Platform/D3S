@@ -505,8 +505,17 @@ public class ResourcesService implements Resources {
     public Collection findMetadata(StandardFilter filter, String businessName, boolean full, boolean dsd, boolean export, List<String> engineName) throws Exception {
         LOGGER.info("Metadata FIND: @logic = " + businessName + " - @full = " + full + " - @dsd = " + dsd + " - @export = " + export + " - @filterSize = " + (filter != null ? filter.size() : 0));
         LOGGER.debug("Metadata FIND: @engine... " + filter);
-        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName, engineName);
 
+        //Engine names normalization
+        Collection<String> engines = new LinkedList<>();
+        if (engineName!=null)
+            for (String name : engineName)
+                engines.addAll(Arrays.asList(name.split(",")));
+
+        //Find resources
+        Collection<org.fao.fenix.commons.msd.dto.full.MeIdentification> resources = finder.filter(filter, businessName, engines);
+
+        //Package rersources
         Integer maxSize = parameters.getLimit();
         if (resources.size() > (maxSize != null && maxSize > 0 ? maxSize : MAX_METADATA_LIST_SIZE))
             throw new NotAcceptableException();
