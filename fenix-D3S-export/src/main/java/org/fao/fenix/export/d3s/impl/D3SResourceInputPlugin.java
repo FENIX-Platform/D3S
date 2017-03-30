@@ -4,16 +4,19 @@ import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.d3s.msd.services.rest.ResourcesService;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.export.core.dto.data.CoreData;
 import org.fao.fenix.export.core.dto.data.CoreTableData;
 import org.fao.fenix.export.core.input.plugin.Input;
 import org.fao.fenix.export.d3s.legacy.ExportManagerPlugin;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.Map;
 
 public class D3SResourceInputPlugin extends Input {
     Resource<DSDDataset,Object[]> resource;
+    @Inject DatabaseStandards requestObjects;
 
     @Override
     public void init(Map<String, Object> config, Resource resource) {
@@ -22,16 +25,17 @@ public class D3SResourceInputPlugin extends Input {
 
     @Override
     public CoreData getResource() {
-        final Resource<DSDDataset,Object[]> rawData = resource;
+        final MeIdentification<DSDDataset> metadata = requestObjects.getConnection().detach(resource.getMetadata(), true);
+        final Iterator<Object[]> data = resource.getData().iterator();
         return new CoreData<Object[]>() {
             @Override
             public MeIdentification getMetadata() {
-                return rawData.getMetadata();
+                return metadata;
             }
 
             @Override
             public Iterator<Object[]> getData() {
-                return rawData.getData().iterator();
+                return data;
             }
         };
     }

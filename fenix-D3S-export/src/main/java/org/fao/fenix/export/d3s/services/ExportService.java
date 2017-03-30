@@ -4,6 +4,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
+import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3p.services.Processes;
 import org.fao.fenix.d3s.msd.services.rest.ResourcesService;
 import org.fao.fenix.export.core.controller.GeneralController;
@@ -12,6 +13,7 @@ import org.fao.fenix.export.core.dto.CoreOutputHeader;
 import org.fao.fenix.export.core.dto.PluginConfig;
 import org.fao.fenix.export.d3s.dto.FlowExportParameters;
 import org.fao.fenix.export.d3s.dto.ResourceExportParameters;
+import org.fao.fenix.export.d3s.impl.ResultsCache;
 import org.fao.fenix.export.d3s.utils.MetadataUtils;
 
 import javax.inject.Inject;
@@ -28,30 +30,42 @@ import java.util.Map;
 public class ExportService {
     @Inject ResourcesService resourcesService;
     @Inject Processes processesService;
-    @Inject
-    MetadataUtils metadataUtils;
+    @Inject MetadataUtils metadataUtils;
+    @Inject ResultsCache resultsCache;
+    @Inject UIDUtils uidUtils;
+
 
     @POST
     @Path("/flow")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response exportFlow(FlowExportParameters config) throws Exception {
+    public String exportFlow(FlowExportParameters config) throws Exception {
         //Apply process
         Object rawData = processesService.apply(config.flow, toString(config.flowManagerList));
         //Validate data (only single resource results are supported)
         if (rawData instanceof Map)
             throw new BadRequestException("Only flows that produces single resource results are supported");
         //Produce a response that will use export general controller to write output
-        GeneralController exportGeneralController = getGeneralController(getResource((ResourceProxy) rawData), config.outConfig);
-        return createResponse(exportGeneralController);
+        String resultId = uidUtils.getId();
+        resultsCache.put(resultId, getGeneralController(getResource((ResourceProxy) rawData), config.outConfig));
+        return resultId;
     }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response exportResource(ResourceExportParameters config) throws Exception {
+    public String exportResource(ResourceExportParameters config) throws Exception {
         //Retrieve dataset
         Resource data = resourcesService.loadResource(config.uid, config.version);
         //Produce a response that will use export general controller to write output
-        GeneralController exportGeneralController = getGeneralController(data, config.outConfig);
-        return createResponse(exportGeneralController);
+        String resultId = uidUtils.getId();
+        resultsCache.put(resultId, getGeneralController(data, config.outConfig));
+        return resultId;
+    }
+
+    @GET
+    @Path("/{resultId}")
+    public Response getResult (@PathParam("resultId") String resultId) throws Exception {
+        GeneralController exportGeneralController = resultsCache.get(resultId);
+        return exportGeneralController!=null ? createResponse(exportGeneralController) : Response.noContent().build();
     }
 
 
