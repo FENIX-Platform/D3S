@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.services.impl.find.business;
 
-import org.fao.fenix.commons.utils.find.Business;
+import org.fao.fenix.commons.utils.annotations.find.Business;
 
 import java.util.*;
 

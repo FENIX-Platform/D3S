@@ -10,7 +10,7 @@ import org.fao.fenix.export.core.input.plugin.Input;
 
 import java.util.Iterator;
 import java.util.Map;
-
+@org.fao.fenix.commons.utils.annotations.export.Input("inputTable")
 public class D3SDatasetInputPlugin extends Input {
     String uid;
     String version;

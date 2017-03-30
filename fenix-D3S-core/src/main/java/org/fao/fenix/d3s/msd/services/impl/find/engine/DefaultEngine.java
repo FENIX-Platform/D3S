@@ -3,11 +3,10 @@ package org.fao.fenix.d3s.msd.services.impl.find.engine;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.fao.fenix.commons.find.dto.condition.ConditionFilter;
 import org.fao.fenix.commons.find.dto.condition.ConditionTime;
-import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.commons.utils.annotations.find.Engine;
 import org.fao.fenix.d3s.msd.find.engine.SearchEngine;
 import org.fao.fenix.d3s.server.tools.orient.OrientDao;
 
-import javax.enterprise.context.Dependent;
 import java.util.Collection;
 import java.util.LinkedList;
 

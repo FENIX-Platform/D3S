@@ -1,6 +1,6 @@
 package org.fao.fenix.d3s.msd.find.engine;
 
-import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.commons.utils.annotations.find.Engine;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;

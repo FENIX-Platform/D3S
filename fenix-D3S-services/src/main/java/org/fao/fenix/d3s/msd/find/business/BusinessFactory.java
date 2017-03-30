@@ -13,7 +13,7 @@ public class BusinessFactory {
         businessName = (businessName == null)? "union":businessName;
         for (Iterator<Business> i = businessInstances.select().iterator(); i.hasNext(); ) {
             Business instance = i.next();
-            if (instance.getClass().getAnnotation(org.fao.fenix.commons.utils.find.Business.class).value().equals(businessName))
+            if (instance.getClass().getAnnotation(org.fao.fenix.commons.utils.annotations.find.Business.class).value().equals(businessName))
                 return instance;
         }
         return null;

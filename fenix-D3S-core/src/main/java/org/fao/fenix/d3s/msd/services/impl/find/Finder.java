@@ -4,7 +4,7 @@ import org.fao.fenix.commons.find.dto.condition.ConditionTime;
 import org.fao.fenix.commons.find.dto.filter.*;
 import org.fao.fenix.commons.find.dto.type.FieldFilterType;
 import org.fao.fenix.commons.msd.dto.full.MeIdentification;
-import org.fao.fenix.commons.utils.find.Engine;
+import org.fao.fenix.commons.utils.annotations.find.Engine;
 import org.fao.fenix.d3s.msd.dao.MetadataResourceDao;
 import org.fao.fenix.d3s.msd.find.business.Business;
 import org.fao.fenix.d3s.msd.find.business.BusinessFactory;

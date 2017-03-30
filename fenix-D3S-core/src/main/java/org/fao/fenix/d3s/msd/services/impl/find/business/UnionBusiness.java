@@ -1,8 +1,7 @@
 package org.fao.fenix.d3s.msd.services.impl.find.business;
 
-import org.fao.fenix.commons.utils.find.Business;
+import org.fao.fenix.commons.utils.annotations.find.Business;
 
-import javax.enterprise.context.Dependent;
 import java.util.*;
 
 @Business("union")
