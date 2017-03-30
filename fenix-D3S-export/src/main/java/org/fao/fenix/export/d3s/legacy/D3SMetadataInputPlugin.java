@@ -16,7 +16,7 @@ import org.fao.fenix.export.core.input.plugin.Input;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
-
+@org.fao.fenix.commons.utils.annotations.export.Input("inputMD")
 public class D3SMetadataInputPlugin extends Input {
     String uid;
     String version;
