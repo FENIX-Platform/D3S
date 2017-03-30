@@ -1,4 +1,4 @@
-package org.fao.fenix.export.d3s;
+package org.fao.fenix.export.d3s.legacy;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.fao.fenix.commons.msd.dto.data.Resource;
@@ -14,8 +14,6 @@ import org.fao.fenix.export.core.dto.data.CoreMetaData;
 import org.fao.fenix.export.core.input.plugin.Input;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -34,7 +32,7 @@ public class D3SMetadataInputPlugin extends Input {
         MeIdentification metadata = resource != null ? resource.getMetadata() : null;
         uid = metadata != null ? metadata.getUid() : null;
         version = metadata != null ? metadata.getVersion() : null;
-        service = ExportManager.getResourcesService(config.containsKey("lang") ? (String) config.get("lang") : "EN");
+        service = ExportManagerPlugin.getResourcesService(config.containsKey("lang") ? (String) config.get("lang") : "EN");
     }
 
     @Override

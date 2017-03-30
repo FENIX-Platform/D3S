@@ -1,4 +1,4 @@
-package org.fao.fenix.export.d3s;
+package org.fao.fenix.export.d3s.legacy;
 
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
@@ -8,7 +8,6 @@ import org.fao.fenix.export.core.dto.data.CoreData;
 import org.fao.fenix.export.core.dto.data.CoreTableData;
 import org.fao.fenix.export.core.input.plugin.Input;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class D3SDatasetInputPlugin extends Input {
         MeIdentification<DSDDataset> metadata = resource!=null ? (MeIdentification<DSDDataset>) resource.getMetadata() : null;
         uid = metadata!=null ? metadata.getUid() : null;
         version = metadata!=null ? metadata.getVersion() : null;
-        service = ExportManager.getResourcesService(config!=null && config.containsKey("lang") ? (String)config.get("lang") : "EN");
+        service = ExportManagerPlugin.getResourcesService(config!=null && config.containsKey("lang") ? (String)config.get("lang") : "EN");
     }
 
     @Override
