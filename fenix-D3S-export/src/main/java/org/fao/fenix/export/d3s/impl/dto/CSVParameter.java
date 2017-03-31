@@ -7,6 +7,7 @@ public class CSVParameter {
     private Boolean windows;
     private String dateFormat;
     private String numberFormat;
+    private String language;
 
 
 
@@ -49,5 +50,13 @@ public class CSVParameter {
 
     public void setNumberFormat(String numberFormat) {
         this.numberFormat = numberFormat;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
