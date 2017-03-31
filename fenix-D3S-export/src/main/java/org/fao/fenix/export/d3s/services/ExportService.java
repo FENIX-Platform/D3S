@@ -1,10 +1,8 @@
 package org.fao.fenix.export.d3s.services;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
-import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3p.services.Processes;
 import org.fao.fenix.d3s.msd.services.rest.ResourcesService;
@@ -37,7 +35,6 @@ public class ExportService {
     @Inject UIDUtils uidUtils;
     @Inject DatabaseStandards requestObjects;
     @Inject GeneralController generalController;
-
 
     @POST
     @Path("/flow")
@@ -82,7 +79,7 @@ public class ExportService {
     private void initGeneralController(Resource data, PluginConfig outputPluginConfig) throws Exception {
         PluginConfig inputPluginConfig = new PluginConfig();
         inputPluginConfig.setPlugin("d3sInputPluginStandard");
-         generalController.init(new CoreConfig(inputPluginConfig, outputPluginConfig, data));
+        generalController.init(new CoreConfig(inputPluginConfig, outputPluginConfig, data));
     }
 
     private Response createResponse(final GeneralController exportController) throws Exception {
