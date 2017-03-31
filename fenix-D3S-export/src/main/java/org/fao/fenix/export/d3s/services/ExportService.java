@@ -73,7 +73,7 @@ public class ExportService {
     @GET
     @Path("/{resultId}")
     public Response getResult (@PathParam("resultId") String resultId) throws Exception {
-        GeneralController exportGeneralController = resultsCache.get(resultId);
+        GeneralController exportGeneralController = resultsCache.remove(resultId);
         return exportGeneralController!=null ? createResponse(exportGeneralController) : Response.noContent().build();
     }
 
