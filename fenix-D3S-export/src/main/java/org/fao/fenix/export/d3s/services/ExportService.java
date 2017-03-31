@@ -36,6 +36,7 @@ public class ExportService {
     @Inject ResultsCache resultsCache;
     @Inject UIDUtils uidUtils;
     @Inject DatabaseStandards requestObjects;
+    @Inject GeneralController generalController;
 
 
     @POST
@@ -49,7 +50,8 @@ public class ExportService {
             throw new BadRequestException("Only flows that produces single resource results are supported");
         //Produce a response that will use export general controller to write output
         String resultId = uidUtils.getId();
-        resultsCache.put(resultId, getGeneralController(getResource((ResourceProxy) rawData), config.outConfig));
+        initGeneralController(getResource((ResourceProxy) rawData), config.outConfig);
+        resultsCache.put(resultId,generalController);
         return resultId;
     }
 
@@ -63,7 +65,8 @@ public class ExportService {
 
         //Produce a response that will use export general controller to write output
         String resultId = uidUtils.getId();
-        resultsCache.put(resultId, getGeneralController(data, config.outConfig));
+        initGeneralController(data, config.outConfig);
+        resultsCache.put(resultId,generalController);
         return resultId;
     }
 
@@ -76,16 +79,17 @@ public class ExportService {
 
 
     //Utils
-    private GeneralController getGeneralController(Resource data, PluginConfig outputPluginConfig) throws Exception {
+    private void initGeneralController(Resource data, PluginConfig outputPluginConfig) throws Exception {
         PluginConfig inputPluginConfig = new PluginConfig();
         inputPluginConfig.setPlugin("d3sInputPluginStandard");
-        return new GeneralController(new CoreConfig(inputPluginConfig, outputPluginConfig, data));
+         generalController.init(new CoreConfig(inputPluginConfig, outputPluginConfig, data));
     }
 
     private Response createResponse(final GeneralController exportController) throws Exception {
         StreamingOutput stream = new StreamingOutput() {
             public void write(OutputStream output) throws IOException, WebApplicationException {
-                try { exportController.write(output); }
+                try {
+                    exportController.write(output); }
                 catch (Exception e) { throw new WebApplicationException(e); }
             }
         };

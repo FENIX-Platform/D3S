@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.Map;
 
+@org.fao.fenix.commons.utils.annotations.export.Input("d3sInputPluginStandard")
 public class D3SResourceInputPlugin extends Input {
     Resource<DSDDataset,Object[]> resource;
 
