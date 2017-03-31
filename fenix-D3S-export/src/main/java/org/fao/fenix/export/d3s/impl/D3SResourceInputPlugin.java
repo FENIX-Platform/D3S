@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class D3SResourceInputPlugin extends Input {
     Resource<DSDDataset,Object[]> resource;
-    @Inject DatabaseStandards requestObjects;
 
     @Override
     public void init(Map<String, Object> config, Resource resource) {
@@ -25,7 +24,7 @@ public class D3SResourceInputPlugin extends Input {
 
     @Override
     public CoreData getResource() {
-        final MeIdentification<DSDDataset> metadata = requestObjects.getConnection().detach(resource.getMetadata(), true);
+        final MeIdentification<DSDDataset> metadata = resource.getMetadata();
         final Iterator<Object[]> data = resource.getData().iterator();
         return new CoreData<Object[]>() {
             @Override
@@ -34,9 +33,7 @@ public class D3SResourceInputPlugin extends Input {
             }
 
             @Override
-            public Iterator<Object[]> getData() {
-                return data;
-            }
+            public Iterator<Object[]> getData() { return data; }
         };
     }
 

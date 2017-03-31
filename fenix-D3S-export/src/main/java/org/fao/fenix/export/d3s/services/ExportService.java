@@ -4,9 +4,11 @@ import org.apache.commons.collections.map.HashedMap;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
 import org.fao.fenix.commons.msd.dto.full.DSDDataset;
+import org.fao.fenix.commons.msd.dto.full.MeIdentification;
 import org.fao.fenix.commons.utils.UIDUtils;
 import org.fao.fenix.d3p.services.Processes;
 import org.fao.fenix.d3s.msd.services.rest.ResourcesService;
+import org.fao.fenix.d3s.server.dto.DatabaseStandards;
 import org.fao.fenix.export.core.controller.GeneralController;
 import org.fao.fenix.export.core.dto.CoreConfig;
 import org.fao.fenix.export.core.dto.CoreOutputHeader;
@@ -33,6 +35,7 @@ public class ExportService {
     @Inject MetadataUtils metadataUtils;
     @Inject ResultsCache resultsCache;
     @Inject UIDUtils uidUtils;
+    @Inject DatabaseStandards requestObjects;
 
 
     @POST
@@ -53,8 +56,11 @@ public class ExportService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String exportResource(ResourceExportParameters config) throws Exception {
-        //Retrieve dataset
+        //Retrieve dataset and detach metadata from Orient
         Resource data = resourcesService.loadResource(config.uid, config.version);
+        data = getResource(new ResourceProxy(data.getMetadata(), data.getData()));
+        //data.setMetadata((MeIdentification<DSDDataset>)requestObjects.getConnection().detach(data.getMetadata(), true)); TODO find Orient bug workaround
+
         //Produce a response that will use export general controller to write output
         String resultId = uidUtils.getId();
         resultsCache.put(resultId, getGeneralController(data, config.outConfig));
