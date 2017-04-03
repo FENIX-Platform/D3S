@@ -50,6 +50,20 @@
             <version>${apachepoi.version}</version>
         </dependency>
 
+        <!-- GUAVA -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <!-- ITEXT -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.5</version>
+        </dependency>
+
         <!-- J2EE -->
         <dependency>
             <groupId>javax</groupId>

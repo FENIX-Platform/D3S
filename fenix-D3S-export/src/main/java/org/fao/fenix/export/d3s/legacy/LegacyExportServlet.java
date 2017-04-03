@@ -6,6 +6,7 @@ import org.fao.fenix.export.core.dto.CoreConfig;
 import org.fao.fenix.export.core.dto.CoreOutputHeader;
 import org.fao.fenix.export.core.utils.parser.JSONParser;
 
+import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +27,9 @@ public class LegacyExportServlet extends HttpServlet {
     private static Map<String, CoreOutputHeader> headers = new HashMap<>(1024);
 
     private static File tmpFolder;
+
+
+    @Inject GeneralController core;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -69,9 +73,8 @@ public class LegacyExportServlet extends HttpServlet {
             throw new ServletException("Configuration parsing exception.", e);
         }
 
-        GeneralController core = null;
         try {
-            core = new GeneralController(config);
+            core.init(config);
         } catch (Exception e) {
             throw new ServletException("Initialization exception.", e);
         }
