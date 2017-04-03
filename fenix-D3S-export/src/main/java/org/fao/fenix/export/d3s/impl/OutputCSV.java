@@ -63,6 +63,7 @@ public class OutputCSV extends Output {
 
     @Override
     public void write(OutputStream outputStream) throws Exception {
+
         csvWriter = new CSVWriter(
                 outputStream,
                 this.config.getCharacterSeparator(),
@@ -71,11 +72,10 @@ public class OutputCSV extends Output {
                 null,
                 this.config.getDateFormat(),
                 this.config.getNumberFormat(),
-                null);
+                columnTitles);
         csvWriter.write(this.resource.getData(), Integer.MAX_VALUE);
         outputStream.close();
-
-
+        
     }
 
 
