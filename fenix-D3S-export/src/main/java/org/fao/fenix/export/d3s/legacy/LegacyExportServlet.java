@@ -6,6 +6,7 @@ import org.fao.fenix.export.core.dto.CoreConfig;
 import org.fao.fenix.export.core.dto.CoreOutputHeader;
 import org.fao.fenix.export.core.utils.parser.JSONParser;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,8 +29,7 @@ public class LegacyExportServlet extends HttpServlet {
 
     private static File tmpFolder;
 
-
-    @Inject GeneralController core;
+    @Inject private Instance<GeneralController> controllers;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -73,7 +73,9 @@ public class LegacyExportServlet extends HttpServlet {
             throw new ServletException("Configuration parsing exception.", e);
         }
 
+        GeneralController core = null;
         try {
+            core = controllers.get();
             core.init(config);
         } catch (Exception e) {
             throw new ServletException("Initialization exception.", e);
