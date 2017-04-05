@@ -20,6 +20,7 @@ public class MetadataUtils {
         MeIdentification<DSDDataset> metadata = new MeIdentification<>();
         try { metadata.setUid((String)metadataProxy.getClass().getMethod("getUid").invoke(metadataProxy)); } catch (Exception ex) {}
         try { metadata.setVersion((String)metadataProxy.getClass().getMethod("getVersion").invoke(metadataProxy)); } catch (Exception ex) {}
+        try { metadata.setTitle((Map<String,String>)metadataProxy.getClass().getMethod("getTitle").invoke(metadataProxy)); } catch (Exception ex) {}
         MeContent meContent = new MeContent();
         metadata.setMeContent(meContent);
         meContent.setResourceRepresentationType(RepresentationType.dataset);

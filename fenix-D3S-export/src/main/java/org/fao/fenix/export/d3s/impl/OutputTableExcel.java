@@ -119,11 +119,14 @@ public class OutputTableExcel extends Output {
         rowCounter++;
 
         //dataset
-        Row rowDataset = sheet.createRow(rowCounter);
-        rowDataset.setHeightInPoints(26.75f);
-        rowDataset.createCell(0).setCellValue(isOnMultilanguage(datasetM)? datasetM.get(this.language)+ " : ": datasetM.get("EN")+ " : ");
-        rowDataset.createCell(1).setCellValue(this.resource.getMetadata().getUid());
-        rowCounter++;
+        String title = this.resource.getMetadata().getTitle()!=null ? (String)this.resource.getMetadata().getTitle().get(this.language!=null ? this.language : "EN") : null;
+        if (title!=null) {
+            Row rowDataset = sheet.createRow(rowCounter);
+            rowDataset.setHeightInPoints(26.75f);
+            rowDataset.createCell(0).setCellValue(isOnMultilanguage(datasetM) ? datasetM.get(this.language) + " : " : datasetM.get("EN") + " : ");
+            rowDataset.createCell(1).setCellValue(title);
+            rowCounter++;
+        }
 
         // date of download
         Row rowCreatedOn = sheet.createRow(rowCounter);

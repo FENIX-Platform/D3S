@@ -53,6 +53,17 @@ public class ExportService {
     }
 
     @POST
+    @Path("/resource")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String exportExternalResource(CoreConfig config) throws Exception {
+        //Produce a response that will use export general controller to write output
+        String resultId = uidUtils.getId();
+        initGeneralController(config.getResource(), config.getOutput());
+        resultsCache.put(resultId,generalController);
+        return resultId;
+    }
+
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String exportResource(ResourceExportParameters config) throws Exception {
         //Retrieve dataset and detach metadata from Orient
