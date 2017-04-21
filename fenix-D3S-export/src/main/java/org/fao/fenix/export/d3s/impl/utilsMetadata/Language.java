@@ -7,7 +7,9 @@ public enum Language {
     FR,
     PT,
     ES,
-    IT;
+    IT,
+    RU,
+    AR;
 
 
     public static boolean contains(String test) {
