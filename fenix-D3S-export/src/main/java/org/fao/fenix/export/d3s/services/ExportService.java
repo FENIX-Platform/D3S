@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 @Path("export")
 public class ExportService {
@@ -46,7 +47,8 @@ public class ExportService {
         if (rawData instanceof Map)
             throw new BadRequestException("Only flows that produces single resource results are supported");
         //Produce a response that will use export general controller to write output
-        String resultId = uidUtils.getId();
+        String resultId = transformID(uidUtils.getId());
+
         initGeneralController(getResource((ResourceProxy) rawData), config.outConfig);
         resultsCache.put(resultId,generalController);
         return resultId;
@@ -57,7 +59,7 @@ public class ExportService {
     @Consumes(MediaType.APPLICATION_JSON)
     public String exportExternalResource(CoreConfig config) throws Exception {
         //Produce a response that will use export general controller to write output
-        String resultId = uidUtils.getId();
+        String resultId =  transformID(uidUtils.getId());
         initGeneralController(config.getResource(), config.getOutput());
         resultsCache.put(resultId,generalController);
         return resultId;
@@ -72,7 +74,7 @@ public class ExportService {
         //data.setMetadata((MeIdentification<DSDDataset>)requestObjects.getConnection().detach(data.getMetadata(), true)); TODO find Orient bug workaround
 
         //Produce a response that will use export general controller to write output
-        String resultId = uidUtils.getId();
+        String resultId =  transformID(uidUtils.getId());
         initGeneralController(data, config.outConfig);
         resultsCache.put(resultId,generalController);
         return resultId;
@@ -114,5 +116,10 @@ public class ExportService {
         data.setData(rawData.getData());
         data.setMetadata(metadataUtils.getProcessMetadata(rawData.getMetadata()));
         return data;
+    }
+
+    private String transformID (String uuid) {
+        return (char)((new Random()).nextInt(26) + 97) + uuid + (char)((new Random()).nextInt(26) + 97);
+
     }
 }
