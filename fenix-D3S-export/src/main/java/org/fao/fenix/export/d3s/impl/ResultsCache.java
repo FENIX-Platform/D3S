@@ -3,10 +3,7 @@ package org.fao.fenix.export.d3s.impl;
 import org.fao.fenix.export.core.controller.GeneralController;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 @ApplicationScoped
 public class ResultsCache {
@@ -23,6 +20,7 @@ public class ResultsCache {
     }
 
     public GeneralController remove(Object key) {
+        cleanCache();
         times.remove(key);
         return cache.remove(key);
     }
@@ -31,11 +29,12 @@ public class ResultsCache {
     //Lazy timer
     private static final long timeoutMillis = 30000;
     private synchronized void cleanCache() {
-        Collection<String> toRemove = new LinkedList<>();
-        for (Map.Entry<String,Long> timesEntry : times.entrySet())
-            if (System.currentTimeMillis()-timesEntry.getValue()>timeoutMillis)
-                toRemove.add(timesEntry.getKey());
-        for (String toRemoveId : toRemove)
-            remove(toRemoveId);
+        for (Iterator<Map.Entry<String,Long>> timesEntryIterator = times.entrySet().iterator(); timesEntryIterator.hasNext();) {
+            Map.Entry<String,Long> timesEntry = timesEntryIterator.next();
+            if (System.currentTimeMillis()-timesEntry.getValue()>timeoutMillis) {
+                cache.remove(timesEntry.getKey());
+                timesEntryIterator.remove();
+            }
+        }
     }
 }
