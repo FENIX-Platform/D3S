@@ -108,7 +108,7 @@ public class CodesService implements Codes {
             String[] codesArray = codes != null && codes.size() > 0 ? codes.toArray(new String[codes.size()]) : null;
             level = level == null && codesArray == null && label == null ? new Integer(1) : level;
             //Retrieve data
-            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = dao.loadData(metadata, label, level, codesArray);
+            Collection<org.fao.fenix.commons.msd.dto.full.Code> data = new LinkedHashSet<>(dao.loadData(metadata, label, level, codesArray));
             //Return data proxy
             if (data != null && data.size() > 0) {
                 if (tree)
