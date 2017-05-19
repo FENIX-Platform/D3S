@@ -136,6 +136,7 @@ public class OrientServer {
     private OObjectDatabasePool oPool = OObjectDatabasePool.global(10,300);
     public OObjectDatabaseTx getODatabase(OrientDatabase database) {
         return oPool.acquire(database.getURL(databaseFolderPath),"admin","admin");
+        //return oPool.acquire("remote:lprapp16.fao.org:2425/msd_2.0","admin","admin");
     }
 
 
