@@ -26,6 +26,8 @@ public class OutputTableExcel extends Output {
     private ArrayList<Integer> columnsOrder;
     private String language;
     private Map<String, Object> config;
+    private final String FILENAME_PROPERTY = "fileName";
+
     private CoreData resource;
     private SXSSFWorkbook wb;
     //DatatypeFormatter formatterValue;
@@ -68,7 +70,7 @@ public class OutputTableExcel extends Output {
     public CoreOutputHeader getHeader() throws Exception {
 
         CoreOutputHeader coreOutputHeader = new CoreOutputHeader();
-        coreOutputHeader.setName(this.resource.getMetadata().getUid() + ".xlsx");
+        coreOutputHeader.setName((config.get(FILENAME_PROPERTY)!= null)? config.get(FILENAME_PROPERTY).toString()+ ".xlsx": this.resource.getMetadata().getUid() + ".xlsx");
         coreOutputHeader.setSize(100);
         coreOutputHeader.setType(CoreOutputType.xlsx);
         return coreOutputHeader;
