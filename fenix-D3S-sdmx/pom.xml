@@ -35,8 +35,8 @@
         <!-- FENIX DTO -->
         <dependency>
             <groupId>org.fao.fenix</groupId>
-            <artifactId>fenix-commons-dxf</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <artifactId>fenix-D3S-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- FENIX SDMX -->
         <dependency>

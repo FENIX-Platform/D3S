@@ -3,10 +3,7 @@ package org.fao.fenix.sdmx.d3s;
 import demo.sdmxsource.webservice.main.finalPackage.ExportSDMX;
 import org.fao.fenix.commons.msd.dto.data.Resource;
 import org.fao.fenix.commons.msd.dto.data.ResourceProxy;
-import org.fao.fenix.commons.msd.dto.full.Code;
-import org.fao.fenix.commons.msd.dto.full.DSDCodelist;
-import org.fao.fenix.commons.msd.dto.full.DSDColumn;
-import org.fao.fenix.commons.msd.dto.full.DSDDataset;
+import org.fao.fenix.commons.msd.dto.full.*;
 import org.fao.fenix.commons.msd.dto.type.DataType;
 
 import javax.ws.rs.Produces;
@@ -25,7 +22,6 @@ import java.util.LinkedList;
 @Provider
 @Produces("application/sdmx")
 public class ResourceExportProvider  implements MessageBodyWriter<ResourceProxy> {
-
 
     @Override
     public boolean isWriteable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
