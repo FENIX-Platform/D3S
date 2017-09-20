@@ -28,8 +28,8 @@ public class OutputCSV extends Output {
     private String language ;
     private String filename;
     private final String DEFAULT_LANG = "EN";
-    private final String CODE_ENUM = "code";
-    private final String LABEL_ENUM = "label";
+    public String CODE_ENUM = "_code";
+    public String LABEL_ENUM = "_label";
     private CSVWriter csvWriter;
     private String[] columnTitles;
 
@@ -90,14 +90,14 @@ public class OutputCSV extends Output {
                     column.getId();
 
             // if it is a code column
-            if(column.getDataType() == DataType.code)
-                columnTitle+="_"+CODE_ENUM;
+            if(CODE_ENUM!=null && CODE_ENUM.length()>0 && column.getDataType() == DataType.code)
+                columnTitle+=CODE_ENUM;
 
             // if it is a label column
-            else if (column.getId().length()>3 &&
+            if (LABEL_ENUM!=null && LABEL_ENUM.length()>0 && column.getDataType() == DataType.text && column.getId().length()>3 &&
                     column.getId().substring(column.getId().length()-3, column.getId().length()-2).equals("_") &&
                     Language.contains(column.getId().substring(column.getId().length()-2, column.getId().length())))
-                columnTitle+="_"+LABEL_ENUM;
+                columnTitle+=LABEL_ENUM;
 
             columnTitles[i] = columnTitle;
         }
