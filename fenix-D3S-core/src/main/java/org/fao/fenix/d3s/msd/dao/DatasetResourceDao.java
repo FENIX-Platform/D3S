@@ -102,6 +102,8 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
             if (wdsDao==null)
                 throw new ClassNotFoundException("Cannot store data. DAO not found");
 
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingData, null, metadata, null, null, getContext(metadata));
+
             DatasetCacheManager cache = (DatasetCacheManager) cacheManagerFactory.getDatasetCacheManager(metadata);
             if (cache != null)
                 cache.store(metadata, utils.getDataIterator(data), overwrite, null, getCodeLists(metadata));
@@ -110,6 +112,8 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                     metadata,
                     cache!=null ? cache.load(metadata, null, null) : (data!=null ? data.iterator() : null),
                     overwrite);
+
+            resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedData, null, metadata, null, null, getContext(metadata));
         }
     }
 
