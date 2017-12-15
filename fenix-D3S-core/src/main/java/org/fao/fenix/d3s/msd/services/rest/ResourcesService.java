@@ -353,8 +353,6 @@ public class ResourcesService implements Resources {
         ResourceDao dao = getDao(loadRepresentationType(metadata));
         if (dao == null)
             dao = metadataDao;
-        else
-            dao.clean(metadata);
 
         dao.deleteMetadata(false, metadata);
 

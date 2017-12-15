@@ -68,8 +68,9 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
                 StoreStatus status = cache.status(metadata);
                 if (status==null || status.getStatus()==StoreStatus.Status.incomplete || !cache.checkUpdateDateIsValid(metadata, status)) {
                     resourceListenerFactory.fireResourceEvent(ResourceEventType.updatingData, null, metadata, null, null, getContext(metadata));
+                    Iterator<Object[]> rawData = loadRawData(metadata);
                     cache.remove(metadata);
-                    cache.store(metadata, loadRawData(metadata), true, null, getCodeLists(metadata));
+                    cache.store(metadata, rawData, true, null, getCodeLists(metadata));
                     resourceListenerFactory.fireResourceEvent(ResourceEventType.updatedData, null, metadata, null, null, getContext(metadata));
                 }
                 //Add labels to the required dataset
@@ -157,13 +158,14 @@ public class DatasetResourceDao extends ResourceDao<DSDDataset,Object[]> {
     */
     @Override
     public void deleteMetadata(boolean transaction, MeIdentification<DSDDataset>... metadataList) throws Exception {
+ /*
         if (metadataList!=null)
             for (MeIdentification metadata : metadataList) {
                 CacheManager<DSDDataset, Object[]> cache = cacheManagerFactory.getDatasetCacheManager(metadata);
                 if (cache!=null)
                     cache.remove(metadata);
             }
-
+*/
         super.deleteMetadata(transaction, metadataList);
     }
 
