@@ -8,6 +8,7 @@ public class CSVParameter {
     private String dateFormat;
     private String numberFormat;
     private String language;
+    private String fileName;
 
 
 
@@ -58,5 +59,13 @@ public class CSVParameter {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String filename) {
+        this.fileName = filename;
     }
 }

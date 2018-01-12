@@ -106,7 +106,7 @@ public class OutputCSV extends Output {
 
     private void getParameters (MeIdentification meIdentification) {
         this.language = this.config.getLanguage()!= null? this.config.getLanguage().toUpperCase(): "EN";
-        this.filename = meIdentification.getUid();
+        this.filename = this.config.getFileName()!= null? this.config.getFileName() : meIdentification.getUid();
     }
 
 }
