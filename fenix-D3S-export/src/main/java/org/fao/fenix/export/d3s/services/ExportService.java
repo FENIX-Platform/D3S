@@ -104,7 +104,7 @@ public class ExportService {
             }
         };
         CoreOutputHeader header = exportController.getHeader();
-        return Response.ok(stream, header.getType().getContentType()).header("content-disposition", "attachment; filename=\""+header.getName()+"\"").build();
+        return Response.ok(stream, header.getType().getContentType()).header("content-disposition", "attachment; filename=\""+header.getName()+"\""+"; charset=utf-8").build();
     }
 
     private String toString(String[] array) {

@@ -71,7 +71,9 @@ public class OutputCSV extends Output {
                 null,
                 this.config.getDateFormat(),
                 this.config.getNumberFormat(),
-                columnTitles);
+                columnTitles,
+                this.config.getCharsetName()
+                );
         csvWriter.write(this.resource.getData(), Integer.MAX_VALUE);
         outputStream.close();
     }

@@ -1,5 +1,7 @@
 package org.fao.fenix.export.d3s.impl.dto;
 
+import java.nio.charset.StandardCharsets;
+
 public class CSVParameter {
 
     private Character characterSeparator;
@@ -9,8 +11,7 @@ public class CSVParameter {
     private String numberFormat;
     private String language;
     private String fileName;
-
-
+    private String charsetName;
 
 
     public Character getCharacterSeparator() {
@@ -68,4 +69,13 @@ public class CSVParameter {
     public void setFileName(String filename) {
         this.fileName = filename;
     }
+
+    public String getCharsetName() {
+        return charsetName;
+    }
+
+    public void setCharsetName(String charsetName) {
+        this.charsetName = charsetName;
+    }
+
 }
